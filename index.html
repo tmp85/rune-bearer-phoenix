@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏰 Rune Bearer Summer Challenge 🏰</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(45deg, #ff6b35, #f7931e, #4ecdc4, #45b7d1);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 5px;
+        }
+
+        .date-info {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .rune-panel {
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 15px;
+            height: fit-content;
+        }
+
+        .wells-runes {
+            background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(247,147,30,0.2));
+            border: 2px solid rgba(255,107,53,0.3);
+        }
+
+        .rou-runes {
+            background: linear-gradient(135deg, rgba(78,205,196,0.2), rgba(69,183,209,0.2));
+            border: 2px solid rgba(78,205,196,0.3);
+        }
+
+        .rune-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .rune-slot {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #444;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .rune-slot.earned {
+            border-color: #ffd700;
+            box-shadow: 0 0 15px rgba(255,215,0,0.5);
+            animation: runeGlow 2s infinite alternate;
+        }
+
+        @keyframes runeGlow {
+            from { box-shadow: 0 0 15px rgba(255,215,0,0.5); }
+            to { box-shadow: 0 0 25px rgba(255,215,0,0.8); }
+        }
+
+        .center-panel {
+            display: flex;
+            gap: 20px;
+        }
+
+        .player-card {
+            flex: 1;
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .wells-card {
+            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(247,147,30,0.1));
+            border: 2px solid rgba(255,107,53,0.3);
+        }
+
+        .wells-card:hover {
+            border-color: rgba(255,107,53,0.6);
+            transform: scale(1.02);
+        }
+
+        .rou-card {
+            background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(69,183,209,0.1));
+            border: 2px solid rgba(78,205,196,0.3);
+        }
+
+        .rou-card:hover {
+            border-color: rgba(78,205,196,0.6);
+            transform: scale(1.02);
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            border: 3px solid;
+        }
+
+        .wells-avatar {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            border-color: #ffd700;
+        }
+
+        .rou-avatar {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            border-color: #87ceeb;
+        }
+
+        .player-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .current-room {
+            font-size: 1.1em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+
+        .help-btn {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .help-btn:hover {
+            background: #777;
+        }
+
+        .rewards-section {
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .rewards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .reward-item {
+            background: rgba(255,255,255,0.1);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.9em;
+        }
+
+        .intro-video {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .intro-btn {
+            background: linear-gradient(45deg, #ff6b35, #4ecdc4);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .intro-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .room-view {
+            display: none;
+            background: rgba(0,0,0,0.9);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .room-content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(20,20,40,0.95);
+            border-radius: 20px;
+            border: 2px solid;
+        }
+
+        .wells-room {
+            border-color: rgba(255,107,53,0.6);
+            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(247,147,30,0.1));
+        }
+
+        .rou-room {
+            border-color: rgba(78,205,196,0.6);
+            background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(69,183,209,0.1));
+        }
+
+        .room-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .room-info {
+            background: rgba(255,255,255,0.1);
+            padding: 10px 20px;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .room-artwork {
+            width: 100%;
+            height: 300px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            margin-bottom: 20px;
+            border: 2px dashed #666;
+        }
+
+        .story-box {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .challenge-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .challenge-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            min-width: 200px;
+        }
+
+        .irl-challenge {
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+        }
+
+        .room-challenge {
+            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
+            color: white;
+        }
+
+        .challenge-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .challenge-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-btn {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .back-btn:hover {
+            background: #777;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            max-width: 500px;
+            margin: 10% auto;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            border: 3px solid #ffd700;
+            box-shadow: 0 0 30px rgba(255,215,0,0.5);
+        }
+
+        .loot-artwork {
+            width: 200px;
+            height: 200px;
+            background: rgba(255,215,0,0.2);
+            border: 2px dashed #ffd700;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 64px;
+        }
+
+        .close-modal {
+            background: #ffd700;
+            color: #000;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .save-load-section {
+            background: rgba(0,0,0,0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .save-load-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .save-btn, .load-btn {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .load-btn {
+            background: linear-gradient(135deg, #007bff, #17a2b8);
+        }
+
+        .save-btn:hover, .load-btn:hover {
+            transform: scale(1.05);
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .locked-message {
+            background: rgba(255,0,0,0.2);
+            border: 2px solid rgba(255,0,0,0.5);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .rune-panel {
+                order: 3;
+            }
+            
+            .center-panel {
+                flex-direction: column;
+                order: 1;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .challenge-buttons {
+                flex-direction: column;
+            }
+            
+            .challenge-btn {
+                min-width: unset;
+            }
+        }
+
+        .completed-day {
+            opacity: 0.6;
+            background: rgba(0,255,0,0.1) !important;
+        }
+
+        .available-day {
+            border-color: #ffd700 !important;
+            box-shadow: 0 0 15px rgba(255,215,0,0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="header">
+            <h1>🏰 RUNE BEARER SUMMER CHALLENGE 🏰</h1>
+            <div class="date-info">
+                <span id="currentDate"></span> | Day <span id="currentDay">0</span> of 40
+            </div>
+        </div>
+
+        <div class="main-layout">
+            <div class="rune-panel wells-runes">
+                <h3>WELLS' RUNES</h3>
+                <div class="rune-grid" id="wellsRunes"></div>
+            </div>
+
+            <div class="center-panel">
+                <div class="player-card wells-card" onclick="openPlayerRoom('wells')">
+                    <div class="avatar wells-avatar">🌅</div>
+                    <div class="player-name">WELLS</div>
+                    <div class="current-room" id="wellsCurrentRoom">Dawnbreak Expanse</div>
+                    <button class="help-btn" onclick="event.stopPropagation(); showHelp()">🔊 Help</button>
+                </div>
+                
+                <div class="player-card rou-card" onclick="openPlayerRoom('rou')">
+                    <div class="avatar rou-avatar">❄️</div>
+                    <div class="player-name">ROU</div>
+                    <div class="current-room" id="rouCurrentRoom">Crystal Glade</div>
+                    <button class="help-btn" onclick="event.stopPropagation(); showHelp()">🔊 Help</button>
+                </div>
+            </div>
+
+            <div class="rune-panel rou-runes">
+                <h3>ROU'S RUNES</h3>
+                <div class="rune-grid" id="rouRunes"></div>
+            </div>
+        </div>
+
+        <div class="rewards-section">
+            <h2>🏆 RUNE REWARDS KEY</h2>
+            <div class="rewards-grid" id="rewardsGrid"></div>
+            <div class="intro-video">
+                <button class="intro-btn" onclick="playIntroVideo()">🎬 Intro Video</button>
+            </div>
+        </div>
+
+        <div class="save-load-section">
+            <h3>💾 Save Your Adventure</h3>
+            <div class="save-load-buttons">
+                <button class="save-btn" onclick="saveGame()">Download Save File</button>
+                <button class="load-btn" onclick="document.getElementById('fileInput').click()">Upload Save File</button>
+                <input type="file" id="fileInput" accept=".json" onchange="loadGame(event)">
+            </div>
+        </div>
+    </div>
+
+    <!-- Room View Modal -->
+    <div class="room-view" id="roomView">
+        <div class="room-content" id="roomContent">
+            <div class="room-header">
+                <div class="room-info">Day <span id="roomDay"></span></div>
+                <div class="room-info" id="roomDate"></div>
+                <div class="room-info" id="roomPlayer"></div>
+            </div>
+            
+            <div class="room-artwork" id="roomArtwork">🖼️ Room Artwork</div>
+            
+            <div class="story-box" id="storyText"></div>
+            
+            <div id="lockedMessage" class="locked-message" style="display: none;">
+                <h3>🔒 Adventure Awaits</h3>
+                <p>This chamber will unlock on <span id="unlockDate"></span>!</p>
+            </div>
+            
+            <div class="challenge-buttons" id="challengeButtons">
+                <button class="challenge-btn irl-challenge" id="irlBtn" onclick="completeChallenge('irl')">
+                    🏃 Complete IRL Challenge
+                </button>
+                <button class="challenge-btn room-challenge" id="roomBtn" onclick="completeChallenge('room')">
+                    🎯 Complete Room Challenge
+                </button>
+            </div>
+            
+            <button class="back-btn" onclick="closePlayerRoom()">← Back to Menu</button>
+        </div>
+    </div>
+
+    <!-- Loot Discovery Modal -->
+    <div class="modal" id="lootModal">
+        <div class="modal-content">
+            <h2>🎉 TREASURE DISCOVERED! 🎉</h2>
+            <div class="loot-artwork" id="lootArtwork">💎</div>
+            <h3 id="lootTitle"></h3>
+            <p id="lootDescription"></p>
+            <button class="close-modal" onclick="closeLootModal()">Claim Treasure!</button>
+        </div>
+    </div>
+
+    <script>
+        // Game data structure
+        const gameData = {
+            startDate: new Date('2025-06-02'),
+            players: {
+                wells: {
+                    name: 'Wells',
+                    avatar: '🌅',
+                    theme: 'wells',
+                    realms: [
+                        'Dawnbreak Expanse', 'Emerald Canopy', 'Golden Savannah', 'Emberlight Bastion',
+                        'Skyforge Spire', 'Molten Zenith Cavern', 'Solar Cathedral Ruins', 'Celestial Observatory'
+                    ]
+                },
+                rou: {
+                    name: 'Rou',
+                    avatar: '❄️',
+                    theme: 'rou',
+                    realms: [
+                        'Crystal Glade', 'Shimmering Reef', 'Frostpeak Summit', 'Molten Depths',
+                        'Abyssal Trench', 'Stormbound Isles', 'Glacial Frontier', 'Arcane Vault'
+                    ]
+                }
+            },
+            runes: [
+                { name: 'Ember Fang', icon: '🔥', player: 'wells' },
+                { name: 'Frost Fang', icon: '❄️', player: 'rou' },
+                { name: 'Sky Feather', icon: '🪶', player: 'wells' },
+                { name: 'Mist Weaver', icon: '🌫️', player: 'rou' },
+                { name: 'Iron Root', icon: '🌳', player: 'wells' },
+                { name: 'Stone Wing', icon: '🪨', player: 'rou' },
+                { name: 'Tide Pearl', icon: '🫧', player: 'wells' },
+                { name: 'River Scale', icon: '🐟', player: 'rou' },
+                { name: 'Shadow Paw', icon: '🐾', player: 'wells' },
+                { name: 'Phantom Cloak', icon: '👻', player: 'rou' },
+                { name: 'Thunder Eye', icon: '👁️', player: 'wells' },
+                { name: 'Storm Fang', icon: '⚡', player: 'rou' },
+                { name: 'Solar Scale', icon: '☀️', player: 'wells' },
+                { name: 'Star Prism', icon: '⭐', player: 'rou' },
+                { name: 'Lunar Mirror', icon: '🌙', player: 'wells' },
+                { name: 'Shadow Lens', icon: '🔮', player: 'rou' },
+                { name: 'Crystal Spine', icon: '💎', player: 'wells' },
+                { name: 'Iron Bark', icon: '🛡️', player: 'rou' },
+                { name: 'Stormcaller Sigil', icon: '🌩️', player: 'wells' },
+                { name: 'Frozen Bloom', icon: '🌸', player: 'rou' },
+                { name: 'Blazing Antler', icon: '🦌', player: 'wells' },
+                { name: 'Molten Seed', icon: '🌰', player: 'rou' },
+                { name: 'Whisper Branch', icon: '🌿', player: 'wells' },
+                { name: 'Thunder Fang', icon: '⚡', player: 'rou' },
+                { name: 'Molten Shard', icon: '🔥', player: 'wells' },
+                { name: 'Skyborn Leaf', icon: '🍃', player: 'rou' },
+                { name: 'Windrunner Crest', icon: '💨', player: 'wells' },
+                { name: 'Mooncap', icon: '🍄', player: 'rou' },
+                { name: 'Glowcap', icon: '✨', player: 'wells' },
+                { name: 'Glacier Heart', icon: '🧊', player: 'rou' },
+                { name: 'Obsidian Heart', icon: '🖤', player: 'wells' },
+                { name: 'Moonfire Bloom', icon: '🌺', player: 'rou' },
+                { name: 'Sunfire Crest', icon: '🌅', player: 'wells' },
+                { name: 'Stormpetal Veil', icon: '🌸', player: 'rou' },
+                { name: 'Zephyr Bloom', icon: '🌼', player: 'wells' },
+                { name: 'Ironclad Husk', icon: '🛡️', player: 'rou' },
+                { name: 'Deepstone Shell', icon: '🐚', player: 'wells' },
+                { name: 'Frostthorn Crown', icon: '👑', player: 'rou' },
+                { name: 'Emberthorn Crown', icon: '👑', player: 'wells' },
+                { name: 'Ember Seed', icon: '🔥', player: 'rou' }
+            ],
+            rewards: [
+                { runes: ['Ember Fang', 'Frost Fang'], reward: 'Ice cream treat' },
+                { runes: ['Sky Feather', 'Mist Weaver'], reward: 'Big Helmet Heroes game' },
+                { runes: ['Iron Root', 'Stone Wing'], reward: 'Lego kit + custom mini-figure' },
+                { runes: ['Tide Pearl', 'River Scale'], reward: 'Popsicles at the pool' },
+                { runes: ['Shadow Paw', 'Phantom Cloak'], reward: 'Visit to arcade' },
+                { runes: ['Thunder Eye', 'Storm Fang'], reward: '30 min extra screen time' },
+                { runes: ['Solar Scale', 'Star Prism'], reward: 'Choose next family movie' },
+                { runes: ['Lunar Mirror', 'Shadow Lens'], reward: 'Stay-up-late pass' },
+                { runes: ['Crystal Spine', 'Iron Bark'], reward: 'Pick a new book' },
+                { runes: ['Stormcaller Sigil', 'Frozen Bloom'], reward: 'Mini-golf with Happy Grandpa' },
+                { runes: ['Blazing Antler', 'Molten Seed'], reward: 'Build-your-own pizza night' },
+                { runes: ['Whisper Branch', 'Thunder Fang'], reward: 'Minecraft coins' },
+                { runes: ['Molten Shard', 'Skyborn Leaf'], reward: 'Nerf war' },
+                { runes: ['Windrunner Crest', 'Mooncap'], reward: 'Family video game session' },
+                { runes: ['Glowcap', 'Glacier Heart'], reward: 'Breakfast choice pass' },
+                { runes: ['Obsidian Heart', 'Moonfire Bloom'], reward: 'Custom Ice Cream Sundae Party' },
+                { runes: ['Sunfire Crest', 'Stormpetal Veil'], reward: 'Board game night pick' },
+                { runes: ['Zephyr Bloom', 'Ironclad Husk'], reward: 'Pangea Pastry Quest' },
+                { runes: ['Deepstone Shell', 'Frostthorn Crown'], reward: 'Breakfast for Dinner Choice' },
+                { runes: ['Emberthorn Crown', 'Ember Seed'], reward: 'Nerf target contest' }
+            ]
+        };
+
+        // Game state
+        let gameState = {
+            completedDays: {
+                wells: [],
+                rou: []
+            },
+            earnedRunes: {
+                wells: [],
+                rou: []
+            },
+            claimedRewards: []
+        };
+
+        // Initialize game
+        function initGame() {
+            updateDateDisplay();
+            renderRunes();
+            renderRewards();
+            updateCurrentRooms();
+        }
+
+        function getCurrentDay() {
+            const now = new Date();
+            const start = gameData.startDate;
+            const diffTime = now - start;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            return Math.max(0, Math.min(40, diffDays + 1));
+        }
+
+        function updateDateDisplay() {
+            const now = new Date();
+            const currentDay = getCurrentDay();
+            
+            document.getElementById('currentDate').textContent = now.toLocaleDateString();
+            document.getElementById('currentDay').textContent = currentDay;
+        }
+
+        function renderRunes() {
+            const wellsContainer = document.getElementById('wellsRunes');
+            const rouContainer = document.getElementById('rouRunes');
+            
+            wellsContainer.innerHTML = '';
+            rouContainer.innerHTML = '';
+            
+            gameData.runes.forEach((rune, index) => {
+                const slot = document.createElement('div');
+                slot.className = 'rune-slot';
+                slot.title = rune.name;
+                
+                const isEarned = gameState.earnedRunes[rune.player].includes(rune.name);
+                
+                if (isEarned) {
+                    slot.classList.add('earned');
+                    slot.textContent = rune.icon;
+                } else {
+                    slot.textContent = '🔒';
+                }
+                
+                slot.onclick = () => showRuneInfo(rune);
+                
+                if (rune.player === 'wells') {
+                    wellsContainer.appendChild(slot);
+                } else {
+                    rouContainer.appendChild(slot);
+                }
+            });
+        }
+
+        function renderRewards() {
+            const container = document.getElementById('rewardsGrid');
+            container.innerHTML = '';
+            
+            gameData.rewards.forEach((reward, index) => {
+                const item = document.createElement('div');
+                item.className = 'reward-item';
+                
+                const rune1 = gameData.runes.find(r => r.name === reward.runes[0]);
+                const rune2 = gameData.runes.find(r => r.name === reward.runes[1]);
+                
+                const isAvailable = gameState.earnedRunes.wells.includes(reward.runes[0]) && 
+                                  gameState.earnedRunes.rou.includes(reward.runes[1]);
+                const isClaimed = gameState.claimedRewards.includes(index);
+                
+                item.innerHTML = `
+                    ${rune1.icon} ${reward.runes[0]} + ${rune2.icon} ${reward.runes[1]} = 
+                    <strong>${reward.reward}</strong>
+                    ${isClaimed ? ' ✅' : (isAvailable ? ' 🎁' : '')}
+                `;
+                
+                if (isAvailable && !isClaimed) {
+                    item.style.background = 'rgba(255,215,0,0.2)';
+                    item.style.border = '1px solid #ffd700';
+                    item.style.cursor = 'pointer';
+                    item.onclick = () => claimReward(index);
+                }
+                
+                container.appendChild(item);
+            });
+        }
+
+        function updateCurrentRooms() {
+            const currentDay = getCurrentDay();
+            const wellsRealm = Math.floor((currentDay - 1) / 5);
+            const rouRealm = Math.floor((currentDay - 1) / 5);
+            
+            if (wellsRealm < gameData.players.wells.realms.length) {
+                document.getElementById('wellsCurrentRoom').textContent = gameData.players.wells.realms[wellsRealm];
+            }
+            
+            if (rouRealm < gameData.players.rou.realms.length) {
+                document.getElementById('rouCurrentRoom').textContent = gameData.players.rou.realms[rouRealm];
+            }
+        }
+
+        function openPlayerRoom(player) {
+            const currentDay = getCurrentDay();
+            if (currentDay === 0) return;
+            
+            const playerData = gameData.players[player];
+            const realmIndex = Math.floor((currentDay - 1) / 5);
+            const dayInRealm = ((currentDay - 1) % 5) + 1;
+            
+            // Set room theme
+            const roomContent = document.getElementById('roomContent');
+            roomContent.className = `room-content ${player}-room`;
+            
+            // Update room header
+            document.getElementById('roomDay').textContent = currentDay;
+            document.getElementById('roomDate').textContent = new Date(gameData.startDate.getTime() + (currentDay - 1) * 24 * 60 * 60 * 1000).toLocaleDateString();
+            document.getElementById('roomPlayer').textContent = playerData.name.toUpperCase();
+            
+            // Check if day is available
+            const today = new Date();
+            const targetDate = new Date(gameData.startDate.getTime() + (currentDay - 1) * 24 * 60 * 60 * 1000);
+            const isAvailable = today >= targetDate;
+            const isCompleted = gameState.completedDays[player].includes(currentDay);
+            
+            if (!isAvailable) {
+                document.getElementById('lockedMessage').style.display = 'block';
+                document.getElementById('unlockDate').textContent = targetDate.toLocaleDateString();
+                document.getElementById('challengeButtons').style.display = 'none';
+            } else {
+                document.getElementById('lockedMessage').style.display = 'none';
+                document.getElementById('challengeButtons').style.display = 'flex';
+                
+                // Update challenge buttons
+                const irlBtn = document.getElementById('irlBtn');
+                const roomBtn = document.getElementById('roomBtn');
+                
+                if (isCompleted) {
+                    irlBtn.disabled = true;
+                    roomBtn.disabled = true;
+                    irlBtn.textContent = '✅ IRL Challenge Complete';
+                    roomBtn.textContent = '✅ Room Challenge Complete';
+                } else {
+                    irlBtn.disabled = false;
+                    roomBtn.disabled = false;
+                    irlBtn.textContent = '🏃 Complete IRL Challenge';
+                    roomBtn.textContent = '🎯 Complete Room Challenge';
+                }
+            }
+            
+            // Set story text
+            const realm = playerData.realms[realmIndex] || 'Unknown Realm';
+            document.getElementById('storyText').textContent = generateStoryText(player, realm, dayInRealm);
+            
+            // Show room view
+            document.getElementById('roomView').style.display = 'block';
+            
+            // Store current player for challenge completion
+            window.currentPlayer = player;
+            window.currentDay = currentDay;
+        }
+
+        function closePlayerRoom() {
+            document.getElementById('roomView').style.display = 'none';
+        }
+
+        function generateStoryText(player, realm, dayInRealm) {
+            const stories = {
+                wells: {
+                    'Dawnbreak Expanse': [
+                        'The golden light of dawn breaks across the vast expanse as you begin your quest...',
+                        'Ancient ruins emerge from the morning mist, holding secrets of the old world...',
+                        'A crystal formation pulses with warm energy, responding to your presence...',
+                        'The path splits before you, each direction promising different adventures...',
+                        'At the heart of the expanse, a great tree bears fruit that glows like tiny suns...'
+                    ],
+                    'Emerald Canopy': [
+                        'Towering trees create a cathedral of green above your head...',
+                        'Mystical creatures watch from the shadows between ancient trunks...',
+                        'A clearing reveals an altar covered in luminescent moss...',
+                        'The whispers of the forest guide you deeper into its mysteries...',
+                        'At the canopy\'s peak, you discover a nest of phoenix feathers...'
+                    ]
+                },
+                rou: {
+                    'Crystal Glade': [
+                        'Ice crystals chime in harmony as the wind passes through the glade...',
+                        'A frozen lake reflects the aurora dancing in the sky above...',
+                        'Ancient ice sculptures tell the story of heroes long past...',
+                        'The cold air fills your lungs with the power of winter itself...',
+                        'At the glade\'s center, an ice throne awaits its rightful heir...'
+                    ],
+                    'Shimmering Reef': [
+                        'Underwater gardens of coral pulse with bioluminescent light...',
+                        'Schools of crystal fish dart between the reef formations...',
+                        'A mermaid\'s treasure chest lies hidden in a sea cave...',
+                        'The current carries you toward deeper, more mysterious waters...',
+                        'At the reef\'s heart, a pearl the size of your fist awaits...'
+                    ]
+                }
+            };
+            
+            const playerStories = stories[player] || {};
+            const realmStories = playerStories[realm] || ['Your adventure continues in this mysterious realm...'];
+            return realmStories[dayInRealm - 1] || realmStories[0];
+        }
+
+        function completeChallenge(type) {
+            const player = window.currentPlayer;
+            const day = window.currentDay;
+            
+            if (!gameState.completedDays[player].includes(day)) {
+                gameState.completedDays[player].push(day);
+                
+                // Award rune
+                const runeIndex = (day - 1) * 2 + (player === 'wells' ? 0 : 1);
+                if (runeIndex < gameData.runes.length) {
+                    const rune = gameData.runes[runeIndex];
+                    if (!gameState.earnedRunes[player].includes(rune.name)) {
+                        gameState.earnedRunes[player].push(rune.name);
+                        showLootDiscovery(rune);
+                    }
+                }
+                
+                // Update UI
+                renderRunes();
+                renderRewards();
+                
+                // Update buttons
+                const irlBtn = document.getElementById('irlBtn');
+                const roomBtn = document.getElementById('roomBtn');
+                irlBtn.disabled = true;
+                roomBtn.disabled = true;
+                irlBtn.textContent = '✅ IRL Challenge Complete';
+                roomBtn.textContent = '✅ Room Challenge Complete';
+            }
+        }
+
+        function showLootDiscovery(rune) {
+            document.getElementById('lootTitle').textContent = rune.name;
+            document.getElementById('lootDescription').textContent = `You have discovered the ${rune.name}! This ancient rune pulses with mystical energy.`;
+            document.getElementById('lootArtwork').textContent = rune.icon;
+            document.getElementById('lootModal').style.display = 'block';
+        }
+
+        function closeLootModal() {
+            document.getElementById('lootModal').style.display = 'none';
+        }
+
+        function claimReward(rewardIndex) {
+            if (!gameState.claimedRewards.includes(rewardIndex)) {
+                gameState.claimedRewards.push(rewardIndex);
+                const reward = gameData.rewards[rewardIndex];
+                alert(`🎉 Congratulations! You've earned: ${reward.reward}`);
+                renderRewards();
+            }
+        }
+
+        function showRuneInfo(rune) {
+            const isEarned = gameState.earnedRunes[rune.player].includes(rune.name);
+            if (isEarned) {
+                alert(`${rune.icon} ${rune.name}\n\nThis rune has been earned by ${rune.player === 'wells' ? 'Wells' : 'Rou'}!`);
+            } else {
+                alert(`🔒 ${rune.name}\n\nThis rune has not been discovered yet.`);
+            }
+        }
+
+        function saveGame() {
+            const saveData = {
+                version: '1.0',
+                timestamp: new Date().toISOString(),
+                gameState: gameState
+            };
+            
+            const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rune-bearer-save-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function loadGame(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const saveData = JSON.parse(e.target.result);
+                    if (saveData.gameState && saveData.version) {
+                        gameState = saveData.gameState;
+                        renderRunes();
+                        renderRewards();
+                        updateCurrentRooms();
+                        alert('Game loaded successfully!');
+                    } else {
+                        alert('Invalid save file format.');
+                    }
+                } catch (error) {
+                    alert('Error loading save file: ' + error.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset file input
+        }
+
+        function showHelp() {
+            alert(`🏰 RUNE BEARER HELP 🏰
+
+How to Play:
+• Click on Wells or Rou's avatar to enter their room
+• Complete daily challenges to earn runes
+• Collect matching rune pairs to unlock rewards
+• One adventure per day, per player
+• Download your save file to play on other devices
+
+Tips:
+• Each realm lasts 5 days
+• Both players must work together to earn rewards
+• Check back daily for new adventures!`);
+        }
+
+        function playIntroVideo() {
+            alert(`🎬 INTRO VIDEO 🎬
+
+Welcome to the Rune Bearer Summer Challenge!
+
+Two brave adventurers, Wells and Rou, must journey through mystical realms to collect ancient runes. Each day brings new challenges and discoveries!
+
+Wells explores warm, golden realms filled with sun and fire magic.
+Rou ventures through cool, crystal domains of ice and water.
+
+Together, they must collect matching rune pairs to unlock amazing rewards!
+
+The adventure begins June 2nd, 2025. Are you ready?`);
+        }
+
+        // Initialize game on page load
+        document.addEventListener('DOMContentLoaded', initGame);
+        
+        // Update date every hour
+        setInterval(updateDateDisplay, 3600000);
+    </script>
+</body>
+</html> 
