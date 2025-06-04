@@ -1,0 +1,8 @@
+# Fonts Directory
+
+Place Minecraft-style fonts here:
+- MinecraftFont.woff2
+- MinecraftFont.woff
+- MinecraftFont.ttf
+
+Fallback fonts are available in the CSS if custom fonts are not provided. 

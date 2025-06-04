@@ -1,0 +1,12 @@
+# Room Images Directory
+
+Required room background images (400x200px recommended):
+- entrance_hall.png
+- library_chamber.png  
+- music_chamber.png
+- trap_room.png
+- treasure_vault.png
+- crystal_forge.png
+- boss_chamber.png
+
+Use the generate-basic-assets.html file to create placeholder images. 

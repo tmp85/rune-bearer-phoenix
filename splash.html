@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rune Bearer Phoenix - Adventure Awaits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f23, #1a1a2e, #16213e);
+            color: #fff;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .splash-container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .video-container {
+            width: 90%;
+            max-width: 1200px;
+            height: 70vh;
+            max-height: 800px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.3);
+            border: 3px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .intro-video:hover {
+            transform: scale(1.01);
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-pause-icon {
+            font-size: 4em;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .video-container:hover .video-overlay {
+            opacity: 1;
+        }
+
+        .skip-button {
+            margin-top: 30px;
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid rgba(34, 197, 94, 0.6);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            opacity: 0.7;
+            backdrop-filter: blur(10px);
+        }
+
+        .skip-button:hover {
+            opacity: 1;
+            background: rgba(34, 197, 94, 0.3);
+            border-color: #22c55e;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.4);
+        }
+
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(34, 197, 94, 0.2);
+            border-top: 4px solid #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.2em;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            background: rgba(220, 38, 38, 0.1);
+            border: 2px solid rgba(220, 38, 38, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            color: #fca5a5;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .video-container {
+                width: 95%;
+                height: 60vh;
+            }
+            
+            .skip-button {
+                margin-top: 20px;
+                padding: 10px 25px;
+                font-size: 1em;
+            }
+            
+            .play-pause-icon {
+                font-size: 3em;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .video-container {
+                height: 80vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="splash-container">
+        <div class="video-container">
+            <!-- Loading indicator -->
+            <div class="loading-indicator" id="loadingIndicator">
+                <div class="loading-spinner"></div>
+                <div class="loading-text">Loading Adventure...</div>
+            </div>
+
+            <!-- Video element -->
+            <video 
+                id="introVideo" 
+                class="intro-video" 
+                preload="auto"
+                playsinline
+                style="display: none;"
+            >
+                <source src="assets/videos/rune_bearers_intro_01.mov" type="video/mp4">
+                <source src="assets/videos/rune_bearers_intro_01.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <!-- Video overlay for play/pause indication -->
+            <div class="video-overlay" id="videoOverlay">
+                <div class="play-pause-icon" id="playPauseIcon">▶️</div>
+            </div>
+
+            <!-- Error message (hidden by default) -->
+            <div class="error-message" id="errorMessage" style="display: none;">
+                <h3>🎬 Video Unavailable</h3>
+                <p>The intro video could not be loaded.</p>
+                <p>Redirecting to the adventure...</p>
+            </div>
+        </div>
+
+        <!-- Skip button -->
+        <button class="skip-button" onclick="goToGame()">
+            ⏭️ Skip to Adventure
+        </button>
+    </div>
+
+    <script>
+        const video = document.getElementById('introVideo');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const errorMessage = document.getElementById('errorMessage');
+        const playPauseIcon = document.getElementById('playPauseIcon');
+        let autoRedirectTimer;
+
+        // Function to go to main game
+        function goToGame() {
+            window.location.href = 'index.html';
+        }
+
+        // Video event handlers
+        video.addEventListener('loadeddata', function() {
+            loadingIndicator.style.display = 'none';
+            video.style.display = 'block';
+            
+            // Try to auto-play with audio first
+            const playPromise = video.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Video auto-play with audio started');
+                    updatePlayPauseIcon();
+                }).catch((error) => {
+                    console.log('Auto-play with audio blocked, showing play prompt');
+                    // Show a visual indicator that user needs to click to start with audio
+                    showPlayPrompt();
+                });
+            }
+        });
+
+        video.addEventListener('error', function() {
+            console.log('Video failed to load');
+            loadingIndicator.style.display = 'none';
+            errorMessage.style.display = 'block';
+            
+            // Auto-redirect after 3 seconds if video fails
+            setTimeout(goToGame, 3000);
+        });
+
+        video.addEventListener('ended', function() {
+            // Auto-redirect to game when video ends
+            goToGame();
+        });
+
+        video.addEventListener('play', updatePlayPauseIcon);
+        video.addEventListener('pause', updatePlayPauseIcon);
+
+        // Click to toggle play/pause (updated to handle audio)
+        video.addEventListener('click', function() {
+            if (video.paused) {
+                // Ensure video is unmuted when user clicks
+                video.muted = false;
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Video playing with audio after user interaction');
+                        // Hide the prominent play prompt
+                        document.getElementById('videoOverlay').style.opacity = '0';
+                        document.getElementById('videoOverlay').style.pointerEvents = 'none';
+                        playPauseIcon.style.animation = 'none';
+                        playPauseIcon.style.fontSize = '4em';
+                    }).catch((error) => {
+                        console.log('Playback failed:', error);
+                    });
+                }
+            } else {
+                video.pause();
+            }
+        });
+
+        function updatePlayPauseIcon() {
+            if (video.paused) {
+                playPauseIcon.textContent = '▶️';
+            } else {
+                playPauseIcon.textContent = '⏸️';
+            }
+        }
+
+        function showPlayPrompt() {
+            // Update the play icon to make it more prominent
+            playPauseIcon.textContent = '🔊▶️';
+            playPauseIcon.style.fontSize = '5em';
+            
+            // Make the overlay visible to prompt user interaction
+            document.getElementById('videoOverlay').style.opacity = '1';
+            document.getElementById('videoOverlay').style.pointerEvents = 'auto';
+            
+            // Add a subtle pulsing animation to draw attention
+            playPauseIcon.style.animation = 'pulse 2s infinite';
+            
+            // Add the pulse animation CSS if it doesn't exist
+            if (!document.querySelector('#pulseStyle')) {
+                const style = document.createElement('style');
+                style.id = 'pulseStyle';
+                style.textContent = `
+                    @keyframes pulse {
+                        0% { transform: scale(1); opacity: 0.8; }
+                        50% { transform: scale(1.1); opacity: 1; }
+                        100% { transform: scale(1); opacity: 0.8; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Fallback: if video doesn't load within 10 seconds, redirect
+        setTimeout(function() {
+            if (video.style.display === 'none' && errorMessage.style.display === 'none') {
+                console.log('Video taking too long to load, redirecting...');
+                goToGame();
+            }
+        }, 10000);
+
+        // Keyboard controls
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (video.paused) {
+                    video.muted = false; // Ensure audio is enabled
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            } else if (e.code === 'Escape') {
+                goToGame();
+            } else if (e.code === 'KeyM') {
+                // Toggle mute with 'M' key
+                video.muted = !video.muted;
+                console.log('Video muted:', video.muted);
+            }
+        });
+    </script>
+</body>
+</html> 

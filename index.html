@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏰 Rune Bearer Summer Challenge 🏰</title>
+    <title>🏰 Rune Bearer Phoenix - Summer Challenge 🏰</title>
     <style>
+        /* Updated Color Palette */
+        :root {
+            --primary-green: #22c55e;
+            --secondary-blue: #3b82f6;
+            --primary-orange: #f97316;
+            --success-green: #22c55e;
+            --gray-light: #e5e7eb;
+            --gray-medium: #9ca3af;
+            --gray-dark: #374151;
+            --gray-darker: #1f2937;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -27,211 +39,205 @@
 
         .header {
             text-align: center;
-            padding: 15px;
-            background: linear-gradient(45deg, #ff6b35, #f7931e, #4ecdc4, #45b7d1);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            padding: 30px;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, var(--primary-green), var(--primary-orange), var(--secondary-blue));
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.3;
         }
 
         .header h1 {
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            margin-bottom: 5px;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: var(--primary-green);
+            background: linear-gradient(45deg, var(--primary-green), #4ade80, var(--primary-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .date-info {
-            font-size: 1.1em;
+            font-size: 1.2em;
             opacity: 0.9;
+            color: var(--gray-light);
+            font-weight: 500;
         }
 
         .main-layout {
             display: grid;
-            grid-template-columns: 200px 1fr 200px;
-            gap: 20px;
-            margin-bottom: 20px;
-        }
-
-        .rune-panel {
-            background: rgba(0,0,0,0.4);
-            border-radius: 15px;
-            padding: 15px;
-            height: fit-content;
-        }
-
-        .wells-runes {
-            background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(247,147,30,0.2));
-            border: 2px solid rgba(255,107,53,0.3);
-        }
-
-        .rou-runes {
-            background: linear-gradient(135deg, rgba(78,205,196,0.2), rgba(69,183,209,0.2));
-            border: 2px solid rgba(78,205,196,0.3);
-        }
-
-        .rune-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .rune-slot {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #444;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .rune-slot.earned {
-            border-color: #ffd700;
-            box-shadow: 0 0 15px rgba(255,215,0,0.5);
-            animation: runeGlow 2s infinite alternate;
-        }
-
-        @keyframes runeGlow {
-            from { box-shadow: 0 0 15px rgba(255,215,0,0.5); }
-            to { box-shadow: 0 0 25px rgba(255,215,0,0.8); }
-        }
-
-        .center-panel {
-            display: flex;
-            gap: 20px;
+            grid-template-columns: 280px 1fr 280px;
+            gap: 25px;
+            margin-bottom: 30px;
         }
 
         .player-card {
-            flex: 1;
-            background: rgba(0,0,0,0.4);
-            border-radius: 15px;
-            padding: 20px;
+            background: rgba(31, 41, 55, 0.95);
+            border-radius: 20px;
+            padding: 25px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+            z-index: -1;
         }
 
         .wells-card {
-            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(247,147,30,0.1));
-            border: 2px solid rgba(255,107,53,0.3);
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.3);
         }
 
         .wells-card:hover {
-            border-color: rgba(255,107,53,0.6);
-            transform: scale(1.02);
+            border-color: var(--primary-orange);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.5);
         }
 
         .rou-card {
-            background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(69,183,209,0.1));
-            border: 2px solid rgba(78,205,196,0.3);
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
         }
 
         .rou-card:hover {
-            border-color: rgba(78,205,196,0.6);
-            transform: scale(1.02);
+            border-color: var(--secondary-blue);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
         }
 
         .avatar {
-            width: 100px;
-            height: 100px;
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            margin: 0 auto 15px;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
-            border: 3px solid;
+            font-size: 52px;
+            border: 4px solid;
+            transition: all 0.3s ease;
         }
 
         .wells-avatar {
-            background: linear-gradient(135deg, #ff6b35, #f7931e);
-            border-color: #ffd700;
+            background: linear-gradient(135deg, var(--primary-orange), #f59e0b);
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
         }
 
         .rou-avatar {
-            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
-            border-color: #87ceeb;
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .player-card:hover .avatar {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
         }
 
         .player-name {
-            font-size: 1.8em;
+            font-size: 2em;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            color: white;
         }
 
         .current-room {
-            font-size: 1.1em;
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 12px;
+            color: var(--gray-light);
+            font-weight: 500;
+        }
+
+        .day-info {
+            font-size: 1em;
             opacity: 0.8;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            color: var(--gray-medium);
+            font-weight: 400;
         }
 
-        .help-btn {
-            background: #666;
-            color: white;
-            border: none;
-            padding: 8px 15px;
+        /* Center Content Area */
+        .center-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--gray-dark);
             border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
+            padding: 30px;
+            transition: all 0.3s ease;
         }
 
-        .help-btn:hover {
-            background: #777;
+        .center-content:hover {
+            border-color: var(--gray-medium);
+            box-shadow: 0 0 20px rgba(156, 163, 175, 0.2);
         }
 
-        .rewards-section {
-            background: rgba(0,0,0,0.4);
-            border-radius: 15px;
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .rewards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .reward-item {
-            background: rgba(255,255,255,0.1);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.9em;
-        }
-
-        .intro-video {
+        .center-placeholder {
             text-align: center;
-            margin-top: 15px;
+            opacity: 0.7;
         }
 
-        .intro-btn {
-            background: linear-gradient(45deg, #ff6b35, #4ecdc4);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            cursor: pointer;
+        .center-placeholder .icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .center-placeholder .title {
+            font-size: 1.3em;
             font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--gray-light);
         }
 
-        .intro-btn:hover {
-            transform: scale(1.05);
+        .center-placeholder .subtitle {
+            font-size: 0.9em;
+            color: var(--gray-medium);
+            font-style: italic;
         }
 
-        .room-view {
+        /* Room View Modal */
+        .room-modal {
             display: none;
-            background: rgba(0,0,0,0.9);
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: rgba(0,0,0,0.9);
             z-index: 1000;
             overflow-y: auto;
         }
@@ -240,784 +246,1944 @@
             max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background: rgba(20,20,40,0.95);
-            border-radius: 20px;
-            border: 2px solid;
-        }
-
-        .wells-room {
-            border-color: rgba(255,107,53,0.6);
-            background: linear-gradient(135deg, rgba(255,107,53,0.1), rgba(247,147,30,0.1));
-        }
-
-        .rou-room {
-            border-color: rgba(78,205,196,0.6);
-            background: linear-gradient(135deg, rgba(78,205,196,0.1), rgba(69,183,209,0.1));
+            position: relative;
         }
 
         .room-header {
-            display: flex;
-            gap: 15px;
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            border: 3px solid var(--primary-green);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
             margin-bottom: 20px;
-            flex-wrap: wrap;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
         }
 
-        .room-info {
-            background: rgba(255,255,255,0.1);
-            padding: 10px 20px;
-            border-radius: 15px;
+        .room-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .room-subtitle {
+            font-size: 1.2em;
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-weight: 600;
         }
 
         .room-artwork {
             width: 100%;
-            height: 300px;
-            background: rgba(255,255,255,0.1);
+            max-height: 400px;
+            object-fit: cover;
             border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
             margin-bottom: 20px;
-            border: 2px dashed #666;
+            border: 3px solid var(--primary-green);
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
         }
 
-        .story-box {
-            background: rgba(0,0,0,0.3);
-            border: 2px solid rgba(255,255,255,0.2);
-            border-radius: 15px;
+        .story-section {
+            background: rgba(0,0,0,0.5);
+            border-left: 4px solid var(--secondary-blue);
             padding: 20px;
             margin-bottom: 20px;
+            border-radius: 0 10px 10px 0;
             font-style: italic;
             line-height: 1.6;
+            font-size: 1.1em;
         }
 
-        .challenge-buttons {
+        .challenges-section {
             display: flex;
             gap: 15px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
 
         .challenge-btn {
             flex: 1;
-            padding: 15px;
+            padding: 18px 24px;
             border: none;
-            border-radius: 15px;
-            font-size: 1.1em;
+            border-radius: 12px;
+            font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
-            min-width: 200px;
-        }
-
-        .irl-challenge {
-            background: linear-gradient(135deg, #ff6b35, #f7931e);
-            color: white;
-        }
-
-        .room-challenge {
-            background: linear-gradient(135deg, #4ecdc4, #45b7d1);
-            color: white;
-        }
-
-        .challenge-btn:hover {
-            transform: scale(1.02);
-        }
-
-        .challenge-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .back-btn {
-            background: #666;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        .back-btn:hover {
-            background: #777;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.8);
-            z-index: 2000;
-        }
-
-        .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            max-width: 500px;
-            margin: 10% auto;
-            padding: 30px;
-            border-radius: 20px;
-            text-align: center;
-            border: 3px solid #ffd700;
-            box-shadow: 0 0 30px rgba(255,215,0,0.5);
-        }
-
-        .loot-artwork {
-            width: 200px;
-            height: 200px;
-            background: rgba(255,215,0,0.2);
-            border: 2px dashed #ffd700;
-            border-radius: 15px;
-            margin: 20px auto;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 64px;
+            gap: 10px;
+            border: 2px solid transparent;
         }
 
-        .close-modal {
-            background: #ffd700;
-            color: #000;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 20px;
+        .irl-challenge-btn {
+            background: linear-gradient(135deg, var(--primary-orange), #f59e0b);
+            color: white;
+            border-color: var(--primary-orange);
         }
 
-        .save-load-section {
-            background: rgba(0,0,0,0.4);
+        .irl-challenge-btn:hover:not(.completed) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+        }
+
+        .math-challenge-btn {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            color: white;
+            border-color: var(--secondary-blue);
+        }
+
+        .math-challenge-btn:hover:not(:disabled):not(.completed) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .math-challenge-btn:disabled {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            border-color: var(--gray-medium);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .challenge-btn.completed {
+            background: linear-gradient(135deg, var(--success-green), #16a34a);
+            border-color: var(--success-green);
+            cursor: not-allowed;
+        }
+
+        .challenge-btn.completed:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Challenge Content Sections */
+        .challenge-content {
+            display: none;
+            background: rgba(0,0,0,0.7);
+            border: 2px solid var(--primary-green);
             border-radius: 15px;
             padding: 20px;
             margin-top: 20px;
-            text-align: center;
         }
 
-        .save-load-buttons {
+        .challenge-content.active {
+            display: block;
+        }
+
+        .challenge-header {
             display: flex;
+            align-items: center;
             gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
         }
 
-        .save-btn, .load-btn {
-            background: linear-gradient(135deg, #28a745, #20c997);
+        .challenge-icon {
+            font-size: 2em;
+        }
+
+        .challenge-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary-green);
+        }
+
+        .close-btn {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            color: white;
+            border: 2px solid var(--gray-medium);
+            padding: 15px 30px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-top: 20px;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, var(--gray-medium), var(--gray-light));
+            color: var(--gray-darker);
+            transform: translateY(-1px);
+        }
+
+        /* Piano Challenge Styles */
+        .piano-instructions {
+            background: rgba(255,107,53,0.1);
+            border: 1px solid rgba(255,107,53,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .notes-display {
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            text-align: center;
+            margin: 15px 0;
+            letter-spacing: 3px;
+        }
+
+        .treble-reference {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        /* Math Challenge Styles */
+        .math-mission {
+            background: rgba(69,183,209,0.1);
+            border: 1px solid rgba(69,183,209,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .mission-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mission-number {
+            background: rgba(69,183,209,0.3);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .mission-category {
+            background: rgba(0,0,0,0.4);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-question {
+            font-size: 1.1em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .answer-field {
+            padding: 10px;
+            border: 2px solid rgba(69,183,209,0.3);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1em;
+            width: 100px;
+        }
+
+        .submit-answer {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 10px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
         }
 
-        .load-btn {
-            background: linear-gradient(135deg, #007bff, #17a2b8);
+        .submit-answer:hover {
+            transform: translateY(-1px);
         }
 
-        .save-btn:hover, .load-btn:hover {
-            transform: scale(1.05);
+        .answer-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
         }
 
-        #fileInput {
+        .answer-feedback.correct {
+            background: rgba(39,174,96,0.2);
+            color: #2ecc71;
+        }
+
+        .answer-feedback.incorrect {
+            background: rgba(231,76,60,0.2);
+            color: #e74c3c;
+        }
+
+        .mission-progress {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
             display: none;
         }
 
-        .locked-message {
-            background: rgba(255,0,0,0.2);
-            border: 2px solid rgba(255,0,0,0.5);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
+        .complete-btn:hover {
+            transform: translateY(-2px);
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
             .main-layout {
                 grid-template-columns: 1fr;
                 gap: 15px;
             }
             
-            .rune-panel {
-                order: 3;
-            }
-            
-            .center-panel {
-                flex-direction: column;
-                order: 1;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .challenge-buttons {
+            .challenges-section {
                 flex-direction: column;
             }
             
-            .challenge-btn {
-                min-width: unset;
+            .room-content {
+                margin: 10px;
+                padding: 15px;
             }
         }
 
-        .completed-day {
+        /* Piano Challenge Modal */
+        .piano-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1500;
+            overflow-y: auto;
+        }
+
+        .piano-modal-content {
+            max-width: 600px;
+            margin: 5% auto;
+            padding: 40px;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+            position: relative;
+        }
+
+        .piano-modal-header {
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: bold;
+        }
+
+        .piano-story-context {
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .piano-challenge-desc {
+            background: rgba(249, 115, 22, 0.15);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: var(--primary-orange);
+        }
+
+        .piano-instructions-modal {
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .piano-melody-display {
+            background: rgba(34, 197, 94, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+            letter-spacing: 5px;
+            color: var(--primary-green);
+            font-weight: bold;
+            border: 2px solid var(--primary-green);
+        }
+
+        .piano-complete-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .piano-complete-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .piano-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .piano-close-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        /* Math Question Modal */
+        .math-question-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1500;
+            overflow-y: auto;
+        }
+
+        .math-question-content {
+            max-width: 600px;
+            margin: 5% auto;
+            padding: 40px;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+            position: relative;
+        }
+
+        .math-question-header {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: bold;
+        }
+
+        .math-story-context {
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .math-problem-display {
+            background: rgba(249, 115, 22, 0.15);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+
+        .math-answer-btn {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            color: white;
+            border: 2px solid var(--secondary-blue);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .math-answer-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .math-answer-btn:disabled {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            border-color: var(--gray-medium);
+            cursor: not-allowed;
             opacity: 0.6;
-            background: rgba(0,255,0,0.1) !important;
         }
 
-        .available-day {
-            border-color: #ffd700 !important;
-            box-shadow: 0 0 15px rgba(255,215,0,0.3);
+        .math-return-btn {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            color: white;
+            border: 2px solid var(--gray-medium);
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .math-return-btn:hover {
+            background: linear-gradient(135deg, var(--gray-medium), var(--gray-light));
+            color: var(--gray-darker);
+        }
+
+        /* Number Input Modal */
+        .number-input-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1600;
+            overflow-y: auto;
+        }
+
+        .number-input-content {
+            max-width: 400px;
+            margin: 5% auto;
+            padding: 30px;
+            background: white;
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+            color: #333;
+        }
+
+        .number-input-header {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--gray-darker);
+            font-weight: bold;
+        }
+
+        .number-question-text {
+            font-size: 1em;
+            color: var(--gray-dark);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .number-display {
+            background: var(--gray-light);
+            border: 2px solid var(--gray-medium);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--gray-darker);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .number-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .number-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-1px);
+        }
+
+        .number-btn:active {
+            transform: translateY(0);
+        }
+
+        .number-zero {
+            grid-column: 2;
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            color: white;
+            border: 2px solid var(--primary-orange);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .clear-btn:hover {
+            background: linear-gradient(135deg, #ea580c, #dc2626);
+        }
+
+        .backspace-btn {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: 2px solid #dc2626;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .backspace-btn:hover {
+            background: linear-gradient(135deg, #b91c1c, #991b1b);
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            color: white;
+            border: 2px solid var(--gray-dark);
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, var(--gray-medium), var(--gray-light));
+            color: var(--gray-darker);
+        }
+
+        /* Logo Styles */
+        .logo-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .main-logo {
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .center-content:hover .main-logo {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px rgba(34, 197, 94, 0.5);
+            border-color: var(--primary-green);
+        }
+
+        /* Rune Collection Windows */
+        .rune-collection {
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .rune-collection:hover {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .rune-collection-header {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary-green);
+            border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .rune-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .rune-slot {
+            width: 45px;
+            height: 60px;
+            border: 2px solid var(--gray-medium);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            padding: 3px;
+        }
+
+        .rune-slot .rune-emoji {
+            font-size: 1.4em;
+            margin-bottom: 2px;
+        }
+
+        .rune-slot .rune-name {
+            font-size: 0.6em;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        /* Uncollected runes */
+        .rune-slot.uncollected {
+            border-color: var(--gray-dark);
+            background: rgba(0, 0, 0, 0.2);
+            opacity: 0.3;
+            color: var(--gray-medium);
+        }
+
+        .rune-slot.uncollected .rune-emoji {
+            filter: grayscale(100%) brightness(0.4);
+        }
+
+        /* Wells collected runes (orange/gold) */
+        .wells-runes .rune-slot.collected {
+            border-color: var(--primary-orange);
+            background: rgba(249, 115, 22, 0.15);
+            box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+            color: #fbbf24;
+            opacity: 1;
+        }
+
+        .wells-runes .rune-slot.collected .rune-emoji {
+            filter: none;
+        }
+
+        /* Rou collected runes (blue/cyan) */
+        .rou-runes .rune-slot.collected {
+            border-color: var(--secondary-blue);
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            color: #60a5fa;
+            opacity: 1;
+        }
+
+        .rou-runes .rune-slot.collected .rune-emoji {
+            filter: none;
+        }
+
+        /* Recently collected pulse animation */
+        .rune-slot.recent {
+            animation: recentPulse 2s ease-in-out infinite alternate;
+        }
+
+        .wells-runes .rune-slot.recent {
+            animation: recentPulseOrange 2s ease-in-out infinite alternate;
+        }
+
+        .rou-runes .rune-slot.recent {
+            animation: recentPulseBlue 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes recentPulseOrange {
+            from { 
+                box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 20px rgba(249, 115, 22, 0.7);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes recentPulseBlue {
+            from { 
+                box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+                transform: scale(1.05);
+            }
+        }
+
+        .rune-slot:hover {
+            transform: scale(1.1);
+        }
+
+        .rune-slot.collected:hover {
+            filter: brightness(1.2);
+        }
+
+        /* Tooltip for rune descriptions */
+        .rune-tooltip {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--primary-green);
+            z-index: 1000;
+        }
+
+        .rune-slot:hover .rune-tooltip {
+            opacity: 1;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
-        <div class="header">
-            <h1>🏰 RUNE BEARER SUMMER CHALLENGE 🏰</h1>
-            <div class="date-info">
-                <span id="currentDate"></span> | Day <span id="currentDay">0</span> of 40
-            </div>
-        </div>
-
+        <!-- Main Layout -->
         <div class="main-layout">
-            <div class="rune-panel wells-runes">
-                <h3>WELLS' RUNES</h3>
-                <div class="rune-grid" id="wellsRunes"></div>
-            </div>
-
-            <div class="center-panel">
+            <!-- Wells Player Card -->
+            <div>
                 <div class="player-card wells-card" onclick="openPlayerRoom('wells')">
-                    <div class="avatar wells-avatar">🌅</div>
-                    <div class="player-name">WELLS</div>
-                    <div class="current-room" id="wellsCurrentRoom">Dawnbreak Expanse</div>
-                    <button class="help-btn" onclick="event.stopPropagation(); showHelp()">🔊 Help</button>
+                    <div class="avatar wells-avatar">🧙‍♂️</div>
+                    <div class="player-name">Wells</div>
+                    <div class="current-room">🌅 Dawnbreak Expanse</div>
+                    <div class="day-info">Day 1 • Hall of Harmonies</div>
                 </div>
                 
-                <div class="player-card rou-card" onclick="openPlayerRoom('rou')">
-                    <div class="avatar rou-avatar">❄️</div>
-                    <div class="player-name">ROU</div>
-                    <div class="current-room" id="rouCurrentRoom">Crystal Glade</div>
-                    <button class="help-btn" onclick="event.stopPropagation(); showHelp()">🔊 Help</button>
+                <!-- Wells Rune Collection -->
+                <div class="rune-collection wells-runes">
+                    <div class="rune-collection-header">Wells' Runes</div>
+                    <div class="rune-grid" id="wellsRuneGrid">
+                        <!-- Runes will be generated dynamically -->
+                    </div>
                 </div>
             </div>
 
-            <div class="rune-panel rou-runes">
-                <h3>ROU'S RUNES</h3>
-                <div class="rune-grid" id="rouRunes"></div>
+            <!-- Center Content (Logo) -->
+            <div class="center-content">
+                <div class="logo-container">
+                    <img src="assets/lore/rune-bearers-logo.jpg" alt="Rune Bearers Logo" class="main-logo">
+                </div>
             </div>
-        </div>
-
-        <div class="rewards-section">
-            <h2>🏆 RUNE REWARDS KEY</h2>
-            <div class="rewards-grid" id="rewardsGrid"></div>
-            <div class="intro-video">
-                <button class="intro-btn" onclick="playIntroVideo()">🎬 Intro Video</button>
-            </div>
-        </div>
-
-        <div class="save-load-section">
-            <h3>💾 Save Your Adventure</h3>
-            <div class="save-load-buttons">
-                <button class="save-btn" onclick="saveGame()">Download Save File</button>
-                <button class="load-btn" onclick="document.getElementById('fileInput').click()">Upload Save File</button>
-                <input type="file" id="fileInput" accept=".json" onchange="loadGame(event)">
+                
+            <!-- Rou Player Card -->
+            <div>
+                <div class="player-card rou-card" onclick="openPlayerRoom('rou')">
+                    <div class="avatar rou-avatar">🧝‍♀️</div>
+                    <div class="player-name">Rou</div>
+                    <div class="current-room">❄️ Crystal Glade</div>
+                    <div class="day-info">Day 1 • Entry Cavern</div>
+                </div>
+                
+                <!-- Rou Rune Collection -->
+                <div class="rune-collection rou-runes">
+                    <div class="rune-collection-header">Rou's Runes</div>
+                    <div class="rune-grid" id="rouRuneGrid">
+                        <!-- Runes will be generated dynamically -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <!-- Room View Modal -->
-    <div class="room-view" id="roomView">
-        <div class="room-content" id="roomContent">
+    <div id="roomModal" class="room-modal">
+        <div class="room-content">
+            
+            <!-- Room Header -->
             <div class="room-header">
-                <div class="room-info">Day <span id="roomDay"></span></div>
-                <div class="room-info" id="roomDate"></div>
-                <div class="room-info" id="roomPlayer"></div>
+                <div class="room-title">
+                    <span id="roomIcon">🌅</span>
+                    <span id="roomName">Dawnbreak Expanse</span>
+                </div>
+                <div class="room-subtitle" id="roomSubtitle">Hall of Harmonies</div>
             </div>
-            
-            <div class="room-artwork" id="roomArtwork">🖼️ Room Artwork</div>
-            
-            <div class="story-box" id="storyText"></div>
-            
-            <div id="lockedMessage" class="locked-message" style="display: none;">
-                <h3>🔒 Adventure Awaits</h3>
-                <p>This chamber will unlock on <span id="unlockDate"></span>!</p>
+
+            <!-- Room Artwork -->
+            <img id="roomArtwork" class="room-artwork" src="assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png" alt="Room Artwork">
+
+            <!-- Story Section -->
+            <div class="story-section" id="storyText">
+                The golden sun rises through the sandstone arches. Ancient sun glyphs glow across the stone floor. The Rune Gate remains sealed. Five sun pillars must be activated to open the path.
             </div>
-            
-            <div class="challenge-buttons" id="challengeButtons">
-                <button class="challenge-btn irl-challenge" id="irlBtn" onclick="completeChallenge('irl')">
-                    🏃 Complete IRL Challenge
+
+            <!-- Challenge Buttons -->
+            <div class="challenges-section">
+                <button id="irlChallengeBtn" class="challenge-btn irl-challenge-btn" onclick="startIRLChallenge()">
+                    🎵 Begin Harmony Ritual
                 </button>
-                <button class="challenge-btn room-challenge" id="roomBtn" onclick="completeChallenge('room')">
-                    🎯 Complete Room Challenge
+                <button id="mathChallengeBtn" class="challenge-btn math-challenge-btn" onclick="startMathChallenge()" disabled>
+                    🔮 Solve Ancient Puzzles
                 </button>
             </div>
+
+            <!-- IRL Challenge Content -->
+            <div id="irlChallengeContent" class="challenge-content">
+                <div class="challenge-header">
+                    <div class="challenge-icon">🎵</div>
+                    <div class="challenge-title">Harmony Ritual Available</div>
+                </div>
+
+                <div style="text-align: center; padding: 40px; opacity: 0.7;">
+                    <p>Click "Begin Harmony Ritual" above to start your melodic quest!</p>
+                </div>
+            </div>
             
-            <button class="back-btn" onclick="closePlayerRoom()">← Back to Menu</button>
+            <!-- Math Challenge Content -->
+            <div id="mathChallengeContent" class="challenge-content">
+                <div class="challenge-header">
+                    <div class="challenge-icon">🔮</div>
+                    <div class="challenge-title">Ancient Puzzles</div>
+                </div>
+            
+                <!-- Mission Buttons -->
+                <div style="display: flex; flex-direction: column; gap: 15px; margin: 20px 0;" id="mathMissionButtons">
+                    <!-- Dynamic mission buttons will be generated here -->
+                </div>
+
+                <div class="mission-progress" id="mathProgress">Puzzle 1 of 3</div>
+                <button class="complete-btn" id="completeMathBtn" onclick="completeMathChallenge()" style="display: none;">🎉 Complete Day 1 Challenges</button>
+            </div>
+
+            <!-- Return to Main Menu Button -->
+            <button class="close-btn" onclick="closePlayerRoom()">Return to Main Menu</button>
         </div>
     </div>
 
-    <!-- Loot Discovery Modal -->
-    <div class="modal" id="lootModal">
-        <div class="modal-content">
-            <h2>🎉 TREASURE DISCOVERED! 🎉</h2>
-            <div class="loot-artwork" id="lootArtwork">💎</div>
-            <h3 id="lootTitle"></h3>
-            <p id="lootDescription"></p>
-            <button class="close-modal" onclick="closeLootModal()">Claim Treasure!</button>
+    <!-- Piano Challenge Modal -->
+    <div id="pianoModal" class="piano-modal">
+        <div class="piano-modal-content">
+            <button class="piano-close-btn" onclick="closePianoModal()">×</button>
+            
+            <div class="piano-modal-header">
+                🎵 Harmony Ritual!
+            </div>
+            
+            <div class="piano-story-context">
+                The ancient Hall of Harmonies pulses with mystical energy. Wells approaches the enchanted harmonic altar at the chamber's heart. The magical keys glow softly, waiting for the correct melody to unlock the first sun pillar. Legend speaks of a simple tune that resonates with the hall's magical frequencies.
+            </div>
+            
+            <div class="piano-challenge-desc">
+                ✨ Ritual Objective ✨<br>
+                Perform the Harmony Melody to activate the first sun pillar and begin opening the sealed Rune Gate!
+            </div>
+            
+            <div class="piano-instructions-modal">
+                <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">🎵 The Harmony Melody</h3>
+                
+                <div class="piano-melody-display">
+                    C – E – G – E – C
+                </div>
+                
+                <h4 style="color: #ffd700; margin-bottom: 10px;">Ritual Instructions:</h4>
+                <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.6;">
+                    <li>Play this melody clearly and evenly on the harmonic altar</li>
+                    <li>Repeat the melody 3 times in total</li>
+                    <li>Start slowly, then increase your speed as you become more comfortable</li>
+                    <li>Focus on the magical energy flowing through each note</li>
+                </ul>
+                
+                <div style="background: rgba(78,205,196,0.1); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong style="color: #4ecdc4;">Harmonic Key Reference:</strong><br>
+                    • C4: Middle Harmony (one ledger line below staff)<br>
+                    • E4: Foundation Tone (bottom line of treble staff)<br>
+                    • G4: Rising Harmony (second line from bottom of treble staff)
+                </div>
+            </div>
+            
+            <button class="piano-complete-btn" onclick="completePianoChallenge()">🌟 I've Performed the Harmony Ritual!</button>
+        </div>
+    </div>
+
+    <!-- Math Question Modal -->
+    <div id="mathQuestionModal" class="math-question-modal">
+        <div class="math-question-content">
+            <div class="math-question-header" id="mathQuestionTitle">
+                🧮 Geometry Challenge
+            </div>
+            
+            <div class="math-story-context" id="mathStoryContext">
+                Wells examines the ancient sun pillars carefully. Each pillar bears a different geometric symbol carved deep into the sandstone. The Triangle Pillar stands proud with three sharp edges, the Square Pillar displays four equal sides, and the Pentagon Pillar shows five perfect angles. To unlock their combined power, Wells must calculate their total mystical sides.
+            </div>
+            
+            <div class="math-problem-display" id="mathProblemText">
+                Each sun pillar is marked by a different shape: Triangle, Square, Pentagon.<br>
+                <strong>Mystery:</strong> How many total sides across all three pillars?
+            </div>
+            
+            <button class="math-answer-btn" onclick="openNumberInput()">Answer Question</button>
+            <button class="math-return-btn" onclick="closeMathQuestion()">Return to Room</button>
+        </div>
+    </div>
+
+    <!-- Number Input Modal -->
+    <div id="numberInputModal" class="number-input-modal">
+        <div class="number-input-content">
+            <div class="number-input-header">Number Input</div>
+            
+            <div class="number-question-text" id="numberQuestionText">
+                Each sun pillar is marked by a different shape: Triangle, Square, Pentagon. How many total sides across all three pillars?
+            </div>
+            
+            <div class="number-display" id="numberDisplay">0</div>
+            
+            <div class="number-pad">
+                <button class="number-btn" onclick="addNumber(1)">1</button>
+                <button class="number-btn" onclick="addNumber(2)">2</button>
+                <button class="number-btn" onclick="addNumber(3)">3</button>
+                <button class="number-btn" onclick="addNumber(4)">4</button>
+                <button class="number-btn" onclick="addNumber(5)">5</button>
+                <button class="number-btn" onclick="addNumber(6)">6</button>
+                <button class="number-btn" onclick="addNumber(7)">7</button>
+                <button class="number-btn" onclick="addNumber(8)">8</button>
+                <button class="number-btn" onclick="addNumber(9)">9</button>
+                <button class="number-btn number-zero" onclick="addNumber(0)">0</button>
+            </div>
+            
+            <div class="control-buttons">
+                <button class="clear-btn" onclick="clearNumber()">Clear</button>
+                <button class="backspace-btn" onclick="backspaceNumber()">🔙</button>
+                <button class="submit-btn" onclick="submitNumber()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testing/Admin Section -->
+    <div style="max-width: 800px; margin: 40px auto; padding: 20px;">
+        <div style="background: rgba(31, 41, 55, 0.95); border: 2px solid var(--gray-medium); border-radius: 15px; padding: 25px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <h3 style="color: var(--gray-light); font-size: 1.3em; margin-bottom: 10px;">🔧 Testing & Admin Controls</h3>
+                <p style="color: var(--gray-medium); font-size: 0.9em;">Development tools for testing game state and progress</p>
+            </div>
+            
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <button onclick="resetGameState()" style="
+                    background: linear-gradient(135deg, #dc2626, #b91c1c);
+                    color: white;
+                    border: 2px solid #dc2626;
+                    padding: 12px 24px;
+                    border-radius: 10px;
+                    font-size: 1em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    🔄 Reset Game State
+                </button>
+                
+                <button onclick="showGameState()" style="
+                    background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+                    color: white;
+                    border: 2px solid var(--secondary-blue);
+                    padding: 12px 24px;
+                    border-radius: 10px;
+                    font-size: 1em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    📊 Show Game State
+                </button>
+                
+                <button onclick="completeWellsDay1()" style="
+                    background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+                    color: white;
+                    border: 2px solid var(--primary-orange);
+                    padding: 12px 24px;
+                    border-radius: 10px;
+                    font-size: 1em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    ⚡ Complete Wells Day 1
+                </button>
+                
+                <button onclick="completeRouDay1()" style="
+                    background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+                    color: white;
+                    border: 2px solid var(--secondary-blue);
+                    padding: 12px 24px;
+                    border-radius: 10px;
+                    font-size: 1em;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+                    ❄️ Complete Rou Day 1
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Game data structure
-        const gameData = {
-            startDate: new Date('2025-06-02'),
-            players: {
-                wells: {
-                    name: 'Wells',
-                    avatar: '🌅',
-                    theme: 'wells',
-                    realms: [
-                        'Dawnbreak Expanse', 'Emerald Canopy', 'Golden Savannah', 'Emberlight Bastion',
-                        'Skyforge Spire', 'Molten Zenith Cavern', 'Solar Cathedral Ruins', 'Celestial Observatory'
-                    ]
-                },
-                rou: {
-                    name: 'Rou',
-                    avatar: '❄️',
-                    theme: 'rou',
-                    realms: [
-                        'Crystal Glade', 'Shimmering Reef', 'Frostpeak Summit', 'Molten Depths',
-                        'Abyssal Trench', 'Stormbound Isles', 'Glacial Frontier', 'Arcane Vault'
-                    ]
-                }
-            },
-            runes: [
-                { name: 'Ember Fang', icon: '🔥', player: 'wells' },
-                { name: 'Frost Fang', icon: '❄️', player: 'rou' },
-                { name: 'Sky Feather', icon: '🪶', player: 'wells' },
-                { name: 'Mist Weaver', icon: '🌫️', player: 'rou' },
-                { name: 'Iron Root', icon: '🌳', player: 'wells' },
-                { name: 'Stone Wing', icon: '🪨', player: 'rou' },
-                { name: 'Tide Pearl', icon: '🫧', player: 'wells' },
-                { name: 'River Scale', icon: '🐟', player: 'rou' },
-                { name: 'Shadow Paw', icon: '🐾', player: 'wells' },
-                { name: 'Phantom Cloak', icon: '👻', player: 'rou' },
-                { name: 'Thunder Eye', icon: '👁️', player: 'wells' },
-                { name: 'Storm Fang', icon: '⚡', player: 'rou' },
-                { name: 'Solar Scale', icon: '☀️', player: 'wells' },
-                { name: 'Star Prism', icon: '⭐', player: 'rou' },
-                { name: 'Lunar Mirror', icon: '🌙', player: 'wells' },
-                { name: 'Shadow Lens', icon: '🔮', player: 'rou' },
-                { name: 'Crystal Spine', icon: '💎', player: 'wells' },
-                { name: 'Iron Bark', icon: '🛡️', player: 'rou' },
-                { name: 'Stormcaller Sigil', icon: '🌩️', player: 'wells' },
-                { name: 'Frozen Bloom', icon: '🌸', player: 'rou' },
-                { name: 'Blazing Antler', icon: '🦌', player: 'wells' },
-                { name: 'Molten Seed', icon: '🌰', player: 'rou' },
-                { name: 'Whisper Branch', icon: '🌿', player: 'wells' },
-                { name: 'Thunder Fang', icon: '⚡', player: 'rou' },
-                { name: 'Molten Shard', icon: '🔥', player: 'wells' },
-                { name: 'Skyborn Leaf', icon: '🍃', player: 'rou' },
-                { name: 'Windrunner Crest', icon: '💨', player: 'wells' },
-                { name: 'Mooncap', icon: '🍄', player: 'rou' },
-                { name: 'Glowcap', icon: '✨', player: 'wells' },
-                { name: 'Glacier Heart', icon: '🧊', player: 'rou' },
-                { name: 'Obsidian Heart', icon: '🖤', player: 'wells' },
-                { name: 'Moonfire Bloom', icon: '🌺', player: 'rou' },
-                { name: 'Sunfire Crest', icon: '🌅', player: 'wells' },
-                { name: 'Stormpetal Veil', icon: '🌸', player: 'rou' },
-                { name: 'Zephyr Bloom', icon: '🌼', player: 'wells' },
-                { name: 'Ironclad Husk', icon: '🛡️', player: 'rou' },
-                { name: 'Deepstone Shell', icon: '🐚', player: 'wells' },
-                { name: 'Frostthorn Crown', icon: '👑', player: 'rou' },
-                { name: 'Emberthorn Crown', icon: '👑', player: 'wells' },
-                { name: 'Ember Seed', icon: '🔥', player: 'rou' }
+        // Predefined Rune Collections - OFFICIAL SCHEDULE
+        const runeCollections = {
+            wells: [
+                { emoji: '🔥', name: 'Ember Fang', id: 'ember-fang' },
+                { emoji: '🪶', name: 'Sky Feather', id: 'sky-feather' },
+                { emoji: '🌿', name: 'Iron Root', id: 'iron-root' },
+                { emoji: '🔮', name: 'Tide Pearl', id: 'tide-pearl' },
+                { emoji: '🐾', name: 'Shadow Paw', id: 'shadow-paw' },
+                { emoji: '⚡', name: 'Thunder Eye', id: 'thunder-eye' },
+                { emoji: '☀️', name: 'Solar Scale', id: 'solar-scale' },
+                { emoji: '🌙', name: 'Lunar Mirror', id: 'lunar-mirror' },
+                { emoji: '💎', name: 'Crystal Spine', id: 'crystal-spine' },
+                { emoji: '⛈️', name: 'Stormcaller Sigil', id: 'stormcaller-sigil' },
+                { emoji: '🔥', name: 'Blazing Antler', id: 'blazing-antler' },
+                { emoji: '🌿', name: 'Whisper Branch', id: 'whisper-branch' },
+                { emoji: '🔶', name: 'Molten Shard', id: 'molten-shard' },
+                { emoji: '🌪️', name: 'Windrunner Crest', id: 'windrunner-crest' },
+                { emoji: '🍄', name: 'Glowcap', id: 'glowcap' },
+                { emoji: '🖤', name: 'Obsidian Heart', id: 'obsidian-heart' },
+                { emoji: '☀️', name: 'Sunfire Crest', id: 'sunfire-crest' },
+                { emoji: '🌸', name: 'Zephyr Bloom', id: 'zephyr-bloom' },
+                { emoji: '🐚', name: 'Deepstone Shell', id: 'deepstone-shell' },
+                { emoji: '👑', name: 'Emberthorn Crown', id: 'emberthorn-crown' }
             ],
-            rewards: [
-                { runes: ['Ember Fang', 'Frost Fang'], reward: 'Ice cream treat' },
-                { runes: ['Sky Feather', 'Mist Weaver'], reward: 'Big Helmet Heroes game' },
-                { runes: ['Iron Root', 'Stone Wing'], reward: 'Lego kit + custom mini-figure' },
-                { runes: ['Tide Pearl', 'River Scale'], reward: 'Popsicles at the pool' },
-                { runes: ['Shadow Paw', 'Phantom Cloak'], reward: 'Visit to arcade' },
-                { runes: ['Thunder Eye', 'Storm Fang'], reward: '30 min extra screen time' },
-                { runes: ['Solar Scale', 'Star Prism'], reward: 'Choose next family movie' },
-                { runes: ['Lunar Mirror', 'Shadow Lens'], reward: 'Stay-up-late pass' },
-                { runes: ['Crystal Spine', 'Iron Bark'], reward: 'Pick a new book' },
-                { runes: ['Stormcaller Sigil', 'Frozen Bloom'], reward: 'Mini-golf with Happy Grandpa' },
-                { runes: ['Blazing Antler', 'Molten Seed'], reward: 'Build-your-own pizza night' },
-                { runes: ['Whisper Branch', 'Thunder Fang'], reward: 'Minecraft coins' },
-                { runes: ['Molten Shard', 'Skyborn Leaf'], reward: 'Nerf war' },
-                { runes: ['Windrunner Crest', 'Mooncap'], reward: 'Family video game session' },
-                { runes: ['Glowcap', 'Glacier Heart'], reward: 'Breakfast choice pass' },
-                { runes: ['Obsidian Heart', 'Moonfire Bloom'], reward: 'Custom Ice Cream Sundae Party' },
-                { runes: ['Sunfire Crest', 'Stormpetal Veil'], reward: 'Board game night pick' },
-                { runes: ['Zephyr Bloom', 'Ironclad Husk'], reward: 'Pangea Pastry Quest' },
-                { runes: ['Deepstone Shell', 'Frostthorn Crown'], reward: 'Breakfast for Dinner Choice' },
-                { runes: ['Emberthorn Crown', 'Ember Seed'], reward: 'Nerf target contest' }
+            rou: [
+                { emoji: '❄️', name: 'Frost Fang', id: 'frost-fang' },
+                { emoji: '🌫️', name: 'Mist Weaver', id: 'mist-weaver' },
+                { emoji: '🪨', name: 'Stone Wing', id: 'stone-wing' },
+                { emoji: '🐟', name: 'River Scale', id: 'river-scale' },
+                { emoji: '👻', name: 'Phantom Cloak', id: 'phantom-cloak' },
+                { emoji: '⚡', name: 'Storm Fang', id: 'storm-fang' },
+                { emoji: '⭐', name: 'Star Prism', id: 'star-prism' },
+                { emoji: '🔍', name: 'Shadow Lens', id: 'shadow-lens' },
+                { emoji: '🌳', name: 'Iron Bark', id: 'iron-bark' },
+                { emoji: '🌺', name: 'Frozen Bloom', id: 'frozen-bloom' },
+                { emoji: '🌱', name: 'Molten Seed', id: 'molten-seed' },
+                { emoji: '⚡', name: 'Thunder Fang', id: 'thunder-fang' },
+                { emoji: '🍃', name: 'Skyborn Leaf', id: 'skyborn-leaf' },
+                { emoji: '🍄', name: 'Mooncap', id: 'mooncap' },
+                { emoji: '💙', name: 'Glacier Heart', id: 'glacier-heart' },
+                { emoji: '🌙', name: 'Moonfire Bloom', id: 'moonfire-bloom' },
+                { emoji: '🌸', name: 'Stormpetal Veil', id: 'stormpetal-veil' },
+                { emoji: '🛡️', name: 'Ironclad Husk', id: 'ironclad-husk' },
+                { emoji: '👑', name: 'Frostthorn Crown', id: 'frostthorn-crown' },
+                { emoji: '🔥', name: 'Ember Seed', id: 'ember-seed' }
             ]
         };
 
-        // Game state
+        // Game State Management
         let gameState = {
-            completedDays: {
-                wells: [],
-                rou: []
+            wells: {
+                currentDay: 1,
+                currentRealm: 'Dawnbreak Expanse',
+                irlCompleted: false,
+                mathCompleted: false,
+                mathProgress: 0, // 0-3 missions completed
+                completedDays: [],
+                collectedRunes: [] // Will be populated based on official schedule
             },
-            earnedRunes: {
-                wells: [],
-                rou: []
-            },
-            claimedRewards: []
+            rou: {
+                currentDay: 1,
+                currentRealm: 'Crystal Glade',
+                irlCompleted: false,
+                mathCompleted: false,
+                mathProgress: 0,
+                completedDays: [],
+                collectedRunes: [] // Will be populated based on official schedule
+            }
         };
+
+        // Math questions data - DEPRECATED: Now using gameContent.player.dayX.mathChallenge.missions
+        /*
+        const mathQuestions = {
+            1: {
+                title: '⭐ Sacred Geometry Challenge',
+                story: 'Wells examines the ancient sun pillars carefully. Each pillar bears a different geometric symbol carved deep into the sandstone. The Triangle Pillar stands proud with three sharp edges, the Square Pillar displays four equal sides, and the Pentagon Pillar shows five perfect angles. To unlock their combined power, Wells must calculate their total mystical sides.',
+                problem: 'Each sun pillar is marked by a different shape: Triangle, Square, Pentagon.<br><strong>Mystery:</strong> How many total sides across all three pillars?',
+                answer: 12
+            },
+            2: {
+                title: '💎 Crystal Power Challenge',
+                story: 'Deep within each sun pillar, Wells discovers glowing crystal chambers. Ten magnificent pillars stretch toward the sky, each one pulsing with exactly ten radiant sun crystals. The crystals hum with magical energy, their combined power needed to unlock the ancient Rune Gate. Wells must calculate the total crystal power.',
+                problem: 'Each of the 10 sun pillars holds 10 sun crystals.<br><strong>Mystery:</strong> How many crystals power the Rune Gate?',
+                answer: 100
+            },
+            3: {
+                title: '🏛️ Treasure Distribution Challenge',
+                story: 'Behind the largest sun pillar, Wells discovers a hidden treasure chamber filled with 1000 gleaming sun coins! But Wells remembers the ancient law of the Rune Guild - treasure must be shared equally among all adventurers. He must divide the coins between himself, his companion Ferrin, and three brave Rune Guild Apprentices who aided their quest.',
+                problem: 'Behind one pillar, Wells finds 1000 sun coins.<br>He shares them equally with Ferrin and 3 Rune Guild Apprentices.<br><strong>Mystery:</strong> How many coins does each receive?',
+                answer: 200
+            }
+        };
+        */
+
+        let currentQuestion = 1;
+        let currentInput = '0';
+
+        // Content Management System
+        const gameContent = {
+            wells: {
+                day1: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Hall of Harmonies',
+                    icon: '🌅',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'The golden sun rises through the sandstone arches. Ancient sun glyphs glow across the stone floor. The Rune Gate remains sealed. Five sun pillars must be activated to open the path.',
+                    baseRune: 'Solar Scale',
+                    runeIcon: '☀️',
+                    irlChallenge: {
+                        title: 'Wells Day One Piano Melody',
+                        icon: '🎹',
+                        type: 'piano',
+                        content: {
+                            notes: 'C – E – G – E – C',
+                            instructions: [
+                                'Play this melody clearly and evenly',
+                                'Repeat the melody 3 times in total',
+                                'Start slowly, then increase your speed as you become more comfortable'
+                            ],
+                            reference: [
+                                'C4: Middle C (one ledger line below staff)',
+                                'E4: Bottom line of treble staff',
+                                'G4: Second line from bottom of treble staff'
+                            ]
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Math Missions',
+                        icon: '🧮',
+                        missions: [
+                            {
+                                category: 'Geometry',
+                                title: '⭐ Sacred Geometry Challenge',
+                                story: 'Wells examines the ancient sun pillars carefully. Each pillar bears a different geometric symbol carved deep into the sandstone. The Triangle Pillar stands proud with three sharp edges, the Square Pillar displays four equal sides, and the Pentagon Pillar shows five perfect angles. To unlock their combined power, Wells must calculate their total mystical sides.',
+                                question: 'Each sun pillar is marked by a different shape: Triangle, Square, Pentagon.<br><strong>Mystery:</strong> How many total sides across all three pillars?',
+                                answer: 12
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '💎 Crystal Power Challenge',
+                                story: 'Deep within each sun pillar, Wells discovers glowing crystal chambers. Ten magnificent pillars stretch toward the sky, each one pulsing with exactly ten radiant sun crystals. The crystals hum with magical energy, their combined power needed to unlock the ancient Rune Gate. Wells must calculate the total crystal power.',
+                                question: 'Each of the 10 sun pillars holds 10 sun crystals.<br><strong>Mystery:</strong> How many crystals power the Rune Gate?',
+                                answer: 100
+                            },
+                            {
+                                category: 'Division',
+                                title: '🏛️ Treasure Distribution Challenge',
+                                story: 'Behind the largest sun pillar, Wells discovers a hidden treasure chamber filled with 1000 gleaming sun coins! But Wells remembers the ancient law of the Rune Guild - treasure must be shared equally among all adventurers. He must divide the coins between himself, his companion Ferrin, and three brave Rune Guild Apprentices who aided their quest.',
+                                question: 'Behind one pillar, Wells finds 1000 sun coins.<br>He shares them equally with Ferrin and 3 Rune Guild Apprentices.<br><strong>Mystery:</strong> How many coins does each receive?',
+                                answer: 200
+                            }
+                        ]
+                    }
+                }
+            },
+            rou: {
+                day1: {
+                    realm: 'Crystal Glade',
+                    room: 'Entry Cavern',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/default_dungeon.png', // Placeholder
+                    story: 'You step into the Crystal Glade. The cave floor sparkles with blue crystals. A tall ice gate blocks your path. The gate has three small slots that need crystals to open. Ice on the walls makes the floor slippery. Three wooden crates hold magic orbs that can help you. A frozen chest sits behind the gate, waiting for you to open it once the gate is free. The room feels cold and magical.',
+                    baseRune: 'Ice Shard',
+                    runeIcon: '❄️',
+                    irlChallenge: {
+                        title: 'No IRL Challenge',
+                        icon: '🚫',
+                        type: 'none',
+                        content: {
+                            description: 'Math-only day'
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Crystal Mysteries',
+                        icon: '🧮',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '💎 Crystal Collection Challenge',
+                                story: 'You step carefully across the sparkling cave floor. Beautiful blue crystals catch the light from above. You spot 14 blue crystals scattered on the ground, glinting like tiny stars. As you explore further, you reach under a large, smooth rock and discover 9 more hidden crystals nestled in the shadows.',
+                                question: 'You see 14 blue crystals on the ground. You reach under a rock and find 9 more crystals.<br><strong>Mystery:</strong> How many crystals do you have now?',
+                                answer: 23
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '🧊 Frost Gem Adventure',
+                                story: 'Your magical pouch holds 18 precious frost gems, each one shimmering with icy blue light. The cavern floor is covered in slippery ice that makes walking tricky. Suddenly, your foot slips on a patch of smooth ice! As you try to keep your balance, 7 of your beautiful frost gems tumble out and disappear into a dark, deep hole in the ground.',
+                                question: 'You carry 18 frost gems as you step on icy stones. You slip, and 7 frost gems tumble down into a dark hole.<br><strong>Mystery:</strong> How many frost gems do you still have?',
+                                answer: 11
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '🎁 Magic Orb Discovery',
+                                story: 'Against the cavern wall, you notice 3 sturdy wooden crates stacked carefully on top of each other. Each crate is bound with silver rope and glows with a soft, magical light. You peek inside the first crate and count 4 glowing magic orbs. The second crate also holds 4 magic orbs, and so does the third crate. These orbs might be the key to opening the ice gate!',
+                                question: 'You notice 3 wooden crates in the cave. Each crate holds 4 magic orbs inside.<br><strong>Mystery:</strong> How many magic orbs are there in all the crates?',
+                                answer: 12
+                            }
+                        ]
+                    }
+                }
+            }
+        };
+
+        // Rune Collection System
+        function addRuneToCollection(player, runeName) {
+            const playerData = gameState[player];
+            
+            // Check if rune already exists
+            if (playerData.collectedRunes.includes(runeName)) return;
+            
+            // Add rune to collection
+            playerData.collectedRunes.push(runeName);
+            
+            // Update display
+            updateRuneDisplay(player);
+            
+            // Save game state
+            saveGameState();
+        }
+
+        function updateRuneDisplay(player) {
+            console.log(`Updating rune display for ${player}`);
+            
+            const playerData = gameState[player];
+            console.log('Player data:', playerData);
+            
+            const gridId = player === 'wells' ? 'wellsRuneGrid' : 'rouRuneGrid';
+            const grid = document.getElementById(gridId);
+            console.log('Grid element:', grid);
+            
+            const runes = runeCollections[player];
+            console.log('Runes for player:', runes);
+            
+            if (!grid) {
+                console.error(`Grid element not found: ${gridId}`);
+                return;
+            }
+            
+            if (!runes) {
+                console.error(`Runes not found for player: ${player}`);
+                return;
+            }
+            
+            // Generate all rune slots
+            grid.innerHTML = '';
+            runes.forEach((rune, index) => {
+                const isCollected = playerData.collectedRunes.includes(rune.name);
+                const slot = document.createElement('div');
+                slot.className = `rune-slot ${isCollected ? 'collected' : 'uncollected'}`;
+                slot.innerHTML = `
+                    <div class="rune-emoji">${rune.emoji}</div>
+                    <div class="rune-name">${rune.name}</div>
+                    <div class="rune-tooltip">${rune.name}</div>
+                `;
+                grid.appendChild(slot);
+            });
+            
+            console.log(`Generated ${runes.length} rune slots for ${player}`);
+        }
+
+        let currentPlayer = null;
 
         // Initialize game
         function initGame() {
-            updateDateDisplay();
-            renderRunes();
-            renderRewards();
-            updateCurrentRooms();
-        }
-
-        function getCurrentDay() {
-            const now = new Date();
-            const start = gameData.startDate;
-            const diffTime = now - start;
-            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-            return Math.max(0, Math.min(40, diffDays + 1));
-        }
-
-        function updateDateDisplay() {
-            const now = new Date();
-            const currentDay = getCurrentDay();
-            
-            document.getElementById('currentDate').textContent = now.toLocaleDateString();
-            document.getElementById('currentDay').textContent = currentDay;
-        }
-
-        function renderRunes() {
-            const wellsContainer = document.getElementById('wellsRunes');
-            const rouContainer = document.getElementById('rouRunes');
-            
-            wellsContainer.innerHTML = '';
-            rouContainer.innerHTML = '';
-            
-            gameData.runes.forEach((rune, index) => {
-                const slot = document.createElement('div');
-                slot.className = 'rune-slot';
-                slot.title = rune.name;
-                
-                const isEarned = gameState.earnedRunes[rune.player].includes(rune.name);
-                
-                if (isEarned) {
-                    slot.classList.add('earned');
-                    slot.textContent = rune.icon;
-                } else {
-                    slot.textContent = '🔒';
-                }
-                
-                slot.onclick = () => showRuneInfo(rune);
-                
-                if (rune.player === 'wells') {
-                    wellsContainer.appendChild(slot);
-                } else {
-                    rouContainer.appendChild(slot);
-                }
-            });
-        }
-
-        function renderRewards() {
-            const container = document.getElementById('rewardsGrid');
-            container.innerHTML = '';
-            
-            gameData.rewards.forEach((reward, index) => {
-                const item = document.createElement('div');
-                item.className = 'reward-item';
-                
-                const rune1 = gameData.runes.find(r => r.name === reward.runes[0]);
-                const rune2 = gameData.runes.find(r => r.name === reward.runes[1]);
-                
-                const isAvailable = gameState.earnedRunes.wells.includes(reward.runes[0]) && 
-                                  gameState.earnedRunes.rou.includes(reward.runes[1]);
-                const isClaimed = gameState.claimedRewards.includes(index);
-                
-                item.innerHTML = `
-                    ${rune1.icon} ${reward.runes[0]} + ${rune2.icon} ${reward.runes[1]} = 
-                    <strong>${reward.reward}</strong>
-                    ${isClaimed ? ' ✅' : (isAvailable ? ' 🎁' : '')}
-                `;
-                
-                if (isAvailable && !isClaimed) {
-                    item.style.background = 'rgba(255,215,0,0.2)';
-                    item.style.border = '1px solid #ffd700';
-                    item.style.cursor = 'pointer';
-                    item.onclick = () => claimReward(index);
-                }
-                
-                container.appendChild(item);
-            });
-        }
-
-        function updateCurrentRooms() {
-            const currentDay = getCurrentDay();
-            const wellsRealm = Math.floor((currentDay - 1) / 5);
-            const rouRealm = Math.floor((currentDay - 1) / 5);
-            
-            if (wellsRealm < gameData.players.wells.realms.length) {
-                document.getElementById('wellsCurrentRoom').textContent = gameData.players.wells.realms[wellsRealm];
-            }
-            
-            if (rouRealm < gameData.players.rou.realms.length) {
-                document.getElementById('rouCurrentRoom').textContent = gameData.players.rou.realms[rouRealm];
-            }
+            // Auto-save game state periodically
+            setInterval(saveGameState, 30000); // Save every 30 seconds
         }
 
         function openPlayerRoom(player) {
-            const currentDay = getCurrentDay();
-            if (currentDay === 0) return;
+            currentPlayer = player;
+            const playerData = gameState[player];
+            const content = gameContent[player][`day${playerData.currentDay}`];
             
-            const playerData = gameData.players[player];
-            const realmIndex = Math.floor((currentDay - 1) / 5);
-            const dayInRealm = ((currentDay - 1) % 5) + 1;
-            
-            // Set room theme
-            const roomContent = document.getElementById('roomContent');
-            roomContent.className = `room-content ${player}-room`;
-            
-            // Update room header
-            document.getElementById('roomDay').textContent = currentDay;
-            document.getElementById('roomDate').textContent = new Date(gameData.startDate.getTime() + (currentDay - 1) * 24 * 60 * 60 * 1000).toLocaleDateString();
-            document.getElementById('roomPlayer').textContent = playerData.name.toUpperCase();
-            
-            // Check if day is available
-            const today = new Date();
-            const targetDate = new Date(gameData.startDate.getTime() + (currentDay - 1) * 24 * 60 * 60 * 1000);
-            const isAvailable = today >= targetDate;
-            const isCompleted = gameState.completedDays[player].includes(currentDay);
-            
-            if (!isAvailable) {
-                document.getElementById('lockedMessage').style.display = 'block';
-                document.getElementById('unlockDate').textContent = targetDate.toLocaleDateString();
-                document.getElementById('challengeButtons').style.display = 'none';
-            } else {
-                document.getElementById('lockedMessage').style.display = 'none';
-                document.getElementById('challengeButtons').style.display = 'flex';
-                
-                // Update challenge buttons
-                const irlBtn = document.getElementById('irlBtn');
-                const roomBtn = document.getElementById('roomBtn');
-                
-                if (isCompleted) {
-                    irlBtn.disabled = true;
-                    roomBtn.disabled = true;
-                    irlBtn.textContent = '✅ IRL Challenge Complete';
-                    roomBtn.textContent = '✅ Room Challenge Complete';
-                } else {
-                    irlBtn.disabled = false;
-                    roomBtn.disabled = false;
-                    irlBtn.textContent = '🏃 Complete IRL Challenge';
-                    roomBtn.textContent = '🎯 Complete Room Challenge';
-                }
+            if (!content) {
+                alert(`Content not yet available for ${player} Day ${playerData.currentDay}`);
+                return;
             }
+
+            // Update room display
+            document.getElementById('roomIcon').textContent = content.icon;
+            document.getElementById('roomName').textContent = content.realm;
+            document.getElementById('roomSubtitle').textContent = content.room;
+            document.getElementById('roomArtwork').src = content.artwork;
+            document.getElementById('storyText').textContent = content.story;
+
+            // Update challenge buttons
+            updateChallengeButtons();
             
-            // Set story text
-            const realm = playerData.realms[realmIndex] || 'Unknown Realm';
-            document.getElementById('storyText').textContent = generateStoryText(player, realm, dayInRealm);
-            
-            // Show room view
-            document.getElementById('roomView').style.display = 'block';
-            
-            // Store current player for challenge completion
-            window.currentPlayer = player;
-            window.currentDay = currentDay;
+            // Generate dynamic mission buttons
+            generateMissionButtons(content);
+
+            // Show room modal
+            document.getElementById('roomModal').style.display = 'block';
         }
 
         function closePlayerRoom() {
-            document.getElementById('roomView').style.display = 'none';
+            document.getElementById('roomModal').style.display = 'none';
+            // Hide all challenge content
+            document.querySelectorAll('.challenge-content').forEach(content => {
+                content.classList.remove('active');
+            });
         }
 
-        function generateStoryText(player, realm, dayInRealm) {
-            const stories = {
-                wells: {
-                    'Dawnbreak Expanse': [
-                        'The golden light of dawn breaks across the vast expanse as you begin your quest...',
-                        'Ancient ruins emerge from the morning mist, holding secrets of the old world...',
-                        'A crystal formation pulses with warm energy, responding to your presence...',
-                        'The path splits before you, each direction promising different adventures...',
-                        'At the heart of the expanse, a great tree bears fruit that glows like tiny suns...'
-                    ],
-                    'Emerald Canopy': [
-                        'Towering trees create a cathedral of green above your head...',
-                        'Mystical creatures watch from the shadows between ancient trunks...',
-                        'A clearing reveals an altar covered in luminescent moss...',
-                        'The whispers of the forest guide you deeper into its mysteries...',
-                        'At the canopy\'s peak, you discover a nest of phoenix feathers...'
-                    ]
-                },
-                rou: {
-                    'Crystal Glade': [
-                        'Ice crystals chime in harmony as the wind passes through the glade...',
-                        'A frozen lake reflects the aurora dancing in the sky above...',
-                        'Ancient ice sculptures tell the story of heroes long past...',
-                        'The cold air fills your lungs with the power of winter itself...',
-                        'At the glade\'s center, an ice throne awaits its rightful heir...'
-                    ],
-                    'Shimmering Reef': [
-                        'Underwater gardens of coral pulse with bioluminescent light...',
-                        'Schools of crystal fish dart between the reef formations...',
-                        'A mermaid\'s treasure chest lies hidden in a sea cave...',
-                        'The current carries you toward deeper, more mysterious waters...',
-                        'At the reef\'s heart, a pearl the size of your fist awaits...'
-                    ]
+        function updateChallengeButtons() {
+            const playerData = gameState[currentPlayer];
+            const content = gameContent[currentPlayer][`day${playerData.currentDay}`];
+            const irlBtn = document.getElementById('irlChallengeBtn');
+            const mathBtn = document.getElementById('mathChallengeBtn');
+
+            // Check if this day has an IRL challenge
+            const hasIRLChallenge = content.irlChallenge.type !== 'none';
+
+            if (hasIRLChallenge) {
+                // Show IRL button and update its state
+                irlBtn.style.display = 'flex';
+                if (playerData.irlCompleted) {
+                    irlBtn.classList.add('completed');
+                    irlBtn.innerHTML = '✅ Harmony Ritual Complete';
+                    irlBtn.onclick = null;
+                } else {
+                    irlBtn.classList.remove('completed');
+                    irlBtn.innerHTML = '🎵 Begin Harmony Ritual';
+                    irlBtn.onclick = startIRLChallenge;
                 }
-            };
-            
-            const playerStories = stories[player] || {};
-            const realmStories = playerStories[realm] || ['Your adventure continues in this mysterious realm...'];
-            return realmStories[dayInRealm - 1] || realmStories[0];
-        }
 
-        function completeChallenge(type) {
-            const player = window.currentPlayer;
-            const day = window.currentDay;
-            
-            if (!gameState.completedDays[player].includes(day)) {
-                gameState.completedDays[player].push(day);
-                
-                // Award rune
-                const runeIndex = (day - 1) * 2 + (player === 'wells' ? 0 : 1);
-                if (runeIndex < gameData.runes.length) {
-                    const rune = gameData.runes[runeIndex];
-                    if (!gameState.earnedRunes[player].includes(rune.name)) {
-                        gameState.earnedRunes[player].push(rune.name);
-                        showLootDiscovery(rune);
-                    }
+                // Math button depends on IRL completion
+                if (playerData.mathCompleted) {
+                    mathBtn.classList.add('completed');
+                    mathBtn.innerHTML = '✅ Ancient Puzzles Complete';
+                    mathBtn.disabled = false;
+                } else if (playerData.irlCompleted) {
+                    mathBtn.disabled = false;
+                    mathBtn.innerHTML = '🔮 Solve Ancient Puzzles';
+                } else {
+                    mathBtn.disabled = true;
+                    mathBtn.innerHTML = '🔮 Solve Ancient Puzzles';
                 }
-                
-                // Update UI
-                renderRunes();
-                renderRewards();
-                
-                // Update buttons
-                const irlBtn = document.getElementById('irlBtn');
-                const roomBtn = document.getElementById('roomBtn');
-                irlBtn.disabled = true;
-                roomBtn.disabled = true;
-                irlBtn.textContent = '✅ IRL Challenge Complete';
-                roomBtn.textContent = '✅ Room Challenge Complete';
-            }
-        }
-
-        function showLootDiscovery(rune) {
-            document.getElementById('lootTitle').textContent = rune.name;
-            document.getElementById('lootDescription').textContent = `You have discovered the ${rune.name}! This ancient rune pulses with mystical energy.`;
-            document.getElementById('lootArtwork').textContent = rune.icon;
-            document.getElementById('lootModal').style.display = 'block';
-        }
-
-        function closeLootModal() {
-            document.getElementById('lootModal').style.display = 'none';
-        }
-
-        function claimReward(rewardIndex) {
-            if (!gameState.claimedRewards.includes(rewardIndex)) {
-                gameState.claimedRewards.push(rewardIndex);
-                const reward = gameData.rewards[rewardIndex];
-                alert(`🎉 Congratulations! You've earned: ${reward.reward}`);
-                renderRewards();
-            }
-        }
-
-        function showRuneInfo(rune) {
-            const isEarned = gameState.earnedRunes[rune.player].includes(rune.name);
-            if (isEarned) {
-                alert(`${rune.icon} ${rune.name}\n\nThis rune has been earned by ${rune.player === 'wells' ? 'Wells' : 'Rou'}!`);
             } else {
-                alert(`🔒 ${rune.name}\n\nThis rune has not been discovered yet.`);
+                // Hide IRL button for math-only days
+                irlBtn.style.display = 'none';
+                
+                // Math button is always available on math-only days
+                if (playerData.mathCompleted) {
+                    mathBtn.classList.add('completed');
+                    mathBtn.innerHTML = '✅ Crystal Mysteries Complete';
+                    mathBtn.disabled = false;
+                } else {
+                    mathBtn.disabled = false;
+                    mathBtn.innerHTML = '🔮 Solve Crystal Mysteries';
+                }
             }
         }
 
-        function saveGame() {
-            const saveData = {
-                version: '1.0',
-                timestamp: new Date().toISOString(),
-                gameState: gameState
-            };
-            
-            const blob = new Blob([JSON.stringify(saveData, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `rune-bearer-save-${new Date().toISOString().split('T')[0]}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
+        function startIRLChallenge() {
+            document.getElementById('pianoModal').style.display = 'block';
         }
 
-        function loadGame(event) {
-            const file = event.target.files[0];
-            if (!file) return;
+        function closePianoModal() {
+            document.getElementById('pianoModal').style.display = 'none';
+        }
+
+        function completePianoChallenge() {
+            gameState[currentPlayer].irlCompleted = true;
+            updateChallengeButtons();
+            closePianoModal();
             
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const saveData = JSON.parse(e.target.result);
-                    if (saveData.gameState && saveData.version) {
-                        gameState = saveData.gameState;
-                        renderRunes();
-                        renderRewards();
-                        updateCurrentRooms();
-                        alert('Game loaded successfully!');
-                    } else {
-                        alert('Invalid save file format.');
-                    }
-                } catch (error) {
-                    alert('Error loading save file: ' + error.message);
+            // Show completion message
+            alert('🎉 The Harmony Melody resonates through the Hall! The first sun pillar begins to glow with ancient power. The Ancient Puzzles are now unlocked!');
+            saveGameState();
+        }
+
+        function startMathChallenge() {
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            const hasIRLChallenge = content.irlChallenge.type !== 'none';
+            
+            // Only require IRL completion if there is an IRL challenge
+            if (hasIRLChallenge && !gameState[currentPlayer].irlCompleted) {
+                alert('Please complete the Harmony Ritual first! The sun pillars must be activated in sequence.');
+                return;
+            }
+            document.getElementById('mathChallengeContent').classList.add('active');
+            document.getElementById('irlChallengeContent').classList.remove('active');
+        }
+
+        function completeIRLChallenge() {
+            gameState[currentPlayer].irlCompleted = true;
+            updateChallengeButtons();
+            alert('🎉 Piano challenge completed! Math missions are now unlocked.');
+            saveGameState();
+        }
+
+        function submitAnswer(missionNumber, correctAnswer) {
+            const answerField = document.getElementById(`answer${missionNumber}`);
+            const feedback = document.getElementById(`feedback${missionNumber}`);
+            const userAnswer = parseInt(answerField.value);
+
+            feedback.style.display = 'block';
+
+            if (userAnswer === correctAnswer) {
+                feedback.textContent = '🎉 Correct! Well done!';
+                feedback.className = 'answer-feedback correct';
+                
+                // Mark mission as completed
+                gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, missionNumber);
+                
+                // Unlock next mission
+                if (missionNumber < 3) {
+                    const nextMission = document.getElementById(`mission${missionNumber + 1}`);
+                    nextMission.style.opacity = '1';
+                    nextMission.style.pointerEvents = 'auto';
                 }
-            };
-            reader.readAsText(file);
-            event.target.value = ''; // Reset file input
+                
+                // Update progress
+                updateMathProgress();
+                
+                // Disable this mission's input
+                answerField.disabled = true;
+                answerField.style.background = 'rgba(39,174,96,0.2)';
+                
+            } else {
+                feedback.textContent = '❌ Not quite right. Try again!';
+                feedback.className = 'answer-feedback incorrect';
+            }
+
+            saveGameState();
         }
 
-        function showHelp() {
-            alert(`🏰 RUNE BEARER HELP 🏰
-
-How to Play:
-• Click on Wells or Rou's avatar to enter their room
-• Complete daily challenges to earn runes
-• Collect matching rune pairs to unlock rewards
-• One adventure per day, per player
-• Download your save file to play on other devices
-
-Tips:
-• Each realm lasts 5 days
-• Both players must work together to earn rewards
-• Check back daily for new adventures!`);
+        function updateMathProgress() {
+            const progress = gameState[currentPlayer].mathProgress;
+            const isWells = currentPlayer === 'wells';
+            
+            if (isWells) {
+                document.getElementById('mathProgress').textContent = `Puzzle ${Math.min(progress + 1, 3)} of 3`;
+                
+                if (progress >= 3) {
+                    document.getElementById('completeMathBtn').style.display = 'block';
+                    document.getElementById('mathProgress').textContent = 'All ancient puzzles solved!';
+                }
+            } else {
+                document.getElementById('mathProgress').textContent = `Mystery ${Math.min(progress + 1, 3)} of 3`;
+                
+                if (progress >= 3) {
+                    document.getElementById('completeMathBtn').style.display = 'block';
+                    document.getElementById('mathProgress').textContent = 'All crystal mysteries solved!';
+                }
+            }
         }
 
-        function playIntroVideo() {
-            alert(`🎬 INTRO VIDEO 🎬
+        function completeMathChallenge() {
+            if (gameState[currentPlayer].mathProgress < 3) {
+                alert('Please complete all 3 math missions first!');
+                return;
+            }
 
-Welcome to the Rune Bearer Summer Challenge!
+            gameState[currentPlayer].mathCompleted = true;
+            gameState[currentPlayer].completedDays.push(gameState[currentPlayer].currentDay);
+            
+            // Add the daily rune to collection
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            if (content) {
+                addRuneToCollection(currentPlayer, content.baseRune);
+            }
+            
+            updateChallengeButtons();
+            
+            // Check if this is a math-only day
+            const hasIRLChallenge = content.irlChallenge.type !== 'none';
+            const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
+            
+            alert(`🎉 Congratulations! You've completed Day ${gameState[currentPlayer].currentDay}!\n\n✨ Rune discovered: ${content.baseRune}\n\nCheck your rune collection below! Come back tomorrow for your next ${dayType}!`);
+            
+            saveGameState();
+            closePlayerRoom();
+        }
 
-Two brave adventurers, Wells and Rou, must journey through mystical realms to collect ancient runes. Each day brings new challenges and discoveries!
+        function saveGameState() {
+            localStorage.setItem('runeBearerGameState', JSON.stringify(gameState));
+        }
 
-Wells explores warm, golden realms filled with sun and fire magic.
-Rou ventures through cool, crystal domains of ice and water.
-
-Together, they must collect matching rune pairs to unlock amazing rewards!
-
-The adventure begins June 2nd, 2025. Are you ready?`);
+        function loadGameState() {
+            const saved = localStorage.getItem('runeBearerGameState');
+            if (saved) {
+                gameState = JSON.parse(saved);
+            }
         }
 
         // Initialize game on page load
-        document.addEventListener('DOMContentLoaded', initGame);
-        
-        // Update date every hour
-        setInterval(updateDateDisplay, 3600000);
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameState();
+            initGame();
+            
+            // Initialize rune displays with error handling
+            try {
+                console.log('Initializing rune displays...');
+                updateRuneDisplay('wells');
+                updateRuneDisplay('rou');
+                console.log('Rune displays initialized successfully');
+            } catch (error) {
+                console.error('Error initializing rune displays:', error);
+            }
+        });
+
+        function openMathQuestion(questionNum) {
+            currentQuestion = questionNum;
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            const mission = content.mathChallenge.missions[questionNum - 1];
+            
+            document.getElementById('mathQuestionTitle').textContent = mission.title;
+            document.getElementById('mathStoryContext').textContent = mission.story;
+            document.getElementById('mathProblemText').innerHTML = mission.question;
+            
+            document.getElementById('mathQuestionModal').style.display = 'block';
+        }
+
+        function closeMathQuestion() {
+            document.getElementById('mathQuestionModal').style.display = 'none';
+        }
+
+        function openNumberInput() {
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            const mission = content.mathChallenge.missions[currentQuestion - 1];
+            document.getElementById('numberQuestionText').innerHTML = mission.question.replace('<br><strong>Mystery:</strong> ', '');
+            currentInput = '0';
+            document.getElementById('numberDisplay').textContent = currentInput;
+            document.getElementById('numberInputModal').style.display = 'block';
+        }
+
+        function addNumber(num) {
+            if (currentInput === '0') {
+                currentInput = num.toString();
+            } else {
+                currentInput += num.toString();
+            }
+            document.getElementById('numberDisplay').textContent = currentInput;
+        }
+
+        function clearNumber() {
+            currentInput = '0';
+            document.getElementById('numberDisplay').textContent = currentInput;
+        }
+
+        function backspaceNumber() {
+            if (currentInput.length > 1) {
+                currentInput = currentInput.slice(0, -1);
+            } else {
+                currentInput = '0';
+            }
+            document.getElementById('numberDisplay').textContent = currentInput;
+        }
+
+        function submitNumber() {
+            const answer = parseInt(currentInput);
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            const mission = content.mathChallenge.missions[currentQuestion - 1];
+            const correctAnswer = mission.answer;
+            
+            document.getElementById('numberInputModal').style.display = 'none';
+            document.getElementById('mathQuestionModal').style.display = 'none';
+            
+            if (answer === correctAnswer) {
+                // Correct answer
+                gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
+                
+                // Update mission buttons
+                const missionBtn = document.getElementById(`mission${currentQuestion}Btn`);
+                missionBtn.style.opacity = '1';
+                missionBtn.style.background = 'linear-gradient(135deg, var(--success-green), #16a34a)';
+                missionBtn.style.borderColor = 'var(--success-green)';
+                missionBtn.innerHTML = missionBtn.innerHTML.replace(/^[⭐💎🏛️🧊🎁]/, '✅');
+                missionBtn.disabled = true;
+                missionBtn.style.cursor = 'not-allowed';
+                
+                // Unlock next mission
+                if (currentQuestion < 3) {
+                    const nextBtn = document.getElementById(`mission${currentQuestion + 1}Btn`);
+                    nextBtn.style.opacity = '1';
+                    nextBtn.style.cursor = 'pointer';
+                    nextBtn.disabled = false;
+                }
+                
+                // Update progress
+                updateMathProgress();
+                
+                // Different success messages for different players/content
+                const isWells = currentPlayer === 'wells';
+                const wellsMessages = [
+                    '🎉 Correct! The sacred geometry reveals its secrets - the pillars align with ancient power!',
+                    '🎉 Correct! The crystal chambers resonate with pure energy - the Rune Gate stirs!',
+                    '🎉 Correct! The treasure is divided with perfect fairness - the Guild honors your wisdom!'
+                ];
+                
+                const rouMessages = [
+                    '🎉 Correct! You gathered all the blue crystals - they sparkle with magical energy!',
+                    '🎉 Correct! You carefully counted your remaining frost gems - they glow safely in your pouch!',
+                    '🎉 Correct! You discovered all the magic orbs - they might unlock the ice gate!'
+                ];
+                
+                const messages = isWells ? wellsMessages : rouMessages;
+                alert(messages[currentQuestion - 1]);
+                
+            } else {
+                const isWells = currentPlayer === 'wells';
+                const errorMessage = isWells 
+                    ? '❌ The ancient magic requires the correct calculation. The mystical forces resist... Try again!'
+                    : '❌ The ice crystals dim when the answer is wrong. Count carefully and try again!';
+                alert(errorMessage);
+                openMathQuestion(currentQuestion); // Reopen the question
+            }
+            
+            saveGameState();
+        }
+
+        function updateMathProgress() {
+            const progress = gameState[currentPlayer].mathProgress;
+            const isWells = currentPlayer === 'wells';
+            
+            if (isWells) {
+                document.getElementById('mathProgress').textContent = `Puzzle ${Math.min(progress + 1, 3)} of 3`;
+                
+                if (progress >= 3) {
+                    document.getElementById('completeMathBtn').style.display = 'block';
+                    document.getElementById('mathProgress').textContent = 'All ancient puzzles solved!';
+                }
+            } else {
+                document.getElementById('mathProgress').textContent = `Mystery ${Math.min(progress + 1, 3)} of 3`;
+                
+                if (progress >= 3) {
+                    document.getElementById('completeMathBtn').style.display = 'block';
+                    document.getElementById('mathProgress').textContent = 'All crystal mysteries solved!';
+                }
+            }
+        }
+
+        // Manual test function for debugging
+        function testRunes() {
+            console.log('=== MANUAL RUNE TEST ===');
+            console.log('runeCollections:', runeCollections);
+            console.log('gameState:', gameState);
+            
+            // Try to manually create runes for Wells
+            const wellsGrid = document.getElementById('wellsRuneGrid');
+            console.log('Wells grid:', wellsGrid);
+            
+            if (wellsGrid && runeCollections.wells) {
+                wellsGrid.innerHTML = '';
+                runeCollections.wells.forEach((rune, index) => {
+                    const slot = document.createElement('div');
+                    slot.className = 'rune-slot uncollected';
+                    slot.innerHTML = `
+                        <div class="rune-emoji">${rune.emoji}</div>
+                        <div class="rune-name">${rune.name}</div>
+                    `;
+                    wellsGrid.appendChild(slot);
+                });
+                console.log('Manually created Wells runes');
+            }
+            
+            // Try to manually create runes for Rou
+            const rouGrid = document.getElementById('rouRuneGrid');
+            console.log('Rou grid:', rouGrid);
+            
+            if (rouGrid && runeCollections.rou) {
+                rouGrid.innerHTML = '';
+                runeCollections.rou.forEach((rune, index) => {
+                    const slot = document.createElement('div');
+                    slot.className = 'rune-slot uncollected';
+                    slot.innerHTML = `
+                        <div class="rune-emoji">${rune.emoji}</div>
+                        <div class="rune-name">${rune.name}</div>
+                    `;
+                    rouGrid.appendChild(slot);
+                });
+                console.log('Manually created Rou runes');
+            }
+        }
+
+        function resetGameState() {
+            // Implement the logic to reset the game state
+            console.log('Resetting game state...');
+            gameState = {
+                wells: {
+                    currentDay: 1,
+                    currentRealm: 'Dawnbreak Expanse',
+                    irlCompleted: false,
+                    mathCompleted: false,
+                    mathProgress: 0,
+                    completedDays: [],
+                    collectedRunes: [] // Empty - true reset
+                },
+                rou: {
+                    currentDay: 1,
+                    currentRealm: 'Crystal Glade',
+                    irlCompleted: false,
+                    mathCompleted: false,
+                    mathProgress: 0,
+                    completedDays: [],
+                    collectedRunes: []
+                }
+            };
+            localStorage.removeItem('runeBearerGameState'); // Clear saved data too
+            saveGameState();
+            console.log('Game state reset successfully - all progress cleared');
+            alert('🔄 Game reset complete! All progress and runes cleared.');
+            updateRuneDisplay('wells');
+            updateRuneDisplay('rou');
+        }
+
+        function showGameState() {
+            console.log('Current game state:', gameState);
+            alert('Current game state:\n' + JSON.stringify(gameState, null, 2));
+        }
+
+        function completeWellsDay1() {
+            // Implement the logic to complete Wells' Day 1
+            console.log('Completing Wells Day 1...');
+            gameState.wells.currentDay = 1;
+            gameState.wells.irlCompleted = true;
+            gameState.wells.mathCompleted = true;
+            gameState.wells.mathProgress = 3;
+            gameState.wells.completedDays = [1];
+            gameState.wells.collectedRunes = ['Solar Scale'];
+            saveGameState();
+            console.log('Wells Day 1 completed');
+            updateRuneDisplay('wells');
+        }
+
+        function completeRouDay1() {
+            // Implement the logic to complete Rou's Day 1
+            console.log('Completing Rou Day 1...');
+            gameState.rou.currentDay = 1;
+            gameState.rou.irlCompleted = true;
+            gameState.rou.mathCompleted = true;
+            gameState.rou.mathProgress = 3;
+            gameState.rou.completedDays = [1];
+            gameState.rou.collectedRunes = ['Ice Shard'];
+            saveGameState();
+            console.log('Rou Day 1 completed');
+            updateRuneDisplay('rou');
+        }
+
+        function generateMissionButtons(content) {
+            const container = document.getElementById('mathMissionButtons');
+            container.innerHTML = ''; // Clear existing buttons
+            
+            // Update challenge title based on player
+            const challengeTitle = document.querySelector('#mathChallengeContent .challenge-title');
+            challengeTitle.textContent = content.mathChallenge.title;
+            
+            content.mathChallenge.missions.forEach((mission, index) => {
+                const missionNum = index + 1;
+                const playerData = gameState[currentPlayer];
+                
+                const button = document.createElement('button');
+                button.className = 'math-answer-btn';
+                button.id = `mission${missionNum}Btn`;
+                button.onclick = () => openMathQuestion(missionNum);
+                
+                // Extract emoji and title from mission.title
+                const missionTitle = mission.title;
+                button.innerHTML = missionTitle;
+                
+                // Set initial state based on progress
+                if (playerData.mathProgress >= missionNum) {
+                    // Completed
+                    button.style.opacity = '1';
+                    button.style.background = 'linear-gradient(135deg, var(--success-green), #16a34a)';
+                    button.style.borderColor = 'var(--success-green)';
+                    button.innerHTML = button.innerHTML.replace(/^[⭐💎🏛️🧊🎁]/, '✅');
+                    button.disabled = true;
+                    button.style.cursor = 'not-allowed';
+                } else if (missionNum === 1 || playerData.mathProgress >= missionNum - 1) {
+                    // Available
+                    button.style.opacity = '1';
+                    button.style.cursor = 'pointer';
+                    button.disabled = false;
+                } else {
+                    // Locked
+                    button.style.opacity = '0.5';
+                    button.style.cursor = 'not-allowed';
+                    button.disabled = true;
+                }
+                
+                container.appendChild(button);
+            });
+        }
     </script>
 </body>
-</html> 
+</html>

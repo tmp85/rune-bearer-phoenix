@@ -1,0 +1,9 @@
+# Sound Files Directory
+
+Optional sound effects:
+- success.mp3 (or .wav)
+- error.mp3 (or .wav)
+- rune_acquired.mp3 (or .wav)
+- pair_complete.mp3 (or .wav)
+
+The game will function without sound files - they enhance the experience but are not required for functionality. 
