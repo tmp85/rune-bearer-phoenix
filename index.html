@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏰 Rune Bearer Phoenix - Summer Challenge 🏰</title>
+    <script src="gameSchedule.js"></script>
     <style>
         /* Updated Color Palette */
         :root {
@@ -1505,8 +1506,8 @@
                     icon: '🌅',
                     artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
                     story: 'The golden sun rises through the sandstone arches. Ancient sun glyphs glow across the stone floor. The Rune Gate remains sealed. Five sun pillars must be activated to open the path.',
-                    baseRune: 'Solar Scale',
-                    runeIcon: '☀️',
+                    baseRune: null, // No rune awarded on Day 1
+                    runeIcon: null,
                     irlChallenge: {
                         title: 'Wells Day One Piano Melody',
                         icon: '🎹',
@@ -1561,7 +1562,7 @@
                     icon: '❄️',
                     artwork: 'assets/rooms/default_dungeon.png', // Placeholder
                     story: 'You step into the Crystal Glade. The cave floor sparkles with blue crystals. A tall ice gate blocks your path. The gate has three small slots that need crystals to open. Ice on the walls makes the floor slippery. Three wooden crates hold magic orbs that can help you. A frozen chest sits behind the gate, waiting for you to open it once the gate is free. The room feels cold and magical.',
-                    baseRune: 'Ice Shard',
+                    baseRune: 'Frost Fang', // Day 1 rune per official schedule
                     runeIcon: '❄️',
                     irlChallenge: {
                         title: 'No IRL Challenge',
@@ -1858,7 +1859,7 @@
             
             // Add the daily rune to collection
             const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
-            if (content) {
+            if (content && content.baseRune) {
                 addRuneToCollection(currentPlayer, content.baseRune);
             }
             
@@ -1868,7 +1869,18 @@
             const hasIRLChallenge = content.irlChallenge.type !== 'none';
             const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
             
-            alert(`🎉 Congratulations! You've completed Day ${gameState[currentPlayer].currentDay}!\n\n✨ Rune discovered: ${content.baseRune}\n\nCheck your rune collection below! Come back tomorrow for your next ${dayType}!`);
+            // Dynamic completion message based on whether a rune was awarded
+            let completionMessage = `🎉 Congratulations! You've completed Day ${gameState[currentPlayer].currentDay}!`;
+            
+            if (content.baseRune) {
+                completionMessage += `\n\n✨ Rune discovered: ${content.baseRune}\n\nCheck your rune collection below!`;
+            } else {
+                completionMessage += `\n\n🎯 Great progress! Keep up the excellent work!`;
+            }
+            
+            completionMessage += ` Come back tomorrow for your next ${dayType}!`;
+            
+            alert(completionMessage);
             
             saveGameState();
             closePlayerRoom();
@@ -2119,7 +2131,7 @@
             gameState.wells.mathCompleted = true;
             gameState.wells.mathProgress = 3;
             gameState.wells.completedDays = [1];
-            gameState.wells.collectedRunes = ['Solar Scale'];
+            gameState.wells.collectedRunes = []; // No rune on Day 1 per schedule
             saveGameState();
             console.log('Wells Day 1 completed');
             updateRuneDisplay('wells');
@@ -2133,7 +2145,7 @@
             gameState.rou.mathCompleted = true;
             gameState.rou.mathProgress = 3;
             gameState.rou.completedDays = [1];
-            gameState.rou.collectedRunes = ['Ice Shard'];
+            gameState.rou.collectedRunes = ['Frost Fang']; // Day 1 rune per schedule
             saveGameState();
             console.log('Rou Day 1 completed');
             updateRuneDisplay('rou');
