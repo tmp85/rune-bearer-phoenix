@@ -2118,6 +2118,224 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(100, 116, 139, 0.6);
         }
+
+        /* Rune Discovery Modal */
+        .rune-discovery-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2600;
+            overflow-y: auto;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .rune-discovery-content {
+            max-width: 500px;
+            margin: 8% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--primary-green);
+            animation: runeGlow 2s ease-in-out infinite alternate;
+        }
+
+        .rune-discovery-content.wells-theme {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 50px rgba(249, 115, 22, 0.8);
+        }
+
+        .rune-discovery-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.8);
+        }
+
+        @keyframes runeGlow {
+            from { 
+                box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 60px rgba(34, 197, 94, 1);
+                transform: scale(1.02);
+            }
+        }
+
+        .rune-discovery-header {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.1));
+            padding: 25px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .rune-discovery-header.wells-theme {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(249, 115, 22, 0.1));
+            border-bottom-color: rgba(249, 115, 22, 0.4);
+        }
+
+        .rune-discovery-header.rou-theme {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+            border-bottom-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .rune-discovery-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            animation: sparkle 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes sparkle {
+            from { 
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            }
+            to { 
+                transform: scale(1.1) rotate(5deg);
+                filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1));
+            }
+        }
+
+        .rune-discovery-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+        }
+
+        .rune-discovery-title.wells-theme {
+            color: var(--primary-orange);
+            text-shadow: 0 0 20px rgba(249, 115, 22, 0.8);
+        }
+
+        .rune-discovery-title.rou-theme {
+            color: var(--secondary-blue);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        }
+
+        .rune-discovery-body {
+            padding: 30px;
+        }
+
+        .discovered-rune {
+            background: rgba(0, 0, 0, 0.4);
+            border: 3px solid var(--primary-green);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            animation: runeReveal 0.8s ease-out;
+        }
+
+        .discovered-rune.wells-theme {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.5);
+        }
+
+        .discovered-rune.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5);
+        }
+
+        @keyframes runeReveal {
+            from { 
+                opacity: 0;
+                transform: scale(0.8) translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .discovered-rune-emoji {
+            font-size: 4em;
+            display: block;
+            margin-bottom: 15px;
+            animation: runeFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes runeFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .discovered-rune-name {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: var(--primary-green);
+            text-shadow: 0 0 15px rgba(34, 197, 94, 0.7);
+        }
+
+        .discovered-rune-name.wells-theme {
+            color: var(--primary-orange);
+            text-shadow: 0 0 15px rgba(249, 115, 22, 0.7);
+        }
+
+        .discovered-rune-name.rou-theme {
+            color: var(--secondary-blue);
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.7);
+        }
+
+        .rune-discovery-message {
+            font-size: 1.2em;
+            color: var(--gray-light);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .rune-discovery-continue {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .rune-discovery-continue.wells-theme {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            border-color: var(--primary-orange);
+        }
+
+        .rune-discovery-continue.rou-theme {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            border-color: var(--secondary-blue);
+        }
+
+        .rune-discovery-continue:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.6);
+        }
+
+        .rune-discovery-continue.wells-theme:hover {
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6);
+        }
+
+        .rune-discovery-continue.rou-theme:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
     </style>
 </head>
 <body>
@@ -2719,6 +2937,31 @@
         </div>
     </div>
 
+    <!-- Rune Discovery Modal -->
+    <div id="runeDiscoveryModal" class="rune-discovery-modal">
+        <div class="rune-discovery-content" id="runeDiscoveryContent">
+            <div class="rune-discovery-header" id="runeDiscoveryHeader">
+                <span class="rune-discovery-icon">✨</span>
+                <div class="rune-discovery-title">Rune Discovered!</div>
+            </div>
+            
+            <div class="rune-discovery-body">
+                <div class="discovered-rune">
+                    <span class="discovered-rune-emoji" id="discoveredRuneEmoji">💎</span>
+                    <div class="discovered-rune-name" id="discoveredRuneName">Frost Fang</div>
+                </div>
+                
+                <div class="rune-discovery-message">
+                    This powerful rune has been added to your collection!
+                </div>
+                
+                <button class="rune-discovery-continue" id="runeDiscoveryContinue" onclick="closeRuneDiscoveryModal()">
+                    Continue Adventure →
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Day Completion Modal -->
     <div id="dayCompletionModal" class="day-completion-modal">
         <div class="day-completion-content">
@@ -3278,28 +3521,41 @@
             gameState[currentPlayer].mathCompleted = true;
             gameState[currentPlayer].completedDays.push(gameState[currentPlayer].currentDay);
             
-            // Add the daily rune to collection
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
-            if (content && content.baseRune) {
-                addRuneToCollection(currentPlayer, content.baseRune);
+            // Check for rune reward from official schedule
+            const daySchedule = gameSchedule.schedule[`day${gameState[currentPlayer].currentDay}`];
+            const playerSchedule = daySchedule[currentPlayer];
+            const hasRune = playerSchedule.rune && playerSchedule.rune !== 'None';
+            
+            // Add the rune to collection if one is awarded
+            if (hasRune) {
+                addRuneToCollection(currentPlayer, playerSchedule.rune);
             }
             
             updateChallengeButtons();
             
             // Check if this is a math-only day
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
             const hasIRLChallenge = content.irlChallenge.type !== 'none';
             const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
             
             // Check for loot reward from official schedule
-            const daySchedule = gameSchedule.schedule[`day${gameState[currentPlayer].currentDay}`];
-            const playerSchedule = daySchedule[currentPlayer];
             const hasLoot = playerSchedule.loot && playerSchedule.loot !== 'None';
             
-            if (hasLoot) {
-                // Show loot modal, then return to main interface (no Quest Complete modal)
+            // Show rune discovery modal first if a rune was awarded
+            if (hasRune) {
+                showRuneDiscoveryModal(currentPlayer, playerSchedule.rune, () => {
+                    // After rune modal, show loot modal if applicable, otherwise return to main
+                    if (hasLoot) {
+                        showLootModal(currentPlayer, gameState[currentPlayer].currentDay, playerSchedule.loot);
+                    } else {
+                        closePlayerRoom();
+                    }
+                });
+            } else if (hasLoot) {
+                // Show loot modal, then return to main interface
                 showLootModal(currentPlayer, gameState[currentPlayer].currentDay, playerSchedule.loot);
-                } else {
-                // No loot - return directly to main interface
+            } else {
+                // No rune or loot - return directly to main interface
                 closePlayerRoom();
             }
             
@@ -3853,6 +4109,67 @@
                     updateRuneDisplay('rou');
                 }
             );
+        }
+
+        // Rune Discovery Modal Functions
+        function showRuneDiscoveryModal(player, runeName, onContinue) {
+            // Find the rune data from the collections
+            const rune = runeCollections[player].find(r => r.name === runeName);
+            if (!rune) {
+                console.error(`Rune not found: ${runeName} for player ${player}`);
+                return;
+            }
+
+            const modal = document.getElementById('runeDiscoveryModal');
+            const content = document.getElementById('runeDiscoveryContent');
+            const header = document.getElementById('runeDiscoveryHeader');
+            const title = document.querySelector('.rune-discovery-title');
+            const runeElement = document.querySelector('.discovered-rune');
+            const runeNameElement = document.getElementById('discoveredRuneName');
+            const continueBtn = document.getElementById('runeDiscoveryContinue');
+
+            // Set rune details
+            document.getElementById('discoveredRuneEmoji').textContent = rune.emoji;
+            document.getElementById('discoveredRuneName').textContent = rune.name;
+
+            // Apply player-specific theming
+            const themeClass = `${player}-theme`;
+            
+            // Remove existing theme classes
+            content.classList.remove('wells-theme', 'rou-theme');
+            header.classList.remove('wells-theme', 'rou-theme');
+            title.classList.remove('wells-theme', 'rou-theme');
+            runeElement.classList.remove('wells-theme', 'rou-theme');
+            runeNameElement.classList.remove('wells-theme', 'rou-theme');
+            continueBtn.classList.remove('wells-theme', 'rou-theme');
+
+            // Add current player's theme
+            content.classList.add(themeClass);
+            header.classList.add(themeClass);
+            title.classList.add(themeClass);
+            runeElement.classList.add(themeClass);
+            runeNameElement.classList.add(themeClass);
+            continueBtn.classList.add(themeClass);
+
+            // Set continue action
+            continueBtn.onclick = () => {
+                closeRuneDiscoveryModal();
+                if (onContinue) onContinue();
+            };
+
+            // Show the modal with animation
+            modal.style.display = 'block';
+            
+            // Add a slight delay for better visual effect
+            setTimeout(() => {
+                modal.classList.add('active');
+            }, 50);
+        }
+
+        function closeRuneDiscoveryModal() {
+            const modal = document.getElementById('runeDiscoveryModal');
+            modal.style.display = 'none';
+            modal.classList.remove('active');
         }
     </script>
 </body>
