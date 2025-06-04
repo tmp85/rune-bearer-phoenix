@@ -189,8 +189,6 @@
                 class="intro-video" 
                 preload="auto"
                 playsinline
-                controls
-                muted
                 style="display: none;"
             >
                 <source src="assets/videos/rune_bearers_intro_01-RUNE MPEG-4.mp4" type="video/mp4">
@@ -233,20 +231,11 @@
             loadingIndicator.style.display = 'none';
             video.style.display = 'block';
             
-            // Start with muted autoplay (better browser support)
-            video.muted = true;
-            const playPromise = video.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log('Video auto-play (muted) started');
-                    updatePlayPauseIcon();
-                    showUnmutePrompt();
-                }).catch((error) => {
-                    console.log('Auto-play failed, showing manual play prompt');
-                    showPlayPrompt();
-                });
-            }
+            // Start paused at first frame
+            video.currentTime = 0;
+            video.pause();
+            updatePlayPauseIcon();
+            showPlayPrompt();
         });
 
         video.addEventListener('error', function() {
@@ -266,61 +255,58 @@
         video.addEventListener('play', updatePlayPauseIcon);
         video.addEventListener('pause', updatePlayPauseIcon);
 
-        // Click to toggle play/pause (updated to handle audio)
-        video.addEventListener('click', function() {
+        // Simple click to toggle play/pause
+        video.addEventListener('click', function(e) {
+            e.preventDefault();
+            togglePlayPause();
+        });
+
+        // Touch support for mobile
+        video.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            togglePlayPause();
+        });
+
+        // Also handle clicks on the overlay
+        document.getElementById('videoOverlay').addEventListener('click', function(e) {
+            e.preventDefault();
+            togglePlayPause();
+        });
+
+        // Touch support for overlay
+        document.getElementById('videoOverlay').addEventListener('touchend', function(e) {
+            e.preventDefault();
+            togglePlayPause();
+        });
+
+        function togglePlayPause() {
             if (video.paused) {
-                // Ensure video is unmuted when user clicks
-                video.muted = false;
-                const playPromise = video.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        console.log('Video playing with audio after user interaction');
-                        // Hide the prominent play prompt
-                        document.getElementById('videoOverlay').style.opacity = '0';
-                        document.getElementById('videoOverlay').style.pointerEvents = 'none';
-                        playPauseIcon.style.animation = 'none';
-                        playPauseIcon.style.fontSize = '4em';
-                    }).catch((error) => {
-                        console.log('Playback failed:', error);
-                    });
-                }
+                video.play();
+                hideOverlay();
             } else {
-                // If playing, either unmute or pause
-                if (video.muted) {
-                    video.muted = false;
-                    console.log('Video unmuted');
-                    document.getElementById('videoOverlay').style.opacity = '0';
-                    document.getElementById('videoOverlay').style.pointerEvents = 'none';
-                } else {
-                    video.pause();
-                }
+                video.pause();
+                showPlayPrompt();
             }
             updatePlayPauseIcon();
-        });
+        }
 
         function updatePlayPauseIcon() {
             if (video.paused) {
                 playPauseIcon.textContent = '▶️';
             } else {
-                if (video.muted) {
-                    playPauseIcon.textContent = '🔊'; // Show unmute icon when playing muted
-                } else {
-                    playPauseIcon.textContent = '⏸️'; // Show pause when playing with audio
-                }
+                playPauseIcon.textContent = '⏸️';
             }
         }
 
         function showPlayPrompt() {
-            // Update the play icon to make it more prominent
-            playPauseIcon.textContent = '🔊▶️';
+            // Make the overlay visible with play icon
+            playPauseIcon.textContent = '▶️';
             playPauseIcon.style.fontSize = '5em';
             
-            // Make the overlay visible to prompt user interaction
             document.getElementById('videoOverlay').style.opacity = '1';
             document.getElementById('videoOverlay').style.pointerEvents = 'auto';
             
-            // Add a subtle pulsing animation to draw attention
+            // Add subtle pulsing animation
             playPauseIcon.style.animation = 'pulse 2s infinite';
             
             // Add the pulse animation CSS if it doesn't exist
@@ -338,22 +324,11 @@
             }
         }
 
-        function showUnmutePrompt() {
-            // Show unmute icon to indicate video is playing but muted
-            playPauseIcon.textContent = '🔊';
-            playPauseIcon.style.fontSize = '4em';
-            
-            // Make overlay visible with unmute prompt
-            document.getElementById('videoOverlay').style.opacity = '0.8';
-            document.getElementById('videoOverlay').style.pointerEvents = 'auto';
-            
-            // Auto-hide after 3 seconds
-            setTimeout(() => {
-                if (!video.paused) {
-                    document.getElementById('videoOverlay').style.opacity = '0';
-                    document.getElementById('videoOverlay').style.pointerEvents = 'none';
-                }
-            }, 3000);
+        function hideOverlay() {
+            // Hide overlay when playing
+            document.getElementById('videoOverlay').style.opacity = '0';
+            document.getElementById('videoOverlay').style.pointerEvents = 'none';
+            playPauseIcon.style.animation = 'none';
         }
 
         // Fallback: if video doesn't load within 10 seconds, redirect
@@ -369,17 +344,15 @@
             if (e.code === 'Space') {
                 e.preventDefault();
                 if (video.paused) {
-                    video.muted = false; // Ensure audio is enabled
                     video.play();
+                    hideOverlay();
                 } else {
                     video.pause();
+                    showPlayPrompt();
                 }
+                updatePlayPauseIcon();
             } else if (e.code === 'Escape') {
                 goToGame();
-            } else if (e.code === 'KeyM') {
-                // Toggle mute with 'M' key
-                video.muted = !video.muted;
-                console.log('Video muted:', video.muted);
             }
         });
     </script>
