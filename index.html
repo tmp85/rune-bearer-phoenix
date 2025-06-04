@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🏰 Rune Bearer Phoenix - Summer Challenge 🏰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
     <script src="gameSchedule.js"></script>
     <style>
         /* Updated Color Palette */
@@ -27,6 +30,11 @@
         body {
             font-family: 'Arial', sans-serif;
             background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            background-image: url('assets/backgrounds/RuWg9QG2E9Z5L3trxaTX--0--eyvrg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             color: #fff;
             min-height: 100vh;
             overflow-x: auto;
@@ -35,17 +43,22 @@
         .game-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 10px;
+            padding: 20px 10px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
         }
 
         .header {
             text-align: center;
             padding: 30px;
             background: rgba(31, 41, 55, 0.95);
-            border: 3px solid var(--primary-green);
+            border: 3px solid #fbbf24;
             border-radius: 20px;
             margin-bottom: 30px;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
             position: relative;
         }
 
@@ -56,19 +69,20 @@
             left: -3px;
             right: -3px;
             bottom: -3px;
-            background: linear-gradient(45deg, var(--primary-green), var(--primary-orange), var(--secondary-blue));
+            background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706);
             border-radius: 20px;
             z-index: -1;
             opacity: 0.3;
         }
 
         .header h1 {
+            font-family: 'Cinzel', serif;
             font-size: 2.8em;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
             margin-bottom: 10px;
-            font-weight: bold;
-            color: var(--primary-green);
-            background: linear-gradient(45deg, var(--primary-green), #4ade80, var(--primary-green));
+            font-weight: 600;
+            color: #fbbf24;
+            background: linear-gradient(45deg, #fbbf24, #fcd34d, #fbbf24);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -83,9 +97,12 @@
 
         .main-layout {
             display: grid;
-            grid-template-columns: 280px 1fr 280px;
+            grid-template-columns: 280px 400px 280px;
             gap: 25px;
             margin-bottom: 30px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1010px;
         }
 
         .player-card {
@@ -144,6 +161,15 @@
             font-size: 52px;
             border: 4px solid;
             transition: all 0.3s ease;
+            overflow: hidden; /* Ensures image stays within circular bounds */
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
         }
 
         .wells-avatar {
@@ -171,6 +197,7 @@
         }
 
         .current-room {
+            font-family: 'Almendra', serif;
             font-size: 1.3em;
             opacity: 0.9;
             margin-bottom: 12px;
@@ -189,12 +216,12 @@
         /* Center Content Area */
         .center-content {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: center;
             background: rgba(31, 41, 55, 0.95);
             border: 3px solid var(--gray-dark);
             border-radius: 20px;
-            padding: 30px;
+            padding: 5px;
             transition: all 0.3s ease;
         }
 
@@ -251,41 +278,78 @@
         }
 
         .room-header {
-            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
-            border: 3px solid var(--primary-green);
             border-radius: 15px;
             padding: 20px;
             text-align: center;
-            margin-bottom: 20px;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+            margin: 0 auto 20px auto;
+            max-width: 600px;
+        }
+
+        /* Wells room header (orange theme) */
+        .room-header.wells-theme {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(249, 115, 22, 0.1));
+            border: 3px solid var(--primary-orange);
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Rou room header (blue theme) */
+        .room-header.rou-theme {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+            border: 3px solid var(--secondary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
         }
 
         .room-title {
+            font-family: 'Cinzel', serif;
             font-size: 2em;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            font-weight: bold;
-            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        /* Wells room title (orange) */
+        .room-title.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        /* Rou room title (blue) */
+        .room-title.rou-theme {
+            color: var(--secondary-blue);
         }
 
         .room-subtitle {
+            font-family: 'Cinzel', serif;
             font-size: 1.2em;
             color: #f59e0b;
             margin-bottom: 15px;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         .room-artwork {
             width: 100%;
-            max-height: 400px;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;
             object-fit: cover;
             border-radius: 15px;
-            margin-bottom: 20px;
-            border: 3px solid var(--primary-green);
-            box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+            margin: 0 auto 20px auto;
+            border: 3px solid;
+            box-shadow: 0 0 20px;
+            display: block;
+        }
+
+        /* Wells artwork border (orange theme) */
+        .room-artwork.wells-theme {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Rou artwork border (blue) */
+        .room-artwork.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
         }
 
         .story-section {
@@ -296,17 +360,20 @@
             border-radius: 0 10px 10px 0;
             font-style: italic;
             line-height: 1.6;
-            font-size: 1.1em;
+            font-size: 1.9em;
         }
 
         .challenges-section {
             display: flex;
+            flex-direction: column;
             gap: 15px;
             margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .challenge-btn {
-            flex: 1;
             padding: 18px 24px;
             border: none;
             border-radius: 12px;
@@ -319,6 +386,7 @@
             justify-content: center;
             gap: 10px;
             border: 2px solid transparent;
+            width: 100%;
         }
 
         .irl-challenge-btn {
@@ -364,11 +432,23 @@
         /* Challenge Content Sections */
         .challenge-content {
             display: none;
-            background: rgba(0,0,0,0.7);
-            border: 2px solid var(--primary-green);
             border-radius: 15px;
             padding: 20px;
-            margin-top: 20px;
+            margin: 20px auto 20px auto;
+            max-width: 600px;
+            border: 2px solid;
+        }
+
+        /* Wells challenge content (orange theme) */
+        .challenge-content.wells-theme {
+            background: rgba(0,0,0,0.7);
+            border-color: var(--primary-orange);
+        }
+
+        /* Rou challenge content (blue theme) */
+        .challenge-content.rou-theme {
+            background: rgba(0,0,0,0.7);
+            border-color: var(--secondary-blue);
         }
 
         .challenge-content.active {
@@ -389,29 +469,46 @@
         }
 
         .challenge-title {
+            font-family: 'Cinzel', serif;
             font-size: 1.5em;
-            font-weight: bold;
-            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        /* Wells challenge title (orange) */
+        .challenge-title.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        /* Rou challenge title (blue) */
+        .challenge-title.rou-theme {
+            color: var(--secondary-blue);
         }
 
         .close-btn {
-            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
-            color: white;
-            border: 2px solid var(--gray-medium);
-            padding: 15px 30px;
-            border-radius: 12px;
+            background: rgba(55, 65, 81, 0.6);
+            color: rgba(156, 163, 175, 0.8);
+            border: 1px solid rgba(156, 163, 175, 0.4);
+            padding: 8px 20px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1.1em;
-            font-weight: bold;
+            font-size: 0.9em;
+            font-weight: normal;
             margin-top: 20px;
-            width: 100%;
+            width: auto;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
             transition: all 0.3s ease;
+            opacity: 0.7;
         }
 
         .close-btn:hover {
-            background: linear-gradient(135deg, var(--gray-medium), var(--gray-light));
-            color: var(--gray-darker);
-            transform: translateY(-1px);
+            background: rgba(55, 65, 81, 0.8);
+            color: rgba(156, 163, 175, 1);
+            border-color: rgba(156, 163, 175, 0.6);
+            opacity: 1;
+            transform: none;
         }
 
         /* Piano Challenge Styles */
@@ -564,11 +661,24 @@
             
             .challenges-section {
                 flex-direction: column;
+                max-width: 100%;
+                padding: 0 10px;
             }
             
             .room-content {
                 margin: 10px;
                 padding: 15px;
+            }
+
+            .room-header {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            .room-title {
+                font-size: 1.6em;
+                flex-direction: column;
+                gap: 5px;
             }
         }
 
@@ -598,6 +708,7 @@
         }
 
         .piano-modal-header {
+            font-family: 'Cinzel', serif;
             font-size: 2.2em;
             margin-bottom: 20px;
             color: var(--primary-green);
@@ -605,7 +716,7 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .piano-story-context {
@@ -705,32 +816,67 @@
             margin: 5% auto;
             padding: 40px;
             background: rgba(31, 41, 55, 0.95);
-            border: 3px solid var(--primary-green);
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
             position: relative;
+            border: 3px solid;
+            box-shadow: 0 0 30px;
+        }
+
+        /* Wells math question content (green theme) */
+        .math-question-content.wells-theme {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Rou math question content (blue theme) */
+        .math-question-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
         }
 
         .math-question-header {
+            font-family: 'Cinzel', serif;
             font-size: 2em;
             margin-bottom: 20px;
-            color: var(--primary-green);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 15px;
-            font-weight: bold;
+            font-weight: 600;
+        }
+
+        /* Wells math question header (green) */
+        .math-question-header.wells-theme {
+            color: var(--primary-green);
+        }
+
+        /* Rou math question header (blue) */
+        .math-question-header.rou-theme {
+            color: var(--secondary-blue);
         }
 
         .math-story-context {
-            background: rgba(34, 197, 94, 0.15);
-            border: 2px solid rgba(34, 197, 94, 0.3);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
             font-style: italic;
             line-height: 1.6;
+            font-size: 1.5em;
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid;
+        }
+
+        /* Wells math story context (green theme) */
+        .math-story-context.wells-theme {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        /* Rou math story context (blue theme) */
+        .math-story-context.rou-theme {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
         }
 
         .math-problem-display {
@@ -804,18 +950,31 @@
             margin: 5% auto;
             padding: 30px;
             background: white;
-            border: 3px solid var(--primary-green);
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
             color: #333;
+            border: 3px solid;
+            box-shadow: 0 0 30px;
+        }
+
+        /* Wells number input content (green theme) */
+        .number-input-content.wells-theme {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Rou number input content (blue theme) */
+        .number-input-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
         }
 
         .number-input-header {
+            font-family: 'Cinzel', serif;
             font-size: 1.8em;
             margin-bottom: 20px;
             color: var(--gray-darker);
-            font-weight: bold;
+            font-weight: 600;
         }
 
         .number-question-text {
@@ -848,24 +1007,36 @@
         }
 
         .number-btn {
-            background: linear-gradient(135deg, var(--primary-green), #16a34a);
             color: white;
-            border: 2px solid var(--primary-green);
             padding: 15px;
             border-radius: 12px;
             font-size: 1.5em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s ease;
+            border: 2px solid;
         }
 
-        .number-btn:hover {
+        /* Wells number buttons (green theme) */
+        .number-btn.wells-theme {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            border-color: var(--primary-green);
+        }
+
+        .number-btn.wells-theme:hover {
             background: linear-gradient(135deg, #16a34a, #15803d);
             transform: translateY(-1px);
         }
 
-        .number-btn:active {
-            transform: translateY(0);
+        /* Rou number buttons (blue theme) */
+        .number-btn.rou-theme {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            border-color: var(--secondary-blue);
+        }
+
+        .number-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
         }
 
         .number-zero {
@@ -934,7 +1105,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 0px;
         }
 
         .main-logo {
@@ -942,15 +1113,15 @@
             max-height: 280px;
             object-fit: contain;
             border-radius: 15px;
-            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
-            border: 2px solid rgba(34, 197, 94, 0.4);
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.3);
+            border: 2px solid rgba(251, 191, 36, 0.4);
             transition: all 0.4s ease;
         }
 
         .center-content:hover .main-logo {
             transform: scale(1.02);
-            box-shadow: 0 0 35px rgba(34, 197, 94, 0.5);
-            border-color: var(--primary-green);
+            box-shadow: 0 0 35px rgba(251, 191, 36, 0.5);
+            border-color: #fbbf24;
         }
 
         /* Loot Discovery Modal */
@@ -986,8 +1157,9 @@
         }
 
         .loot-title {
+            font-family: 'Cinzel', serif;
             font-size: 2.2em;
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary-green);
             margin-bottom: 10px;
             display: flex;
@@ -1017,8 +1189,9 @@
         }
 
         .loot-subtitle {
+            font-family: 'Cinzel', serif;
             font-size: 1.8em;
-            font-weight: bold;
+            font-weight: 600;
             color: #ffd700;
             margin-bottom: 15px;
         }
@@ -1039,8 +1212,9 @@
         }
 
         .loot-rarity-title {
+            font-family: 'Cinzel', serif;
             font-size: 1.4em;
-            font-weight: bold;
+            font-weight: 600;
             color: var(--primary-green);
             margin-bottom: 10px;
             display: flex;
@@ -1091,10 +1265,11 @@
         }
 
         .rune-collection-header {
+            font-family: 'Almendra', serif;
             text-align: center;
             margin-bottom: 15px;
             font-size: 1.2em;
-            font-weight: bold;
+            font-weight: 700;
             color: var(--primary-green);
             border-bottom: 2px solid rgba(34, 197, 94, 0.3);
             padding-bottom: 10px;
@@ -1285,6 +1460,664 @@
         .admin-intro {
             right: 15px;
         }
+
+        /* Rune Reward Key Section */
+        .rune-reward-key {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .rune-reward-key:hover {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .reward-key-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .reward-key-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .reward-key-subtitle {
+            font-size: 1.1em;
+            opacity: 0.8;
+            color: var(--gray-light);
+            font-style: italic;
+        }
+
+        .reward-key-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .reward-entry {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-entry:hover {
+            transform: translateY(-2px);
+            border-color: rgba(34, 197, 94, 0.5);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.2);
+        }
+
+        .reward-entry.completed {
+            opacity: 0.6;
+            border-color: var(--success-green);
+            background: rgba(34, 197, 94, 0.1);
+        }
+
+        .reward-entry.completed::after {
+            content: '✅';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 1em;
+        }
+
+        .reward-day {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fbbf24;
+            text-align: center;
+        }
+
+        .reward-runes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .reward-rune {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            min-width: 80px;
+        }
+
+        .reward-rune:hover {
+            transform: scale(1.1);
+        }
+
+        /* Wells reward rune styling (orange theme) */
+        .reward-rune.wells-reward {
+            background: rgba(249, 115, 22, 0.15);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+        }
+
+        .reward-rune.wells-reward:hover {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        }
+
+        .reward-rune.wells-reward .rune-name {
+            color: var(--primary-orange);
+        }
+
+        /* Rou reward rune styling (blue theme) */
+        .reward-rune.rou-reward {
+            background: rgba(59, 130, 246, 0.15);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .reward-rune.rou-reward:hover {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .reward-rune.rou-reward .rune-name {
+            color: var(--secondary-blue);
+        }
+
+        .rune-icon {
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .rune-name {
+            font-size: 0.9em;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .reward-arrow {
+            font-size: 1.8em;
+            color: var(--primary-green);
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.7; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+
+        .reward-description {
+            font-size: 0.95em;
+            opacity: 0.8;
+            color: var(--gray-light);
+            text-align: center;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* Responsive design for reward key */
+        @media (max-width: 768px) {
+            .reward-key-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .reward-entry {
+                padding: 15px;
+            }
+            
+            .reward-runes {
+                gap: 10px;
+            }
+            
+            .rune-icon {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Audio Help Button Styles */
+        .audio-help-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .audio-help-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            border: 2px solid var(--primary-green);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-help-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+            border-color: #22c55e;
+        }
+
+        .audio-help-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .audio-help-btn.playing {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            border-color: var(--primary-orange);
+            animation: audioPlaying 2s ease-in-out infinite alternate;
+        }
+
+        .audio-help-btn.playing:hover {
+            background: linear-gradient(135deg, #ea580c, #dc2626);
+        }
+
+        @keyframes audioPlaying {
+            from { 
+                box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 25px rgba(249, 115, 22, 0.7);
+                transform: scale(1.02);
+            }
+        }
+
+        .audio-icon {
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+        }
+
+        .audio-help-btn.playing .audio-icon {
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+
+        .audio-text {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+        }
+
+        /* Responsive design for audio button */
+        @media (max-width: 768px) {
+            .audio-help-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .audio-icon {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Success Message Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2500;
+            overflow-y: auto;
+        }
+
+        .success-modal-content {
+            max-width: 500px;
+            margin: 8% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--primary-green);
+        }
+
+        .success-modal-content.wells-theme {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 50px rgba(249, 115, 22, 0.8);
+        }
+
+        .success-modal-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.8);
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.1));
+            padding: 25px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .success-header.wells-theme {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(249, 115, 22, 0.1));
+            border-bottom-color: rgba(249, 115, 22, 0.4);
+        }
+
+        .success-header.rou-theme {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+            border-bottom-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .success-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            animation: successGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes successGlow {
+            from { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+            to { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1)); }
+        }
+
+        .success-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+        }
+
+        .success-title.wells-theme {
+            color: var(--primary-orange);
+            text-shadow: 0 0 20px rgba(249, 115, 22, 0.8);
+        }
+
+        .success-title.rou-theme {
+            color: var(--secondary-blue);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        }
+
+        .success-content {
+            padding: 30px;
+        }
+
+        .success-message {
+            font-size: 1.2em;
+            color: var(--gray-light);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .success-continue-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .success-continue-btn.wells-theme {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            border-color: var(--primary-orange);
+        }
+
+        .success-continue-btn.rou-theme {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            border-color: var(--secondary-blue);
+        }
+
+        .success-continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.6);
+        }
+
+        .success-continue-btn.wells-theme:hover {
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6);
+        }
+
+        .success-continue-btn.rou-theme:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        /* Day Completion Modal */
+        .day-completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2500;
+            overflow-y: auto;
+        }
+
+        .day-completion-content {
+            max-width: 450px;
+            margin: 12% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #ffd700;
+            animation: modalGlow 2s ease-in-out infinite alternate;
+        }
+
+        .day-completion-header {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.1));
+            padding: 20px;
+            border-bottom: 3px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .completion-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        .completion-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin: 0;
+        }
+
+        .day-completion-body {
+            padding: 30px 25px;
+        }
+
+        .completion-location {
+            font-size: 1.1em;
+            color: #e5e7eb;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .completion-tasks {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95em;
+            color: #e5e7eb;
+        }
+
+        .task-check {
+            font-size: 1.2em;
+            filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.8));
+        }
+
+        .completion-rune {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .rune-discovery {
+            text-align: center;
+        }
+
+        .rune-found-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2em;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .rune-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .rune-icon {
+                font-size: 2em;
+            filter: drop-shadow(0 0 10px rgba(34, 197, 94, 1));
+        }
+
+        .rune-name {
+            font-size: 1.1em;
+            color: #e5e7eb;
+            font-weight: bold;
+        }
+
+        .day-completion-continue {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1f2937;
+            border: 3px solid #ffd700;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+        }
+
+        .day-completion-continue:hover {
+            background: linear-gradient(135deg, #ffed4e, #fbbf24);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Completion Confirmation Modal */
+        .completion-confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            overflow-y: auto;
+        }
+
+        .completion-confirm-content {
+            max-width: 450px;
+            margin: 12% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #a855f7;
+            animation: modalGlow 2s ease-in-out infinite alternate;
+        }
+
+        .completion-confirm-header {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            padding: 20px;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .completion-confirm-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        .completion-confirm-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin: 0;
+        }
+
+        .completion-confirm-body {
+            padding: 30px 25px;
+        }
+
+        .completion-confirm-message {
+            font-size: 1.1em;
+            color: #e5e7eb;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .completion-confirm-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .completion-confirm-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 12px;
+            font-family: 'Cinzel', serif;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            min-width: 100px;
+        }
+
+        .completion-confirm-yes {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .completion-confirm-yes:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.6);
+        }
+
+        .completion-confirm-no {
+            background: linear-gradient(135deg, #64748b, #475569);
+            color: white;
+            box-shadow: 0 4px 15px rgba(100, 116, 139, 0.4);
+        }
+
+        .completion-confirm-no:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 116, 139, 0.6);
+        }
     </style>
 </head>
 <body>
@@ -1294,12 +2127,13 @@
             <!-- Wells Player Card -->
             <div>
                 <div class="player-card wells-card" onclick="openPlayerRoom('wells')">
-                    <div class="avatar wells-avatar">🧙‍♂️</div>
-                    <div class="player-name">Wells</div>
+                    <div class="avatar wells-avatar">
+                        <img src="assets/avatars/wells_avatar.png" alt="Wells Avatar" class="avatar-image">
+            </div>
                     <div class="current-room">🌅 Dawnbreak Expanse</div>
                     <div class="day-info">Day 1 • Hall of Harmonies</div>
-                </div>
-                
+        </div>
+
                 <!-- Wells Rune Collection -->
                 <div class="rune-collection wells-runes">
                     <div class="rune-collection-header">Wells' Runes</div>
@@ -1314,23 +2148,354 @@
                 <div class="logo-container">
                     <img src="assets/lore/rune-bearers-logo.jpg" alt="Rune Bearers Logo" class="main-logo">
                 </div>
-            </div>
+                </div>
                 
             <!-- Rou Player Card -->
             <div>
                 <div class="player-card rou-card" onclick="openPlayerRoom('rou')">
-                    <div class="avatar rou-avatar">🧝‍♀️</div>
-                    <div class="player-name">Rou</div>
+                    <div class="avatar rou-avatar">
+                        <img src="assets/avatars/rou_avatar.png" alt="Rou Avatar" class="avatar-image">
+                </div>
                     <div class="current-room">❄️ Crystal Glade</div>
                     <div class="day-info">Day 1 • Entry Cavern</div>
-                </div>
-                
+            </div>
+
                 <!-- Rou Rune Collection -->
                 <div class="rune-collection rou-runes">
                     <div class="rune-collection-header">Rou's Runes</div>
                     <div class="rune-grid" id="rouRuneGrid">
                         <!-- Runes will be generated dynamically -->
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rune Reward Key Section -->
+        <div class="rune-reward-key">
+            <div class="reward-key-header">
+                <div class="reward-key-title">🏆 Rune Reward Key</div>
+                <div class="reward-key-subtitle">Complete daily challenges to earn these powerful runes</div>
+            </div>
+            
+            <div class="reward-key-grid">
+                <!-- Ember Fang + Frost Fang -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🔥</span>
+                            <span class="rune-name">Ember Fang</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">❄️</span>
+                            <span class="rune-name">Frost Fang</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🍦 Ice cream treat</div>
+        </div>
+
+                <!-- Sky Feather + Mist Weaver -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🪶</span>
+                            <span class="rune-name">Sky Feather</span>
+            </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🌫️</span>
+                            <span class="rune-name">Mist Weaver</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🎮 Big Helmet Heroes game</div>
+                </div>
+
+                <!-- Iron Root + Stone Wing -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🌿</span>
+                            <span class="rune-name">Iron Root</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🪨</span>
+                            <span class="rune-name">Stone Wing</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🧱 Lego kit + custom mini-figure</div>
+                </div>
+
+                <!-- Tide Pearl + River Scale -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🔮</span>
+                            <span class="rune-name">Tide Pearl</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🐟</span>
+                            <span class="rune-name">River Scale</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🍭 Popsicles at the pool</div>
+                </div>
+
+                <!-- Shadow Paw + Phantom Cloak -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🐾</span>
+                            <span class="rune-name">Shadow Paw</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">👻</span>
+                            <span class="rune-name">Phantom Cloak</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🕹️ Visit to arcade</div>
+                </div>
+
+                <!-- Thunder Eye + Storm Fang -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">⚡</span>
+                            <span class="rune-name">Thunder Eye</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">⚡</span>
+                            <span class="rune-name">Storm Fang</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">📺 30 min extra screen time</div>
+                </div>
+
+                <!-- Solar Scale + Star Prism -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">☀️</span>
+                            <span class="rune-name">Solar Scale</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">⭐</span>
+                            <span class="rune-name">Star Prism</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🎬 Choose next family movie</div>
+                </div>
+
+                <!-- Lunar Mirror + Shadow Lens -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🌙</span>
+                            <span class="rune-name">Lunar Mirror</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🔍</span>
+                            <span class="rune-name">Shadow Lens</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🌙 Stay-up-late pass</div>
+                </div>
+
+                <!-- Crystal Spine + Iron Bark -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">💎</span>
+                            <span class="rune-name">Crystal Spine</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🌳</span>
+                            <span class="rune-name">Iron Bark</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">📚 Pick a new book</div>
+                </div>
+
+                <!-- Stormcaller Sigil + Frozen Bloom -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">⛈️</span>
+                            <span class="rune-name">Stormcaller Sigil</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🌺</span>
+                            <span class="rune-name">Frozen Bloom</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">⛳ Mini-golf with Happy Grandpa</div>
+                </div>
+
+                <!-- Blazing Antler + Molten Seed -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🔥</span>
+                            <span class="rune-name">Blazing Antler</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🌱</span>
+                            <span class="rune-name">Molten Seed</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🍕 Build-your-own pizza night</div>
+                </div>
+
+                <!-- Whisper Branch + Thunder Fang -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🌿</span>
+                            <span class="rune-name">Whisper Branch</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">⚡</span>
+                            <span class="rune-name">Thunder Fang</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🪙 Minecraft coins</div>
+                </div>
+
+                <!-- Molten Shard + Skyborn Leaf -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🔶</span>
+                            <span class="rune-name">Molten Shard</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🍃</span>
+                            <span class="rune-name">Skyborn Leaf</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🔫 Nerf war</div>
+                </div>
+
+                <!-- Windrunner Crest + Mooncap -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🌪️</span>
+                            <span class="rune-name">Windrunner Crest</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🍄</span>
+                            <span class="rune-name">Mooncap</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🎮 Family video game session</div>
+                </div>
+
+                <!-- Glowcap + Glacier Heart -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🍄</span>
+                            <span class="rune-name">Glowcap</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">💙</span>
+                            <span class="rune-name">Glacier Heart</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🥞 Breakfast choice pass</div>
+                </div>
+
+                <!-- Obsidian Heart + Moonfire Bloom -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🖤</span>
+                            <span class="rune-name">Obsidian Heart</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🌙</span>
+                            <span class="rune-name">Moonfire Bloom</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🍨 Custom Ice Cream Sundae Party</div>
+                </div>
+
+                <!-- Sunfire Crest + Stormpetal Veil -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">☀️</span>
+                            <span class="rune-name">Sunfire Crest</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🌸</span>
+                            <span class="rune-name">Stormpetal Veil</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🎲 Board game night pick</div>
+                </div>
+
+                <!-- Zephyr Bloom + Ironclad Husk -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🌸</span>
+                            <span class="rune-name">Zephyr Bloom</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🛡️</span>
+                            <span class="rune-name">Ironclad Husk</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🥐 Pangea Pastry Quest</div>
+                </div>
+
+                <!-- Deepstone Shell + Frostthorn Crown -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">🐚</span>
+                            <span class="rune-name">Deepstone Shell</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">👑</span>
+                            <span class="rune-name">Frostthorn Crown</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🥞 Breakfast for Dinner Choice</div>
+                </div>
+
+                <!-- Emberthorn Crown + Ember Seed -->
+                <div class="reward-entry">
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward">
+                            <span class="rune-icon">👑</span>
+                            <span class="rune-name">Emberthorn Crown</span>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward">
+                            <span class="rune-icon">🔥</span>
+                            <span class="rune-name">Ember Seed</span>
+                        </div>
+                    </div>
+                    <div class="reward-description">🎯 Nerf target contest</div>
                 </div>
             </div>
         </div>
@@ -1348,7 +2513,7 @@
                 </div>
                 <div class="room-subtitle" id="roomSubtitle">Hall of Harmonies</div>
             </div>
-
+            
             <!-- Room Artwork -->
             <img id="roomArtwork" class="room-artwork" src="assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png" alt="Room Artwork">
 
@@ -1356,7 +2521,7 @@
             <div class="story-section" id="storyText">
                 The golden sun rises through the sandstone arches. Ancient sun glyphs glow across the stone floor. The Rune Gate remains sealed. Five sun pillars must be activated to open the path.
             </div>
-
+            
             <!-- Challenge Buttons -->
             <div class="challenges-section">
                 <button id="irlChallengeBtn" class="challenge-btn irl-challenge-btn" onclick="startIRLChallenge()">
@@ -1366,7 +2531,7 @@
                     🔮 Solve Ancient Puzzles
                 </button>
             </div>
-
+            
             <!-- IRL Challenge Content -->
             <div id="irlChallengeContent" class="challenge-content">
                 <div class="challenge-header">
@@ -1534,9 +2699,80 @@
         </div>
     </div>
 
+    <!-- Success Message Modal -->
+    <div id="successModal" class="success-modal">
+        <div class="success-modal-content" id="successModalContent">
+            <div class="success-header" id="successHeader">
+                <span class="success-icon" id="successIcon">✨</span>
+                <div class="success-title" id="successTitle">Success!</div>
+            </div>
+            
+            <div class="success-content">
+                <div class="success-message" id="successMessage">
+                    Great work! You've solved this challenge.
+                </div>
+                
+                <button class="success-continue-btn" id="successContinueBtn" onclick="closeSuccessModal()">
+                    Continue Quest
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Day Completion Modal -->
+    <div id="dayCompletionModal" class="day-completion-modal">
+        <div class="day-completion-content">
+            <div class="day-completion-header" id="dayCompletionHeader">
+                <span class="completion-icon">👑</span>
+                <div class="completion-title" id="dayCompletionTitle">Quest Complete!</div>
+            </div>
+            
+            <div class="day-completion-body">
+                <div class="completion-location" id="dayCompletionLocation">Mystical Realm</div>
+                
+                <div class="completion-tasks" id="dayCompletionTasks">
+                    <!-- Task list will be populated by JavaScript -->
+                </div>
+                
+                <div class="completion-rune" id="dayCompletionRune">
+                    <!-- Rune discovery will be populated by JavaScript -->
+                </div>
+                
+                <button class="day-completion-continue" id="dayCompletionContinue" onclick="closeDayCompletionModal()">
+                    Return to Main Menu
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="admin-controls">
         <button class="admin-btn admin-reset" onclick="resetGameState()" title="Reset Game State">🔄</button>
         <button class="admin-btn admin-intro" onclick="window.location.href='splash.html'" title="Return to Intro">📹</button>
+    </div>
+
+    <!-- Completion Confirmation Modal -->
+    <div id="completionConfirmModal" class="completion-confirm-modal">
+        <div class="completion-confirm-content">
+            <div class="completion-confirm-header">
+                <span class="completion-confirm-icon">🏆</span>
+                <div class="completion-confirm-title">Complete Day?</div>
+            </div>
+            
+            <div class="completion-confirm-body">
+                <div class="completion-confirm-message" id="completionConfirmMessage">
+                    All Crystal Mysteries solved! Ready to complete your quest for today?
+                </div>
+                
+                <div class="completion-confirm-buttons">
+                    <button class="completion-confirm-btn completion-confirm-no" onclick="closeCompletionConfirm()">
+                        Not Yet
+                    </button>
+                    <button class="completion-confirm-btn completion-confirm-yes" onclick="confirmCompletion()">
+                        Complete!
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -1598,8 +2834,8 @@
                 mathProgress: 0, // 0-3 missions completed
                 completedDays: [],
                 collectedRunes: [] // Will be populated based on official schedule
-            },
-            rou: {
+                },
+                rou: {
                 currentDay: 1,
                 currentRealm: 'Crystal Glade',
                 irlCompleted: false,
@@ -1700,7 +2936,7 @@
                     realm: 'Crystal Glade',
                     room: 'Entry Cavern',
                     icon: '❄️',
-                    artwork: 'assets/rooms/default_dungeon.png', // Placeholder
+                    artwork: 'assets/rooms/CrystalGlade/CrystalGlade_FrostHollow_Rou_Day1_768.jpg',
                     story: 'You step into the Crystal Glade. The cave floor sparkles with blue crystals. A tall ice gate blocks your path. The gate has three small slots that need crystals to open. Ice on the walls makes the floor slippery. Three wooden crates hold magic orbs that can help you. A frozen chest sits behind the gate, waiting for you to open it once the gate is free. The room feels cold and magical.',
                     baseRune: 'Frost Fang', // Day 1 rune per official schedule
                     runeIcon: '❄️',
@@ -1825,6 +3061,36 @@
             document.getElementById('roomArtwork').src = content.artwork;
             document.getElementById('storyText').textContent = content.story;
 
+            // Apply player-specific theme classes
+            const roomHeader = document.querySelector('.room-header');
+            const roomTitle = document.querySelector('.room-title');
+            const roomArtwork = document.getElementById('roomArtwork');
+            const challengeContents = document.querySelectorAll('.challenge-content');
+            const challengeTitles = document.querySelectorAll('.challenge-title');
+            
+            // Remove existing theme classes
+            roomHeader.classList.remove('wells-theme', 'rou-theme');
+            roomTitle.classList.remove('wells-theme', 'rou-theme');
+            roomArtwork.classList.remove('wells-theme', 'rou-theme');
+            challengeContents.forEach(content => {
+                content.classList.remove('wells-theme', 'rou-theme');
+            });
+            challengeTitles.forEach(title => {
+                title.classList.remove('wells-theme', 'rou-theme');
+            });
+            
+            // Add current player's theme
+            const themeClass = `${player}-theme`;
+            roomHeader.classList.add(themeClass);
+            roomTitle.classList.add(themeClass);
+            roomArtwork.classList.add(themeClass);
+            challengeContents.forEach(content => {
+                content.classList.add(themeClass);
+            });
+            challengeTitles.forEach(title => {
+                title.classList.add(themeClass);
+            });
+
             // Update challenge buttons
             updateChallengeButtons();
             
@@ -1906,8 +3172,16 @@
             updateChallengeButtons();
             closePianoModal();
             
-            // Show completion message
-            alert('🎉 The Harmony Melody resonates through the Hall! The first sun pillar begins to glow with ancient power. The Ancient Puzzles are now unlocked!');
+            // Show completion message with custom modal
+            showSuccessModal(
+                '🎵',
+                'Harmony Achieved!',
+                'The Harmony Melody resonates through the Hall! The first sun pillar begins to glow with ancient power. The Ancient Puzzles are now unlocked!',
+                currentPlayer,
+                () => {
+                    // Continue to next challenge
+                }
+            );
             saveGameState();
         }
 
@@ -1917,11 +3191,18 @@
             
             // Only require IRL completion if there is an IRL challenge
             if (hasIRLChallenge && !gameState[currentPlayer].irlCompleted) {
-                alert('Please complete the Harmony Ritual first! The sun pillars must be activated in sequence.');
+                showCompletionModal(
+                    '🔒',
+                    'Ancient Pillars Sealed',
+                    'Please complete the Harmony Ritual first! The sun pillars must be activated in sequence.',
+                    currentPlayer,
+                    () => {} // Just close modal
+                );
                 return;
             }
-            document.getElementById('mathChallengeContent').classList.add('active');
-            document.getElementById('irlChallengeContent').classList.remove('active');
+            
+            // UNIFIED FLOW: Both Wells and Rou go directly to first question popup
+            openMathQuestion(1);
         }
 
         function completeIRLChallenge() {
@@ -2015,30 +3296,30 @@
             const hasLoot = playerSchedule.loot && playerSchedule.loot !== 'None';
             
             if (hasLoot) {
-                // Show loot modal before completion message
+                // Show loot modal, then return to main interface (no Quest Complete modal)
                 showLootModal(currentPlayer, gameState[currentPlayer].currentDay, playerSchedule.loot);
-            } else {
-                // Show regular completion message
-                showCompletionMessage(content, dayType);
+                } else {
+                // No loot - return directly to main interface
+                closePlayerRoom();
             }
             
             saveGameState();
         }
 
         function showCompletionMessage(content, dayType) {
-            // Dynamic completion message based on whether a rune was awarded
-            let completionMessage = `🎉 Congratulations! You've completed Day ${gameState[currentPlayer].currentDay}!`;
+            // Check for loot reward from official schedule
+            const daySchedule = gameSchedule.schedule[`day${gameState[currentPlayer].currentDay}`];
+            const playerSchedule = daySchedule[currentPlayer];
+            const hasLoot = playerSchedule.loot && playerSchedule.loot !== 'None';
             
-            if (content.baseRune) {
-                completionMessage += `\n\n✨ Rune discovered: ${content.baseRune}\n\nCheck your rune collection below!`;
-                } else {
-                completionMessage += `\n\n🎯 Great progress! Keep up the excellent work!`;
-            }
-            
-            completionMessage += ` Come back tomorrow for your next ${dayType}!`;
-            
-            alert(completionMessage);
-            closePlayerRoom();
+            // Show custom day completion modal instead of browser alert
+            showDayCompletionModal(
+                currentPlayer, 
+                gameState[currentPlayer].currentDay, 
+                content, 
+                hasLoot, 
+                hasLoot ? playerSchedule.loot : null
+            );
         }
 
         function showLootModal(player, day, lootType) {
@@ -2086,12 +3367,8 @@
         function closeLootModal() {
             document.getElementById('lootModal').style.display = 'none';
             
-            // Show completion message after loot modal closes
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
-            const hasIRLChallenge = content.irlChallenge.type !== 'none';
-            const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
-            
-            showCompletionMessage(content, dayType);
+            // Return directly to main interface (skip Quest Complete modal)
+            closePlayerRoom();
         }
 
         function saveGameState() {
@@ -2130,6 +3407,22 @@
             document.getElementById('mathStoryContext').textContent = mission.story;
             document.getElementById('mathProblemText').innerHTML = mission.question;
             
+            // Apply player-specific theme classes
+            const mathQuestionContent = document.querySelector('.math-question-content');
+            const mathQuestionHeader = document.querySelector('.math-question-header');
+            const mathStoryContext = document.querySelector('.math-story-context');
+            
+            // Remove existing theme classes
+            mathQuestionContent.classList.remove('wells-theme', 'rou-theme');
+            mathQuestionHeader.classList.remove('wells-theme', 'rou-theme');
+            mathStoryContext.classList.remove('wells-theme', 'rou-theme');
+            
+            // Add current player's theme
+            const themeClass = `${currentPlayer}-theme`;
+            mathQuestionContent.classList.add(themeClass);
+            mathQuestionHeader.classList.add(themeClass);
+            mathStoryContext.classList.add(themeClass);
+            
             document.getElementById('mathQuestionModal').style.display = 'block';
         }
 
@@ -2143,6 +3436,24 @@
             document.getElementById('numberQuestionText').innerHTML = mission.question.replace('<br><strong>Mystery:</strong> ', '');
             currentInput = '0';
             document.getElementById('numberDisplay').textContent = currentInput;
+            
+            // Apply player-specific theme classes
+            const numberInputContent = document.querySelector('.number-input-content');
+            const numberButtons = document.querySelectorAll('.number-btn');
+            
+            // Remove existing theme classes
+            numberInputContent.classList.remove('wells-theme', 'rou-theme');
+            numberButtons.forEach(btn => {
+                btn.classList.remove('wells-theme', 'rou-theme');
+            });
+            
+            // Add current player's theme
+            const themeClass = `${currentPlayer}-theme`;
+            numberInputContent.classList.add(themeClass);
+            numberButtons.forEach(btn => {
+                btn.classList.add(themeClass);
+            });
+            
             document.getElementById('numberInputModal').style.display = 'block';
         }
 
@@ -2175,159 +3486,223 @@
             const mission = content.mathChallenge.missions[currentQuestion - 1];
             const correctAnswer = mission.answer;
             
-            document.getElementById('numberInputModal').style.display = 'none';
-            document.getElementById('mathQuestionModal').style.display = 'none';
-            
             if (answer === correctAnswer) {
-                // Correct answer
-                gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
-                
-                // Update mission buttons
-                const missionBtn = document.getElementById(`mission${currentQuestion}Btn`);
-                missionBtn.style.opacity = '1';
-                missionBtn.style.background = 'linear-gradient(135deg, var(--success-green), #16a34a)';
-                missionBtn.style.borderColor = 'var(--success-green)';
-                missionBtn.innerHTML = missionBtn.innerHTML.replace(/^[⭐💎🏛️🧊🎁]/, '✅');
-                missionBtn.disabled = true;
-                missionBtn.style.cursor = 'not-allowed';
-                
-                // Unlock next mission
-                if (currentQuestion < 3) {
-                    const nextBtn = document.getElementById(`mission${currentQuestion + 1}Btn`);
-                    nextBtn.style.opacity = '1';
-                    nextBtn.style.cursor = 'pointer';
-                    nextBtn.disabled = false;
-                }
+                // Correct answer - close modals first
+                document.getElementById('numberInputModal').style.display = 'none';
+                document.getElementById('mathQuestionModal').style.display = 'none';
                 
                 // Update progress
-                updateMathProgress();
+                gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
                 
-                // Different success messages for different players/content
+                // Check if this is a math-only day (no mission buttons interface)
+                const hasIRLChallenge = content.irlChallenge.type !== 'none';
+                
+                if (hasIRLChallenge) {
+                    // Wells-style: Update mission buttons (optional/legacy - will be removed)
+                    const missionBtn = document.getElementById(`mission${currentQuestion}Btn`);
+                    if (missionBtn) {
+                        missionBtn.style.opacity = '1';
+                        missionBtn.style.background = 'linear-gradient(135deg, var(--success-green), #16a34a)';
+                        missionBtn.style.borderColor = 'var(--success-green)';
+                        missionBtn.innerHTML = missionBtn.innerHTML.replace(/^[⭐💎🏛️🧊🎁]/, '✅');
+                        missionBtn.disabled = true;
+                        missionBtn.style.cursor = 'not-allowed';
+                    }
+                    
+                    // Unlock next mission
+                    if (currentQuestion < 3) {
+                        const nextBtn = document.getElementById(`mission${currentQuestion + 1}Btn`);
+                        if (nextBtn) {
+                            nextBtn.style.opacity = '1';
+                            nextBtn.style.cursor = 'pointer';
+                            nextBtn.disabled = false;
+                        }
+                    }
+                }
+                
+                // Show custom success message instead of browser alert
                 const isWells = currentPlayer === 'wells';
                 const wellsMessages = [
-                    '🎉 Correct! The sacred geometry reveals its secrets - the pillars align with ancient power!',
-                    '🎉 Correct! The crystal chambers resonate with pure energy - the Rune Gate stirs!',
-                    '🎉 Correct! The treasure is divided with perfect fairness - the Guild honors your wisdom!'
+                    'The sacred geometry reveals its secrets - the pillars align with ancient power!',
+                    'The crystal chambers resonate with pure energy - the Rune Gate stirs!',
+                    'The treasure is divided with perfect fairness - the Guild honors your wisdom!'
                 ];
                 
                 const rouMessages = [
-                    '🎉 Correct! You gathered all the blue crystals - they sparkle with magical energy!',
-                    '🎉 Correct! You carefully counted your remaining frost gems - they glow safely in your pouch!',
-                    '🎉 Correct! You discovered all the magic orbs - they might unlock the ice gate!'
+                    'You gathered all the blue crystals - they sparkle with magical energy!',
+                    'You carefully counted your remaining frost gems - they glow safely in your pouch!',
+                    'You discovered all the magic orbs - they might unlock the ice gate!'
                 ];
                 
                 const messages = isWells ? wellsMessages : rouMessages;
-                alert(messages[currentQuestion - 1]);
+                const successIcons = ['⭐', '💎', '🏛️', '🧊', '🎁'];
+                
+                showSuccessModal(
+                    successIcons[currentQuestion - 1] || '✨',
+                    'Mystery Solved!',
+                    messages[currentQuestion - 1],
+                    currentPlayer,
+                    () => {
+                        // UNIFIED PROGRESSION LOGIC: Always move to next question for both players
+                        if (currentQuestion < 3) {
+                            // Move to next question automatically for both Wells and Rou
+                            setTimeout(() => {
+                                openMathQuestion(currentQuestion + 1);
+                            }, 300);
+                    } else {
+                            // All questions completed - directly complete the challenge
+                            setTimeout(() => {
+                                completeMathChallenge();
+                            }, 300);
+                        }
+                    }
+                );
                 
             } else {
+                // Wrong answer - don't close modals, just show error and retry
                 const isWells = currentPlayer === 'wells';
                 const errorMessage = isWells 
-                    ? '❌ The ancient magic requires the correct calculation. The mystical forces resist... Try again!'
-                    : '❌ The ice crystals dim when the answer is wrong. Count carefully and try again!';
-                alert(errorMessage);
-                openMathQuestion(currentQuestion); // Reopen the question
+                    ? 'The ancient magic requires the correct calculation. The mystical forces resist... Try again!'
+                    : 'The ice crystals dim when the answer is wrong. Count carefully and try again!';
+                
+                showSuccessModal(
+                    '❌',
+                    'Try Again!',
+                    errorMessage,
+                    currentPlayer,
+                    () => {
+                        // Reset the number input and reopen the same question
+                        currentInput = '0';
+                        document.getElementById('numberDisplay').textContent = currentInput;
+                        // Don't close modals - they'll stay open for retry
+                    }
+                );
             }
             
             saveGameState();
         }
 
-        function updateMathProgress() {
-            const progress = gameState[currentPlayer].mathProgress;
-            const isWells = currentPlayer === 'wells';
+        // Success Modal Functions
+        function showSuccessModal(icon, title, message, playerTheme, onContinue) {
+            const modal = document.getElementById('successModal');
+            const modalContent = document.getElementById('successModalContent');
+            const header = document.getElementById('successHeader');
+            const titleElement = document.getElementById('successTitle');
+            const continueBtn = document.getElementById('successContinueBtn');
             
-            if (isWells) {
-                document.getElementById('mathProgress').textContent = `Puzzle ${Math.min(progress + 1, 3)} of 3`;
-                
-                if (progress >= 3) {
-                    document.getElementById('completeMathBtn').style.display = 'block';
-                    document.getElementById('mathProgress').textContent = 'All ancient puzzles solved!';
-                }
-            } else {
-                document.getElementById('mathProgress').textContent = `Mystery ${Math.min(progress + 1, 3)} of 3`;
-                
-                if (progress >= 3) {
-                    document.getElementById('completeMathBtn').style.display = 'block';
-                    document.getElementById('mathProgress').textContent = 'All crystal mysteries solved!';
-                }
-            }
-        }
-
-        // Manual test function for debugging
-        function testRunes() {
-            console.log('=== MANUAL RUNE TEST ===');
-            console.log('runeCollections:', runeCollections);
-            console.log('gameState:', gameState);
+            // Set content
+            document.getElementById('successIcon').textContent = icon;
+            titleElement.textContent = title;
+            document.getElementById('successMessage').textContent = message;
             
-            // Try to manually create runes for Wells
-            const wellsGrid = document.getElementById('wellsRuneGrid');
-            console.log('Wells grid:', wellsGrid);
+            // Apply theme
+            modalContent.className = `success-modal-content ${playerTheme}-theme`;
+            header.className = `success-header ${playerTheme}-theme`;
+            titleElement.className = `success-title ${playerTheme}-theme`;
+            continueBtn.className = `success-continue-btn ${playerTheme}-theme`;
             
-            if (wellsGrid && runeCollections.wells) {
-                wellsGrid.innerHTML = '';
-                runeCollections.wells.forEach((rune, index) => {
-                    const slot = document.createElement('div');
-                    slot.className = 'rune-slot uncollected';
-                    slot.innerHTML = `
-                        <div class="rune-emoji">${rune.emoji}</div>
-                        <div class="rune-name">${rune.name}</div>
-                    `;
-                    wellsGrid.appendChild(slot);
-                });
-                console.log('Manually created Wells runes');
-            }
-            
-            // Try to manually create runes for Rou
-            const rouGrid = document.getElementById('rouRuneGrid');
-            console.log('Rou grid:', rouGrid);
-            
-            if (rouGrid && runeCollections.rou) {
-                rouGrid.innerHTML = '';
-                runeCollections.rou.forEach((rune, index) => {
-                    const slot = document.createElement('div');
-                    slot.className = 'rune-slot uncollected';
-                    slot.innerHTML = `
-                        <div class="rune-emoji">${rune.emoji}</div>
-                        <div class="rune-name">${rune.name}</div>
-                    `;
-                    rouGrid.appendChild(slot);
-                });
-                console.log('Manually created Rou runes');
-            }
-        }
-
-        function resetGameState() {
-            // Implement the logic to reset the game state
-            console.log('Resetting game state...');
-            gameState = {
-                wells: {
-                    currentDay: 1,
-                    currentRealm: 'Dawnbreak Expanse',
-                    irlCompleted: false,
-                    mathCompleted: false,
-                    mathProgress: 0,
-                    completedDays: [],
-                    collectedRunes: [] // Empty - true reset
-                },
-                rou: {
-                    currentDay: 1,
-                    currentRealm: 'Crystal Glade',
-                    irlCompleted: false,
-                    mathCompleted: false,
-                    mathProgress: 0,
-                    completedDays: [],
-                    collectedRunes: []
-                }
+            // Set continue action
+            continueBtn.onclick = () => {
+                closeSuccessModal();
+                if (onContinue) onContinue();
             };
-            localStorage.removeItem('runeBearerGameState'); // Clear saved data too
-            saveGameState();
-            console.log('Game state reset successfully - all progress cleared');
-            alert('🔄 Game reset complete! All progress and runes cleared.');
-            updateRuneDisplay('wells');
-            updateRuneDisplay('rou');
+            
+            modal.style.display = 'block';
         }
 
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
 
+        function showDayCompletionChoice(dayType) {
+            // Show custom completion confirmation modal instead of browser confirm
+            const modal = document.getElementById('completionConfirmModal');
+            const message = document.getElementById('completionConfirmMessage');
+            
+            // Update message dynamically
+            message.textContent = `All ${dayType} solved! Ready to complete your quest for today?`;
+            
+            // Store the completion choice for later
+            window.pendingCompletion = true;
+            
+            // Show the modal
+            modal.style.display = 'flex';
+        }
 
+        function closeCompletionConfirm() {
+            document.getElementById('completionConfirmModal').style.display = 'none';
+            window.pendingCompletion = false;
+            closePlayerRoom();
+        }
+
+        function confirmCompletion() {
+            document.getElementById('completionConfirmModal').style.display = 'none';
+            window.pendingCompletion = false;
+            completeMathChallenge();
+        }
+
+        // Day Completion Modal Functions
+        function showDayCompletionModal(player, day, content, hasLoot, lootItem) {
+            const modal = document.getElementById('dayCompletionModal');
+            const header = document.getElementById('dayCompletionHeader');
+            const title = document.getElementById('dayCompletionTitle');
+            const location = document.getElementById('dayCompletionLocation');
+            const tasks = document.getElementById('dayCompletionTasks');
+            const runeSection = document.getElementById('dayCompletionRune');
+            const continueBtn = document.getElementById('dayCompletionContinue');
+            
+            // Player-specific theming
+            if (player === 'Wells') {
+                header.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+                header.innerHTML = '<span class="completion-icon">👑</span><div class="completion-title">Quest Complete!</div>';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
+                header.innerHTML = '<span class="completion-icon">👑</span><div class="completion-title">Quest Complete!</div>';
+            }
+            
+            // Set location name
+            location.textContent = content.location || 'Mystical Realm';
+            
+            // Create task checklist
+            tasks.innerHTML = `
+                <div class="task-item completed">
+                    <span class="task-check">✅</span>
+                    <span class="task-text">Piano Challenge Mastered</span>
+                </div>
+                <div class="task-item completed">
+                    <span class="task-check">✅</span>
+                    <span class="task-text">Math Mysteries Solved</span>
+                </div>
+                ${hasLoot ? `
+                <div class="task-item completed">
+                    <span class="task-check">✅</span>
+                    <span class="task-text">Treasure Discovered: ${lootItem}</span>
+                </div>` : ''}
+            `;
+            
+            // Show rune discovery
+            if (content.runeReward) {
+                runeSection.innerHTML = `
+                    <div class="rune-discovery">
+                        <div class="rune-found-text">Ancient Rune Discovered!</div>
+                        <div class="rune-display">
+                            <span class="rune-icon">${content.runeReward.icon}</span>
+                            <span class="rune-name">${content.runeReward.name}</span>
+                        </div>
+                    </div>
+                `;
+                runeSection.style.display = 'block';
+            } else {
+                runeSection.style.display = 'none';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeDayCompletionModal() {
+            document.getElementById('dayCompletionModal').style.display = 'none';
+            closePlayerRoom();
+        }
 
         function generateMissionButtons(content) {
             const container = document.getElementById('mathMissionButtons');
@@ -2374,6 +3749,111 @@
                 container.appendChild(button);
             });
         }
+
+        // Audio Help Functionality
+        function toggleAudioHelp() {
+            const audio = document.getElementById('helpAudio');
+            const button = document.querySelector('.audio-help-btn');
+            const audioText = document.querySelector('.audio-text');
+            const audioIcon = document.querySelector('.audio-icon');
+            
+            if (audio.paused) {
+                // Start playing
+                audio.play().then(() => {
+                    button.classList.add('playing');
+                    audioText.textContent = 'Playing...';
+                    audioIcon.textContent = '⏸️';
+                }).catch(error => {
+                    console.error('Error playing audio:', error);
+                    alert('Unable to play audio. Please check your browser settings.');
+                });
+            } else {
+                // Pause playing
+                audio.pause();
+                button.classList.remove('playing');
+                audioText.textContent = 'How to Play';
+                audioIcon.textContent = '🔊';
+            }
+        }
+
+        // Audio event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.getElementById('helpAudio');
+            const button = document.querySelector('.audio-help-btn');
+            const audioText = document.querySelector('.audio-text');
+            const audioIcon = document.querySelector('.audio-icon');
+            
+            if (audio && button) {
+                // Handle audio ending
+                audio.addEventListener('ended', function() {
+                    button.classList.remove('playing');
+                    audioText.textContent = 'How to Play';
+                    audioIcon.textContent = '🔊';
+                });
+                
+                // Handle audio loading errors
+                audio.addEventListener('error', function() {
+                    console.error('Error loading audio file');
+                    button.style.opacity = '0.6';
+                    audioText.textContent = 'Audio Unavailable';
+                    button.disabled = true;
+                });
+            }
+            
+            // Rest of existing DOMContentLoaded code
+            loadGameState();
+            initGame();
+            
+            // Initialize rune displays with error handling
+            try {
+                console.log('Initializing rune displays...');
+                updateRuneDisplay('wells');
+                updateRuneDisplay('rou');
+                console.log('Rune displays initialized successfully');
+            } catch (error) {
+                console.error('Error initializing rune displays:', error);
+            }
+        });
+
+        function resetGameState() {
+            // Implement the logic to reset the game state
+            console.log('Resetting game state...');
+            gameState = {
+                wells: {
+                    currentDay: 1,
+                    currentRealm: 'Dawnbreak Expanse',
+                    irlCompleted: false,
+                    mathCompleted: false,
+                    mathProgress: 0,
+                    completedDays: [],
+                    collectedRunes: [] // Empty - true reset
+                },
+                rou: {
+                    currentDay: 1,
+                    currentRealm: 'Crystal Glade',
+                    irlCompleted: false,
+                    mathCompleted: false,
+                    mathProgress: 0,
+                    completedDays: [],
+                    collectedRunes: []
+                }
+            };
+            localStorage.removeItem('runeBearerGameState'); // Clear saved data too
+            saveGameState();
+            console.log('Game state reset successfully - all progress cleared');
+            
+            // Use custom modal for reset confirmation too
+            showSuccessModal(
+                '🔄',
+                'Game Reset!',
+                'All progress and runes have been cleared. Your adventure begins anew!',
+                'wells', // Default theme
+                () => {
+                    updateRuneDisplay('wells');
+                    updateRuneDisplay('rou');
+                }
+            );
+        }
     </script>
 </body>
-</html>
+</html> 
