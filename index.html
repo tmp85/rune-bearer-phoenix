@@ -953,6 +953,128 @@
             border-color: var(--primary-green);
         }
 
+        /* Loot Discovery Modal */
+        .loot-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .loot-modal-content {
+            max-width: 500px;
+            margin: 5% auto;
+            padding: 0;
+            background: rgba(20, 30, 40, 0.98);
+            border: 4px solid var(--primary-green);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loot-header {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            padding: 25px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .loot-title {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .loot-artwork-container {
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.05));
+        }
+
+        .loot-artwork {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 15px;
+            border: 3px solid rgba(255,215,0,0.4);
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .loot-content {
+            padding: 25px;
+        }
+
+        .loot-subtitle {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .loot-description {
+            font-size: 1.1em;
+            color: var(--gray-light);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .loot-rarity-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .loot-rarity-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .loot-rarity-desc {
+            font-size: 1em;
+            color: var(--gray-light);
+            line-height: 1.5;
+        }
+
+        .loot-continue-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .loot-continue-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+        }
+
         /* Rune Collection Windows */
         .rune-collection {
             background: rgba(31, 41, 55, 0.95);
@@ -1117,6 +1239,51 @@
 
         .rune-slot:hover .rune-tooltip {
             opacity: 1;
+        }
+
+        /* Subtle Admin Controls */
+        .admin-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .admin-btn {
+            position: absolute;
+            bottom: 15px;
+            width: 70px;
+            height: 28px;
+            background: rgba(55, 65, 81, 0.4);
+            border: 1px solid rgba(156, 163, 175, 0.3);
+            border-radius: 6px;
+            color: rgba(156, 163, 175, 0.6);
+            font-size: 11px;
+            cursor: pointer;
+            opacity: 0.35;
+            transition: all 0.2s ease;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .admin-btn:hover {
+            opacity: 0.8;
+            background: rgba(55, 65, 81, 0.6);
+            border-color: rgba(156, 163, 175, 0.5);
+            color: rgba(156, 163, 175, 0.9);
+        }
+
+        .admin-reset {
+            left: 15px;
+        }
+
+        .admin-intro {
+            right: 15px;
         }
     </style>
 </head>
@@ -1331,72 +1498,45 @@
         </div>
     </div>
 
-    <!-- Testing/Admin Section -->
-    <div style="max-width: 800px; margin: 40px auto; padding: 20px;">
-        <div style="background: rgba(31, 41, 55, 0.95); border: 2px solid var(--gray-medium); border-radius: 15px; padding: 25px;">
-            <div style="text-align: center; margin-bottom: 20px;">
-                <h3 style="color: var(--gray-light); font-size: 1.3em; margin-bottom: 10px;">🔧 Testing & Admin Controls</h3>
-                <p style="color: var(--gray-medium); font-size: 0.9em;">Development tools for testing game state and progress</p>
+    <!-- Loot Discovery Modal -->
+    <div id="lootModal" class="loot-modal">
+        <div class="loot-modal-content">
+            <div class="loot-header">
+                <div class="loot-title">
+                    💎 Treasure Discovered!
+                </div>
             </div>
             
-            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <button onclick="resetGameState()" style="
-                    background: linear-gradient(135deg, #dc2626, #b91c1c);
-                    color: white;
-                    border: 2px solid #dc2626;
-                    padding: 12px 24px;
-                    border-radius: 10px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                    🔄 Reset Game State
-                </button>
+            <div class="loot-artwork-container">
+                <img id="lootArtwork" class="loot-artwork" src="assets/loot/alien-robot-tiny-loot.png" alt="Loot Discovery">
+            </div>
+            
+            <div class="loot-content">
+                <div class="loot-subtitle" id="lootSubtitle">Tiny Loot Found!</div>
                 
-                <button onclick="showGameState()" style="
-                    background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
-                    color: white;
-                    border: 2px solid var(--secondary-blue);
-                    padding: 12px 24px;
-                    border-radius: 10px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                    📊 Show Game State
-                </button>
+                <div class="loot-description" id="lootDescription">
+                    Hidden within the ancient Hall of Harmonies, you've discovered valuable treasure!
+                </div>
                 
-                <button onclick="completeWellsDay1()" style="
-                    background: linear-gradient(135deg, var(--primary-orange), #ea580c);
-                    color: white;
-                    border: 2px solid var(--primary-orange);
-                    padding: 12px 24px;
-                    border-radius: 10px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                    ⚡ Complete Wells Day 1
-                </button>
+                <div class="loot-rarity-box">
+                    <div class="loot-rarity-title">
+                        ✨ Rare Discovery! ✨
+                    </div>
+                    <div class="loot-rarity-desc">
+                        Loot drops are uncommon rewards for exceptional puzzle solving!
+                    </div>
+                </div>
                 
-                <button onclick="completeRouDay1()" style="
-                    background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
-                    color: white;
-                    border: 2px solid var(--secondary-blue);
-                    padding: 12px 24px;
-                    border-radius: 10px;
-                    font-size: 1em;
-                    font-weight: bold;
-                    cursor: pointer;
-                    transition: all 0.3s ease;
-                " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                    ❄️ Complete Rou Day 1
+                <button class="loot-continue-btn" onclick="closeLootModal()">
+                    Continue Adventure →
                 </button>
             </div>
         </div>
+    </div>
+
+    <div class="admin-controls">
+        <button class="admin-btn admin-reset" onclick="resetGameState()" title="Reset Game State">🔄</button>
+        <button class="admin-btn admin-intro" onclick="window.location.href='splash.html'" title="Return to Intro">📹</button>
     </div>
 
     <script>
@@ -1869,21 +2009,89 @@
             const hasIRLChallenge = content.irlChallenge.type !== 'none';
             const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
             
+            // Check for loot reward from official schedule
+            const daySchedule = gameSchedule.schedule[`day${gameState[currentPlayer].currentDay}`];
+            const playerSchedule = daySchedule[currentPlayer];
+            const hasLoot = playerSchedule.loot && playerSchedule.loot !== 'None';
+            
+            if (hasLoot) {
+                // Show loot modal before completion message
+                showLootModal(currentPlayer, gameState[currentPlayer].currentDay, playerSchedule.loot);
+            } else {
+                // Show regular completion message
+                showCompletionMessage(content, dayType);
+            }
+            
+            saveGameState();
+        }
+
+        function showCompletionMessage(content, dayType) {
             // Dynamic completion message based on whether a rune was awarded
             let completionMessage = `🎉 Congratulations! You've completed Day ${gameState[currentPlayer].currentDay}!`;
             
             if (content.baseRune) {
                 completionMessage += `\n\n✨ Rune discovered: ${content.baseRune}\n\nCheck your rune collection below!`;
-            } else {
+                } else {
                 completionMessage += `\n\n🎯 Great progress! Keep up the excellent work!`;
             }
             
             completionMessage += ` Come back tomorrow for your next ${dayType}!`;
             
             alert(completionMessage);
-            
-            saveGameState();
             closePlayerRoom();
+        }
+
+        function showLootModal(player, day, lootType) {
+            const modal = document.getElementById('lootModal');
+            const artwork = document.getElementById('lootArtwork');
+            const subtitle = document.getElementById('lootSubtitle');
+            const description = document.getElementById('lootDescription');
+            
+            // Configure modal based on player and loot type
+            const lootData = getLootData(player, day, lootType);
+            
+            artwork.src = lootData.artwork;
+            artwork.alt = lootData.title;
+            subtitle.textContent = lootData.title;
+            description.textContent = lootData.description;
+            
+            modal.style.display = 'block';
+        }
+
+        function getLootData(player, day, lootType) {
+            const lootConfigs = {
+                wells: {
+                    day1: {
+                        Tiny: {
+                            artwork: 'assets/loot/alien-robot-tiny-loot.png',
+                            title: 'Tiny Loot Found!',
+                            description: 'Hidden within the ancient Hall of Harmonies, you\'ve discovered valuable treasure!'
+                        }
+                    }
+                },
+                rou: {
+                    // Add Rou's loot configurations as needed
+                }
+            };
+            
+            const config = lootConfigs[player]?.[`day${day}`]?.[lootType];
+            
+            return config || {
+                artwork: 'assets/loot/default-loot.png',
+                title: `${lootType} Loot Found!`,
+                description: 'You\'ve discovered treasure during your adventure!'
+            };
+        }
+
+        function closeLootModal() {
+            document.getElementById('lootModal').style.display = 'none';
+            
+            // Show completion message after loot modal closes
+            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            const hasIRLChallenge = content.irlChallenge.type !== 'none';
+            const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
+            
+            showCompletionMessage(content, dayType);
         }
 
         function saveGameState() {
@@ -2118,38 +2326,8 @@
             updateRuneDisplay('rou');
         }
 
-        function showGameState() {
-            console.log('Current game state:', gameState);
-            alert('Current game state:\n' + JSON.stringify(gameState, null, 2));
-        }
 
-        function completeWellsDay1() {
-            // Implement the logic to complete Wells' Day 1
-            console.log('Completing Wells Day 1...');
-            gameState.wells.currentDay = 1;
-            gameState.wells.irlCompleted = true;
-            gameState.wells.mathCompleted = true;
-            gameState.wells.mathProgress = 3;
-            gameState.wells.completedDays = [1];
-            gameState.wells.collectedRunes = []; // No rune on Day 1 per schedule
-            saveGameState();
-            console.log('Wells Day 1 completed');
-            updateRuneDisplay('wells');
-        }
 
-        function completeRouDay1() {
-            // Implement the logic to complete Rou's Day 1
-            console.log('Completing Rou Day 1...');
-            gameState.rou.currentDay = 1;
-            gameState.rou.irlCompleted = true;
-            gameState.rou.mathCompleted = true;
-            gameState.rou.mathProgress = 3;
-            gameState.rou.completedDays = [1];
-            gameState.rou.collectedRunes = ['Frost Fang']; // Day 1 rune per schedule
-            saveGameState();
-            console.log('Rou Day 1 completed');
-            updateRuneDisplay('rou');
-        }
 
         function generateMissionButtons(content) {
             const container = document.getElementById('mathMissionButtons');

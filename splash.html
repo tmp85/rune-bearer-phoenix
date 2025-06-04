@@ -189,9 +189,11 @@
                 class="intro-video" 
                 preload="auto"
                 playsinline
+                controls
+                muted
                 style="display: none;"
             >
-                <source src="assets/videos/rune_bearers_intro_01.mov" type="video/mp4">
+                <source src="assets/videos/rune_bearers_intro_01.mov" type="video/quicktime">
                 <source src="assets/videos/rune_bearers_intro_01.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -232,16 +234,17 @@
             loadingIndicator.style.display = 'none';
             video.style.display = 'block';
             
-            // Try to auto-play with audio first
+            // Start with muted autoplay (better browser support)
+            video.muted = true;
             const playPromise = video.play();
             
             if (playPromise !== undefined) {
                 playPromise.then(() => {
-                    console.log('Video auto-play with audio started');
+                    console.log('Video auto-play (muted) started');
                     updatePlayPauseIcon();
+                    showUnmutePrompt();
                 }).catch((error) => {
-                    console.log('Auto-play with audio blocked, showing play prompt');
-                    // Show a visual indicator that user needs to click to start with audio
+                    console.log('Auto-play failed, showing manual play prompt');
                     showPlayPrompt();
                 });
             }
@@ -284,15 +287,28 @@
                     });
                 }
             } else {
-                video.pause();
+                // If playing, either unmute or pause
+                if (video.muted) {
+                    video.muted = false;
+                    console.log('Video unmuted');
+                    document.getElementById('videoOverlay').style.opacity = '0';
+                    document.getElementById('videoOverlay').style.pointerEvents = 'none';
+                } else {
+                    video.pause();
+                }
             }
+            updatePlayPauseIcon();
         });
 
         function updatePlayPauseIcon() {
             if (video.paused) {
                 playPauseIcon.textContent = '▶️';
             } else {
-                playPauseIcon.textContent = '⏸️';
+                if (video.muted) {
+                    playPauseIcon.textContent = '🔊'; // Show unmute icon when playing muted
+                } else {
+                    playPauseIcon.textContent = '⏸️'; // Show pause when playing with audio
+                }
             }
         }
 
@@ -321,6 +337,24 @@
                 `;
                 document.head.appendChild(style);
             }
+        }
+
+        function showUnmutePrompt() {
+            // Show unmute icon to indicate video is playing but muted
+            playPauseIcon.textContent = '🔊';
+            playPauseIcon.style.fontSize = '4em';
+            
+            // Make overlay visible with unmute prompt
+            document.getElementById('videoOverlay').style.opacity = '0.8';
+            document.getElementById('videoOverlay').style.pointerEvents = 'auto';
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                if (!video.paused) {
+                    document.getElementById('videoOverlay').style.opacity = '0';
+                    document.getElementById('videoOverlay').style.pointerEvents = 'none';
+                }
+            }, 3000);
         }
 
         // Fallback: if video doesn't load within 10 seconds, redirect
