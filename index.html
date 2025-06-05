@@ -150,6 +150,136 @@
             box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
         }
 
+        /* Progress Summary Section */
+        .progress-summary-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.05));
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .current-day-display {
+            text-align: center;
+        }
+
+        .current-day-title {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .current-day-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-purple);
+            text-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            margin-bottom: 0.25rem;
+        }
+
+        .current-day-date {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .progress-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .progress-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            min-width: 120px;
+        }
+
+        .progress-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-purple);
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .admin-link-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .admin-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .admin-spider-link {
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 30px !important;
+            z-index: 9999 !important;
+            pointer-events: auto !important;
+        }
+
+        .admin-spider-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .admin-spider-btn:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        .spider-icon {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .spider-text {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .progress-summary-section {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .progress-stats {
+                gap: 1rem;
+            }
+
+            .current-day-number {
+                font-size: 2rem;
+            }
+        }
+
         .avatar {
             width: 120px;
             height: 120px;
@@ -440,6 +570,8 @@
             margin: 20px auto 20px auto;
             max-width: 600px;
             border: 2px solid;
+            font-size: 1.3em; /* 30% increase from default (1em * 1.3 = 1.3em) */
+            line-height: 1.5; /* Improved readability with larger text */
         }
 
         /* Wells challenge content (orange theme) */
@@ -2371,6 +2503,13 @@
 </head>
 <body>
     <div class="game-container">
+        <div class="admin-spider-link">
+            <button class="admin-spider-btn" onclick="window.location.href='checklist.html'">
+                <img src="assets/items/admin-spider.png" alt="Admin Spider" class="spider-icon">
+                <span class="spider-text">Admin</span>
+            </button>
+        </div>
+
         <!-- Main Layout -->
         <div class="main-layout">
             <!-- Wells Player Card -->
@@ -2381,7 +2520,7 @@
             </div>
                     <div class="current-room">🌅 Dawnbreak Expanse</div>
                     <div class="day-info">Day 1 • Hall of Harmonies</div>
-        </div>
+            </div>
 
                 <!-- Wells Rune Collection -->
                 <div class="rune-collection wells-runes">
@@ -2390,8 +2529,8 @@
                         <!-- Runes will be generated dynamically -->
                     </div>
                 </div>
-            </div>
-
+                </div>
+                
             <!-- Center Content (Logo & Background Art) -->
             <div class="center-content">
                 <div class="logo-container">
@@ -2862,6 +3001,52 @@
         </div>
     </div>
 
+    <!-- Drums Challenge Modal -->
+    <div id="drumsModal" class="piano-modal">
+        <div class="piano-modal-content">
+            <button class="piano-close-btn" onclick="closeDrumsModal()">×</button>
+            
+            <div class="piano-modal-header">
+                🥁 Echo Rhythm Challenge!
+            </div>
+            
+            <div class="piano-story-context">
+                The Frozen Drum Cavern amplifies every sound with mystical power. Rou approaches the ancient rhythm altar with Ferrin by their side. The magical drums await the correct echo rhythm to activate the crystal lock's first sequence. Legend speaks of a thunderous pattern that resonates with Ferrin's heartbeat and the cavern's natural acoustics.
+            </div>
+            
+            <div class="piano-challenge-desc">
+                ✨ Rhythm Objective ✨<br>
+                Perform the Echo Rhythm to activate the crystal lock and begin opening the Four-Slot Crystal Gate!
+            </div>
+            
+            <div class="piano-instructions">
+                <h4 style="color: var(--primary-orange); margin-bottom: 15px;">🎵 Echo Rhythm Pattern:</h4>
+                <p style="text-align: center; font-size: 1.2em; margin: 20px 0;"><strong>Boom-tap-tap-BOOM</strong></p>
+                <p style="text-align: center; margin: 15px 0;"><em>(Repeat 4 times with steady timing)</em></p>
+                
+                <h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">🎯 Rhythm Instructions:</h4>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    <li>Create a steady echo rhythm that matches the hall's natural acoustics</li>
+                    <li>Start with a strong BOOM, followed by two lighter taps</li>
+                    <li>Repeat the pattern 4 times with consistent timing</li>
+                </ul>
+                
+                <h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📖 Technique Reference:</h4>
+                <ul style="padding-left: 20px; line-height: 1.6;">
+                    <li><strong>BOOM:</strong> Strong hit with both sticks together</li>
+                    <li><strong>tap:</strong> Light single stick hits</li>
+                    <li><strong>Timing:</strong> Keep the rhythm steady like Ferrin's walking pace</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="piano-play-btn" onclick="completeDrumsChallenge()">
+                    🎵 Complete Echo Rhythm Challenge
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Math Question Modal -->
     <div id="mathQuestionModal" class="math-question-modal">
         <div class="math-question-content">
@@ -2901,6 +3086,8 @@
                 <button class="number-btn" onclick="addNumber(8)">8</button>
                 <button class="number-btn" onclick="addNumber(9)">9</button>
                 <button class="number-btn number-zero" onclick="addNumber(0)">0</button>
+                <button class="number-btn" onclick="addDecimal()">.</button>
+                <button class="number-btn fraction-btn" onclick="addFraction('3/4')">¾</button>
             </div>
             
             <div class="control-buttons">
@@ -3019,9 +3206,10 @@
     </div>
 
     <div class="admin-controls">
-        <button class="admin-btn admin-reset" onclick="resetGameState()" title="Reset Game State">🔄</button>
         <button class="admin-btn admin-intro" onclick="window.location.href='splash.html'" title="Return to Intro">📹</button>
     </div>
+
+    <script src="gameSchedule.js"></script>
 
     <!-- Completion Confirmation Modal -->
     <div id="completionConfirmModal" class="completion-confirm-modal">
@@ -3099,7 +3287,7 @@
 
         // Game State Management
         let gameState = {
-            wells: {
+                wells: {
                 currentDay: 1,
                 currentRealm: 'Dawnbreak Expanse',
                 irlCompleted: false,
@@ -3202,9 +3390,61 @@
                             }
                         ]
                     }
+                },
+                day2: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Echoing Basalt Halls',
+                    icon: '🔮',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-2-art.jpg',
+                    story: 'Wells and his brave husky Flint pad into the Echoing Basalt Halls. Midnight-black pillars glitter with sun-crystals, their warm glow chasing shadows away. Every footstep (and Flint\'s happy bark) booms like thunder, echoing far down the corridor. At the far end looms an ancient rune-gate, sealed tight with a humming crystal lock.',
+                    baseRune: 'Ember Fang', // Day 2 rune per official schedule
+                    runeIcon: '🔥',
+                    irlChallenge: {
+                        title: 'No IRL Challenge',
+                        icon: '🚫',
+                        type: 'none',
+                        content: {
+                            description: 'Math-only day'
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Four-Slot Crystal Lock',
+                        icon: '🔐',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '🔍 Crystals Sniffed Out by Flint',
+                                story: 'Flint noses around the left pillar and uncovers 32 loose crystals scattered in the shadows. Wells searches the right pillar methodically and finds 47 more crystals gleaming in hidden crevices.',
+                                question: 'Flint finds 32 crystals at the left pillar.<br>Wells finds 47 crystals at the right pillar.<br><strong>Slot 1 asks:</strong> "Combine what is found, let their total light abound."<br><strong>How many crystals do they have together?</strong>',
+                                answer: 79
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '🐕 Flint\'s Wagging-Tail Mishap',
+                                story: 'Wells carefully packs 95 crystals into his enchanted pouch, but Flint\'s enthusiastic tail wagging knocks the pouch loose! His happy tail scatters 18 precious crystals across the echoing stone floor.',
+                                question: 'Wells packs 95 crystals carefully.<br>Flint\'s wagging tail scatters 18 crystals across the floor.<br><strong>Slot 2 asks:</strong> "Count what\'s kept when trouble strikes."<br><strong>How many crystals remain secure?</strong>',
+                                answer: 77
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '🥁 Echo-Drum Parade',
+                                story: 'Five rows of ancient echo-drums line the magnificent hall, their bronze surfaces gleaming in the crystal light. Each row contains exactly 6 drums, waiting to thunder in harmony when the rune-gate opens.',
+                                question: 'Five rows of echo-drums line the hall.<br>Each row has 6 drums.<br><strong>Slot 3 asks:</strong> "Let every drumbeat sound as one—how many drums must thunder?"<br><strong>How many drums boom together?</strong>',
+                                answer: 30
+                            },
+                            {
+                                category: 'Fractions',
+                                title: '🍊 Sharing a Sunfruit Snack',
+                                story: 'Wells slices a giant sunfruit into 4 equal wedges for their adventure snack. Flint eagerly munches 1 wedge with happy tail wags, leaving the remaining portions for Wells to enjoy.',
+                                question: 'Wells slices a sunfruit into 4 equal wedges.<br>Flint eats 1 wedge.<br><strong>Slot 4 asks:</strong> "What fraction of sweetness stays with the bearer?"<br><strong>What fraction of the sunfruit is left for Wells?</strong>',
+                                answer: 0.75,
+                                acceptedAnswers: [0.75, '3/4', '¾', 'three-fourths', 'three fourths']
+                            }
+                        ]
+                    }
                 }
-            },
-            rou: {
+                },
+                rou: {
                 day1: {
                     realm: 'Crystal Glade',
                     room: 'Entry Cavern',
@@ -3248,25 +3488,97 @@
                             }
                         ]
                     }
+                },
+                day2: {
+                    realm: 'Crystal Glade',
+                    room: 'Frozen Drum Cavern',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-2-art.jpg',
+                    story: 'You and Ferrin step into the Frozen Drum Cavern. A thick ice barrier blocks the next hallway, and you realize you must figure out how to melt it. On a stone table sits a magic basin that needs exactly 17 crystal shards to work. Frost flowers grow on the icy walls—you will need some to light a torch and warm the basin. Three icy drums stand nearby, each with glowing runes that hum softly; once the basin melts the barrier, you must strike the drums to open the way forward. You look around and see a pile of crystal shards and frost flowers—now it is time to do the math to solve the room.',
+                    baseRune: null, // No rune awarded on Day 2 per schedule
+                    runeIcon: null,
+                    irlChallenge: {
+                        title: 'Rou Day Two Drum Beats',
+                        icon: '🥁',
+                        type: 'drums',
+                        content: {
+                            pattern: 'BD-SN-Rest-HT (repeat 4 times)',
+                            instructions: [
+                                'Play this simple rhythm, repeating it 4 times:',
+                                '1. BD (Bass Drum) – Foot pedal',
+                                '2. SN (Snare Drum) – Left hand',
+                                '3. Pause',
+                                '4. HT (High Tom) – Right hand'
+                            ],
+                            reference: [
+                                'Count: "Bass – Snare – Rest – Tom"',
+                                'Keep the rhythm slow, clear, and steady',
+                                'The Frozen Drum Cavern echoes your beats gently'
+                            ]
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Math Challenges',
+                        icon: '🧮',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '💎 Basin Crystal Collection',
+                                story: 'The basin will only work if you collect 17 crystal shards. You scoop up 11 shining shards from the pile. Then you find 6 more shards under a frosty rock.',
+                                question: 'The basin needs 17 crystal shards to work.<br>You scoop up 11 shards from the pile.<br>You find 6 more shards under a frosty rock.<br><strong>Mystery:</strong> How many crystal shards do you have now? Is that enough to fill the basin?',
+                                answer: 17
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '🌸 Frost Flower Torch',
+                                story: 'You pick 14 frost flowers from the cave walls to light the torch. As you carry them to the basin, Ferrin\'s tail brushes against your arm and knocks 5 frost flowers onto the icy floor.',
+                                question: 'You pick 14 frost flowers from the cave walls.<br>Ferrin\'s tail knocks 5 frost flowers onto the icy floor.<br><strong>Mystery:</strong> How many frost flowers do you still hold to light the torch?',
+                                answer: 9
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '🥁 Glowing Rune Strikes',
+                                story: 'After the basin melts the ice barrier, you must strike the drums to open the hidden door. There are 3 drums, and each drum has 2 glowing runes carved on it. This tells you how many times to strike the drums.',
+                                question: 'There are 3 drums in the cavern.<br>Each drum has 2 glowing runes carved on it.<br><strong>Mystery:</strong> How many runes are there in all? This tells you how many times to strike the drums.',
+                                answer: 6
+                            }
+                        ]
+                    }
                 }
             }
         };
 
         // Rune Collection System
         function addRuneToCollection(player, runeName) {
+            console.log(`Adding rune to collection: ${player} - ${runeName}`);
             const playerData = gameState[player];
+            console.log('Player data before:', JSON.stringify(playerData));
             
             // Check if rune already exists
-            if (playerData.collectedRunes.includes(runeName)) return;
+            if (playerData.collectedRunes.includes(runeName)) {
+                console.log('Rune already exists in collection');
+                return;
+            }
             
             // Add rune to collection
             playerData.collectedRunes.push(runeName);
+            console.log('Player data after adding rune:', JSON.stringify(playerData));
+            
+            // Update shared progress with new rune collection
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            if (!sharedProgress.collectedRunes) {
+                sharedProgress.collectedRunes = { wells: [], rou: [] };
+            }
+            sharedProgress.collectedRunes[player] = [...playerData.collectedRunes];
+            localStorage.setItem('runeBearer_progress', JSON.stringify(sharedProgress));
+            console.log('Updated shared progress with new rune');
             
             // Update display
             updateRuneDisplay(player);
             
             // Save game state
             saveGameState();
+            console.log('Rune collection updated and saved');
         }
 
         function updateRuneDisplay(player) {
@@ -3274,13 +3586,14 @@
             
             const playerData = gameState[player];
             console.log('Player data:', playerData);
+            console.log('Player collected runes:', playerData.collectedRunes);
             
             const gridId = player === 'wells' ? 'wellsRuneGrid' : 'rouRuneGrid';
             const grid = document.getElementById(gridId);
             console.log('Grid element:', grid);
             
             const runes = runeCollections[player];
-            console.log('Runes for player:', runes);
+            console.log('Total runes available for player:', runes ? runes.length : 'none');
             
             if (!grid) {
                 console.error(`Grid element not found: ${gridId}`);
@@ -3293,9 +3606,14 @@
             }
             
             // Generate all rune slots
+            console.log('Clearing grid and regenerating slots...');
             grid.innerHTML = '';
+            
+            let collectedCount = 0;
             runes.forEach((rune, index) => {
                 const isCollected = playerData.collectedRunes.includes(rune.name);
+                if (isCollected) collectedCount++;
+                
                 const slot = document.createElement('div');
                 slot.className = `rune-slot ${isCollected ? 'collected' : 'uncollected'}`;
                 slot.innerHTML = `
@@ -3305,7 +3623,7 @@
                 grid.appendChild(slot);
             });
             
-            console.log(`Generated ${runes.length} rune slots for ${player}`);
+            console.log(`Generated ${runes.length} rune slots for ${player}, ${collectedCount} collected`);
         }
 
         let currentPlayer = null;
@@ -3318,11 +3636,18 @@
 
         function openPlayerRoom(player) {
             currentPlayer = player;
-            const playerData = gameState[player];
-            const content = gameContent[player][`day${playerData.currentDay}`];
+            
+            // Get current day from shared progress (admin checklist)
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            // Update local gameState to match current day
+            gameState[player].currentDay = currentDay;
+            
+            const content = gameContent[player][`day${currentDay}`];
             
             if (!content) {
-                alert(`Content not yet available for ${player} Day ${playerData.currentDay}`);
+                alert(`Content not yet available for ${player} Day ${currentDay}`);
                 return;
             }
 
@@ -3383,7 +3708,12 @@
 
         function updateChallengeButtons() {
             const playerData = gameState[currentPlayer];
-            const content = gameContent[currentPlayer][`day${playerData.currentDay}`];
+            
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            const content = gameContent[currentPlayer][`day${currentDay}`];
             const irlBtn = document.getElementById('irlChallengeBtn');
             const mathBtn = document.getElementById('mathChallengeBtn');
 
@@ -3395,25 +3725,40 @@
                 irlBtn.style.display = 'flex';
                 if (playerData.irlCompleted) {
                     irlBtn.classList.add('completed');
-                    irlBtn.innerHTML = '✅ Harmony Ritual Complete';
+                    if (content.irlChallenge.type === 'piano') {
+                        irlBtn.innerHTML = '✅ Harmony Ritual Complete';
+                    } else if (content.irlChallenge.type === 'drums') {
+                        irlBtn.innerHTML = '✅ Echo Rhythm Complete';
+                } else {
+                        irlBtn.innerHTML = '✅ IRL Challenge Complete';
+                    }
                     irlBtn.onclick = null;
                 } else {
                     irlBtn.classList.remove('completed');
-                    irlBtn.innerHTML = '🎵 Begin Harmony Ritual';
+                    if (content.irlChallenge.type === 'piano') {
+                        irlBtn.innerHTML = '🎵 Begin Harmony Ritual';
+                    } else if (content.irlChallenge.type === 'drums') {
+                        irlBtn.innerHTML = '🥁 Begin Echo Rhythm';
+                    } else {
+                        irlBtn.innerHTML = '🎯 Begin Challenge';
+                    }
                     irlBtn.onclick = startIRLChallenge;
                 }
 
                 // Math button depends on IRL completion
                 if (playerData.mathCompleted) {
                     mathBtn.classList.add('completed');
-                    mathBtn.innerHTML = '✅ Ancient Puzzles Complete';
+                    const challengeTitle = content.mathChallenge.title;
+                    mathBtn.innerHTML = `✅ ${challengeTitle} Complete`;
                     mathBtn.disabled = false;
                 } else if (playerData.irlCompleted) {
                     mathBtn.disabled = false;
-                    mathBtn.innerHTML = '🔮 Solve Ancient Puzzles';
+                    const challengeTitle = content.mathChallenge.title;
+                    mathBtn.innerHTML = `🔮 Solve ${challengeTitle}`;
                 } else {
                     mathBtn.disabled = true;
-                    mathBtn.innerHTML = '🔮 Solve Ancient Puzzles';
+                    const challengeTitle = content.mathChallenge.title;
+                    mathBtn.innerHTML = `🔮 Solve ${challengeTitle}`;
                 }
             } else {
                 // Hide IRL button for math-only days
@@ -3432,11 +3777,26 @@
         }
 
         function startIRLChallenge() {
-            document.getElementById('pianoModal').style.display = 'block';
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            const content = gameContent[currentPlayer][`day${currentDay}`];
+            const challengeType = content.irlChallenge.type;
+            
+            if (challengeType === 'piano') {
+                document.getElementById('pianoModal').style.display = 'block';
+            } else if (challengeType === 'drums') {
+                document.getElementById('drumsModal').style.display = 'block';
+            }
         }
 
         function closePianoModal() {
             document.getElementById('pianoModal').style.display = 'none';
+        }
+
+        function closeDrumsModal() {
+            document.getElementById('drumsModal').style.display = 'none';
         }
 
         function completePianoChallenge() {
@@ -3457,8 +3817,19 @@
             saveGameState();
         }
 
+        function completeDrumsChallenge() {
+            gameState[currentPlayer].irlCompleted = true;
+            updateChallengeButtons();
+            closeDrumsModal();
+            saveGameState();
+        }
+
         function startMathChallenge() {
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            const content = gameContent[currentPlayer][`day${currentDay}`];
             const hasIRLChallenge = content.irlChallenge.type !== 'none';
             
             // Only require IRL completion if there is an IRL challenge
@@ -3531,7 +3902,7 @@
                     document.getElementById('completeMathBtn').style.display = 'block';
                     document.getElementById('mathProgress').textContent = 'All ancient puzzles solved!';
                 }
-            } else {
+                } else {
                 document.getElementById('mathProgress').textContent = `Mystery ${Math.min(progress + 1, 3)} of 3`;
                 
                 if (progress >= 3) {
@@ -3542,8 +3913,14 @@
         }
 
         function completeMathChallenge() {
-            if (gameState[currentPlayer].mathProgress < 3) {
-                alert('Please complete all 3 math missions first!');
+            // Get current day and check actual number of missions
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            const dayContent = gameContent[currentPlayer][`day${currentDay}`];
+            const totalMissions = dayContent.mathChallenge.missions.length;
+            
+            if (gameState[currentPlayer].mathProgress < totalMissions) {
+                alert(`Please complete all ${totalMissions} math missions first!`);
                 return;
             }
 
@@ -3551,38 +3928,37 @@
             gameState[currentPlayer].completedDays.push(gameState[currentPlayer].currentDay);
             
             // Check for rune reward from official schedule
-            const daySchedule = gameSchedule.schedule[`day${gameState[currentPlayer].currentDay}`];
+            const daySchedule = gameSchedule.schedule.find(d => d.day === currentDay);
             const playerSchedule = daySchedule[currentPlayer];
-            const hasRune = playerSchedule.rune && playerSchedule.rune !== 'None';
+            const hasRune = playerSchedule.runeDropped && playerSchedule.runeDropped !== 'None';
             
             // Add the rune to collection if one is awarded
             if (hasRune) {
-                addRuneToCollection(currentPlayer, playerSchedule.rune);
+                addRuneToCollection(currentPlayer, playerSchedule.runeDropped);
             }
             
             updateChallengeButtons();
             
             // Check if this is a math-only day
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
-            const hasIRLChallenge = content.irlChallenge.type !== 'none';
+            const hasIRLChallenge = dayContent.irlChallenge.type !== 'none';
             const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
             
             // Check for loot reward from official schedule
-            const hasLoot = playerSchedule.loot && playerSchedule.loot !== 'None';
+            const hasLoot = playerSchedule.lootTier && playerSchedule.lootTier !== 'None';
             
             // Show rune discovery modal first if a rune was awarded
             if (hasRune) {
-                showRuneDiscoveryModal(currentPlayer, playerSchedule.rune, () => {
+                showRuneDiscoveryModal(currentPlayer, playerSchedule.runeDropped, () => {
                     // After rune modal, show loot modal if applicable, otherwise return to main
                     if (hasLoot) {
-                        showLootModal(currentPlayer, gameState[currentPlayer].currentDay, playerSchedule.loot);
+                        showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
                 } else {
                         closePlayerRoom();
                     }
                 });
             } else if (hasLoot) {
                 // Show loot modal, then return to main interface
-                showLootModal(currentPlayer, gameState[currentPlayer].currentDay, playerSchedule.loot);
+                showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
             } else {
                 // No rune or loot - return directly to main interface
                 closePlayerRoom();
@@ -3662,8 +4038,24 @@
 
         function loadGameState() {
             const saved = localStorage.getItem('runeBearerGameState');
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            
             if (saved) {
                 gameState = JSON.parse(saved);
+                console.log('Loaded main game state from localStorage');
+            }
+            
+            // Always sync with shared progress if it exists (priority over main game state)
+            if (sharedProgress.collectedRunes !== undefined) {
+                console.log('Found shared progress runes, syncing...');
+                // Force sync the rune collections from shared progress
+                if (sharedProgress.collectedRunes.wells !== undefined) {
+                    gameState.wells.collectedRunes = [...sharedProgress.collectedRunes.wells];
+                }
+                if (sharedProgress.collectedRunes.rou !== undefined) {
+                    gameState.rou.collectedRunes = [...sharedProgress.collectedRunes.rou];
+                }
+                console.log('Synced runes on load - Wells:', gameState.wells.collectedRunes, 'Rou:', gameState.rou.collectedRunes);
             }
         }
 
@@ -3685,7 +4077,12 @@
 
         function openMathQuestion(questionNum) {
             currentQuestion = questionNum;
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            const content = gameContent[currentPlayer][`day${currentDay}`];
             const mission = content.mathChallenge.missions[questionNum - 1];
             
             document.getElementById('mathQuestionTitle').textContent = mission.title;
@@ -3716,7 +4113,11 @@
         }
 
         function openNumberInput() {
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            const content = gameContent[currentPlayer][`day${currentDay}`];
             const mission = content.mathChallenge.missions[currentQuestion - 1];
             // Removed numberQuestionText line since we simplified the modal
             currentInput = '0';
@@ -3751,6 +4152,22 @@
             document.getElementById('numberDisplay').textContent = currentInput;
         }
 
+        function addDecimal() {
+            if (!currentInput.includes('.')) {
+                if (currentInput === '0') {
+                    currentInput = '0.';
+            } else {
+                    currentInput += '.';
+                }
+                document.getElementById('numberDisplay').textContent = currentInput;
+            }
+        }
+
+        function addFraction(fraction) {
+            currentInput = fraction;
+            document.getElementById('numberDisplay').textContent = currentInput;
+        }
+
         function clearNumber() {
             currentInput = '0';
             document.getElementById('numberDisplay').textContent = currentInput;
@@ -3766,12 +4183,34 @@
         }
 
         function submitNumber() {
-            const answer = parseInt(currentInput);
-            const content = gameContent[currentPlayer][`day${gameState[currentPlayer].currentDay}`];
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            const content = gameContent[currentPlayer][`day${currentDay}`];
             const mission = content.mathChallenge.missions[currentQuestion - 1];
             const correctAnswer = mission.answer;
             
-            if (answer === correctAnswer) {
+            // Check if this mission accepts multiple answer formats (like fractions)
+            let isCorrect = false;
+            if (mission.acceptedAnswers) {
+                // Handle fraction answers - check multiple formats
+                const userAnswer = currentInput.toLowerCase().trim();
+                const numericAnswer = parseFloat(currentInput);
+                isCorrect = mission.acceptedAnswers.some(accepted => {
+                    if (typeof accepted === 'number') {
+                        return Math.abs(numericAnswer - accepted) < 0.01; // Allow small floating point differences
+                    } else {
+                        return userAnswer === accepted.toString().toLowerCase();
+                    }
+                });
+            } else {
+                // Standard integer answers
+                const answer = parseInt(currentInput);
+                isCorrect = answer === correctAnswer;
+            }
+            
+            if (isCorrect) {
                 // Correct answer - close modals first
                 document.getElementById('numberInputModal').style.display = 'none';
                 document.getElementById('mathQuestionModal').style.display = 'none';
@@ -3795,7 +4234,8 @@
                     }
                     
                     // Unlock next mission
-                    if (currentQuestion < 3) {
+                    const totalMissions = content.mathChallenge.missions.length;
+                    if (currentQuestion < totalMissions) {
                         const nextBtn = document.getElementById(`mission${currentQuestion + 1}Btn`);
                         if (nextBtn) {
                             nextBtn.style.opacity = '1';
@@ -3807,30 +4247,71 @@
                 
                 // Show custom success message instead of browser alert
                 const isWells = currentPlayer === 'wells';
-                const wellsMessages = [
-                    'The sacred geometry reveals its secrets - the pillars align with ancient power!',
-                    'The crystal chambers resonate with pure energy - the Rune Gate stirs!',
-                    'The treasure is divided with perfect fairness - the Guild honors your wisdom!'
-                ];
                 
-                const rouMessages = [
-                    'You gathered all the blue crystals - they sparkle with magical energy!',
-                    'You carefully counted your remaining frost gems - they glow safely in your pouch!',
-                    'You discovered all the magic orbs - they might unlock the ice gate!'
-                ];
+                let wellsMessages, rouMessages;
+                
+                if (currentDay === 1) {
+                    wellsMessages = [
+                        'The sacred geometry reveals its secrets - the pillars align with ancient power!',
+                        'The crystal chambers resonate with pure energy - the Rune Gate stirs!',
+                        'The treasure is divided with perfect fairness - the Guild honors your wisdom!'
+                    ];
+                } else if (currentDay === 2) {
+                    wellsMessages = [
+                        'Slot 1 glows bright gold! Flint barks with excitement as the crystals unite their power!',
+                        'Slot 2 accepts the count! The crystal lock hums as Wells\' careful mathematics prove true!',
+                        'Slot 3 thunders to life! All thirty drums echo in perfect harmony throughout the halls!',
+                        'Slot 4 completes the lock! The sunfruit wisdom pleases the ancient gate - it rumbles open!'
+                    ];
+                } else {
+                    wellsMessages = [
+                        'The mystery is solved! Ancient power flows through the realm!',
+                        'Your calculations unlock the magical secrets!',
+                        'The puzzle yields to your wisdom!'
+                    ];
+                }
+                
+                if (currentDay === 1) {
+                    rouMessages = [
+                        'You gathered all the blue crystals - they sparkle with magical energy!',
+                        'You carefully counted your remaining frost gems - they glow safely in your pouch!',
+                        'You discovered all the magic orbs - they might unlock the ice gate!'
+                    ];
+                } else if (currentDay === 2) {
+                    rouMessages = [
+                        'Perfect! You have exactly 17 crystal shards - just enough to fill the basin and activate its magic!',
+                        'You hold 9 frost flowers tight - enough to light the torch and heat the basin to melt the ice barrier!',
+                        'Six glowing runes total! Now you know to strike the drums 6 times to open the hidden door!'
+                    ];
+                } else {
+                    rouMessages = [
+                        'You solved the crystal mystery - the magical forces respond!',
+                        'Your careful counting reveals the hidden truth!',
+                        'The icy puzzle yields to your wisdom!'
+                    ];
+                }
                 
                 const messages = isWells ? wellsMessages : rouMessages;
-                const successIcons = ['⭐', '💎', '🏛️', '🧊', '🎁'];
                 
-                showSuccessModal(
+                // Dynamic success icons based on player and day
+                let successIcons;
+                if (isWells) {
+                    successIcons = currentDay === 2 ? ['🔍', '🐕', '🥁', '🍊'] : ['⭐', '💎', '🏛️'];
+                } else {
+                    successIcons = currentDay === 2 ? ['💎', '🌸', '🥁'] : ['💎', '🧊', '🎁'];
+                }
+                
+                                    showSuccessModal(
                     successIcons[currentQuestion - 1] || '✨',
                     'Mystery Solved!',
                     messages[currentQuestion - 1],
                     currentPlayer,
                     () => {
-                        // UNIFIED PROGRESSION LOGIC: Always move to next question for both players
-                        if (currentQuestion < 3) {
-                            // Move to next question automatically for both Wells and Rou
+                        // UNIFIED PROGRESSION LOGIC: Check actual number of missions for current day
+                        const totalMissions = content.mathChallenge.missions.length;
+                        
+                        if (currentQuestion < totalMissions) {
+                            // Move to next question automatically for both players
                             setTimeout(() => {
                                 openMathQuestion(currentQuestion + 1);
                             }, 300);
@@ -3940,7 +4421,7 @@
             if (player === 'Wells') {
                 header.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
                 header.innerHTML = '<span class="completion-icon">👑</span><div class="completion-title">Quest Complete!</div>';
-            } else {
+                    } else {
                 header.style.background = 'linear-gradient(135deg, #3b82f6, #1d4ed8)';
                 header.innerHTML = '<span class="completion-icon">👑</span><div class="completion-title">Quest Complete!</div>';
             }
@@ -4089,16 +4570,113 @@
             loadGameState();
             initGame();
             
+            // Initialize progress display
+            loadCurrentProgress();
+            
             // Initialize rune displays with error handling
             try {
                 console.log('Initializing rune displays...');
                 updateRuneDisplay('wells');
                 updateRuneDisplay('rou');
                 console.log('Rune displays initialized successfully');
-            } catch (error) {
+                } catch (error) {
                 console.error('Error initializing rune displays:', error);
             }
+
+            // Check for progress updates every 3 seconds
+            setInterval(loadCurrentProgress, 3000);
         });
+
+        // SHARED PROGRESS SYSTEM - Connects to checklist.html
+        function loadCurrentProgress() {
+            const progress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            
+            // Set defaults if no progress exists
+            const currentDay = progress.currentDay || 1;
+            
+            // DETECT RESET - If we're back to day 1 with no completed days, reset all challenge flags
+            if (currentDay === 1 && (!progress.completedDays || progress.completedDays.length === 0)) {
+                console.log('Reset detected - clearing all challenge completion flags');
+                resetAllChallengeFlags();
+            }
+            
+            // Update player cards with current day info
+            updatePlayerCards(currentDay);
+            
+            // SYNC RUNE COLLECTIONS - Update game state with collected runes from admin
+            // Always sync, even if empty arrays (for proper reset handling)
+            if (progress.collectedRunes !== undefined) {
+                syncRuneCollections(progress.collectedRunes);
+            } else if (Object.keys(progress).length > 0) {
+                // If progress exists but no collectedRunes, ensure we clear the collections
+                syncRuneCollections({ wells: [], rou: [] });
+            }
+        }
+
+
+
+        function resetAllChallengeFlags() {
+            // Reset all challenge completion flags for both players
+            gameState.wells.irlCompleted = false;
+            gameState.wells.mathCompleted = false;
+            gameState.wells.mathProgress = 0;
+            
+            gameState.rou.irlCompleted = false;
+            gameState.rou.mathCompleted = false;
+            gameState.rou.mathProgress = 0;
+            
+            // Save the updated state
+            saveGameState();
+            console.log('All challenge flags reset');
+        }
+
+        function updatePlayerCards(currentDay) {
+            // Find the day data from gameSchedule
+            if (typeof gameSchedule !== 'undefined' && gameSchedule.schedule) {
+                const dayData = gameSchedule.schedule.find(d => d.day === currentDay);
+                if (dayData) {
+                    // Update Wells card
+                    const wellsCard = document.querySelector('.wells-card');
+                    const wellsRoom = wellsCard.querySelector('.current-room');
+                    const wellsDay = wellsCard.querySelector('.day-info');
+                    
+                    wellsRoom.textContent = `🌅 ${dayData.wells.realm}`;
+                    wellsDay.textContent = `Day ${currentDay} • ${dayData.wells.room}`;
+                    
+                    // Update Rou card
+                    const rouCard = document.querySelector('.rou-card');
+                    const rouRoom = rouCard.querySelector('.current-room');
+                    const rouDay = rouCard.querySelector('.day-info');
+                    
+                    rouRoom.textContent = `❄️ ${dayData.rou.realm}`;
+                    rouDay.textContent = `Day ${currentDay} • ${dayData.rou.room}`;
+                }
+            }
+        }
+
+        function syncRuneCollections(adminCollectedRunes) {
+            // Update the main game state with runes collected via admin
+            // Handle both populated arrays and empty arrays (for reset)
+            console.log('Syncing rune collections from admin:', adminCollectedRunes);
+            
+            if (adminCollectedRunes.wells !== undefined) {
+                gameState.wells.collectedRunes = [...adminCollectedRunes.wells];
+                console.log('Synced Wells runes:', gameState.wells.collectedRunes);
+            }
+            if (adminCollectedRunes.rou !== undefined) {
+                gameState.rou.collectedRunes = [...adminCollectedRunes.rou];
+                console.log('Synced Rou runes:', gameState.rou.collectedRunes);
+            }
+            
+            // Update the rune displays immediately
+            console.log('Updating rune displays...');
+            updateRuneDisplay('wells');
+            updateRuneDisplay('rou');
+            
+            // Save the updated game state
+            saveGameState();
+            console.log('Rune sync complete, game state saved');
+        }
 
         function resetGameState() {
             // Implement the logic to reset the game state
@@ -4124,6 +4702,20 @@
                 }
             };
             localStorage.removeItem('runeBearerGameState'); // Clear saved data too
+            localStorage.removeItem('runeBearer_progress'); // Clear shared progress too
+            
+            // Reset shared progress structure
+            const resetSharedProgress = {
+                currentDay: 1,
+                completedDays: [],
+                unlockedDays: [1],
+                taskCompletions: {},
+                collectedRunes: {
+                    wells: [],
+                    rou: []
+                }
+            };
+            localStorage.setItem('runeBearer_progress', JSON.stringify(resetSharedProgress));
             saveGameState();
             console.log('Game state reset successfully - all progress cleared');
             
@@ -4136,6 +4728,7 @@
                 () => {
                     updateRuneDisplay('wells');
                     updateRuneDisplay('rou');
+                    loadCurrentProgress(); // Refresh progress display
                 }
             );
         }

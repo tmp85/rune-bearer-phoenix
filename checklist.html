@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rune Bearer Schedule Tracker</title>
+    <style>
+        :root {
+            --primary-purple: #8b5cf6;
+            --secondary-purple: #a78bfa;
+            --dark-purple: #6d28d9;
+            --success-green: #10b981;
+            --warning-orange: #f59e0b;
+            --text-light: #f8fafc;
+            --text-gray: #64748b;
+            --bg-dark: #1e293b;
+            --bg-darker: #0f172a;
+            --border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg-darker), var(--bg-dark));
+            color: var(--text-light);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, var(--primary-purple), var(--secondary-purple));
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .progress-summary {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1.5rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .progress-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            min-width: 150px;
+        }
+
+        .progress-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-purple);
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            margin-top: 0.5rem;
+        }
+
+        .admin-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .admin-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .admin-btn.reset {
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+        }
+
+        .table-container {
+            margin: 0 auto;
+            max-width: 1400px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .schedule-table th {
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .schedule-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .schedule-table tr:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .day-row.completed {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .day-row.locked {
+            background: rgba(100, 116, 139, 0.2);
+            opacity: 0.6;
+        }
+
+        .character-section {
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            border-left: 3px solid transparent;
+        }
+
+        .character-section.wells {
+            border-left-color: var(--warning-orange);
+        }
+
+        .character-section.rou {
+            border-left-color: #3b82f6;
+        }
+
+        .character-name {
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .character-info {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .completion-checkbox {
+            transform: scale(1.2);
+            margin-right: 0.5rem;
+        }
+
+        .completion-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-badge.completed {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .status-badge.locked {
+            background: var(--text-gray);
+            color: white;
+        }
+
+        .status-badge.available {
+            background: var(--primary-purple);
+            color: white;
+        }
+
+        .task-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .task-type {
+            font-weight: 600;
+            color: var(--primary-purple);
+        }
+
+        .rune-info {
+            font-size: 0.9rem;
+        }
+
+        .rune-name {
+            color: var(--warning-orange);
+            font-weight: 600;
+        }
+
+        .loot-tier {
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .loot-tier.tiny {
+            background: rgba(139, 92, 246, 0.3);
+            color: var(--secondary-purple);
+        }
+
+        .loot-tier.medium {
+            background: rgba(245, 158, 11, 0.3);
+            color: var(--warning-orange);
+        }
+
+        .loot-tier.big {
+            background: rgba(16, 185, 129, 0.3);
+            color: var(--success-green);
+        }
+
+        .special-room {
+            color: var(--warning-orange);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .progress-summary {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .admin-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .table-container {
+                padding: 1rem;
+            }
+
+            .schedule-table th,
+            .schedule-table td {
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🏰 Admin Progress Checklist</h1>
+        <p>Manage Wells and Rou's progress through their 40-day adventure</p>
+    </div>
+
+    <div class="progress-summary">
+        <div class="progress-item">
+            <div class="progress-number" id="wellsProgress">0</div>
+            <div class="progress-label">Wells Completed</div>
+        </div>
+        <div class="progress-item">
+            <div class="progress-number" id="rouProgress">0</div>
+            <div class="progress-label">Rou Completed</div>
+        </div>
+        <div class="progress-item">
+            <div class="progress-number" id="totalProgress">0</div>
+            <div class="progress-label">Total Days Unlocked</div>
+        </div>
+    </div>
+
+    <div class="admin-controls">
+        <button class="admin-btn" onclick="window.location.href='index.html'">🎮 Return to Game</button>
+        <button class="admin-btn" onclick="unlockNextDay()">🔓 Unlock Next Day</button>
+        <button class="admin-btn reset" onclick="resetProgress()">🔄 Reset All Progress</button>
+        <button class="admin-btn" onclick="exportProgress()">📥 Export Progress</button>
+    </div>
+
+    <div class="table-container">
+        <table class="schedule-table">
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Date</th>
+                    <th>Wells Progress</th>
+                    <th>Rou Progress</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="scheduleTableBody">
+                <!-- Table rows will be generated dynamically -->
+            </tbody>
+        </table>
+    </div>
+
+    <script src="gameSchedule.js"></script>
+    <script>
+        // Progress tracking state - SHARED with index.html
+        let progressState = {
+            currentDay: 1,
+            completedDays: [],
+            unlockedDays: [1],
+            taskCompletions: {},
+            collectedRunes: {
+                wells: [],
+                rou: []
+            }
+        };
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            generateScheduleTable();
+            updateProgressSummary();
+        });
+
+        // Load progress from localStorage - SHARED KEY
+        function loadProgress() {
+            const saved = localStorage.getItem('runeBearer_progress');
+            if (saved) {
+                const data = JSON.parse(saved);
+                progressState = {
+                    currentDay: data.currentDay || 1,
+                    completedDays: data.completedDays || [],
+                    unlockedDays: data.unlockedDays || [1],
+                    taskCompletions: data.taskCompletions || {},
+                    collectedRunes: data.collectedRunes || {
+                        wells: [],
+                        rou: []
+                    }
+                };
+            }
+        }
+
+        // Save progress to localStorage - SHARED KEY
+        function saveProgress() {
+            localStorage.setItem('runeBearer_progress', JSON.stringify(progressState));
+        }
+
+        // Generate the main schedule table
+        function generateScheduleTable() {
+            const tbody = document.getElementById('scheduleTableBody');
+            tbody.innerHTML = '';
+
+            gameSchedule.schedule.forEach(dayData => {
+                const row = document.createElement('tr');
+                row.className = 'day-row';
+                
+                // Determine row status using new data structure
+                const wellsCompleted = progressState.taskCompletions[`day${dayData.day}_wells`] || false;
+                const rouCompleted = progressState.taskCompletions[`day${dayData.day}_rou`] || false;
+                const bothCompleted = wellsCompleted && rouCompleted;
+                const isLocked = !progressState.unlockedDays.includes(dayData.day);
+                
+                if (bothCompleted) {
+                    row.classList.add('completed');
+                } else if (isLocked) {
+                    row.classList.add('locked');
+                }
+
+                row.innerHTML = `
+                    <td>
+                        <strong>Day ${dayData.day}</strong><br>
+                        <small>${dayData.dayOfWeek}</small>
+                    </td>
+                    <td>${dayData.date}</td>
+                    <td>${generateCharacterCell(dayData.wells, 'wells', dayData.day, isLocked)}</td>
+                    <td>${generateCharacterCell(dayData.rou, 'rou', dayData.day, isLocked)}</td>
+                    <td>${generateStatusCell(wellsCompleted, rouCompleted, isLocked)}</td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+
+        // Generate character cell content
+        function generateCharacterCell(charData, character, day, isLocked) {
+            const isCompleted = progressState.taskCompletions[`day${day}_${character}`] || false;
+            const checkboxDisabled = isLocked ? 'disabled' : '';
+            
+            return `
+                <div class="character-section ${character}">
+                    <div class="completion-status">
+                        <input type="checkbox" 
+                               class="completion-checkbox" 
+                               ${isCompleted ? 'checked' : ''} 
+                               ${checkboxDisabled}
+                               onchange="handleComplete(${day}, '${character}')">
+                        <span class="character-name">${character.charAt(0).toUpperCase() + character.slice(1)}</span>
+                    </div>
+                    <div class="character-info">
+                        <div><strong>${charData.realm}</strong></div>
+                        <div class="${charData.isSubBoss || charData.isBoss || charData.isChickenJockey ? 'special-room' : ''}">${charData.room}</div>
+                        <div class="task-info">
+                            ${charData.irlTask ? `<span class="task-type">IRL: ${charData.irlTask}</span>` : '<span class="task-type">Math Only</span>'}
+                            ${charData.runeDropped ? `<div class="rune-info">🔮 <span class="rune-name">${charData.runeDropped}</span></div>` : ''}
+                            ${charData.lootTier && charData.lootTier !== 'None' ? `<span class="loot-tier ${charData.lootTier.toLowerCase()}">${charData.lootTier} Loot</span>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate status cell content
+        function generateStatusCell(wellsCompleted, rouCompleted, isLocked) {
+            if (isLocked) {
+                return '<span class="status-badge locked">🔒 Locked</span>';
+            } else if (wellsCompleted && rouCompleted) {
+                return '<span class="status-badge completed">✅ Complete</span>';
+            } else {
+                return '<span class="status-badge available">⭐ Available</span>';
+            }
+        }
+
+        // Handle completion checkbox changes
+        function handleComplete(day, character) {
+            const checkbox = event.target;
+            progressState.taskCompletions[`day${day}_${character}`] = checkbox.checked;
+            
+            // Check if both characters completed this day
+            const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
+            const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
+            
+            if (wellsCompleted && rouCompleted) {
+                // Mark day as completed
+                if (!progressState.completedDays.includes(day)) {
+                    progressState.completedDays.push(day);
+                    progressState.completedDays.sort((a, b) => a - b);
+                    
+                    // SILENT RUNE COLLECTION - Add runes when day is completed
+                    collectRunesForCompletedDay(day);
+                }
+                
+                // Update current day to next incomplete day
+                let nextDay = day + 1;
+                while (nextDay <= 40 && progressState.completedDays.includes(nextDay)) {
+                    nextDay++;
+                }
+                progressState.currentDay = nextDay <= 40 ? nextDay : 40;
+                
+                // Auto-advance unlocked days
+                if (!progressState.unlockedDays.includes(nextDay) && nextDay <= 40) {
+                    progressState.unlockedDays.push(nextDay);
+                    progressState.unlockedDays.sort((a, b) => a - b);
+                    console.log(`Day ${day} completed by both! Unlocked Day ${nextDay}`);
+                }
+            } else {
+                // Remove from completed days if unchecked
+                if (!checkbox.checked) {
+                    progressState.completedDays = progressState.completedDays.filter(d => d !== day);
+                    
+                    // Remove runes if day is uncompleted
+                    removeRunesForDay(day);
+                }
+            }
+            
+            saveProgress();
+            generateScheduleTable();
+            updateProgressSummary();
+        }
+
+        // Update progress summary
+        function updateProgressSummary() {
+            const wellsCount = Object.keys(progressState.taskCompletions).filter(key => 
+                key.includes('_wells') && progressState.taskCompletions[key]).length;
+            const rouCount = Object.keys(progressState.taskCompletions).filter(key => 
+                key.includes('_rou') && progressState.taskCompletions[key]).length;
+            
+            document.getElementById('wellsProgress').textContent = `${wellsCount}/40`;
+            document.getElementById('rouProgress').textContent = `${rouCount}/40`;
+            document.getElementById('totalProgress').textContent = progressState.unlockedDays.length;
+        }
+
+        // Admin function: Unlock next day
+        function unlockNextDay() {
+            const maxUnlocked = Math.max(...progressState.unlockedDays);
+            if (maxUnlocked < 40) {
+                const nextDay = maxUnlocked + 1;
+                if (!progressState.unlockedDays.includes(nextDay)) {
+                    progressState.unlockedDays.push(nextDay);
+                    progressState.unlockedDays.sort((a, b) => a - b);
+                    saveProgress();
+                    generateScheduleTable();
+                    updateProgressSummary();
+                    console.log(`Manually unlocked Day ${nextDay}`);
+                }
+            } else {
+                alert('All days are already unlocked!');
+            }
+        }
+
+        // SILENT RUNE COLLECTION FUNCTIONS
+        function collectRunesForCompletedDay(day) {
+            const dayData = gameSchedule.schedule.find(d => d.day === day);
+            if (!dayData) return;
+            
+            // Add Wells rune if it exists
+            if (dayData.wells.runeDropped) {
+                addRuneToCollection('wells', dayData.wells.runeDropped);
+            }
+            
+            // Add Rou rune if it exists
+            if (dayData.rou.runeDropped) {
+                addRuneToCollection('rou', dayData.rou.runeDropped);
+            }
+        }
+        
+        function addRuneToCollection(character, runeName) {
+            if (!progressState.collectedRunes) {
+                progressState.collectedRunes = { wells: [], rou: [] };
+            }
+            
+            if (!progressState.collectedRunes[character].includes(runeName)) {
+                progressState.collectedRunes[character].push(runeName);
+                console.log(`Silently collected rune: ${runeName} for ${character}`);
+            }
+        }
+        
+        function removeRunesForDay(day) {
+            const dayData = gameSchedule.schedule.find(d => d.day === day);
+            if (!dayData) return;
+            
+            // Remove Wells rune if it exists
+            if (dayData.wells.runeDropped) {
+                progressState.collectedRunes.wells = progressState.collectedRunes.wells.filter(r => r !== dayData.wells.runeDropped);
+            }
+            
+            // Remove Rou rune if it exists
+            if (dayData.rou.runeDropped) {
+                progressState.collectedRunes.rou = progressState.collectedRunes.rou.filter(r => r !== dayData.rou.runeDropped);
+            }
+        }
+
+        // Admin function: Reset all progress
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress? This cannot be undone.')) {
+                // Clear localStorage first
+                localStorage.removeItem('runeBearer_progress');
+                
+                // Reset state
+                progressState = {
+                    currentDay: 1,
+                    completedDays: [],
+                    unlockedDays: [1],
+                    taskCompletions: {},
+                    collectedRunes: {
+                        wells: [],
+                        rou: []
+                    }
+                };
+                
+                // Save the reset state
+                saveProgress();
+                
+                // Force update UI
+                generateScheduleTable();
+                updateProgressSummary();
+                
+                // Provide feedback
+                alert('Progress has been reset to Day 1');
+                console.log('Progress reset to Day 1');
+                
+                // Force reload to ensure clean state
+                window.location.reload();
+            }
+        }
+
+        // Export progress as JSON
+        function exportProgress() {
+            const dataStr = JSON.stringify(progressState, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'rune-bearer-progress.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'u':
+                        e.preventDefault();
+                        unlockNextDay();
+                        break;
+                    case 'r':
+                        e.preventDefault();
+                        if (e.shiftKey) {
+                            resetProgress();
+                        }
+                        break;
+                }
+            }
+        });
+    </script>
+</body>
+</html> 
