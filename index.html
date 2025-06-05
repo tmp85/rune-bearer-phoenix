@@ -3047,6 +3047,55 @@
         </div>
     </div>
 
+    <!-- IXL Challenge Modal -->
+    <div id="ixlModal" class="piano-modal">
+        <div class="piano-modal-content">
+            <button class="piano-close-btn" onclick="closeIXLModal()">×</button>
+            
+            <div class="piano-modal-header">
+                🧠 IXL Wisdom Hunt!
+            </div>
+            
+            <div class="piano-story-context">
+                The Prism Sun Obelisk hums with hidden knowledge, its faceted surface catching and splitting sunlight into rainbow patterns. Ancient whispers seem to emanate from within the stone: "Light grows brighter when a mind grows wiser." Before the prism sockets can be activated, the obelisk demands proof of learning and wisdom.
+            </div>
+            
+            <div class="piano-challenge-desc">
+                ✨ Wisdom Objective ✨<br>
+                Complete IXL learning modules to unlock the obelisk's prism socket challenges!
+            </div>
+            
+            <div class="piano-instructions-modal">
+                <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">📚 Learning Quest</h3>
+                
+                <h4 style="color: #ffd700; margin-bottom: 10px;">Your Mission:</h4>
+                <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.6;">
+                    <li>Log into IXL on your device</li>
+                    <li>Pick any two skill modules you want to practice</li>
+                    <li>Work on each module for 5-10 minutes</li>
+                    <li>Complete at least 5 questions correctly in each</li>
+                    <li>Focus on learning - effort matters more than perfection!</li>
+                </ul>
+                
+                <div style="background: rgba(78,205,196,0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <strong style="color: #4ecdc4;">Suggested Topics:</strong><br>
+                    • Math: shapes, numbers, patterns<br>
+                    • Reading: comprehension, vocabulary<br>
+                    • Science: light, nature, experiments
+                </div>
+                
+                <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong style="color: #ffd700;">Learning Tips:</strong><br>
+                    • Take your time and think carefully about each answer<br>
+                    • Ask for help if you get stuck on something tricky<br>
+                    • Every mistake is a chance to learn something new!
+                </div>
+            </div>
+            
+            <button class="piano-complete-btn" onclick="completeIXLChallenge()">🌟 I've Completed My Learning!</button>
+        </div>
+    </div>
+
     <!-- Math Question Modal -->
     <div id="mathQuestionModal" class="math-question-modal">
         <div class="math-question-content">
@@ -3442,6 +3491,79 @@
                             }
                         ]
                     }
+                },
+                day3: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Prism Sun Obelisk',
+                    icon: '☀️',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-3-art.jpg',
+                    story: 'Wells and Flint approach the towering Prism Sun Obelisk. The crystal structure hums with hidden knowledge, its faceted surface catching and splitting sunlight into rainbow patterns. Ancient whispers seem to emanate from within the stone: "Light grows brighter when a mind grows wiser." Four prism sockets await activation, but first, the obelisk demands proof of learning.',
+                    baseRune: 'Stormcaller Sigil',
+                    runeIcon: '⚡',
+                    irlChallenge: {
+                        title: 'IXL Wisdom Hunt',
+                        icon: '🧠',
+                        type: 'ixl',
+                        content: {
+                            instructions: [
+                                'Log into IXL on your device',
+                                'Pick any two skill modules you want to practice:',
+                                '• Math (shapes, numbers, patterns)',
+                                '• Reading (comprehension, vocabulary)',
+                                '• Science (light, nature, experiments)',
+                                'Work on each module for 5-10 minutes',
+                                'Complete at least 5 questions correctly in each',
+                                'Focus on learning - effort matters more than perfection!'
+                            ],
+                            reference: [
+                                'Suggested topics: math shapes, reading stories, science about light',
+                                'Take your time and think carefully about each answer',
+                                'Ask for help if you get stuck on something tricky'
+                            ],
+                            successMessage: 'When your learning is complete, the obelisk\'s prisms burst with brilliant light! The ancient voice whispers: "Your mind now holds the key to unlock tomorrow\'s mysteries..."'
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Prism Socket Problems',
+                        icon: '🔮',
+                        description: 'Solve each riddle, slot the correct crystal count, and focus the light.',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '💎 Crystal Shard Collection',
+                                story: 'Flint sniffs around the obelisk base and discovers 28 light shards buried in ancient dust. Wells carefully brushes 34 more shards off a high stone ledge, their surfaces gleaming like captured sunlight.',
+                                question: 'Flint finds 28 light shards in the dust.<br>Wells brushes 34 more shards off a ledge.<br><strong>Socket 1 asks:</strong> "Add all the shards you find together."<br><strong>How many shards total?</strong>',
+                                answer: 62,
+                                successMessage: '62 - First socket blazes gold!'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '🔺 Triangle Mirror Panels',
+                                story: 'The Prism Sun Obelisk is adorned with 7 triangular mirror-panels, each one perfectly crafted to catch and reflect the sun\'s rays. Wells studies their geometric precision.',
+                                question: 'The obelisk has 7 triangular mirror-panels.<br>Each triangle has 3 sides.<br><strong>Socket 2 asks:</strong> "Each triangle has 3 sides. Count all the sides."<br><strong>How many triangle sides in total?</strong>',
+                                answer: 21,
+                                successMessage: '21 - Second socket shimmers silver!'
+                            },
+                            {
+                                category: 'Division',
+                                title: '💫 Light Ring Distribution',
+                                story: 'Wells counts 120 precious light shards that must be distributed evenly among the 4 focusing lens-rings of the obelisk. Each ring must receive an equal share for the light to focus properly.',
+                                question: '120 light shards must be split evenly into 4 lens-rings.<br><strong>Socket 3 asks:</strong> "Share the light shards equally among the rings."<br><strong>How many light shards per ring?</strong>',
+                                answer: 30,
+                                successMessage: '30 - Third socket pulses bronze!'
+                            },
+                            {
+                                category: 'Fractions',
+                                title: '🪞 Prism Plate Sharing',
+                                story: 'Wells discovers a cracked prism plate that has split into 4 equal pieces. He gives 1 piece to Flint to carry safely in his mouth, keeping the remaining pieces for himself.',
+                                question: 'A prism plate is split into 4 equal pieces.<br>Wells gives 1 piece to Flint to carry.<br><strong>Socket 4 asks:</strong> "How much of the plate remains with Wells?"<br><strong>What fraction stays with Wells?</strong>',
+                                answer: 0.75,
+                                acceptedAnswers: [0.75, '3/4', '¾', 'three-fourths', 'three fourths', 'three-quarters', 'three quarters'],
+                                successMessage: '3/4 - Final socket erupts in rainbow light!'
+                            }
+                        ],
+                        finalMessage: 'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!'
+                    }
                 }
                 },
                 rou: {
@@ -3543,6 +3665,54 @@
                                 answer: 6
                             }
                         ]
+                    }
+                },
+                day3: {
+                    realm: 'Crystal Glade',
+                    room: 'Glacial Rune Chamber',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-3-art.jpg',
+                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. In the center stands a rune pedestal covered in thick ice. The pedestal needs exactly 18 ice crystals to power its runes, but first you must melt the ice covering it. Frost flowers bloom near the walls—they will light a torch to melt the ice. After the pedestal is clear, three icy pillars with rune symbols must be struck in order to claim the Storm Fang rune. You look around and see piles of ice crystals and frost flowers—now it is time to do the math to solve the room.',
+                    baseRune: 'Storm Fang',
+                    runeIcon: '❄️',
+                    irlChallenge: {
+                        title: 'No IRL Challenge',
+                        icon: '🚫',
+                        type: 'none',
+                        content: {
+                            description: 'Math-only day'
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Glacial Mysteries',
+                        icon: '🧮',
+                        missions: [
+                            {
+                                category: 'Subtraction',
+                                title: '🌸 Frost Flower Torch',
+                                story: 'You gather 12 frost flowers from the cavern walls to light a torch. 3 frost flowers float away to light wall sconces around the room.',
+                                question: 'You gather 12 frost flowers from the cavern walls.<br>3 frost flowers float away to light wall sconces around the room.<br><strong>Mystery:</strong> How many frost flowers do you still hold for your torch?',
+                                answer: 9,
+                                successMessage: 'You light the torch with 9 frost flowers. The warm flames melt all the ice covering the rune pedestal!'
+                            },
+                            {
+                                category: 'Addition',
+                                title: '💎 Pedestal Crystal Power',
+                                story: 'The rune pedestal needs 18 ice crystals to power up. You pick up 11 ice crystals from a frozen pile. Then you find 7 more ice crystals under a slab of ice.',
+                                question: 'The rune pedestal needs 18 ice crystals to power up.<br>You pick up 11 ice crystals from a frozen pile.<br>You find 7 more ice crystals under a slab of ice.<br><strong>Mystery:</strong> How many ice crystals do you have now? Do you have enough?',
+                                answer: 18,
+                                successMessage: 'You place all 18 crystals on the pedestal. It glows with bright blue power and hums with magic!'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '🏛️ Rune Symbol Strikes',
+                                story: 'The pedestal\'s power reveals three icy pillars around the room. There are 3 pillars, and each pillar has 2 glowing rune symbols. You must strike each symbol once to claim the Storm Fang rune.',
+                                question: 'The pedestal reveals 3 icy pillars around the room.<br>Each pillar has 2 glowing rune symbols.<br><strong>Mystery:</strong> How many rune symbols are there in all? This tells you how many times to strike the pillars.',
+                                answer: 6,
+                                successMessage: 'You strike each rune symbol once—6 strikes total. The pillars crack and the Storm Fang rune appears floating in the air!'
+                            }
+                        ],
+                        finalMessage: 'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!'
                     }
                 }
             }
@@ -3729,7 +3899,9 @@
                         irlBtn.innerHTML = '✅ Harmony Ritual Complete';
                     } else if (content.irlChallenge.type === 'drums') {
                         irlBtn.innerHTML = '✅ Echo Rhythm Complete';
-                } else {
+                    } else if (content.irlChallenge.type === 'ixl') {
+                        irlBtn.innerHTML = '✅ Wisdom Hunt Complete';
+                    } else {
                         irlBtn.innerHTML = '✅ IRL Challenge Complete';
                     }
                     irlBtn.onclick = null;
@@ -3739,6 +3911,8 @@
                         irlBtn.innerHTML = '🎵 Begin Harmony Ritual';
                     } else if (content.irlChallenge.type === 'drums') {
                         irlBtn.innerHTML = '🥁 Begin Echo Rhythm';
+                    } else if (content.irlChallenge.type === 'ixl') {
+                        irlBtn.innerHTML = '🧠 Begin Wisdom Hunt';
                     } else {
                         irlBtn.innerHTML = '🎯 Begin Challenge';
                     }
@@ -3788,6 +3962,8 @@
                 document.getElementById('pianoModal').style.display = 'block';
             } else if (challengeType === 'drums') {
                 document.getElementById('drumsModal').style.display = 'block';
+            } else if (challengeType === 'ixl') {
+                document.getElementById('ixlModal').style.display = 'block';
             }
         }
 
@@ -3797,6 +3973,10 @@
 
         function closeDrumsModal() {
             document.getElementById('drumsModal').style.display = 'none';
+        }
+
+        function closeIXLModal() {
+            document.getElementById('ixlModal').style.display = 'none';
         }
 
         function completePianoChallenge() {
@@ -3824,6 +4004,32 @@
             saveGameState();
         }
 
+        function completeIXLChallenge() {
+            gameState[currentPlayer].irlCompleted = true;
+            updateChallengeButtons();
+            closeIXLModal();
+            
+            // Get current day and content for success message
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            const content = gameContent[currentPlayer][`day${currentDay}`];
+            
+            // Show completion message with the custom success message from content
+            const successMessage = content.irlChallenge.content.successMessage || 
+                'When your learning is complete, the obelisk\'s prisms burst with brilliant light! The ancient voice whispers: "Your mind now holds the key to unlock tomorrow\'s mysteries..."';
+            
+            showSuccessModal(
+                '🧠',
+                'Wisdom Achieved!',
+                successMessage,
+                currentPlayer,
+                () => {
+                    // Continue to next challenge
+                }
+            );
+            saveGameState();
+        }
+
         function startMathChallenge() {
             // Get current day from shared progress
             const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
@@ -3834,10 +4040,19 @@
             
             // Only require IRL completion if there is an IRL challenge
             if (hasIRLChallenge && !gameState[currentPlayer].irlCompleted) {
-                showCompletionModal(
+                let lockedTitle, lockedMessage;
+                if (currentDay === 3 && currentPlayer === 'wells') {
+                    lockedTitle = 'Prism Sockets Sealed';
+                    lockedMessage = 'Please complete the IXL Wisdom Hunt first! The obelisk demands proof of learning before the prism sockets will activate.';
+                } else {
+                    lockedTitle = 'Ancient Pillars Sealed';
+                    lockedMessage = 'Please complete the Harmony Ritual first! The sun pillars must be activated in sequence.';
+                }
+                
+                showSuccessModal(
                     '🔒',
-                    'Ancient Pillars Sealed',
-                    'Please complete the Harmony Ritual first! The sun pillars must be activated in sequence.',
+                    lockedTitle,
+                    lockedMessage,
                     currentPlayer,
                     () => {} // Just close modal
                 );
@@ -3946,22 +4161,65 @@
             // Check for loot reward from official schedule
             const hasLoot = playerSchedule.lootTier && playerSchedule.lootTier !== 'None';
             
-            // Show rune discovery modal first if a rune was awarded
-            if (hasRune) {
-                showRuneDiscoveryModal(currentPlayer, playerSchedule.runeDropped, () => {
-                    // After rune modal, show loot modal if applicable, otherwise return to main
-                    if (hasLoot) {
-                        showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
-                } else {
-                        closePlayerRoom();
+            // Show final completion message for Day 3
+            if (currentDay === 3) {
+                let finalMessage, completionTitle, completionIcon;
+                
+                if (currentPlayer === 'wells') {
+                    finalMessage = dayContent.mathChallenge.finalMessage || 
+                        'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!';
+                    completionTitle = 'Prism Sun Obelisk Complete!';
+                    completionIcon = '☀️';
+                } else if (currentPlayer === 'rou') {
+                    finalMessage = dayContent.mathChallenge.finalMessage || 
+                        'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!';
+                    completionTitle = 'Glacial Rune Chamber Complete!';
+                    completionIcon = '❄️';
+                }
+                
+                showSuccessModal(
+                    completionIcon,
+                    completionTitle,
+                    finalMessage,
+                    currentPlayer,
+                    () => {
+                        // Show rune discovery modal if a rune was awarded
+                        if (hasRune) {
+                            showRuneDiscoveryModal(currentPlayer, playerSchedule.runeDropped, () => {
+                                // After rune modal, show loot modal if applicable, otherwise return to main
+                                if (hasLoot) {
+                                    showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                                } else {
+                                    closePlayerRoom();
+                                }
+                            });
+                        } else if (hasLoot) {
+                            // Show loot modal, then return to main interface
+                            showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                        } else {
+                            // No rune or loot - return directly to main interface
+                            closePlayerRoom();
+                        }
                     }
-                });
-            } else if (hasLoot) {
-                // Show loot modal, then return to main interface
-                showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                );
             } else {
-                // No rune or loot - return directly to main interface
-                closePlayerRoom();
+                // Show rune discovery modal first if a rune was awarded
+                if (hasRune) {
+                    showRuneDiscoveryModal(currentPlayer, playerSchedule.runeDropped, () => {
+                        // After rune modal, show loot modal if applicable, otherwise return to main
+                        if (hasLoot) {
+                            showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                        } else {
+                            closePlayerRoom();
+                        }
+                    });
+                } else if (hasLoot) {
+                    // Show loot modal, then return to main interface
+                    showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                } else {
+                    // No rune or loot - return directly to main interface
+                    closePlayerRoom();
+                }
             }
             
             saveGameState();
@@ -4263,6 +4521,13 @@
                         'Slot 3 thunders to life! All thirty drums echo in perfect harmony throughout the halls!',
                         'Slot 4 completes the lock! The sunfruit wisdom pleases the ancient gate - it rumbles open!'
                     ];
+                } else if (currentDay === 3) {
+                    wellsMessages = [
+                        '62 - First socket blazes gold!',
+                        '21 - Second socket shimmers silver!',
+                        '30 - Third socket pulses bronze!',
+                        '3/4 - Final socket erupts in rainbow light!'
+                    ];
                 } else {
                     wellsMessages = [
                         'The mystery is solved! Ancient power flows through the realm!',
@@ -4283,6 +4548,12 @@
                         'You hold 9 frost flowers tight - enough to light the torch and heat the basin to melt the ice barrier!',
                         'Six glowing runes total! Now you know to strike the drums 6 times to open the hidden door!'
                     ];
+                } else if (currentDay === 3) {
+                    rouMessages = [
+                        'You light the torch with 9 frost flowers. The warm flames melt all the ice covering the rune pedestal!',
+                        'You place all 18 crystals on the pedestal. It glows with bright blue power and hums with magic!',
+                        'You strike each rune symbol once—6 strikes total. The pillars crack and the Storm Fang rune appears floating in the air!'
+                    ];
                 } else {
                     rouMessages = [
                         'You solved the crystal mystery - the magical forces respond!',
@@ -4296,9 +4567,21 @@
                 // Dynamic success icons based on player and day
                 let successIcons;
                 if (isWells) {
-                    successIcons = currentDay === 2 ? ['🔍', '🐕', '🥁', '🍊'] : ['⭐', '💎', '🏛️'];
+                    if (currentDay === 2) {
+                        successIcons = ['🔍', '🐕', '🥁', '🍊'];
+                    } else if (currentDay === 3) {
+                        successIcons = ['💎', '🔺', '💫', '🪞'];
+                    } else {
+                        successIcons = ['⭐', '💎', '🏛️'];
+                    }
                 } else {
-                    successIcons = currentDay === 2 ? ['💎', '🌸', '🥁'] : ['💎', '🧊', '🎁'];
+                    if (currentDay === 2) {
+                        successIcons = ['💎', '🌸', '🥁'];
+                    } else if (currentDay === 3) {
+                        successIcons = ['🌸', '💎', '🏛️'];
+                    } else {
+                        successIcons = ['💎', '🧊', '🎁'];
+                    }
                 }
                 
                                     showSuccessModal(

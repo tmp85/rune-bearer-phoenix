@@ -259,6 +259,140 @@
             font-weight: 600;
         }
 
+        /* Day Activation Controls */
+        .activation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .activation-toggle {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .activation-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .activation-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #64748b;
+            transition: .4s;
+            border-radius: 34px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .activation-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        .activation-toggle input:checked + .activation-slider {
+            background-color: var(--success-green);
+        }
+
+        .activation-toggle input:checked + .activation-slider:before {
+            transform: translateX(26px);
+        }
+
+        .activation-toggle.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .activation-toggle.disabled .activation-slider {
+            cursor: not-allowed;
+            background-color: #374151;
+        }
+
+        .activation-label {
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        .activation-label.active {
+            color: var(--success-green);
+        }
+
+        .activation-label.inactive {
+            color: var(--text-gray);
+        }
+
+        .activation-label.disabled {
+            color: #6b7280;
+        }
+
+        .prerequisite-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid var(--warning-orange);
+            color: var(--warning-orange);
+            padding: 0.5rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            text-align: center;
+            margin: 0.25rem 0;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--bg-darker);
+            color: var(--text-light);
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            border: 1px solid var(--border-color);
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: var(--bg-darker) transparent transparent transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
         @media (max-width: 768px) {
             .header h1 {
                 font-size: 2rem;
@@ -282,6 +416,28 @@
             .schedule-table td {
                 padding: 0.5rem;
                 font-size: 0.9rem;
+            }
+
+            .activation-toggle {
+                width: 50px;
+                height: 28px;
+            }
+
+            .activation-slider:before {
+                height: 20px;
+                width: 20px;
+                left: 2px;
+                bottom: 2px;
+            }
+
+            .activation-toggle input:checked + .activation-slider:before {
+                transform: translateX(22px);
+            }
+
+            .tooltip .tooltiptext {
+                width: 150px;
+                margin-left: -75px;
+                font-size: 0.7rem;
             }
         }
     </style>
@@ -323,6 +479,7 @@
                     <th>Wells Progress</th>
                     <th>Rou Progress</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody id="scheduleTableBody">
@@ -405,6 +562,7 @@
                     <td>${generateCharacterCell(dayData.wells, 'wells', dayData.day, isLocked)}</td>
                     <td>${generateCharacterCell(dayData.rou, 'rou', dayData.day, isLocked)}</td>
                     <td>${generateStatusCell(wellsCompleted, rouCompleted, isLocked)}</td>
+                    <td>${generateActivationCell(dayData.day, isLocked)}</td>
                 `;
 
                 tbody.appendChild(row);
@@ -448,6 +606,150 @@
             } else {
                 return '<span class="status-badge available">⭐ Available</span>';
             }
+        }
+
+        // Generate activation control cell content
+        function generateActivationCell(day, isLocked) {
+            const isActive = progressState.unlockedDays.includes(day);
+            const canActivate = canActivateDay(day);
+            const isDisabled = !canActivate && !isActive;
+            
+            let tooltipText = '';
+            if (day === 1) {
+                tooltipText = 'Day 1 can always be activated';
+            } else if (!canActivate && !isActive) {
+                tooltipText = `Day ${day - 1} must be activated first`;
+            } else if (isActive) {
+                tooltipText = `Click to deactivate Day ${day}`;
+            } else {
+                tooltipText = `Click to activate Day ${day}`;
+            }
+            
+            return `
+                <div class="activation-controls">
+                    <div class="tooltip">
+                        <label class="activation-toggle ${isDisabled ? 'disabled' : ''}">
+                            <input type="checkbox" 
+                                   ${isActive ? 'checked' : ''} 
+                                   ${isDisabled ? 'disabled' : ''}
+                                   onchange="handleDayActivation(${day}, this.checked)">
+                            <span class="activation-slider"></span>
+                        </label>
+                        <span class="tooltiptext">${tooltipText}</span>
+                    </div>
+                    <div class="activation-label ${isActive ? 'active' : (isDisabled ? 'disabled' : 'inactive')}">
+                        ${isActive ? 'Active' : (isDisabled ? 'Locked' : 'Inactive')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Check if a day can be activated (sequential rule)
+        function canActivateDay(day) {
+            if (day === 1) return true; // Day 1 can always be activated
+            return progressState.unlockedDays.includes(day - 1); // Previous day must be active
+        }
+
+        // Handle day activation/deactivation
+        function handleDayActivation(day, isActivating) {
+            if (isActivating) {
+                // Activating a day
+                if (!canActivateDay(day)) {
+                    // Show warning and revert checkbox
+                    const checkbox = event.target;
+                    checkbox.checked = false;
+                    
+                    // Show warning message
+                    const warningDiv = document.createElement('div');
+                    warningDiv.className = 'prerequisite-warning';
+                    warningDiv.textContent = `Cannot activate Day ${day}. Day ${day - 1} must be activated first.`;
+                    warningDiv.style.position = 'fixed';
+                    warningDiv.style.top = '20px';
+                    warningDiv.style.left = '50%';
+                    warningDiv.style.transform = 'translateX(-50%)';
+                    warningDiv.style.zIndex = '1000';
+                    warningDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+                    
+                    document.body.appendChild(warningDiv);
+                    
+                    // Remove warning after 3 seconds
+                    setTimeout(() => {
+                        if (warningDiv.parentNode) {
+                            warningDiv.parentNode.removeChild(warningDiv);
+                        }
+                    }, 3000);
+                    
+                    return;
+                }
+                
+                // Add day to unlocked days
+                if (!progressState.unlockedDays.includes(day)) {
+                    progressState.unlockedDays.push(day);
+                    progressState.unlockedDays.sort((a, b) => a - b);
+                    console.log(`Day ${day} manually activated`);
+                }
+            } else {
+                // Deactivating a day
+                if (hasProgressOrDependencies(day)) {
+                    // Show confirmation dialog
+                    const confirmMessage = `Deactivating Day ${day} will:\n` +
+                                         `• Remove any progress on Day ${day}\n` +
+                                         `• Deactivate all subsequent days\n` +
+                                         `• Remove collected runes for affected days\n\n` +
+                                         `Are you sure you want to continue?`;
+                    
+                    if (!confirm(confirmMessage)) {
+                        // Revert checkbox
+                        event.target.checked = true;
+                        return;
+                    }
+                }
+                
+                // Deactivate this day and all subsequent days
+                deactivateDayAndSubsequent(day);
+            }
+            
+            saveProgress();
+            generateScheduleTable();
+            updateProgressSummary();
+        }
+
+        // Check if a day has progress or dependencies
+        function hasProgressOrDependencies(day) {
+            // Check if day has any completed tasks
+            const hasProgress = progressState.taskCompletions[`day${day}_wells`] || 
+                              progressState.taskCompletions[`day${day}_rou`];
+            
+            // Check if any subsequent days are unlocked
+            const hasSubsequentDays = progressState.unlockedDays.some(d => d > day);
+            
+            return hasProgress || hasSubsequentDays;
+        }
+
+        // Deactivate a day and all subsequent days
+        function deactivateDayAndSubsequent(startDay) {
+            const affectedDays = progressState.unlockedDays.filter(d => d >= startDay);
+            
+            // Remove from unlocked days
+            progressState.unlockedDays = progressState.unlockedDays.filter(d => d < startDay);
+            
+            // Remove progress for affected days
+            affectedDays.forEach(day => {
+                delete progressState.taskCompletions[`day${day}_wells`];
+                delete progressState.taskCompletions[`day${day}_rou`];
+                
+                // Remove from completed days
+                progressState.completedDays = progressState.completedDays.filter(d => d !== day);
+                
+                // Remove runes for affected days
+                removeRunesForDay(day);
+            });
+            
+            // Update current day
+            const maxUnlocked = Math.max(...progressState.unlockedDays, 0);
+            progressState.currentDay = maxUnlocked > 0 ? maxUnlocked : 1;
+            
+            console.log(`Deactivated Days ${startDay}-${Math.max(...affectedDays)} and removed their progress`);
         }
 
         // Handle completion checkbox changes
