@@ -1335,6 +1335,315 @@
             }
         }
 
+        // Sound Effects System (same as main game)
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.isLoaded = false;
+                this.volume = 0.7; // Default volume (70%)
+                this.currentlyPlaying = null;
+                this.audioContext = null;
+                
+                // Initialize audio context for better browser support
+                this.initAudioContext();
+                
+                // Load all sound effects
+                this.loadSounds();
+            }
+
+            initAudioContext() {
+                try {
+                    // Create audio context for better browser support
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (error) {
+                    console.warn('Audio context not supported:', error);
+                }
+            }
+
+            loadSounds() {
+                const soundFiles = {
+                    runeDiscovered: 'assets/audio/sfx/rune_discovered_epic.mp3',
+                    lootTiny: 'assets/audio/sfx/loot_tiny_sparkle.mp3.mp3',  // Note: double .mp3 extension
+                    lootMedium: 'assets/audio/sfx/loot_medium_chest.mp3',
+                    lootBig: 'assets/audio/sfx/loot_big_legendary.mp3',
+                    puzzleSolved: 'assets/audio/sfx/puzzle_mechanism_solved.mp3',
+                    bossWarning: 'assets/audio/sfx/boss_encounter_warning.mp3',
+                    roomTransition: 'assets/audio/sfx/room_portal_transition.mp3',
+                    chickenJockey: 'assets/audio/sfx/chicken_jockey_battle.mp3',
+                    musicMagic: 'assets/audio/sfx/irl_music_magic_echo.mp3'
+                    // Note: journal_mystical_page.mp3 reserved for future use
+                };
+
+                let loadedCount = 0;
+                const totalSounds = Object.keys(soundFiles).length;
+
+                Object.entries(soundFiles).forEach(([key, url]) => {
+                    const audio = new Audio();
+                    
+                    audio.preload = 'auto';
+                    audio.volume = this.volume;
+                    
+                    audio.addEventListener('canplaythrough', () => {
+                        loadedCount++;
+                        console.log(`[Admin] Sound loaded: ${key}`);
+                        
+                        if (loadedCount === totalSounds) {
+                            this.isLoaded = true;
+                            console.log('[Admin] All sound effects loaded successfully');
+                        }
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.error(`[Admin] Failed to load sound: ${key} from ${url}`, e);
+                        loadedCount++; // Still count as "processed" to not block other sounds
+                        
+                        if (loadedCount === totalSounds) {
+                            this.isLoaded = true;
+                            console.log('[Admin] Sound loading complete (some may have failed)');
+                        }
+                    });
+                    
+                    audio.src = url;
+                    this.sounds[key] = audio;
+                });
+            }
+
+            play(soundKey, options = {}) {
+                if (!this.isLoaded) {
+                    console.warn('[Admin] Sound system not yet loaded, queueing sound:', soundKey);
+                    // Retry after a short delay
+                    setTimeout(() => this.play(soundKey, options), 100);
+                    return;
+                }
+
+                const sound = this.sounds[soundKey];
+                if (!sound) {
+                    console.error('[Admin] Sound not found:', soundKey);
+                    return;
+                }
+
+                try {
+                    // Resume audio context if suspended (required by some browsers)
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+
+                    // Stop currently playing sound if specified
+                    if (options.stopCurrent && this.currentlyPlaying) {
+                        this.currentlyPlaying.pause();
+                        this.currentlyPlaying.currentTime = 0;
+                    }
+
+                    // Clone audio for overlapping sounds (if needed)
+                    const audioToPlay = options.allowOverlap ? sound.cloneNode() : sound;
+                    
+                    // Set volume
+                    audioToPlay.volume = options.volume || this.volume;
+                    
+                    // Reset to beginning
+                    audioToPlay.currentTime = 0;
+                    
+                    // Play the sound
+                    const playPromise = audioToPlay.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                console.log(`[Admin] Playing sound: ${soundKey}`);
+                                this.currentlyPlaying = audioToPlay;
+                            })
+                            .catch(error => {
+                                console.error('[Admin] Error playing sound:', soundKey, error);
+                            });
+                    }
+                    
+                } catch (error) {
+                    console.error('[Admin] Error playing sound:', soundKey, error);
+                }
+            }
+
+            setVolume(volume) {
+                this.volume = Math.max(0, Math.min(1, volume)); // Clamp between 0 and 1
+                
+                // Update volume for all loaded sounds
+                Object.values(this.sounds).forEach(audio => {
+                    audio.volume = this.volume;
+                });
+                
+                console.log('[Admin] Sound volume set to:', this.volume);
+            }
+
+            // Play rune discovery sound
+            playRuneDiscovered() {
+                this.play('runeDiscovered', { stopCurrent: false });
+            }
+
+            // Play loot sound based on tier
+            playLootSound(lootTier) {
+                if (!lootTier || lootTier === 'None') return;
+                
+                let soundKey;
+                switch (lootTier.toLowerCase()) {
+                    case 'tiny':
+                        soundKey = 'lootTiny';
+                        break;
+                    case 'medium':
+                        soundKey = 'lootMedium';
+                        break;
+                    case 'big':
+                    case 'legendary':
+                        soundKey = 'lootBig';
+                        break;
+                    default:
+                        console.log('[Admin] Unknown loot tier:', lootTier);
+                        soundKey = 'lootMedium'; // Default fallback
+                }
+                
+                this.play(soundKey, { stopCurrent: false });
+            }
+
+            // Play puzzle solved sound
+            playPuzzleSolved() {
+                this.play('puzzleSolved', { stopCurrent: false });
+            }
+
+            // Play boss encounter warning sound
+            playBossWarning() {
+                this.play('bossWarning', { stopCurrent: false });
+            }
+
+            // Play room transition sound
+            playRoomTransition() {
+                this.play('roomTransition', { stopCurrent: false });
+            }
+
+            // Play chicken jockey battle sound
+            playChickenJockey() {
+                this.play('chickenJockey', { stopCurrent: false });
+            }
+
+            // Play IRL music magic completion sound
+            playMusicMagic() {
+                this.play('musicMagic', { stopCurrent: false });
+            }
+
+            // Test function for debugging
+            testSound(soundKey) {
+                console.log('[Admin] Testing sound:', soundKey);
+                this.play(soundKey);
+            }
+
+            // Get status of sound system
+            getStatus() {
+                return {
+                    loaded: this.isLoaded,
+                    sounds: Object.keys(this.sounds),
+                    volume: this.volume
+                };
+            }
+        }
+
+        // Initialize sound manager for admin interface
+        const soundManager = new SoundManager();
+
+        // Preview sounds for completed day content
+        function previewDayEffects(day) {
+            const dayData = gameSchedule.schedule.find(d => d.day === day);
+            if (!dayData) return;
+
+            let effectsFound = false;
+            let delay = 100;
+            
+            // Check room type sounds first
+            if (dayData.wells.isChickenJockey || dayData.rou.isChickenJockey) {
+                console.log(`[Admin] Playing Chicken Jockey sound for Day ${day}`);
+                setTimeout(() => soundManager.playChickenJockey(), delay);
+                delay += 1000;
+                effectsFound = true;
+            } else if (dayData.wells.isBoss || dayData.wells.isSubBoss || dayData.rou.isBoss || dayData.rou.isSubBoss) {
+                console.log(`[Admin] Playing Boss Warning sound for Day ${day}`);
+                setTimeout(() => soundManager.playBossWarning(), delay);
+                delay += 1000;
+                effectsFound = true;
+            }
+            
+            // Check Wells
+            if (dayData.wells.runeDropped && dayData.wells.runeDropped !== 'None') {
+                console.log(`[Admin] Playing Wells rune sound for Day ${day}: ${dayData.wells.runeDropped}`);
+                setTimeout(() => soundManager.playRuneDiscovered(), delay);
+                delay += 1000;
+                effectsFound = true;
+            }
+            
+            if (dayData.wells.lootTier && dayData.wells.lootTier !== 'None') {
+                console.log(`[Admin] Playing Wells loot sound for Day ${day}: ${dayData.wells.lootTier}`);
+                setTimeout(() => soundManager.playLootSound(dayData.wells.lootTier), delay);
+                delay += 1000;
+                effectsFound = true;
+            }
+            
+            // Check Rou
+            if (dayData.rou.runeDropped && dayData.rou.runeDropped !== 'None') {
+                console.log(`[Admin] Playing Rou rune sound for Day ${day}: ${dayData.rou.runeDropped}`);
+                setTimeout(() => soundManager.playRuneDiscovered(), delay);
+                delay += 1000;
+                effectsFound = true;
+            }
+            
+            if (dayData.rou.lootTier && dayData.rou.lootTier !== 'None') {
+                console.log(`[Admin] Playing Rou loot sound for Day ${day}: ${dayData.rou.lootTier}`);
+                setTimeout(() => soundManager.playLootSound(dayData.rou.lootTier), delay);
+                delay += 1000;
+                effectsFound = true;
+            }
+            
+            if (!effectsFound) {
+                console.log(`[Admin] No sound effects for Day ${day}`);
+                alert(`Day ${day} has no runes or loot (no sound effects to preview)`);
+            }
+        }
+
+        // Expose admin test functions for debugging
+        window.testAdminSound = function(soundKey) {
+            soundManager.testSound(soundKey);
+        };
+
+        window.testAdminRuneSound = function() {
+            soundManager.playRuneDiscovered();
+        };
+
+        window.testAdminLootSound = function(tier = 'medium') {
+            soundManager.playLootSound(tier);
+        };
+
+        window.testAdminPuzzleSound = function() {
+            soundManager.playPuzzleSolved();
+        };
+
+        window.testAdminBossSound = function() {
+            soundManager.playBossWarning();
+        };
+
+        window.testAdminTransitionSound = function() {
+            soundManager.playRoomTransition();
+        };
+
+        window.testAdminChickenJockeySound = function() {
+            soundManager.playChickenJockey();
+        };
+
+        window.testAdminMusicMagicSound = function() {
+            soundManager.playMusicMagic();
+        };
+
+        window.previewDayEffects = function(day) {
+            previewDayEffects(day);
+        };
+
+        window.getAdminSoundStatus = function() {
+            return soundManager.getStatus();
+        };
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey || e.metaKey) {

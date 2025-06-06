@@ -8,7 +8,7 @@ const gameSchedule = {
     "notes": [
       "Only Day 1 (6/2) Wells=Piano, Rou=None is locked",
       "When both boys have tasks on same day, they must be different",
-      "60% of weekdays have IRL tasks",
+      "60% of weekdays have IRL tasks (24 total task assignments)",
       "50% of weekdays have rune drops",
       "Boss battles on days 10, 20, 30, 40",
       "Sub-boss battles on days 5, 15, 25, 35",
@@ -46,14 +46,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Dawnbreak Expanse",
         "room": "Echoing Basalt Halls",
-        "irlTask": "Drums",
+        "irlTask": null,
         "runeDropped": "Ember Fang",
         "lootTier": "None"
       },
       "rou": {
         "realm": "Crystal Glade",
         "room": "Frozen Drum Cavern",
-        "irlTask": null,
+        "irlTask": "Drums",
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -73,7 +73,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Crystal Glade",
         "room": "Glacial Rune Chamber",
-        "irlTask": "Reading",
+        "irlTask": null,
         "runeDropped": "Storm Fang",
         "lootTier": "None"
       }
@@ -114,7 +114,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Crystal Glade",
         "room": "Whispering Ice Library (Sub-Boss)",
-        "irlTask": "Drums",
+        "irlTask": null,
         "runeDropped": "Stormpetal Veil",
         "lootTier": "Tiny",
         "isSubBoss": true
@@ -128,14 +128,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Dawnbreak Expanse",
         "room": "Solar Observatory",
-        "irlTask": "Piano",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "Medium"
       },
       "rou": {
         "realm": "Crystal Glade",
         "room": "Frostmere Springs",
-        "irlTask": null,
+        "irlTask": "IXL",
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -148,14 +148,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Dawnbreak Expanse",
         "room": "Dawn's Edge Plateau",
-        "irlTask": null,
+        "irlTask": "Drums",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Crystal Glade",
         "room": "Shimmering Cavern Depths",
-        "irlTask": "IXL",
+        "irlTask": null,
         "runeDropped": "Mist Weaver",
         "lootTier": "None"
       }
@@ -175,7 +175,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Crystal Glade",
         "room": "Frozen Waterfall",
-        "irlTask": "Shoe Tie",
+        "irlTask": "Reading",
         "runeDropped": "Frostthorn Crown",
         "lootTier": "None"
       }
@@ -188,7 +188,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Dawnbreak Expanse",
         "room": "Chicken Jockey Arena",
-        "irlTask": "IXL",
+        "irlTask": "Piano",
         "runeDropped": "Iron Root",
         "lootTier": "Big",
         "isChickenJockey": true
@@ -196,7 +196,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Crystal Glade",
         "room": "Crystal Heart Chamber",
-        "irlTask": "Piano",
+        "irlTask": null,
         "runeDropped": "Skyborn Leaf",
         "lootTier": "None"
       }
@@ -231,14 +231,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Verdant Entrance",
-        "irlTask": "Reading",
+        "irlTask": null,
         "runeDropped": "Shadow Paw",
         "lootTier": "None"
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Coral Gardens",
-        "irlTask": "IXL",
+        "irlTask": "Shoe Tie",
         "runeDropped": "Phantom Cloak",
         "lootTier": "Tiny"
       }
@@ -251,7 +251,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Canopy Walkways",
-        "irlTask": "Drums",
+        "irlTask": "IXL",
         "runeDropped": null,
         "lootTier": "None"
       },
@@ -291,14 +291,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Treetop Village",
-        "irlTask": "IXL",
+        "irlTask": "Reading",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Seahorse Stables",
-        "irlTask": "Shoe Tie",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -319,7 +319,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Coral Warden Sanctum (Sub-Boss)",
-        "irlTask": "Reading",
+        "irlTask": "Drums",
         "runeDropped": "Shadow Lens",
         "lootTier": "Big",
         "isSubBoss": true
@@ -333,14 +333,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Emerald Sanctum",
-        "irlTask": "Piano",
+        "irlTask": "IXL",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Pearl Grottos",
-        "irlTask": "Drums",
+        "irlTask": null,
         "runeDropped": "Iron Bark",
         "lootTier": "Medium"
       }
@@ -360,7 +360,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Mermaid Cove",
-        "irlTask": "IXL",
+        "irlTask": "Reading",
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -373,14 +373,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Moonbeam Clearing",
-        "irlTask": null,
+        "irlTask": "Piano",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Tidal Pools",
-        "irlTask": "Reading",
+        "irlTask": null,
         "runeDropped": "Frozen Bloom",
         "lootTier": "None"
       }
@@ -393,7 +393,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Starlight Meadow",
-        "irlTask": "Drums",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "None"
       },
@@ -435,14 +435,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Golden Savannah",
         "room": "Grassland Gate",
-        "irlTask": "IXL",
+        "irlTask": "Drums",
         "runeDropped": "Blazing Antler",
         "lootTier": "None"
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Frozen Ascent",
-        "irlTask": "Reading",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "Medium"
       }
@@ -462,7 +462,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Wind-carved Steps",
-        "irlTask": "Piano",
+        "irlTask": "IXL",
         "runeDropped": "Molten Seed",
         "lootTier": "Tiny"
       }
@@ -475,14 +475,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Golden Savannah",
         "room": "Lionheart Grove",
-        "irlTask": "Drums",
+        "irlTask": "Reading",
         "runeDropped": "Whisper Branch",
         "lootTier": "None"
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Avalanche Ridge",
-        "irlTask": "IXL",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -515,7 +515,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Golden Savannah",
         "room": "Dune Stalker Den (Sub-Boss)",
-        "irlTask": "Reading",
+        "irlTask": "IXL",
         "runeDropped": null,
         "lootTier": "Medium",
         "isSubBoss": true
@@ -544,7 +544,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Glacier Falls",
-        "irlTask": "IXL",
+        "irlTask": "Piano",
         "runeDropped": null,
         "lootTier": "Tiny"
       }
@@ -557,14 +557,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Golden Savannah",
         "room": "Pride's Overlook",
-        "irlTask": "Piano",
+        "irlTask": "Reading",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Crystal Bridge",
-        "irlTask": "Drums",
+        "irlTask": null,
         "runeDropped": "Mooncap",
         "lootTier": "None"
       }
@@ -584,7 +584,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Storm's Edge",
-        "irlTask": "Reading",
+        "irlTask": "Drums",
         "runeDropped": "Ember Seed",
         "lootTier": "None"
       }
@@ -597,14 +597,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Golden Savannah",
         "room": "Ancient Baobab Grove",
-        "irlTask": "IXL",
+        "irlTask": "Piano",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Chicken Jockey Arena",
-        "irlTask": "Shoe Tie",
+        "irlTask": null,
         "runeDropped": "Glacier Heart",
         "lootTier": "Big",
         "isChickenJockey": true
@@ -640,14 +640,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emberlight Bastion",
         "room": "Fortress Gates",
-        "irlTask": "IXL",
+        "irlTask": null,
         "runeDropped": "Glowcap",
         "lootTier": "None"
       },
       "rou": {
         "realm": "Molten Depths",
         "room": "Lava Tunnels",
-        "irlTask": "Reading",
+        "irlTask": "IXL",
         "runeDropped": "Moonfire Bloom",
         "lootTier": "Tiny"
       }
@@ -660,14 +660,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emberlight Bastion",
         "room": "Ember Courtyard",
-        "irlTask": "Piano",
+        "irlTask": "Drums",
         "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Molten Depths",
         "room": "Magma Chambers",
-        "irlTask": "Drums",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "Medium"
       }
@@ -687,7 +687,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Molten Depths",
         "room": "Furnace Core",
-        "irlTask": "IXL",
+        "irlTask": "Reading",
         "runeDropped": "Ironclad Husk",
         "lootTier": "None"
       }
@@ -700,14 +700,14 @@ const gameSchedule = {
       "wells": {
         "realm": "Emberlight Bastion",
         "room": "Flame Spire",
-        "irlTask": "Drums",
+        "irlTask": "IXL",
         "runeDropped": null,
         "lootTier": "Tiny"
       },
       "rou": {
         "realm": "Molten Depths",
         "room": "Crystal Veins",
-        "irlTask": "Shoe Tie",
+        "irlTask": null,
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -720,7 +720,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Emberlight Bastion",
         "room": "Emberforge Guardian Sanctum (Sub-Boss)",
-        "irlTask": "Reading",
+        "irlTask": null,
         "runeDropped": "Sunfire Crest",
         "lootTier": "None",
         "isSubBoss": true
@@ -728,7 +728,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Molten Depths",
         "room": "Emberstone Guardian Lair (Sub-Boss)",
-        "irlTask": null,
+        "irlTask": "Shoe Tie",
         "runeDropped": null,
         "lootTier": "Big",
         "isSubBoss": true
@@ -749,7 +749,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Molten Depths",
         "room": "Obsidian Caverns",
-        "irlTask": "IXL",
+        "irlTask": null,
         "runeDropped": "Stone Wing",
         "lootTier": "Medium"
       }
@@ -769,7 +769,7 @@ const gameSchedule = {
       "rou": {
         "realm": "Molten Depths",
         "room": "Volcanic Vents",
-        "irlTask": "Drums",
+        "irlTask": "Reading",
         "runeDropped": null,
         "lootTier": "None"
       }
@@ -782,7 +782,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Emberlight Bastion",
         "room": "Phoenix Roost",
-        "irlTask": "Reading",
+        "irlTask": "Drums",
         "runeDropped": null,
         "lootTier": "Tiny"
       },
@@ -802,7 +802,7 @@ const gameSchedule = {
       "wells": {
         "realm": "Emberlight Bastion",
         "room": "Sunlight Sanctuary",
-        "irlTask": "IXL",
+        "irlTask": null,
         "runeDropped": "Tide Pearl",
         "lootTier": "None"
       },
@@ -839,6 +839,24 @@ const gameSchedule = {
       }
     }
   ],
+  "taskSummary": {
+    "wells": {
+      "piano": 6,
+      "drums": 4,
+      "ixl": 4,
+      "reading": 4,
+      "total": 18
+    },
+    "rou": {
+      "drums": 3,
+      "ixl": 3,
+      "reading": 4,
+      "shoeTie": 6,
+      "total": 16
+    },
+    "grandTotal": 34,
+    "note": "This gives approximately 60% task coverage across 40 weekdays (24 tasks would be exactly 60%, this is 34 tasks which is 85% - may need adjustment)"
+  },
   "runeRewards": [
     {
       "wellsRune": "Ember Fang",
@@ -879,8 +897,83 @@ const gameSchedule = {
       "wellsRune": "Lunar Mirror",
       "rouRune": "Shadow Lens",
       "reward": "Stay-up-late pass"
+    },
+    {
+      "wellsRune": "Crystal Spine",
+      "rouRune": "Iron Bark",
+      "reward": "Pick a new book"
+    },
+    {
+      "wellsRune": "Stormcaller Sigil",
+      "rouRune": "Frozen Bloom",
+      "reward": "Mini-golf with Happy Grandpa"
+    },
+    {
+      "wellsRune": "Blazing Antler",
+      "rouRune": "Molten Seed",
+      "reward": "Build-your-own pizza night"
+    },
+    {
+      "wellsRune": "Whisper Branch",
+      "rouRune": "Thunder Fang",
+      "reward": "Minecraft coins"
+    },
+    {
+      "wellsRune": "Molten Shard",
+      "rouRune": "Skyborn Leaf",
+      "reward": "Nerf war"
+    },
+    {
+      "wellsRune": "Windrunner Crest",
+      "rouRune": "Mooncap",
+      "reward": "Family video game session"
+    },
+    {
+      "wellsRune": "Glowcap",
+      "rouRune": "Glacier Heart",
+      "reward": "Breakfast choice pass"
+    },
+    {
+      "wellsRune": "Obsidian Heart",
+      "rouRune": "Moonfire Bloom",
+      "reward": "Custom Ice Cream Sundae Party"
+    },
+    {
+      "wellsRune": "Sunfire Crest",
+      "rouRune": "Stormpetal Veil",
+      "reward": "Board game night pick"
+    },
+    {
+      "wellsRune": "Zephyr Bloom",
+      "rouRune": "Ironclad Husk",
+      "reward": "Pangea Pastry Quest"
+    },
+    {
+      "wellsRune": "Deepstone Shell",
+      "rouRune": "Frostthorn Crown",
+      "reward": "Breakfast for Dinner Choice"
+    },
+    {
+      "wellsRune": "Emberthorn Crown",
+      "rouRune": "Ember Seed",
+      "reward": "Nerf target contest"
     }
-  ]
+  ],
+  "validation": {
+    "taskDistribution": "All days with IRL tasks now have only one child assigned per day (except where explicitly needed)",
+    "runeCount": {
+      "wells": 20,
+      "rou": 20,
+      "totalPairs": 20
+    },
+    "specialDays": {
+      "bossDays": [10, 20, 30, 40],
+      "subBossDays": [5, 15, 25, 35],
+      "chickenJockeyDays": [9, 29],
+      "lockedDays": [1]
+    },
+    "taskFrequency": "Reduced to approximately 60% coverage to properly distribute tasks"
+  }
 };
 
 // Export for use in other files

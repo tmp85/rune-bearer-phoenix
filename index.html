@@ -3914,15 +3914,38 @@
             // Generate dynamic mission buttons
             generateMissionButtons(content);
 
+            // Check for special room types from schedule and play appropriate sounds
+            const daySchedule = gameSchedule.schedule.find(d => d.day === currentDay);
+            if (daySchedule && daySchedule[player]) {
+                const playerSchedule = daySchedule[player];
+                
+                if (playerSchedule.isChickenJockey) {
+                    // Play chicken jockey battle sound
+                    soundManager.playChickenJockey();
+                } else if (playerSchedule.isBoss || playerSchedule.isSubBoss) {
+                    // Play boss warning sound for bosses and sub-bosses
+                    soundManager.playBossWarning();
+                } else {
+                    // Play normal room transition sound
+                    soundManager.playRoomTransition();
+                }
+            } else {
+                // Fallback to normal transition sound
+                soundManager.playRoomTransition();
+            }
+
             // Show screen border for room challenges (anti-dimming)
             isInRoomChallenge = true;
             showScreenBorder(player);
-
+            
             // Show room modal
             document.getElementById('roomModal').style.display = 'block';
         }
 
         function closePlayerRoom() {
+            // Play room transition sound when leaving
+            soundManager.playRoomTransition();
+            
             document.getElementById('roomModal').style.display = 'none';
             // Hide all challenge content
             document.querySelectorAll('.challenge-content').forEach(content => {
@@ -4046,6 +4069,9 @@
             updateChallengeButtons();
             closePianoModal();
             
+            // Play music magic completion sound
+            soundManager.playMusicMagic();
+            
             // Show completion message with custom modal
             showSuccessModal(
                 '🎵',
@@ -4063,6 +4089,10 @@
             gameState[currentPlayer].irlCompleted = true;
             updateChallengeButtons();
             closeDrumsModal();
+            
+            // Play music magic completion sound
+            soundManager.playMusicMagic();
+            
             saveGameState();
         }
 
@@ -4140,6 +4170,9 @@
             feedback.style.display = 'block';
 
             if (userAnswer === correctAnswer) {
+                // Play puzzle solved sound for correct answers
+                soundManager.playPuzzleSolved();
+                
                 feedback.textContent = '🎉 Correct! Well done!';
                 feedback.className = 'answer-feedback correct';
                 
@@ -4308,6 +4341,9 @@
             const artwork = document.getElementById('lootArtwork');
             const subtitle = document.getElementById('lootSubtitle');
             const description = document.getElementById('lootDescription');
+            
+            // Play loot sound effect based on tier
+            soundManager.playLootSound(lootType);
             
             // Configure modal based on player and loot type
             const lootData = getLootData(player, day, lootType);
@@ -4730,6 +4766,11 @@
                 if (onContinue) onContinue();
             };
             
+            // Play puzzle solved sound effect for correct answers
+            if (title === 'Mystery Solved!') {
+                soundManager.playPuzzleSolved();
+            }
+            
             // Show screen border to prevent auto-dimming
             showScreenBorder(playerTheme);
             
@@ -4955,10 +4996,14 @@
             // Set defaults if no progress exists
             const currentDay = progress.currentDay || 1;
             
-            // DETECT RESET - If we're back to day 1 with no completed days, reset all challenge flags
-            if (currentDay === 1 && (!progress.completedDays || progress.completedDays.length === 0)) {
-                console.log('Reset detected - clearing all challenge completion flags');
+            // DETECT RESET - Only reset challenge flags if there's an explicit reset signal
+            // Don't reset just because we're on Day 1 - player might be working on Day 1 challenges
+            if (progress.isExplicitReset === true) {
+                console.log('Explicit reset detected - clearing all challenge completion flags');
                 resetAllChallengeFlags();
+                // Clear the reset flag after processing
+                delete progress.isExplicitReset;
+                localStorage.setItem('runeBearer_progress', JSON.stringify(progress));
             }
             
             // Update player cards with current day info
@@ -5074,7 +5119,8 @@
                 collectedRunes: {
                     wells: [],
                     rou: []
-                }
+                },
+                isExplicitReset: true  // Flag to trigger challenge flag reset
             };
             localStorage.setItem('runeBearer_progress', JSON.stringify(resetSharedProgress));
             saveGameState();
@@ -5102,6 +5148,9 @@
                 console.error(`Rune not found: ${runeName} for player ${player}`);
                 return;
             }
+
+            // Play rune discovery sound effect
+            soundManager.playRuneDiscovered();
 
             const modal = document.getElementById('runeDiscoveryModal');
             const content = document.getElementById('runeDiscoveryContent');
@@ -5221,6 +5270,254 @@
                 hideScreenBorder();
             }, 3000);
         }
+
+        // Sound Effects System
+        class SoundManager {
+            constructor() {
+                this.sounds = {};
+                this.isLoaded = false;
+                this.volume = 0.7; // Default volume (70%)
+                this.currentlyPlaying = null;
+                this.audioContext = null;
+                
+                // Initialize audio context for better browser support
+                this.initAudioContext();
+                
+                // Load all sound effects
+                this.loadSounds();
+            }
+
+            initAudioContext() {
+                try {
+                    // Create audio context for better browser support
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (error) {
+                    console.warn('Audio context not supported:', error);
+                }
+            }
+
+            loadSounds() {
+                const soundFiles = {
+                    runeDiscovered: 'assets/audio/sfx/rune_discovered_epic.mp3',
+                    lootTiny: 'assets/audio/sfx/loot_tiny_sparkle.mp3.mp3',  // Note: double .mp3 extension
+                    lootMedium: 'assets/audio/sfx/loot_medium_chest.mp3',
+                    lootBig: 'assets/audio/sfx/loot_big_legendary.mp3',
+                    puzzleSolved: 'assets/audio/sfx/puzzle_mechanism_solved.mp3',
+                    bossWarning: 'assets/audio/sfx/boss_encounter_warning.mp3',
+                    roomTransition: 'assets/audio/sfx/room_portal_transition.mp3',
+                    chickenJockey: 'assets/audio/sfx/chicken_jockey_battle.mp3',
+                    musicMagic: 'assets/audio/sfx/irl_music_magic_echo.mp3'
+                    // Note: journal_mystical_page.mp3 reserved for future use
+                };
+
+                let loadedCount = 0;
+                const totalSounds = Object.keys(soundFiles).length;
+
+                Object.entries(soundFiles).forEach(([key, url]) => {
+                    const audio = new Audio();
+                    
+                    audio.preload = 'auto';
+                    audio.volume = this.volume;
+                    
+                    audio.addEventListener('canplaythrough', () => {
+                        loadedCount++;
+                        console.log(`Sound loaded: ${key}`);
+                        
+                        if (loadedCount === totalSounds) {
+                            this.isLoaded = true;
+                            console.log('All sound effects loaded successfully');
+                        }
+                    });
+                    
+                    audio.addEventListener('error', (e) => {
+                        console.error(`Failed to load sound: ${key} from ${url}`, e);
+                        loadedCount++; // Still count as "processed" to not block other sounds
+                        
+                        if (loadedCount === totalSounds) {
+                            this.isLoaded = true;
+                            console.log('Sound loading complete (some may have failed)');
+                        }
+                    });
+                    
+                    audio.src = url;
+                    this.sounds[key] = audio;
+                });
+            }
+
+            play(soundKey, options = {}) {
+                if (!this.isLoaded) {
+                    console.warn('Sound system not yet loaded, queueing sound:', soundKey);
+                    // Retry after a short delay
+                    setTimeout(() => this.play(soundKey, options), 100);
+                    return;
+                }
+
+                const sound = this.sounds[soundKey];
+                if (!sound) {
+                    console.error('Sound not found:', soundKey);
+                    return;
+                }
+
+                try {
+                    // Resume audio context if suspended (required by some browsers)
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        this.audioContext.resume();
+                    }
+
+                    // Stop currently playing sound if specified
+                    if (options.stopCurrent && this.currentlyPlaying) {
+                        this.currentlyPlaying.pause();
+                        this.currentlyPlaying.currentTime = 0;
+                    }
+
+                    // Clone audio for overlapping sounds (if needed)
+                    const audioToPlay = options.allowOverlap ? sound.cloneNode() : sound;
+                    
+                    // Set volume
+                    audioToPlay.volume = options.volume || this.volume;
+                    
+                    // Reset to beginning
+                    audioToPlay.currentTime = 0;
+                    
+                    // Play the sound
+                    const playPromise = audioToPlay.play();
+                    
+                    if (playPromise !== undefined) {
+                        playPromise
+                            .then(() => {
+                                console.log(`Playing sound: ${soundKey}`);
+                                this.currentlyPlaying = audioToPlay;
+                            })
+                            .catch(error => {
+                                console.error('Error playing sound:', soundKey, error);
+                            });
+                    }
+                    
+                } catch (error) {
+                    console.error('Error playing sound:', soundKey, error);
+                }
+            }
+
+            setVolume(volume) {
+                this.volume = Math.max(0, Math.min(1, volume)); // Clamp between 0 and 1
+                
+                // Update volume for all loaded sounds
+                Object.values(this.sounds).forEach(audio => {
+                    audio.volume = this.volume;
+                });
+                
+                console.log('Sound volume set to:', this.volume);
+            }
+
+            // Play rune discovery sound
+            playRuneDiscovered() {
+                this.play('runeDiscovered', { stopCurrent: false });
+            }
+
+            // Play loot sound based on tier
+            playLootSound(lootTier) {
+                if (!lootTier || lootTier === 'None') return;
+                
+                let soundKey;
+                switch (lootTier.toLowerCase()) {
+                    case 'tiny':
+                        soundKey = 'lootTiny';
+                        break;
+                    case 'medium':
+                        soundKey = 'lootMedium';
+                        break;
+                    case 'big':
+                    case 'legendary':
+                        soundKey = 'lootBig';
+                        break;
+                    default:
+                        console.log('Unknown loot tier:', lootTier);
+                        soundKey = 'lootMedium'; // Default fallback
+                }
+                
+                this.play(soundKey, { stopCurrent: false });
+            }
+
+            // Play puzzle solved sound
+            playPuzzleSolved() {
+                this.play('puzzleSolved', { stopCurrent: false });
+            }
+
+            // Play boss encounter warning sound
+            playBossWarning() {
+                this.play('bossWarning', { stopCurrent: false });
+            }
+
+            // Play room transition sound
+            playRoomTransition() {
+                this.play('roomTransition', { stopCurrent: false });
+            }
+
+            // Play chicken jockey battle sound
+            playChickenJockey() {
+                this.play('chickenJockey', { stopCurrent: false });
+            }
+
+            // Play IRL music magic completion sound
+            playMusicMagic() {
+                this.play('musicMagic', { stopCurrent: false });
+            }
+
+            // Test function for debugging
+            testSound(soundKey) {
+                console.log('Testing sound:', soundKey);
+                this.play(soundKey);
+            }
+
+            // Get status of sound system
+            getStatus() {
+                return {
+                    loaded: this.isLoaded,
+                    sounds: Object.keys(this.sounds),
+                    volume: this.volume
+                };
+            }
+        }
+
+        // Initialize sound manager
+        const soundManager = new SoundManager();
+
+        // Expose test functions for debugging
+        window.testSound = function(soundKey) {
+            soundManager.testSound(soundKey);
+        };
+
+        window.testRuneSound = function() {
+            soundManager.playRuneDiscovered();
+        };
+
+        window.testLootSound = function(tier = 'medium') {
+            soundManager.playLootSound(tier);
+        };
+
+        window.testPuzzleSound = function() {
+            soundManager.playPuzzleSolved();
+        };
+
+        window.testBossSound = function() {
+            soundManager.playBossWarning();
+        };
+
+        window.testTransitionSound = function() {
+            soundManager.playRoomTransition();
+        };
+
+        window.testChickenJockeySound = function() {
+            soundManager.playChickenJockey();
+        };
+
+        window.testMusicMagicSound = function() {
+            soundManager.playMusicMagic();
+        };
+
+        window.getSoundStatus = function() {
+            return soundManager.getStatus();
+        };
     </script>
 </body>
 </html> 
