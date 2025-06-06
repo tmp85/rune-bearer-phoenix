@@ -1668,7 +1668,11 @@
         }
 
         .admin-intro {
-            right: 15px;
+            right: 95px; /* Move splash button left to make room for screensaver button */
+        }
+
+        .admin-screensaver {
+            right: 15px; /* Position screensaver button on the right */
         }
 
         /* Rune Reward Key Section */
@@ -3303,6 +3307,7 @@
 
     <div class="admin-controls">
         <button class="admin-btn admin-intro" onclick="window.location.href='splash.html'" title="Return to Intro">📹</button>
+        <button class="admin-btn admin-screensaver" onclick="activateScreensaver()" title="Activate Screensaver">🖥️</button>
     </div>
 
     <script src="gameSchedule.js"></script>
@@ -5518,6 +5523,388 @@
         window.getSoundStatus = function() {
             return soundManager.getStatus();
         };
+
+        // Screensaver System
+        class ScreensaverManager {
+            constructor() {
+                this.isActive = false;
+                this.inactivityTimer = null;
+                this.slideTimer = null;
+                this.currentImageIndex = 0;
+                this.images = [];
+                this.isLoading = true;
+                
+                // Configuration
+                this.inactivityTimeout = 8 * 60 * 1000; // 8 minutes in milliseconds
+                this.slideInterval = 12 * 1000; // 12 seconds per image
+                this.fadeTransitionTime = 1500; // 1.5 seconds fade transition
+                
+                // Initialize screensaver
+                this.init();
+            }
+
+            async init() {
+                console.log('Initializing screensaver system...');
+                
+                // Create screensaver HTML structure
+                this.createScreensaverDOM();
+                
+                // Load screensaver images
+                await this.loadScreensaverImages();
+                
+                // Set up activity listeners
+                this.setupActivityListeners();
+                
+                // Start inactivity timer
+                this.resetInactivityTimer();
+                
+                console.log(`Screensaver initialized with ${this.images.length} images`);
+                console.log(`Will activate after ${this.inactivityTimeout / 60000} minutes of inactivity`);
+            }
+
+            createScreensaverDOM() {
+                // Create screensaver container
+                const screensaverHTML = `
+                    <div id="screensaver-overlay" class="screensaver-overlay">
+                        <div class="screensaver-content">
+                            <div class="screensaver-image-container">
+                                <img id="screensaver-image-current" class="screensaver-image active" alt="Screensaver">
+                                <img id="screensaver-image-next" class="screensaver-image" alt="Screensaver">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to document
+                document.body.insertAdjacentHTML('beforeend', screensaverHTML);
+                
+                // Add CSS styles
+                this.addScreensaverCSS();
+            }
+
+            addScreensaverCSS() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    .screensaver-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: #000;
+                        z-index: 10000;
+                        display: none;
+                        cursor: pointer;
+                    }
+
+                    .screensaver-content {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .screensaver-image-container {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        overflow: hidden;
+                    }
+
+                    .screensaver-image {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                        opacity: 0;
+                        transition: opacity ${this.fadeTransitionTime}ms ease-in-out;
+                    }
+
+                    .screensaver-image.active {
+                        opacity: 1;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            async loadScreensaverImages() {
+                // List of screensaver images (based on the folder contents)
+                const imageFilenames = [
+                    'rune-bearers-logo.jpg',
+                    'rune_realm_split_lg.jpg',
+                    'rTILr0z3AMaKmYxkc9R1--0--g5n89.jpg',
+                    'kCDZjwiZg9NyUQhKhNCO--0--tsz0i.jpg',
+                    'GoW1qnKJT7h42etBhdbS--0--13xeo.jpg',
+                    'imsookasqlqLHuR8oojt--0--b3aak.jpg',
+                    'xFyP5bcNmeWOYCQEHrB9--0--n5sr7.jpg',
+                    'LSJNuZzUDEB7oXQNnvCt--1--sy7zm.jpg',
+                    'LSJNuZzUDEB7oXQNnvCt--0--5p2l6.jpg',
+                    'txNfm8HfeA4eqjjqr9Yu--0--o49d3.jpg',
+                    'Tr8xA40bDWwWJaGccFAg--0--3w9or.jpg',
+                    'mldNpr9tHfLofzCKopdN--1--mvvhf.jpg',
+                    'mldNpr9tHfLofzCKopdN--0--hgnub.jpg',
+                    'kwwpAy1WZzGMNuGU8OCQ--0--gndj4.jpg',
+                    'XbpSbXbSLAqn2Ij0KZrm--0--3rvaw.jpg',
+                    'Dmi5Fdofhbo9cK4AYJls--1--iznha.jpg',
+                    'Dmi5Fdofhbo9cK4AYJls--0--l1our.jpg',
+                    'V9KlB0ZPSgnTzKu8DvMo--0--skx8k.jpg',
+                    'BfShbtpCJMQDOSdIL62B--0--mpag1.jpg',
+                    'JLsaqsgC3rprsHCedi2M--0--73kd9.jpg',
+                    'xoVu3zgVGEgw1vJ6M08q--0--upzyg.jpg',
+                    'JxSC3kSUrKKtcvc688Ir--0--r786e.jpg',
+                    'x7TW1HKCwjIBs0B5pPkv--0--3c4zi.jpg',
+                    'n3bE6XE4Uz79P1Bmr8rY--0--zdc4g.jpg',
+                    'E98Uf9Q4y4bRHOSrn7Rg--0--wiz9e.jpg',
+                    'HCBEeT4cB6AFtgBffTo0--0--emi3m.jpg',
+                    '1QNVjkOkR7whLrd3UTkf--0--5dmnz.jpg',
+                    'tfZb2A0ZhQI67LxOTCGK--0--gmz33.jpg',
+                    'vDqCABNg467e8L2Cw7Ox--0--m6aw8.jpg',
+                    'n9LK2D4lKXNOLKMwjYYX--0--avm1e.jpg',
+                    'TBRABAs5LSmvQd1tGgcv--0--1yyy1.jpg',
+                    'uUioW00crxaXXFNR4cS5--0--gny8d.jpg',
+                    'DF7btBCEWhM14CQqXzC4--0--9k5ct.jpg',
+                    'A2b9HoTYEjlKybNIFYqx--0--j7rv4.jpg',
+                    '1AfAI6RcQ7J49EEWpCLO--0--ceetp.jpg',
+                    'dCTEwXc7wKqiQIRdCfBV--0--s1iy0.jpg',
+                    'nBpRmf7n4roAuhdwc4Bj--0--15cb6.jpg'
+                ];
+
+                // Preload images
+                const loadPromises = imageFilenames.map(filename => {
+                    return new Promise((resolve, reject) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            this.images.push(`assets/screensaver/${filename}`);
+                            resolve();
+                        };
+                        img.onerror = () => {
+                            console.warn(`Failed to load screensaver image: ${filename}`);
+                            resolve(); // Continue even if some images fail
+                        };
+                        img.src = `assets/screensaver/${filename}`;
+                    });
+                });
+
+                await Promise.all(loadPromises);
+                
+                // Shuffle images for variety
+                this.shuffleImages();
+                
+                this.isLoading = false;
+                console.log(`Screensaver loaded ${this.images.length} images successfully`);
+                console.log('Image paths:', this.images.slice(0, 3)); // Log first 3 for debugging
+            }
+
+            shuffleImages() {
+                for (let i = this.images.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.images[i], this.images[j]] = [this.images[j], this.images[i]];
+                }
+            }
+
+            setupActivityListeners() {
+                // List of events that indicate user activity
+                const activityEvents = [
+                    'mousedown', 'mousemove', 'mouseup',
+                    'touchstart', 'touchmove', 'touchend',
+                    'keydown', 'keypress', 'keyup',
+                    'click', 'scroll', 'wheel'
+                ];
+
+                // Add activity listeners
+                activityEvents.forEach(event => {
+                    document.addEventListener(event, (e) => {
+                        // Ignore activity from screensaver button clicks
+                        if (e.target && e.target.classList && e.target.classList.contains('admin-screensaver')) {
+                            return;
+                        }
+                        
+                        if (this.isActive) {
+                            this.deactivateScreensaver();
+                        } else {
+                            this.resetInactivityTimer();
+                        }
+                    }, { passive: true });
+                });
+
+                // Specific listener for screensaver overlay
+                const overlay = document.getElementById('screensaver-overlay');
+                if (overlay) {
+                    overlay.addEventListener('click', () => {
+                        this.deactivateScreensaver();
+                    });
+                }
+            }
+
+            resetInactivityTimer() {
+                if (this.isActive) return; // Don't reset timer while screensaver is active
+                
+                clearTimeout(this.inactivityTimer);
+                this.inactivityTimer = setTimeout(() => {
+                    this.activateScreensaver();
+                }, this.inactivityTimeout);
+            }
+
+            activateScreensaver() {
+                if (this.isActive || this.isLoading || this.images.length === 0) {
+                    console.log('Cannot activate screensaver - isActive:', this.isActive, 'isLoading:', this.isLoading, 'imageCount:', this.images.length);
+                    return;
+                }
+                
+                console.log('Activating screensaver...');
+                this.isActive = true;
+                
+                // Clear inactivity timer
+                clearTimeout(this.inactivityTimer);
+                
+                // Show screensaver overlay
+                const overlay = document.getElementById('screensaver-overlay');
+                if (overlay) {
+                    overlay.style.display = 'block';
+                    
+                    // Start slideshow
+                    this.startSlideshow();
+                }
+            }
+
+            deactivateScreensaver() {
+                if (!this.isActive) return;
+                
+                console.log('Deactivating screensaver...');
+                this.isActive = false;
+                
+                // Stop slideshow
+                this.stopSlideshow();
+                
+                // Hide screensaver overlay
+                const overlay = document.getElementById('screensaver-overlay');
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+                
+                // Restart inactivity timer
+                this.resetInactivityTimer();
+            }
+
+            startSlideshow() {
+                if (this.images.length === 0) return;
+                
+                this.currentImageIndex = 0;
+                this.showCurrentImage();
+                
+                // Set up slide timer
+                this.slideTimer = setInterval(() => {
+                    this.nextImage();
+                }, this.slideInterval);
+            }
+
+            stopSlideshow() {
+                clearInterval(this.slideTimer);
+                this.slideTimer = null;
+            }
+
+            showCurrentImage() {
+                const currentImg = document.getElementById('screensaver-image-current');
+                const nextImg = document.getElementById('screensaver-image-next');
+                
+                if (currentImg && this.images[this.currentImageIndex]) {
+                    currentImg.src = this.images[this.currentImageIndex];
+                    currentImg.classList.add('active');
+                    nextImg.classList.remove('active');
+                }
+            }
+
+            nextImage() {
+                if (this.images.length === 0) return;
+                
+                const currentImg = document.getElementById('screensaver-image-current');
+                const nextImg = document.getElementById('screensaver-image-next');
+                
+                // Move to next image
+                this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+                
+                // Preload next image
+                nextImg.src = this.images[this.currentImageIndex];
+                
+                // Trigger transition
+                setTimeout(() => {
+                    currentImg.classList.remove('active');
+                    nextImg.classList.add('active');
+                    
+                    // Swap references for next transition
+                    setTimeout(() => {
+                        const tempSrc = currentImg.src;
+                        currentImg.src = nextImg.src;
+                        nextImg.src = tempSrc;
+                        
+                        currentImg.classList.add('active');
+                        nextImg.classList.remove('active');
+                    }, this.fadeTransitionTime);
+                }, 100);
+            }
+
+            // Manual control functions
+            forceActivate() {
+                this.activateScreensaver();
+            }
+
+            forceDeactivate() {
+                this.deactivateScreensaver();
+            }
+
+            setInactivityTimeout(minutes) {
+                this.inactivityTimeout = minutes * 60 * 1000;
+                console.log(`Screensaver inactivity timeout set to ${minutes} minutes`);
+                this.resetInactivityTimer();
+            }
+
+            getStatus() {
+                return {
+                    isActive: this.isActive,
+                    imageCount: this.images.length,
+                    currentImageIndex: this.currentImageIndex,
+                    inactivityTimeoutMinutes: this.inactivityTimeout / 60000,
+                    slideIntervalSeconds: this.slideInterval / 1000
+                };
+            }
+        }
+
+        // Initialize screensaver manager
+        const screensaverManager = new ScreensaverManager();
+
+        // Expose screensaver test functions for debugging
+        window.testScreensaver = function() {
+            screensaverManager.forceActivate();
+        };
+
+        window.stopScreensaver = function() {
+            screensaverManager.forceDeactivate();
+        };
+
+        window.setScreensaverTimeout = function(minutes) {
+            screensaverManager.setInactivityTimeout(minutes);
+        };
+
+        window.getScreensaverStatus = function() {
+            return screensaverManager.getStatus();
+        };
+
+        // Function for the admin screensaver button
+        window.activateScreensaver = function() {
+            console.log('Screensaver button clicked - activating...');
+            
+            // Add small delay to avoid race condition with click event
+            setTimeout(() => {
+                screensaverManager.forceActivate();
+            }, 100);
+        };
+
+        console.log('Rune Bearer Phoenix game initialized with sound effects and screensaver system');
     </script>
 </body>
 </html> 

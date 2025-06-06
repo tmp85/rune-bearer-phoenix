@@ -670,6 +670,7 @@
         <button class="admin-btn reset" onclick="resetProgress()">🔄 Reset All Progress</button>
         <button class="admin-btn" onclick="exportProgress()">📥 Export Progress</button>
         <button class="admin-btn" onclick="toggleResetPanel()">🎯 Reset Individual Days</button>
+        <button class="admin-btn" onclick="activateAdminScreensaver()" title="Activate Screensaver">🖥️</button>
     </div>
 
     <!-- Reset Days Panel -->
@@ -1644,6 +1645,337 @@
             return soundManager.getStatus();
         };
 
+        // Screensaver for Admin Interface (longer timeout)
+        class AdminScreensaverManager {
+            constructor() {
+                this.isActive = false;
+                this.inactivityTimer = null;
+                this.slideTimer = null;
+                this.currentImageIndex = 0;
+                this.images = [];
+                this.isLoading = true;
+                
+                // Configuration (longer timeout for admin interface)
+                this.inactivityTimeout = 15 * 60 * 1000; // 15 minutes for admin
+                this.slideInterval = 15 * 1000; // 15 seconds per image
+                this.fadeTransitionTime = 2000; // 2 seconds fade transition
+                
+                // Initialize screensaver
+                this.init();
+            }
+
+            async init() {
+                console.log('[Admin] Initializing screensaver system...');
+                
+                // Create screensaver HTML structure
+                this.createScreensaverDOM();
+                
+                // Load screensaver images
+                await this.loadScreensaverImages();
+                
+                // Set up activity listeners
+                this.setupActivityListeners();
+                
+                // Start inactivity timer
+                this.resetInactivityTimer();
+                
+                console.log(`[Admin] Screensaver initialized with ${this.images.length} images`);
+                console.log(`[Admin] Will activate after ${this.inactivityTimeout / 60000} minutes of inactivity`);
+            }
+
+            createScreensaverDOM() {
+                // Create screensaver container for admin
+                const screensaverHTML = `
+                    <div id="admin-screensaver-overlay" class="admin-screensaver-overlay">
+                        <div class="admin-screensaver-content">
+                            <div class="admin-screensaver-image-container">
+                                <img id="admin-screensaver-image-current" class="admin-screensaver-image active" alt="Admin Screensaver">
+                                <img id="admin-screensaver-image-next" class="admin-screensaver-image" alt="Admin Screensaver">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add to document
+                document.body.insertAdjacentHTML('beforeend', screensaverHTML);
+                
+                // Add CSS styles for admin screensaver
+                this.addScreensaverCSS();
+            }
+
+            addScreensaverCSS() {
+                const style = document.createElement('style');
+                style.textContent = `
+                    .admin-screensaver-overlay {
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: #000;
+                        z-index: 10000;
+                        display: none;
+                        cursor: pointer;
+                    }
+
+                    .admin-screensaver-content {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .admin-screensaver-image-container {
+                        position: relative;
+                        width: 100%;
+                        height: 100%;
+                        overflow: hidden;
+                    }
+
+                    .admin-screensaver-image {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        object-position: center;
+                        opacity: 0;
+                        transition: opacity ${this.fadeTransitionTime}ms ease-in-out;
+                    }
+
+                    .admin-screensaver-image.active {
+                        opacity: 1;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            async loadScreensaverImages() {
+                // Use same images as main screensaver
+                const imageFilenames = [
+                    'rune-bearers-logo.jpg',
+                    'rune_realm_split_lg.jpg',
+                    'rTILr0z3AMaKmYxkc9R1--0--g5n89.jpg',
+                    'kCDZjwiZg9NyUQhKhNCO--0--tsz0i.jpg',
+                    'GoW1qnKJT7h42etBhdbS--0--13xeo.jpg',
+                    'imsookasqlqLHuR8oojt--0--b3aak.jpg',
+                    'xFyP5bcNmeWOYCQEHrB9--0--n5sr7.jpg',
+                    'LSJNuZzUDEB7oXQNnvCt--1--sy7zm.jpg'
+                    // Using fewer images for admin interface
+                ];
+
+                // Preload images
+                const loadPromises = imageFilenames.map(filename => {
+                    return new Promise((resolve) => {
+                        const img = new Image();
+                        img.onload = () => {
+                            this.images.push(`assets/screensaver/${filename}`);
+                            resolve();
+                        };
+                        img.onerror = () => {
+                            console.warn(`[Admin] Failed to load screensaver image: ${filename}`);
+                            resolve();
+                        };
+                        img.src = `assets/screensaver/${filename}`;
+                    });
+                });
+
+                await Promise.all(loadPromises);
+                this.shuffleImages();
+                this.isLoading = false;
+                console.log(`[Admin] Screensaver loaded ${this.images.length} images successfully`);
+            }
+
+            shuffleImages() {
+                for (let i = this.images.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [this.images[i], this.images[j]] = [this.images[j], this.images[i]];
+                }
+            }
+
+            setupActivityListeners() {
+                const activityEvents = [
+                    'mousedown', 'mousemove', 'mouseup',
+                    'touchstart', 'touchmove', 'touchend',
+                    'keydown', 'keypress', 'keyup',
+                    'click', 'scroll', 'wheel'
+                ];
+
+                activityEvents.forEach(event => {
+                    document.addEventListener(event, (e) => {
+                        // Ignore activity from admin screensaver button clicks
+                        if (e.target && e.target.onclick && 
+                            e.target.onclick.toString().includes('activateAdminScreensaver')) {
+                            return;
+                        }
+                        
+                        if (this.isActive) {
+                            this.deactivateScreensaver();
+                        } else {
+                            this.resetInactivityTimer();
+                        }
+                    }, { passive: true });
+                });
+
+                // Specific listener for admin screensaver overlay
+                document.addEventListener('DOMContentLoaded', () => {
+                    const overlay = document.getElementById('admin-screensaver-overlay');
+                    if (overlay) {
+                        overlay.addEventListener('click', () => {
+                            this.deactivateScreensaver();
+                        });
+                    }
+                });
+            }
+
+            resetInactivityTimer() {
+                if (this.isActive) return;
+                
+                clearTimeout(this.inactivityTimer);
+                this.inactivityTimer = setTimeout(() => {
+                    this.activateScreensaver();
+                }, this.inactivityTimeout);
+            }
+
+            activateScreensaver() {
+                if (this.isActive || this.isLoading || this.images.length === 0) return;
+                
+                console.log('[Admin] Activating screensaver...');
+                this.isActive = true;
+                
+                clearTimeout(this.inactivityTimer);
+                
+                const overlay = document.getElementById('admin-screensaver-overlay');
+                if (overlay) {
+                    overlay.style.display = 'block';
+                    this.startSlideshow();
+                }
+            }
+
+            deactivateScreensaver() {
+                if (!this.isActive) return;
+                
+                console.log('[Admin] Deactivating screensaver...');
+                this.isActive = false;
+                
+                this.stopSlideshow();
+                
+                const overlay = document.getElementById('admin-screensaver-overlay');
+                if (overlay) {
+                    overlay.style.display = 'none';
+                }
+                
+                this.resetInactivityTimer();
+            }
+
+            startSlideshow() {
+                if (this.images.length === 0) return;
+                
+                this.currentImageIndex = 0;
+                this.showCurrentImage();
+                
+                this.slideTimer = setInterval(() => {
+                    this.nextImage();
+                }, this.slideInterval);
+            }
+
+            stopSlideshow() {
+                clearInterval(this.slideTimer);
+                this.slideTimer = null;
+            }
+
+            showCurrentImage() {
+                const currentImg = document.getElementById('admin-screensaver-image-current');
+                const nextImg = document.getElementById('admin-screensaver-image-next');
+                
+                if (currentImg && this.images[this.currentImageIndex]) {
+                    currentImg.src = this.images[this.currentImageIndex];
+                    currentImg.classList.add('active');
+                    nextImg.classList.remove('active');
+                }
+            }
+
+            nextImage() {
+                if (this.images.length === 0) return;
+                
+                const currentImg = document.getElementById('admin-screensaver-image-current');
+                const nextImg = document.getElementById('admin-screensaver-image-next');
+                
+                this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+                nextImg.src = this.images[this.currentImageIndex];
+                
+                setTimeout(() => {
+                    currentImg.classList.remove('active');
+                    nextImg.classList.add('active');
+                    
+                    setTimeout(() => {
+                        const tempSrc = currentImg.src;
+                        currentImg.src = nextImg.src;
+                        nextImg.src = tempSrc;
+                        
+                        currentImg.classList.add('active');
+                        nextImg.classList.remove('active');
+                    }, this.fadeTransitionTime);
+                }, 100);
+            }
+
+            forceActivate() {
+                this.activateScreensaver();
+            }
+
+            forceDeactivate() {
+                this.deactivateScreensaver();
+            }
+
+            setInactivityTimeout(minutes) {
+                this.inactivityTimeout = minutes * 60 * 1000;
+                console.log(`[Admin] Screensaver timeout set to ${minutes} minutes`);
+                this.resetInactivityTimer();
+            }
+
+            getStatus() {
+                return {
+                    isActive: this.isActive,
+                    imageCount: this.images.length,
+                    currentImageIndex: this.currentImageIndex,
+                    inactivityTimeoutMinutes: this.inactivityTimeout / 60000,
+                    slideIntervalSeconds: this.slideInterval / 1000
+                };
+            }
+        }
+
+        // Initialize admin screensaver manager
+        const adminScreensaverManager = new AdminScreensaverManager();
+
+        // Expose admin screensaver functions
+        window.testAdminScreensaver = function() {
+            adminScreensaverManager.forceActivate();
+        };
+
+        window.stopAdminScreensaver = function() {
+            adminScreensaverManager.forceDeactivate();
+        };
+
+        window.setAdminScreensaverTimeout = function(minutes) {
+            adminScreensaverManager.setInactivityTimeout(minutes);
+        };
+
+        window.getAdminScreensaverStatus = function() {
+            return adminScreensaverManager.getStatus();
+        };
+
+        // Function for the admin screensaver button
+        window.activateAdminScreensaver = function() {
+            console.log('Admin screensaver button clicked');
+            // Add small delay to avoid race condition with click event
+            setTimeout(() => {
+                adminScreensaverManager.forceActivate();
+            }, 100);
+        };
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey || e.metaKey) {
@@ -1662,9 +1994,18 @@
                         e.preventDefault();
                         toggleResetPanel();
                         break;
+                    case 's':
+                        e.preventDefault();
+                        if (e.shiftKey) {
+                            // Ctrl+Shift+S to test screensaver
+                            testAdminScreensaver();
+                        }
+                        break;
                 }
             }
         });
+
+        console.log('[Admin] Rune Bearer Phoenix admin interface initialized with sound effects and screensaver');
     </script>
 </body>
 </html> 
