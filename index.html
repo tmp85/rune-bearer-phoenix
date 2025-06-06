@@ -390,6 +390,53 @@
             font-style: italic;
         }
 
+        /* Screen Border for Modal Anti-Dimming */
+        .screen-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            border: 1px solid transparent;
+            transition: opacity 0.3s ease;
+        }
+
+        .screen-border.wells-border {
+            border-color: rgba(255, 149, 0, 0.3); /* Subtle Wells orange border */
+            box-shadow: 
+                /* Multiple layers of soft glow */
+                inset 0 0 20px rgba(255, 149, 0, 0.4),
+                inset 0 0 40px rgba(255, 149, 0, 0.3),
+                inset 0 0 80px rgba(255, 149, 0, 0.2),
+                inset 0 0 120px rgba(255, 149, 0, 0.1),
+                /* Outer glow */
+                0 0 20px rgba(255, 149, 0, 0.3),
+                0 0 40px rgba(255, 149, 0, 0.2),
+                0 0 60px rgba(255, 149, 0, 0.1);
+        }
+
+        .screen-border.rou-border {
+            border-color: rgba(96, 165, 250, 0.3); /* Subtle blue border for Rou */
+            box-shadow: 
+                /* Multiple layers of soft glow */
+                inset 0 0 20px rgba(96, 165, 250, 0.4),
+                inset 0 0 40px rgba(96, 165, 250, 0.3),
+                inset 0 0 80px rgba(96, 165, 250, 0.2),
+                inset 0 0 120px rgba(96, 165, 250, 0.1),
+                /* Outer glow */
+                0 0 20px rgba(96, 165, 250, 0.3),
+                0 0 40px rgba(96, 165, 250, 0.2),
+                0 0 60px rgba(96, 165, 250, 0.1);
+        }
+
+        .screen-border.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
         /* Room View Modal */
         .room-modal {
             display: none;
@@ -3285,6 +3332,9 @@
         </div>
     </div>
 
+    <!-- Screen Border for Anti-Dimming -->
+    <div id="screenBorder" class="screen-border"></div>
+
     <script>
         // Predefined Rune Collections - OFFICIAL SCHEDULE
         const runeCollections = {
@@ -3864,6 +3914,10 @@
             // Generate dynamic mission buttons
             generateMissionButtons(content);
 
+            // Show screen border for room challenges (anti-dimming)
+            isInRoomChallenge = true;
+            showScreenBorder(player);
+
             // Show room modal
             document.getElementById('roomModal').style.display = 'block';
         }
@@ -3874,6 +3928,9 @@
             document.querySelectorAll('.challenge-content').forEach(content => {
                 content.classList.remove('active');
             });
+            // Hide screen border when leaving room challenges
+            isInRoomChallenge = false;
+            hideScreenBorder();
         }
 
         function updateChallengeButtons() {
@@ -3958,6 +4015,8 @@
             const content = gameContent[currentPlayer][`day${currentDay}`];
             const challengeType = content.irlChallenge.type;
             
+            // Border is already showing from room challenge - no need to show again
+            
             if (challengeType === 'piano') {
                 document.getElementById('pianoModal').style.display = 'block';
             } else if (challengeType === 'drums') {
@@ -3969,14 +4028,17 @@
 
         function closePianoModal() {
             document.getElementById('pianoModal').style.display = 'none';
+            // Border stays on during room challenge - don't hide
         }
 
         function closeDrumsModal() {
             document.getElementById('drumsModal').style.display = 'none';
+            // Border stays on during room challenge - don't hide
         }
 
         function closeIXLModal() {
             document.getElementById('ixlModal').style.display = 'none';
+            // Border stays on during room challenge - don't hide
         }
 
         function completePianoChallenge() {
@@ -4255,6 +4317,9 @@
             subtitle.textContent = lootData.title;
             description.textContent = lootData.description;
             
+            // Show screen border to prevent auto-dimming
+            showScreenBorder(player);
+            
             modal.style.display = 'block';
         }
 
@@ -4285,6 +4350,7 @@
 
         function closeLootModal() {
             document.getElementById('lootModal').style.display = 'none';
+            hideScreenBorder();
             
             // Return directly to main interface (skip Quest Complete modal)
             closePlayerRoom();
@@ -4363,11 +4429,15 @@
             mathQuestionHeader.classList.add(themeClass);
             mathStoryContext.classList.add(themeClass);
             
+            // Show screen border to prevent auto-dimming
+            showScreenBorder(currentPlayer);
+            
             document.getElementById('mathQuestionModal').style.display = 'block';
         }
 
         function closeMathQuestion() {
             document.getElementById('mathQuestionModal').style.display = 'none';
+            hideScreenBorder();
         }
 
         function openNumberInput() {
@@ -4397,6 +4467,9 @@
             numberButtons.forEach(btn => {
                 btn.classList.add(themeClass);
             });
+            
+            // Show screen border to prevent auto-dimming
+            showScreenBorder(currentPlayer);
             
             document.getElementById('numberInputModal').style.display = 'block';
         }
@@ -4472,6 +4545,7 @@
                 // Correct answer - close modals first
                 document.getElementById('numberInputModal').style.display = 'none';
                 document.getElementById('mathQuestionModal').style.display = 'none';
+                hideScreenBorder();
                 
                 // Update progress
                 gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
@@ -4656,11 +4730,15 @@
                 if (onContinue) onContinue();
             };
             
+            // Show screen border to prevent auto-dimming
+            showScreenBorder(playerTheme);
+            
             modal.style.display = 'block';
         }
 
         function closeSuccessModal() {
             document.getElementById('successModal').style.display = 'none';
+            hideScreenBorder();
         }
 
         function showDayCompletionChoice(dayType) {
@@ -5062,6 +5140,9 @@
                 if (onContinue) onContinue();
             };
 
+            // Show screen border to prevent auto-dimming
+            showScreenBorder(player);
+
             // Show the modal with animation
             modal.style.display = 'block';
             
@@ -5075,6 +5156,70 @@
             const modal = document.getElementById('runeDiscoveryModal');
             modal.style.display = 'none';
             modal.classList.remove('active');
+            hideScreenBorder();
+        }
+
+        // Screen Border Functions for Anti-Dimming
+        let isInRoomChallenge = false;
+
+        function showScreenBorder(player) {
+            const border = document.getElementById('screenBorder');
+            console.log('showScreenBorder called for player:', player);
+            console.log('Border element found:', border);
+            
+            if (!border) {
+                console.error('Screen border element not found!');
+                return;
+            }
+            
+            // Remove existing theme classes
+            border.classList.remove('wells-border', 'rou-border');
+            
+            // Add the appropriate border based on player
+            if (player === 'wells') {
+                border.classList.add('wells-border');
+                console.log('Added wells-border class');
+            } else if (player === 'rou') {
+                border.classList.add('rou-border');
+                console.log('Added rou-border class');
+            }
+            
+            // Show the border
+            border.classList.add('active');
+            console.log(`Screen border activated for ${player}. Classes:`, border.className);
+        }
+
+        function hideScreenBorder() {
+            const border = document.getElementById('screenBorder');
+            console.log('hideScreenBorder called');
+            
+            if (!border) {
+                console.error('Screen border element not found!');
+                return;
+            }
+            
+            // Only hide the border if we're not in a room challenge
+            if (!isInRoomChallenge) {
+                border.classList.remove('active');
+                console.log('Screen border deactivated. Classes:', border.className);
+            } else {
+                console.log('Screen border kept active (in room challenge)');
+            }
+        }
+
+        // Get current player for border theming
+        function getCurrentPlayerForBorder() {
+            // Try to determine current player from global state
+            return window.currentPlayer || 'wells';
+        }
+
+        // Test function for manual border testing (call from browser console)
+        window.testBorder = function(player = 'wells') {
+            console.log('Testing border manually for player:', player);
+            showScreenBorder(player);
+            setTimeout(() => {
+                hideScreenBorder();
+            }, 3000);
         }
     </script>
 </body>
