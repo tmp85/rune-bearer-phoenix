@@ -434,12 +434,213 @@
                 transform: translateX(22px);
             }
 
-            .tooltip .tooltiptext {
-                width: 150px;
-                margin-left: -75px;
-                font-size: 0.7rem;
-            }
+                    .tooltip .tooltiptext {
+            width: 150px;
+            margin-left: -75px;
+            font-size: 0.7rem;
         }
+    }
+
+    /* Reset Panel Styles */
+    .reset-panel {
+        background: rgba(0, 0, 0, 0.4);
+        margin: 1rem auto;
+        max-width: 1400px;
+        border-radius: 12px;
+        border: 2px solid #dc2626;
+        box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
+        animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .reset-header {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        padding: 1.5rem;
+        border-radius: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .reset-header h2 {
+        margin-bottom: 0.5rem;
+        font-size: 1.8rem;
+    }
+
+    .reset-controls {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        flex-wrap: wrap;
+    }
+
+    .reset-btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .reset-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
+    .reset-btn.warning {
+        background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    }
+
+    .reset-btn.danger {
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+    }
+
+    .reset-weeks-container {
+        padding: 1.5rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .reset-week {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .reset-week-header {
+        text-align: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .reset-week-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: var(--primary-purple);
+        margin-bottom: 0.25rem;
+    }
+
+    .reset-week-range {
+        font-size: 0.9rem;
+        color: var(--text-gray);
+    }
+
+    .reset-days-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.5rem;
+    }
+
+    .reset-day-btn {
+        padding: 0.5rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 60px;
+        justify-content: center;
+    }
+
+    .reset-day-btn.locked {
+        background: linear-gradient(135deg, #64748b, #94a3b8);
+        color: white;
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .reset-day-btn.unlocked {
+        background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+        color: white;
+    }
+
+    .reset-day-btn.completed {
+        background: linear-gradient(135deg, #059669, #10b981);
+        color: white;
+    }
+
+    .reset-day-btn:not(.locked):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
+    .reset-day-btn.completed:hover {
+        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    }
+
+    .day-number {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    .day-status {
+        font-size: 0.7rem;
+        margin-top: 0.25rem;
+        opacity: 0.9;
+    }
+
+    .reset-week-controls {
+        margin-top: 1rem;
+        text-align: center;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .reset-week-btn {
+        padding: 0.4rem 0.8rem;
+        background: linear-gradient(135deg, #dc2626, #ef4444);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .reset-week-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
+    }
+
+    @media (max-width: 768px) {
+        .reset-weeks-container {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+        
+        .reset-controls {
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .reset-days-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
     </style>
 </head>
 <body>
@@ -468,6 +669,25 @@
         <button class="admin-btn" onclick="unlockNextDay()">🔓 Unlock Next Day</button>
         <button class="admin-btn reset" onclick="resetProgress()">🔄 Reset All Progress</button>
         <button class="admin-btn" onclick="exportProgress()">📥 Export Progress</button>
+        <button class="admin-btn" onclick="toggleResetPanel()">🎯 Reset Individual Days</button>
+    </div>
+
+    <!-- Reset Days Panel -->
+    <div id="resetPanel" class="reset-panel" style="display: none;">
+        <div class="reset-header">
+            <h2>🎯 Reset Individual Days</h2>
+            <p>Reset specific days back to "never started" state. This will clear all progress, runes, and loot for the selected day.</p>
+        </div>
+        
+        <div class="reset-controls">
+            <button class="reset-btn danger" onclick="resetAllProgress()">🔄 Reset All Progress</button>
+            <button class="reset-btn warning" onclick="resetWeek('current')">📅 Reset Current Week</button>
+            <button class="reset-btn" onclick="toggleResetPanel()">❌ Close Panel</button>
+        </div>
+
+        <div class="reset-weeks-container">
+            <!-- Week blocks will be generated dynamically -->
+        </div>
     </div>
 
     <div class="table-container">
@@ -918,6 +1138,203 @@
             linkElement.click();
         }
 
+        // Reset Panel Functions
+        function toggleResetPanel() {
+            const panel = document.getElementById('resetPanel');
+            if (panel.style.display === 'none') {
+                panel.style.display = 'block';
+                generateResetPanel();
+            } else {
+                panel.style.display = 'none';
+            }
+        }
+
+        function generateResetPanel() {
+            const container = document.querySelector('.reset-weeks-container');
+            container.innerHTML = '';
+
+            // Group days into weeks (8 weeks total for 40 days)
+            const weeks = [];
+            for (let week = 1; week <= 8; week++) {
+                const startDay = (week - 1) * 5 + 1;
+                const endDay = Math.min(week * 5, 40);
+                weeks.push({
+                    week,
+                    startDay,
+                    endDay,
+                    days: Array.from({length: endDay - startDay + 1}, (_, i) => startDay + i)
+                });
+            }
+
+            weeks.forEach(weekData => {
+                const weekElement = document.createElement('div');
+                weekElement.className = 'reset-week';
+                
+                const weekHeader = `
+                    <div class="reset-week-header">
+                        <div class="reset-week-title">Week ${weekData.week}</div>
+                        <div class="reset-week-range">Days ${weekData.startDay}-${weekData.endDay}</div>
+                    </div>
+                `;
+
+                const daysGrid = weekData.days.map(day => {
+                    const dayStatus = getDayResetStatus(day);
+                    return `
+                        <button class="reset-day-btn ${dayStatus.class}" 
+                                onclick="resetIndividualDay(${day})"
+                                ${dayStatus.disabled ? 'disabled' : ''}>
+                            <div class="day-number">${day}</div>
+                            <div class="day-status">${dayStatus.status}</div>
+                        </button>
+                    `;
+                }).join('');
+
+                const weekControls = `
+                    <div class="reset-week-controls">
+                        <button class="reset-week-btn" onclick="resetWeek(${weekData.week})">
+                            Reset Week ${weekData.week}
+                        </button>
+                    </div>
+                `;
+
+                weekElement.innerHTML = `
+                    ${weekHeader}
+                    <div class="reset-days-grid">
+                        ${daysGrid}
+                    </div>
+                    ${weekControls}
+                `;
+
+                container.appendChild(weekElement);
+            });
+        }
+
+        function getDayResetStatus(day) {
+            const isUnlocked = progressState.unlockedDays.includes(day);
+            const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
+            const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
+            const isCompleted = wellsCompleted || rouCompleted;
+            const isFullyCompleted = wellsCompleted && rouCompleted;
+
+            if (!isUnlocked) {
+                return {
+                    class: 'locked',
+                    status: 'Locked',
+                    disabled: true
+                };
+            } else if (isFullyCompleted) {
+                return {
+                    class: 'completed',
+                    status: 'Complete',
+                    disabled: false
+                };
+            } else if (isCompleted) {
+                return {
+                    class: 'completed',
+                    status: 'Partial',
+                    disabled: false
+                };
+            } else {
+                return {
+                    class: 'unlocked',
+                    status: 'Unlocked',
+                    disabled: false
+                };
+            }
+        }
+
+        function resetIndividualDay(day) {
+            const dayStatus = getDayResetStatus(day);
+            
+            if (dayStatus.disabled) {
+                alert(`Day ${day} is locked and cannot be reset.`);
+                return;
+            }
+
+            // Check if resetting this day would break progression
+            const hasSubsequentUnlocked = progressState.unlockedDays.some(d => d > day);
+            const hasSubsequentCompleted = progressState.completedDays.some(d => d > day);
+            
+            let warningMessage = `Are you sure you want to reset Day ${day}?\n\nThis will:\n- Clear all progress for Day ${day}\n- Remove any runes collected on Day ${day}\n- Reset the day to "never started" state`;
+            
+            if (hasSubsequentUnlocked || hasSubsequentCompleted) {
+                warningMessage += `\n\n⚠️ WARNING: This will also reset all days after Day ${day} to maintain progression logic.`;
+            }
+
+            if (confirm(warningMessage)) {
+                performDayReset(day);
+            }
+        }
+
+        function performDayReset(day) {
+            console.log(`Resetting Day ${day}...`);
+            
+            // Remove from unlocked days (and all subsequent days)
+            progressState.unlockedDays = progressState.unlockedDays.filter(d => d < day);
+            
+            // Remove from completed days (current day and all subsequent)
+            progressState.completedDays = progressState.completedDays.filter(d => d < day);
+            
+            // Clear task completions for this day and all subsequent days
+            Object.keys(progressState.taskCompletions).forEach(key => {
+                const dayMatch = key.match(/day(\d+)_/);
+                if (dayMatch && parseInt(dayMatch[1]) >= day) {
+                    delete progressState.taskCompletions[key];
+                }
+            });
+            
+            // Remove runes for affected days
+            for (let d = day; d <= 40; d++) {
+                removeRunesForDay(d);
+            }
+            
+            // Update current day
+            const maxUnlocked = Math.max(...progressState.unlockedDays, 0);
+            progressState.currentDay = maxUnlocked > 0 ? maxUnlocked : 1;
+            
+            // If we reset Day 1, ensure it's unlocked
+            if (day === 1 && !progressState.unlockedDays.includes(1)) {
+                progressState.unlockedDays.push(1);
+            }
+            
+            // Save and update UI
+            saveProgress();
+            generateScheduleTable();
+            updateProgressSummary();
+            generateResetPanel();
+            
+            console.log(`Day ${day} reset successfully. Current day is now ${progressState.currentDay}`);
+            alert(`Day ${day} has been reset successfully!`);
+        }
+
+        function resetWeek(weekNumber) {
+            let startDay, endDay;
+            
+            if (weekNumber === 'current') {
+                // Find current week based on current day
+                const currentDay = progressState.currentDay;
+                const weekNum = Math.ceil(currentDay / 5);
+                startDay = (weekNum - 1) * 5 + 1;
+                endDay = Math.min(weekNum * 5, 40);
+            } else {
+                startDay = (weekNumber - 1) * 5 + 1;
+                endDay = Math.min(weekNumber * 5, 40);
+            }
+            
+            const weekText = weekNumber === 'current' ? 'current week' : `Week ${weekNumber}`;
+            
+            if (confirm(`Are you sure you want to reset ${weekText} (Days ${startDay}-${endDay})?\n\nThis will reset all progress for these days and may affect subsequent days to maintain progression logic.`)) {
+                performDayReset(startDay);
+            }
+        }
+
+        function resetAllProgress() {
+            if (confirm('Are you sure you want to reset ALL progress? This will clear everything and cannot be undone.')) {
+                resetProgress();
+                generateResetPanel();
+            }
+        }
+
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey || e.metaKey) {
@@ -931,6 +1348,10 @@
                         if (e.shiftKey) {
                             resetProgress();
                         }
+                        break;
+                    case 't':
+                        e.preventDefault();
+                        toggleResetPanel();
                         break;
                 }
             }
