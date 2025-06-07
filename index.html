@@ -2619,7 +2619,7 @@
 <body>
     <div class="game-container">
         <div class="admin-spider-link">
-            <button class="admin-spider-btn" onclick="window.location.href='checklist.html'">
+            <button class="admin-spider-btn" onclick="handleSpiderTap()">
                 <img src="assets/items/admin-spider.png" alt="Admin Spider" class="spider-icon">
                 <span class="spider-text">Admin</span>
             </button>
@@ -3268,8 +3268,8 @@
             <div class="loot-header">
                 <div class="loot-title">
                     💎 Treasure Discovered!
-                </div>
-            </div>
+        </div>
+    </div>
             
             <div class="loot-artwork-container">
                 <img id="lootArtwork" class="loot-artwork" src="assets/loot/alien-robot-tiny-loot.png" alt="Loot Discovery">
@@ -4230,7 +4230,7 @@
                         irlBtn.innerHTML = '✅ Echo Rhythm Complete';
                     } else if (content.irlChallenge.type === 'ixl') {
                         irlBtn.innerHTML = '✅ Wisdom Hunt Complete';
-                    } else {
+                } else {
                         irlBtn.innerHTML = '✅ IRL Challenge Complete';
                     }
                     irlBtn.onclick = null;
@@ -5589,7 +5589,7 @@
             if (!isInRoomChallenge) {
                 border.classList.remove('active');
                 console.log('Screen border deactivated. Classes:', border.className);
-            } else {
+                    } else {
                 console.log('Screen border kept active (in room challenge)');
             }
         }
@@ -6236,6 +6236,48 @@
                 screensaverManager.forceActivate();
             }, 100);
         };
+
+        // Spider tap counter for admin access
+        let spiderTapCount = 0;
+        let spiderTapTimer = null;
+        const SPIDER_TAP_TIMEOUT = 2000; // 2 seconds timeout between taps
+        const REQUIRED_TAPS = 3;
+
+        function handleSpiderTap() {
+            spiderTapCount++;
+            
+            // Clear existing timer
+            if (spiderTapTimer) {
+                clearTimeout(spiderTapTimer);
+            }
+            
+            // Visual feedback - briefly scale the spider
+            const spiderBtn = document.querySelector('.admin-spider-btn');
+            spiderBtn.style.transform = 'scale(1.3)';
+            setTimeout(() => {
+                spiderBtn.style.transform = 'scale(1.2)'; // Return to hover state
+            }, 150);
+            
+            console.log(`Spider tap ${spiderTapCount}/${REQUIRED_TAPS}`);
+            
+            if (spiderTapCount >= REQUIRED_TAPS) {
+                // Successfully tapped 3 times - open admin panel
+                console.log('Admin panel access granted');
+                spiderTapCount = 0;
+                if (spiderTapTimer) {
+                    clearTimeout(spiderTapTimer);
+                    spiderTapTimer = null;
+                }
+                window.location.href = 'checklist.html';
+            } else {
+                // Set timer to reset count if no more taps within timeout
+                spiderTapTimer = setTimeout(() => {
+                    console.log('Spider tap timeout - resetting count');
+                    spiderTapCount = 0;
+                    spiderTapTimer = null;
+                }, SPIDER_TAP_TIMEOUT);
+            }
+        }
 
         console.log('Rune Bearer Phoenix game initialized with sound effects and screensaver system');
     </script>

@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rune Bearers Quest - DEMO</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .demo-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 18px;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .main-content {
+            margin-top: 60px;
+            padding: 20px;
+        }
+
+        .demo-controls {
+            position: fixed;
+            top: 70px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 15px;
+            border-radius: 10px;
+            z-index: 999;
+        }
+
+        .demo-controls h3 {
+            margin: 0 0 10px 0;
+            color: #4ecdc4;
+            font-size: 16px;
+        }
+
+        .demo-btn {
+            display: block;
+            width: 100%;
+            margin: 5px 0;
+            padding: 8px 12px;
+            background: #4ecdc4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.3s;
+        }
+
+        .demo-btn:hover {
+            background: #3bb5a8;
+        }
+
+        .demo-btn.active {
+            background: #f39c12;
+        }
+
+        .player-selection {
+            text-align: center;
+            margin: 50px 0;
+        }
+
+        .player-card {
+            display: inline-block;
+            margin: 20px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            min-width: 200px;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .player-card.wells {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        .player-card.rou {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+        .player-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .player-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .player-description {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Copy all the modal and game styles from the main game */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        .room-interface {
+            display: none;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .room-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .room-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .room-name {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .room-subtitle {
+            font-size: 18px;
+            opacity: 0.8;
+        }
+
+        .room-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .room-artwork {
+            text-align: center;
+        }
+
+        .room-artwork img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .room-story {
+            background: rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .story-text {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .challenge-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .challenge-btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .math-challenge-btn {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+        }
+
+        .irl-challenge-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .challenge-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* Wells theme */
+        .wells-theme {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+        }
+
+        /* Rou theme */
+        .rou-theme {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
+
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            z-index: 1001;
+        }
+
+        .back-btn:hover {
+            background: rgba(0,0,0,0.9);
+        }
+
+        @media (max-width: 768px) {
+            .room-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-controls {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-header">
+        🎮 DEMO MODE - This is a demonstration version of Rune Bearers Quest 🎮
+    </div>
+
+    <button class="back-btn" onclick="window.location.href='index.html'">← Back to Main Game</button>
+
+    <div class="demo-controls">
+        <h3>Demo Controls</h3>
+        <button class="demo-btn" onclick="resetDemo()">🔄 Reset Demo</button>
+        <button class="demo-btn" onclick="showPlayerSelection()">👥 Change Player</button>
+        <button class="demo-btn" onclick="toggleDaySelection()">📅 Select Day</button>
+        <div id="dayButtons" style="display: none; margin-top: 10px;">
+            <button class="demo-btn" onclick="jumpToDay(1)">Day 1</button>
+            <button class="demo-btn" onclick="jumpToDay(2)">Day 2</button>
+            <button class="demo-btn" onclick="jumpToDay(3)">Day 3</button>
+            <button class="demo-btn" onclick="jumpToDay(4)">Day 4</button>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <!-- Player Selection Screen -->
+        <div id="playerSelection" class="player-selection">
+            <h1 style="text-align: center; margin-bottom: 30px;">Choose Your Adventure</h1>
+            <p style="text-align: center; font-size: 18px; margin-bottom: 40px;">Select a character to experience their unique quest!</p>
+            
+            <div class="player-card wells" onclick="selectPlayer('wells')">
+                <div class="player-avatar" style="background-image: url('assets/avatars/wells_avatar.png');"></div>
+                <div class="player-name">Wells</div>
+                <div class="player-description">Age 7 • Mathematical Explorer<br>Ventures through Dawnbreak Expanse</div>
+            </div>
+
+            <div class="player-card rou" onclick="selectPlayer('rou')">
+                <div class="player-avatar" style="background-image: url('assets/avatars/rou_avatar.png');"></div>
+                <div class="player-name">Rou</div>
+                <div class="player-description">Age 6 • Crystal Adventurer<br>Explores the mystical Crystal Glade</div>
+            </div>
+        </div>
+
+        <!-- Room Interface -->
+        <div id="roomInterface" class="room-interface">
+            <div class="room-header" id="roomHeader">
+                <div class="room-icon" id="roomIcon">🏛️</div>
+                <div class="room-name" id="roomName">Ancient Chamber</div>
+                <div class="room-subtitle" id="roomSubtitle">Mystical Realm</div>
+            </div>
+
+            <div class="room-content">
+                <div class="room-artwork">
+                    <img id="roomArtwork" src="assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png" alt="Room Artwork">
+                </div>
+
+                <div class="room-story">
+                    <div class="story-text" id="storyText">
+                        Welcome to the mystical realm...
+                    </div>
+
+                    <div class="challenge-buttons">
+                        <button class="challenge-btn math-challenge-btn" onclick="showMathDemo()">
+                            🧮 Math Challenge
+                        </button>
+                        <button class="challenge-btn irl-challenge-btn" id="irlChallengeBtn" onclick="showIRLDemo()" style="display: none;">
+                            🎯 IRL Challenge
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Demo Modal -->
+    <div id="demoModal" class="modal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Demo Feature</h2>
+            <p id="modalContent">This demonstrates a game feature...</p>
+            <button onclick="closeModal()">Continue</button>
+            <button onclick="showPlayerSelection()">Back to Selection</button>
+        </div>
+    </div>
+
+    <script>
+        // Demo-specific variables
+        let currentDemoPlayer = null;
+        let currentDemoDay = 1;
+
+        // Simplified game content for demo
+        const demoContent = {
+            wells: {
+                1: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Ancient Pillar Chamber',
+                    icon: '🏛️',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'You and your loyal husky companion Flint discover an ancient chamber filled with mysterious pillars. Each pillar glows with different mathematical symbols, and you must solve their riddles to unlock the secrets within.',
+                    hasIRL: false
+                },
+                2: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Crystal Lock Mechanism',
+                    icon: '🔍',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'Flint discovers a massive crystal lock with four numbered slots. Each slot requires precise calculations to unlock the ancient door.',
+                    hasIRL: true
+                },
+                3: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Prism Reflection Puzzle',
+                    icon: '💎',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'You enter a chamber filled with magical prisms and mirrors. Light bounces between crystal formations, creating a complex puzzle that requires mathematical precision to solve.',
+                    hasIRL: false
+                },
+                4: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Artisan\'s Sunforge',
+                    icon: '🔥',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-4-art.jpg',
+                    story: 'You and your husky Flint step into the blazing Artisan\'s Sunforge. Molten rivers hiss through dark channels, and four gate levers are frozen fast. Each lever bears a riddle—solve them, inscribe the right value, and the Sun-steel will flow free.',
+                    hasIRL: false
+                }
+            },
+            rou: {
+                1: {
+                    realm: 'Crystal Glade',
+                    room: 'Frozen Waterfall Cavern',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'You and your husky companion Ferrin discover a magical frozen waterfall that sparkles with ice crystals. The cavern echoes with mysterious sounds, and you must solve icy puzzles to proceed.',
+                    hasIRL: false
+                },
+                2: {
+                    realm: 'Crystal Glade',
+                    room: 'Enchanted Music Grove',
+                    icon: '🌸',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'Ferrin leads you to a magical grove where crystal flowers chime like bells in the breeze. Ancient drums wait to be played in perfect mathematical harmony.',
+                    hasIRL: true
+                },
+                3: {
+                    realm: 'Crystal Glade',
+                    room: 'Starlight Bridge Crossing',
+                    icon: '🌟',
+                    artwork: 'assets/rooms/DawnbreakExpanse/DawnbreakExpanse_LockedDoor_20250601_day01.png',
+                    story: 'You and Ferrin approach a magnificent bridge made of crystallized starlight. The bridge responds to mathematical precision, glowing brighter with each correct calculation.',
+                    hasIRL: false
+                },
+                4: {
+                    realm: 'Crystal Glade',
+                    room: 'Glacial Rune Chamber Bridge Challenge',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-4-art.png',
+                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. You must help rebuild the bridges using mathematical precision and physical building skills.',
+                    hasIRL: true
+                }
+            }
+        };
+
+        // Demo functions
+        function showPlayerSelection() {
+            document.getElementById('playerSelection').style.display = 'block';
+            document.getElementById('roomInterface').style.display = 'none';
+            currentDemoPlayer = null;
+        }
+
+        function selectPlayer(player) {
+            currentDemoPlayer = player;
+            currentDemoDay = 1;
+            currentDemoQuestion = 1;
+            
+            document.getElementById('playerSelection').style.display = 'none';
+            loadDemoRoom(player, currentDemoDay);
+        }
+
+        function toggleDaySelection() {
+            const dayButtons = document.getElementById('dayButtons');
+            dayButtons.style.display = dayButtons.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function jumpToDay(day) {
+            if (!currentDemoPlayer) {
+                alert('Please select a player first!');
+                return;
+            }
+            currentDemoDay = day;
+            currentDemoQuestion = 1;
+            loadDemoRoom(currentDemoPlayer, day);
+            document.getElementById('dayButtons').style.display = 'none';
+        }
+
+        function loadDemoRoom(player, day) {
+            const content = demoGameContent[player][`day${day}`];
+            if (!content) return;
+
+            // Update room display
+            document.getElementById('roomIcon').textContent = content.icon;
+            document.getElementById('roomName').textContent = content.realm;
+            document.getElementById('roomSubtitle').textContent = content.room;
+            document.getElementById('roomArtwork').src = content.artwork;
+            document.getElementById('storyText').textContent = content.story;
+
+            // Update IRL challenge button visibility
+            const irlBtn = document.getElementById('irlChallengeBtn');
+            if (content.hasIRL) {
+                irlBtn.style.display = 'inline-block';
+            } else {
+                irlBtn.style.display = 'none';
+            }
+
+            // Apply theme
+            const roomHeader = document.getElementById('roomHeader');
+            roomHeader.className = `room-header ${player}-theme`;
+
+            document.getElementById('roomInterface').style.display = 'block';
+        }
+
+        function showMathDemo() {
+            showModal(
+                '🧮 Math Challenge Demo',
+                `This would show interactive math problems for ${currentDemoPlayer} Day ${currentDemoDay}. In the real game, players solve problems like counting, addition, multiplication, and division through engaging story scenarios. Each correct answer advances the quest and unlocks new areas!`
+            );
+        }
+
+        function showIRLDemo() {
+            let activity = '';
+            if (currentDemoPlayer === 'wells' && currentDemoDay === 2) {
+                activity = 'piano playing';
+            } else if (currentDemoPlayer === 'rou' && currentDemoDay === 2) {
+                activity = 'drum playing';
+            } else if (currentDemoPlayer === 'rou' && currentDemoDay === 4) {
+                activity = 'bridge building with blocks';
+            } else {
+                activity = 'hands-on activities';
+            }
+
+            showModal(
+                '🎯 IRL Challenge Demo',
+                `This would show an interactive real-world challenge involving ${activity}! Players complete physical tasks that connect to their digital quest, making learning active and engaging. The game guides them through step-by-step instructions.`
+            );
+        }
+
+        function showModal(title, content) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalContent').textContent = content;
+            document.getElementById('demoModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('demoModal').style.display = 'none';
+        }
+
+        function showCorrectAnswer() {
+            const content = demoGameContent[currentDemoPlayer][`day${currentDemoDay}`];
+            const mission = content.mathChallenge.missions[currentDemoQuestion - 1];
+            
+            document.getElementById('mathQuestionModal').style.display = 'none';
+            
+            showSuccessModal(
+                '✨',
+                'Correct!',
+                mission.demoAnswer,
+                () => {
+                    // Move to next question or complete
+                    const totalMissions = content.mathChallenge.missions.length;
+                    if (currentDemoQuestion < totalMissions) {
+                        currentDemoQuestion++;
+                        setTimeout(() => startMathChallenge(), 500);
+                    } else {
+                        setTimeout(() => {
+                            showSuccessModal(
+                                '🎉',
+                                'Day Complete!',
+                                `Congratulations! You've completed Day ${currentDemoDay} for ${currentDemoPlayer}!`,
+                                () => {
+                                    showPlayerSelection();
+                                }
+                            );
+                        }, 500);
+                    }
+                }
+            );
+        }
+
+
+
+        function showSuccessModal(icon, title, message, onContinue) {
+            document.getElementById('successIcon').textContent = icon;
+            document.getElementById('successTitle').textContent = title;
+            document.getElementById('successMessage').textContent = message;
+            
+            const continueBtn = document.getElementById('successContinueBtn');
+            continueBtn.onclick = () => {
+                closeSuccessModal();
+                if (onContinue) onContinue();
+            };
+            
+            document.getElementById('successModal').style.display = 'block';
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+        }
+
+        function resetDemo() {
+            currentDemoPlayer = null;
+            currentDemoDay = 1;
+            currentDemoQuestion = 1;
+            showPlayerSelection();
+            document.getElementById('dayButtons').style.display = 'none';
+        }
+
+        // Initialize demo
+        window.addEventListener('load', function() {
+            showPlayerSelection();
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal') || 
+                event.target.classList.contains('success-modal') ||
+                event.target.classList.contains('math-question-modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 
