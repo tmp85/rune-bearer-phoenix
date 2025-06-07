@@ -3769,6 +3769,62 @@
                         ],
                         finalMessage: 'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!'
                     }
+                },
+                day4: {
+                    realm: 'Crystal Glade',
+                    room: 'Crystal Bloom Atelier',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-3-art.jpg',
+                    story: 'You and Ferrin step into the Crystal Bloom Atelier. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. Stone pillars stick up from the chasm - the bridges used to connect them! He calls out: "Young adventurer! I hold the key to unlock the Crystal Door, but I cannot reach you unless the bridges are rebuilt to connect the pillars!" Ferrin barks and you say, "We must help the ice wizard! Look, there are broken tiles everywhere. Let\'s pick them up and see what we have."',
+                    baseRune: null, // No rune awarded on Day 4 per schedule
+                    runeIcon: null,
+                    irlChallenge: {
+                        title: 'Magna-Tile Bridge Building',
+                        icon: '🏗️',
+                        type: 'magnaTile',
+                        content: {
+                            description: 'Build a test bridge to make sure it\'s safe for the wizard!',
+                            instructions: [
+                                'Build 2 pillars using 3 square Magna-Tiles each (stack them up)',
+                                'Use exactly 3 square Magna-Tiles for the bridge deck (lay across the pillars)',
+                                'Use exactly 4 triangle Magna-Tiles as supports (attach underneath the bridge)',
+                                'Test that the bridge is stable'
+                            ],
+                            successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles (6 squares + 4 triangles = 10 total)',
+                            successMessage: 'Your test bridge is perfect! The ice wizard safely crosses all three bridges.'
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Bridge Building Mysteries',
+                        icon: '🧮',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '🔨 Gathering All the Tiles',
+                                story: 'You and Ferrin search everywhere! You find 9 square tiles buried under ice, 6 square tiles behind rocks, and 6 more square tiles in a frozen pool. Then you find 4 triangle tiles near each bridge location (3 locations).',
+                                question: 'You find square tiles: 9 under ice + 6 behind rocks + 6 in a pool.<br>You find triangle tiles: 4 near each of the 3 bridge locations.<br><strong>Mystery:</strong> How many total tiles do you have altogether?<br>(First find square tiles total, then triangle tiles total, then add them together)',
+                                answer: 33,
+                                successMessage: 'Perfect! You have 21 square tiles and 12 triangle tiles = 33 total tiles to work with!'
+                            },
+                            {
+                                category: 'Addition',
+                                title: '🌉 Planning Each Bridge',
+                                story: 'The ice wizard calls out: "Each bridge needs 7 square tiles and 4 triangle tiles to be safe!" You need to know how many tiles each bridge requires.',
+                                question: 'The ice wizard says each bridge needs:<br>• 7 square tiles<br>• 4 triangle tiles<br><strong>Mystery:</strong> How many tiles does each bridge need total?',
+                                answer: 11,
+                                successMessage: 'Each bridge needs 11 tiles total. Now you know exactly what to build!'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '👟 Wizard\'s Bridge Crossing',
+                                story: 'Your test bridge works perfectly! Now the ice wizard needs to cross all 3 bridges to reach the door. He will step on the square tiles that make the bridge deck. Each bridge has 3 square tiles to walk on.',
+                                question: 'The wizard must cross all 3 bridges.<br>Each bridge has 3 square tiles to walk on.<br><strong>Mystery:</strong> How many tiles will the wizard step on total as he crosses all the bridges?',
+                                answer: 9,
+                                successMessage: 'The wizard steps on 9 tiles total as he safely crosses all three bridges to reach the Crystal Door!'
+                            }
+                        ],
+                        finalMessage: '"You have saved me, brave one!" the wizard says, and uses his magic key to unlock the Crystal Door. As a small thank you, the grateful wizard gives you a special gift before disappearing into the mist. Ferrin barks happily as you both move on toward Day 5!'
+                    }
                 }
             }
         };
@@ -4376,7 +4432,13 @@
                     }
                 },
                 rou: {
-                    // Add Rou's loot configurations as needed
+                    day4: {
+                        Tiny: {
+                            artwork: 'assets/loot/wizard_necklace_gift.jpg',
+                            title: 'Wizard\'s Gift!',
+                            description: 'The grateful ice wizard gives you a beautiful enchanted necklace as thanks for rebuilding the bridges!'
+                        }
+                    }
                 }
             };
             
@@ -4669,6 +4731,12 @@
                         'You place all 18 crystals on the pedestal. It glows with bright blue power and hums with magic!',
                         'You strike each rune symbol once—6 strikes total. The pillars crack and the Storm Fang rune appears floating in the air!'
                     ];
+                } else if (currentDay === 4) {
+                    rouMessages = [
+                        'Perfect! You have 21 square tiles and 12 triangle tiles = 33 total tiles to work with!',
+                        'Each bridge needs 11 tiles total. Now you know exactly what to build!',
+                        'The wizard steps on 9 tiles total as he safely crosses all three bridges to reach the Crystal Door!'
+                    ];
                 } else {
                     rouMessages = [
                         'You solved the crystal mystery - the magical forces respond!',
@@ -4694,6 +4762,8 @@
                         successIcons = ['💎', '🌸', '🥁'];
                     } else if (currentDay === 3) {
                         successIcons = ['🌸', '💎', '🏛️'];
+                    } else if (currentDay === 4) {
+                        successIcons = ['🔨', '🌉', '👟'];
                     } else {
                         successIcons = ['💎', '🧊', '🎁'];
                     }

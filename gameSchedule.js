@@ -93,9 +93,9 @@ const gameSchedule = {
       "rou": {
         "realm": "Crystal Glade",
         "room": "Crystal Bloom Atelier",
-        "irlTask": "Shoe Tie",
+        "irlTask": "Magna Tile",
         "runeDropped": null,
-        "lootTier": "None"
+        "lootTier": "Tiny"
       }
     },
     {
