@@ -109,6 +109,56 @@
             background: linear-gradient(135deg, #dc2626, #ef4444);
         }
 
+        .action-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            min-width: 200px;
+        }
+
+        .activation-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bulk-complete-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .bulk-complete-btn {
+            padding: 0.5rem 0.75rem;
+            background: linear-gradient(135deg, var(--success-green), #059669);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: left;
+        }
+
+        .bulk-complete-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669, #047857);
+        }
+
+        .bulk-complete-btn.completed {
+            background: linear-gradient(135deg, var(--text-gray), #475569);
+            color: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .bulk-complete-btn:disabled {
+            opacity: 0.6;
+            transform: none;
+            box-shadow: none;
+        }
+
         .table-container {
             margin: 0 auto;
             max-width: 1400px;
@@ -835,6 +885,10 @@
             const canActivate = canActivateDay(day);
             const isDisabled = !canActivate && !isActive;
             
+            // Check if already completed through this day
+            const isCompletedThrough = isCompletedThroughDay(day);
+            const currentProgress = getCurrentDayProgress();
+            
             let tooltipText = '';
             if (day === 1) {
                 tooltipText = 'Day 1 can always be activated';
@@ -846,20 +900,42 @@
                 tooltipText = `Click to activate Day ${day}`;
             }
             
+            // Generate cumulative completion button
+            let bulkCompleteButton = '';
+            if (isCompletedThrough) {
+                bulkCompleteButton = `
+                    <button class="bulk-complete-btn completed" disabled>
+                        ✓ Completed
+                    </button>
+                `;
+            } else {
+                const progressText = currentProgress < day ? ` (Currently: Day ${currentProgress})` : '';
+                bulkCompleteButton = `
+                    <button class="bulk-complete-btn" onclick="handleBulkComplete(${day})">
+                        🏆 Complete Through Day ${day}${progressText}
+                    </button>
+                `;
+            }
+            
             return `
-                <div class="activation-controls">
-                    <div class="tooltip">
-                        <label class="activation-toggle ${isDisabled ? 'disabled' : ''}">
-                            <input type="checkbox" 
-                                   ${isActive ? 'checked' : ''} 
-                                   ${isDisabled ? 'disabled' : ''}
-                                   onchange="handleDayActivation(${day}, this.checked)">
-                            <span class="activation-slider"></span>
-                        </label>
-                        <span class="tooltiptext">${tooltipText}</span>
+                <div class="action-controls">
+                    <div class="activation-section">
+                        <div class="tooltip">
+                            <label class="activation-toggle ${isDisabled ? 'disabled' : ''}">
+                                <input type="checkbox" 
+                                       ${isActive ? 'checked' : ''} 
+                                       ${isDisabled ? 'disabled' : ''}
+                                       onchange="handleDayActivation(${day}, this.checked)">
+                                <span class="activation-slider"></span>
+                            </label>
+                            <span class="tooltiptext">${tooltipText}</span>
+                        </div>
+                        <div class="activation-label ${isActive ? 'active' : (isDisabled ? 'disabled' : 'inactive')}">
+                            ${isActive ? 'Active' : (isDisabled ? 'Locked' : 'Inactive')}
+                        </div>
                     </div>
-                    <div class="activation-label ${isActive ? 'active' : (isDisabled ? 'disabled' : 'inactive')}">
-                        ${isActive ? 'Active' : (isDisabled ? 'Locked' : 'Inactive')}
+                    <div class="bulk-complete-section">
+                        ${bulkCompleteButton}
                     </div>
                 </div>
             `;
@@ -869,6 +945,91 @@
         function canActivateDay(day) {
             if (day === 1) return true; // Day 1 can always be activated
             return progressState.unlockedDays.includes(day - 1); // Previous day must be active
+        }
+
+        // Check if all days through a specific day are completed
+        function isCompletedThroughDay(targetDay) {
+            for (let day = 1; day <= targetDay; day++) {
+                const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
+                const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
+                if (!wellsCompleted || !rouCompleted) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Get the current highest completed day
+        function getCurrentDayProgress() {
+            let currentProgress = 0;
+            for (let day = 1; day <= 40; day++) {
+                const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
+                const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
+                if (wellsCompleted && rouCompleted) {
+                    currentProgress = day;
+                } else {
+                    break;
+                }
+            }
+            return currentProgress;
+        }
+
+        // Handle bulk completion through a specific day
+        function handleBulkComplete(targetDay) {
+            const currentProgress = getCurrentDayProgress();
+            
+            // Show confirmation dialog
+            const confirmMessage = `This will complete Days 1-${targetDay} for both Wells and Rou.\n\n` +
+                                 `This includes:\n` +
+                                 `• Marking all days as completed\n` +
+                                 `• Awarding all runes and loot through Day ${targetDay}\n` +
+                                 `• Updating progress counters\n` +
+                                 `• Activating all days through Day ${targetDay}\n\n` +
+                                 `Continue?`;
+            
+            if (!confirm(confirmMessage)) {
+                return;
+            }
+            
+            // Complete all days through target day
+            for (let day = 1; day <= targetDay; day++) {
+                // Ensure day is unlocked
+                if (!progressState.unlockedDays.includes(day)) {
+                    progressState.unlockedDays.push(day);
+                }
+                
+                // Mark both players as completed for this day
+                progressState.taskCompletions[`day${day}_wells`] = true;
+                progressState.taskCompletions[`day${day}_rou`] = true;
+                
+                // Add to completed days
+                if (!progressState.completedDays.includes(day)) {
+                    progressState.completedDays.push(day);
+                }
+                
+                // Collect runes for completed day
+                collectRunesForCompletedDay(day);
+            }
+            
+            // Sort arrays
+            progressState.unlockedDays.sort((a, b) => a - b);
+            progressState.completedDays.sort((a, b) => a - b);
+            
+            // Update current day to next incomplete day
+            let nextDay = targetDay + 1;
+            progressState.currentDay = nextDay <= 40 ? nextDay : 40;
+            
+            // Auto-unlock next day if exists
+            if (nextDay <= 40 && !progressState.unlockedDays.includes(nextDay)) {
+                progressState.unlockedDays.push(nextDay);
+                progressState.unlockedDays.sort((a, b) => a - b);
+            }
+            
+            console.log(`Bulk completed Days 1-${targetDay} for both players`);
+            
+            saveProgress();
+            generateScheduleTable();
+            updateProgressSummary();
         }
 
         // Handle day activation/deactivation
