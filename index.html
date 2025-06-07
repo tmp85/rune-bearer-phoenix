@@ -4508,11 +4508,34 @@
             const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
             const currentDay = sharedProgress.currentDay || 1;
             const dayContent = gameContent[currentPlayer][`day${currentDay}`];
-            const totalMissions = dayContent.mathChallenge.missions.length;
             
-            if (gameState[currentPlayer].mathProgress < totalMissions) {
-                alert(`Please complete all ${totalMissions} math missions first!`);
-                return;
+            // For Day 4 Rou, we need to check completion of the current math phase
+            let totalMissions;
+            if (currentDay === 4 && currentPlayer === 'rou') {
+                const currentMathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
+                totalMissions = currentMathChallenge.missions.length;
+                
+                // For Day 4, we need different completion logic:
+                // Math Challenge 1: 4 missions, then IRL, then Math Challenge 2: 1 mission
+                if (currentMathPhase === 1) {
+                    // Should not complete here - transitions to IRL first
+                    alert('Please complete the bridge building challenge first!');
+                    return;
+                } else if (currentMathPhase === 2) {
+                    // Math Challenge 2 completed - this is actual completion
+                    // Total progress should be 5 (4 from Math Challenge 1 + 1 from Math Challenge 2)
+                    if (gameState[currentPlayer].mathProgress < 5) {
+                        alert('Please complete the final math challenge first!');
+                        return;
+                    }
+                }
+            } else {
+                // Normal days
+                totalMissions = dayContent.mathChallenge.missions.length;
+                if (gameState[currentPlayer].mathProgress < totalMissions) {
+                    alert(`Please complete all ${totalMissions} math missions first!`);
+                    return;
+                }
             }
 
             gameState[currentPlayer].mathCompleted = true;
@@ -4537,11 +4560,11 @@
             // Check for loot reward from official schedule
             const hasLoot = playerSchedule.lootTier && playerSchedule.lootTier !== 'None';
             
-            // Show final completion message for Day 3
-            if (currentDay === 3) {
+            // Show final completion message for Day 3 and Day 4
+            if (currentDay === 3 || (currentDay === 4 && currentPlayer === 'rou')) {
                 let finalMessage, completionTitle, completionIcon;
                 
-                if (currentPlayer === 'wells') {
+                if (currentPlayer === 'wells' && currentDay === 3) {
                     const mathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
                     finalMessage = mathChallenge.finalMessage || 
                         'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!';
@@ -4551,13 +4574,15 @@
                     if (currentDay === 4) {
                         finalMessage = dayContent.mathChallenge2.finalMessage ||
                             'Your test bridge is perfect! The ice wizard safely crosses all three bridges. "You have saved me, brave one!" he says, and uses his magic key to unlock the Glacial Door. Behind it, your Storm Fang rune awaits! As a small thank you, the grateful wizard also gives you a small bag before disappearing into the mist.';
+                        completionTitle = 'Glacial Rune Chamber Bridge Challenge Complete!';
+                        completionIcon = '🌉';
                     } else {
                         const mathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
                         finalMessage = mathChallenge.finalMessage || 
                             'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!';
+                        completionTitle = 'Glacial Rune Chamber Complete!';
+                        completionIcon = '❄️';
                     }
-                    completionTitle = currentDay === 4 ? 'Glacial Rune Chamber Bridge Challenge Complete!' : 'Glacial Rune Chamber Complete!';
-                    completionIcon = '❄️';
                 }
                 
                 showSuccessModal(
@@ -4900,8 +4925,19 @@
                 document.getElementById('mathQuestionModal').style.display = 'none';
                 hideScreenBorder();
                 
-                // Update progress
-                gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
+                // Update progress - for Day 4 Rou, track cumulative progress across phases
+                if (currentDay === 4 && currentPlayer === 'rou') {
+                    if (currentMathPhase === 1) {
+                        // Math Challenge 1: questions 1-4
+                        gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
+                    } else if (currentMathPhase === 2) {
+                        // Math Challenge 2: question 1, but overall progress is 5 (4 + 1)
+                        gameState[currentPlayer].mathProgress = 4 + currentQuestion;
+                    }
+                } else {
+                    // Normal progress tracking for other days
+                    gameState[currentPlayer].mathProgress = Math.max(gameState[currentPlayer].mathProgress, currentQuestion);
+                }
                 
                 // Check if this is a math-only day (no mission buttons interface)
                 const hasIRLChallenge = content.irlChallenge.type !== 'none';
