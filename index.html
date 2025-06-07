@@ -3934,7 +3934,7 @@
                     room: 'Glacial Rune Chamber Bridge Challenge',
                     icon: '❄️',
                     artwork: 'assets/rooms/CrystalGlade/rou-day-4-art.png',
-                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. Stone pillars stick up from the chasm - the bridges used to connect them! He calls out: "Young adventurer! I hold the key to unlock the Glacial Door, but I cannot reach you unless the bridges are rebuilt to connect the pillars!" "Ferrin, we must help the ice wizard! Look, there are broken tiles everywhere. Let\'s pick them up and see what we have."',
+                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. Stone pillars stick up from the chasm - the bridges used to connect them! He calls out: "Young adventurer! I hold the key to unlock the Glacial Door, but I cannot reach you unless the bridges are rebuilt to connect the pillars!"',
                     baseRune: 'Storm Fang',
                     runeIcon: '❄️',
                     baseLoot: {
@@ -3944,14 +3944,19 @@
                         icon: '🎒'
                     },
                     irlChallenge: {
-                        title: 'No Separate IRL Challenge',
-                        icon: '🚫',
-                        type: 'none',
+                        title: 'Tile Bridge Building',
+                        icon: '🔨',
+                        type: 'nested',
                         content: {
-                            description: 'IRL challenge integrated into math flow',
-                            instructions: [],
-                            successCriteria: '',
-                            successMessage: ''
+                            description: 'Build a test bridge to make sure it is safe for the wizard',
+                            instructions: [
+                                'Build 2 pillars using 3 square tiles each (stack them up)',
+                                'Use exactly 3 square tiles for the bridge deck',
+                                'Use exactly 4 triangle tiles as supports',
+                                'Test that the bridge is stable'
+                            ],
+                            successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles',
+                            successMessage: 'Your test bridge works perfectly! The ice wizard can safely cross all three bridges now!'
                         }
                     },
                     mathChallenge: {
@@ -3985,10 +3990,10 @@
                             {
                                 category: 'Addition',
                                 title: 'Planning Each Bridge',
-                                story: 'The ice wizard calls out: "Each bridge needs 7 square tiles and 4 triangle tiles to be safe!"',
+                                story: 'The ice wizard calls out: "Each bridge needs 3 square tiles and 4 triangle tiles to be safe!"',
                                 question: 'How many tiles does each bridge need total?',
-                                answer: 11,
-                                successMessage: 'Each bridge needs 11 tiles total. Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
+                                answer: 7,
+                                successMessage: 'Each bridge needs 7 tiles total. Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
                                 irlActivity: {
                                     title: 'Tile Bridge Building',
                                     description: 'Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
@@ -4932,8 +4937,10 @@
                     ];
                 } else if (currentDay === 4) {
                     rouMessages = [
-                        'Perfect! You have 21 square tiles and 12 triangle tiles = 33 total tiles to work with!',
-                        'Each bridge needs 11 tiles total. Now you know exactly what to build!',
+                        'Perfect! You have 21 square tiles to work with!',
+                        'You have 12 triangle tiles! Total tiles: 33',
+                        'Perfect! You have 33 total tiles to work with!',
+                        'Each bridge needs 7 tiles total. Now you know exactly what to build!',
                         'The wizard steps on 9 tiles total as he safely crosses all three bridges to reach the Crystal Door!'
                     ];
                 } else {
@@ -4962,7 +4969,7 @@
                     } else if (currentDay === 3) {
                         successIcons = ['🌸', '💎', '🏛️'];
                     } else if (currentDay === 4) {
-                        successIcons = ['🔨', '🌉', '👟'];
+                        successIcons = ['🔨', '🔺', '📊', '🌉', '👟'];
                     } else {
                         successIcons = ['💎', '🧊', '🎁'];
                     }
