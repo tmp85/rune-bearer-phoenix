@@ -4987,14 +4987,12 @@
                         
                         if (currentQuestion < totalMissions) {
                             // Move to next question automatically for both players
-                            setTimeout(() => {
-                                openMathQuestion(currentQuestion + 1);
-                            }, 300);
+                            openMathQuestion(currentQuestion + 1);
                     } else {
                             // All questions completed - directly complete the challenge
                             setTimeout(() => {
                                 completeMathChallenge();
-                            }, 300);
+                            }, 100);
                         }
                     }
                 );
@@ -5044,8 +5042,16 @@
             
             // Set continue action
             continueBtn.onclick = () => {
-                closeSuccessModal();
-                if (onContinue) onContinue();
+                if (onContinue) {
+                    // Execute the continue action first (opens next modal)
+                    onContinue();
+                    // Then close this modal after a small delay to prevent flash
+                    setTimeout(() => {
+                        closeSuccessModal();
+                    }, 50);
+                } else {
+                    closeSuccessModal();
+                }
             };
             
             // Play puzzle solved sound effect for correct answers
@@ -5098,9 +5104,7 @@
                     currentPlayer,
                     () => {
                         // Now continue to next math question
-                        setTimeout(() => {
-                            openMathQuestion(currentQuestion + 1);
-                        }, 300);
+                        openMathQuestion(currentQuestion + 1);
                     }
                 );
             };
