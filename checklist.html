@@ -1127,11 +1127,22 @@
                 removeRunesForDay(day);
             });
             
-            // Update current day
-            const maxUnlocked = Math.max(...progressState.unlockedDays, 0);
-            progressState.currentDay = maxUnlocked > 0 ? maxUnlocked : 1;
+            // FIXED: Update current day and ensure proper day availability
+            if (startDay === 1) {
+                // Special case: if deactivating Day 1, keep it as current (no days unlocked)
+                progressState.currentDay = 1;
+            } else {
+                // For other days: set current day to the day being deactivated (making it available)
+                progressState.currentDay = startDay;
+                
+                // Ensure the deactivated day is still available to play
+                if (!progressState.unlockedDays.includes(startDay)) {
+                    progressState.unlockedDays.push(startDay);
+                    progressState.unlockedDays.sort((a, b) => a - b);
+                }
+            }
             
-            console.log(`Deactivated Days ${startDay}-${Math.max(...affectedDays)} and removed their progress`);
+            console.log(`Deactivated Days ${startDay}-${Math.max(...affectedDays)} and removed their progress. Current day is now ${progressState.currentDay}`);
         }
 
         // Handle completion checkbox changes
@@ -1450,13 +1461,22 @@
                 removeRunesForDay(d);
             }
             
-            // Update current day
-            const maxUnlocked = Math.max(...progressState.unlockedDays, 0);
-            progressState.currentDay = maxUnlocked > 0 ? maxUnlocked : 1;
-            
-            // If we reset Day 1, ensure it's unlocked
-            if (day === 1 && !progressState.unlockedDays.includes(1)) {
-                progressState.unlockedDays.push(1);
+            // FIXED: Update current day and unlock the reset day for play
+            if (day === 1) {
+                // Special case: if resetting Day 1, ensure it's unlocked and current
+                if (!progressState.unlockedDays.includes(1)) {
+                    progressState.unlockedDays.push(1);
+                }
+                progressState.currentDay = 1;
+            } else {
+                // For other days: set current day to the reset day and unlock it
+                progressState.currentDay = day;
+                
+                // Ensure the reset day is available to play
+                if (!progressState.unlockedDays.includes(day)) {
+                    progressState.unlockedDays.push(day);
+                    progressState.unlockedDays.sort((a, b) => a - b);
+                }
             }
             
             // Save and update UI
@@ -1466,7 +1486,7 @@
             generateResetPanel();
             
             console.log(`Day ${day} reset successfully. Current day is now ${progressState.currentDay}`);
-            alert(`Day ${day} has been reset successfully!`);
+            alert(`Day ${day} has been reset and is now available to play!`);
         }
 
         function resetWeek(weekNumber) {
