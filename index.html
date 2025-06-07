@@ -2087,6 +2087,70 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
         }
 
+        /* IRL Activity Modal Styles */
+        .irl-instructions {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .irl-instructions h4 {
+            color: var(--primary-green);
+            font-family: 'Cinzel', serif;
+            font-size: 1.3em;
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
+
+        .irl-instructions h4.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        .irl-instructions h4.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        #irlInstructionsList {
+            color: var(--gray-light);
+            font-size: 1.1em;
+            line-height: 1.6;
+            padding-left: 20px;
+            margin: 0 0 20px 0;
+        }
+
+        #irlInstructionsList li {
+            margin-bottom: 8px;
+        }
+
+        .irl-success-criteria {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            text-align: center;
+        }
+
+        .irl-success-criteria strong {
+            color: var(--primary-green);
+            font-family: 'Cinzel', serif;
+            font-size: 1.1em;
+        }
+
+        .irl-success-criteria strong.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        .irl-success-criteria strong.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        .irl-success-criteria p {
+            color: var(--gray-light);
+            font-style: italic;
+            margin: 8px 0 0 0;
+        }
+
         /* Day Completion Modal */
         .day-completion-modal {
             display: none;
@@ -3254,6 +3318,38 @@
         </div>
     </div>
 
+    <!-- IRL Activity Modal (for integrated activities like Day 4 Magna-Tiles) -->
+    <div id="irlActivityModal" class="success-modal">
+        <div class="success-modal-content" id="irlActivityModalContent">
+            <div class="success-header" id="irlActivityHeader">
+                <span class="success-icon">🏗️</span>
+                <div class="success-title" id="irlActivityTitle">Bridge Building</div>
+            </div>
+            
+            <div class="success-content">
+                <div class="success-message" id="irlActivityDescription">
+                    Now let's build one test bridge to make sure it's safe for the wizard!
+                </div>
+                
+                <div class="irl-instructions">
+                    <h4>Instructions:</h4>
+                    <ol id="irlInstructionsList">
+                        <!-- Instructions will be populated by JavaScript -->
+                    </ol>
+                    
+                    <div class="irl-success-criteria">
+                        <strong>Success Criteria:</strong>
+                        <p id="irlSuccessCriteria">Bridge must be stable and meet all requirements</p>
+                    </div>
+                </div>
+                
+                <button class="success-continue-btn" id="irlActivityCompleteBtn">
+                    🏗️ Bridge Complete!
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Rune Discovery Modal -->
     <div id="runeDiscoveryModal" class="rune-discovery-modal">
         <div class="rune-discovery-content" id="runeDiscoveryContent">
@@ -3779,19 +3875,14 @@
                     baseRune: null, // No rune awarded on Day 4 per schedule
                     runeIcon: null,
                     irlChallenge: {
-                        title: 'Magna-Tile Bridge Building',
-                        icon: '🏗️',
-                        type: 'magnaTile',
+                        title: 'No Separate IRL Challenge',
+                        icon: '🚫',
+                        type: 'none',
                         content: {
-                            description: 'Build a test bridge to make sure it\'s safe for the wizard!',
-                            instructions: [
-                                'Build 2 pillars using 3 square Magna-Tiles each (stack them up)',
-                                'Use exactly 3 square Magna-Tiles for the bridge deck (lay across the pillars)',
-                                'Use exactly 4 triangle Magna-Tiles as supports (attach underneath the bridge)',
-                                'Test that the bridge is stable'
-                            ],
-                            successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles (6 squares + 4 triangles = 10 total)',
-                            successMessage: 'Your test bridge is perfect! The ice wizard safely crosses all three bridges.'
+                            description: 'IRL challenge integrated into math flow',
+                            instructions: [],
+                            successCriteria: '',
+                            successMessage: ''
                         }
                     },
                     mathChallenge: {
@@ -3812,7 +3903,19 @@
                                 story: 'The ice wizard calls out: "Each bridge needs 7 square tiles and 4 triangle tiles to be safe!" You need to know how many tiles each bridge requires.',
                                 question: 'The ice wizard says each bridge needs:<br>• 7 square tiles<br>• 4 triangle tiles<br><strong>Mystery:</strong> How many tiles does each bridge need total?',
                                 answer: 11,
-                                successMessage: 'Each bridge needs 11 tiles total. Now you know exactly what to build!'
+                                successMessage: 'Each bridge needs 11 tiles total. Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
+                                irlActivity: {
+                                    title: 'Magna-Tile Bridge Building',
+                                    description: 'Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
+                                    instructions: [
+                                        'Build 2 pillars using 3 square Magna-Tiles each (stack them up)',
+                                        'Use exactly 3 square Magna-Tiles for the bridge deck (lay across the pillars)',
+                                        'Use exactly 4 triangle Magna-Tiles as supports (attach underneath the bridge)',
+                                        'Test that the bridge is stable'
+                                    ],
+                                    successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles (6 squares + 4 triangles = 10 total)',
+                                    completionMessage: 'Your test bridge is perfect! Now the ice wizard can safely cross all three bridges.'
+                                }
                             },
                             {
                                 category: 'Multiplication',
@@ -4775,6 +4878,14 @@
                     messages[currentQuestion - 1],
                     currentPlayer,
                     () => {
+                        // Check if current mission has an IRL activity (Day 4 integration)
+                        const currentMission = content.mathChallenge.missions[currentQuestion - 1];
+                        if (currentMission.irlActivity) {
+                            // Show IRL activity modal instead of proceeding to next question
+                            showIRLActivityModal(currentMission.irlActivity);
+                            return;
+                        }
+                        
                         // UNIFIED PROGRESSION LOGIC: Check actual number of missions for current day
                         const totalMissions = content.mathChallenge.missions.length;
                         
@@ -4854,6 +4965,66 @@
 
         function closeSuccessModal() {
             document.getElementById('successModal').style.display = 'none';
+            hideScreenBorder();
+        }
+
+        // IRL Activity Modal Functions (for integrated activities like Day 4 Magna-Tiles)
+        function showIRLActivityModal(irlActivity) {
+            const modal = document.getElementById('irlActivityModal');
+            const modalContent = document.getElementById('irlActivityModalContent');
+            const header = document.getElementById('irlActivityHeader');
+            const titleElement = document.getElementById('irlActivityTitle');
+            const descriptionElement = document.getElementById('irlActivityDescription');
+            const instructionsList = document.getElementById('irlInstructionsList');
+            const successCriteria = document.getElementById('irlSuccessCriteria');
+            const completeBtn = document.getElementById('irlActivityCompleteBtn');
+            
+            // Set content
+            titleElement.textContent = irlActivity.title;
+            descriptionElement.textContent = irlActivity.description;
+            successCriteria.textContent = irlActivity.successCriteria;
+            
+            // Build instructions list
+            instructionsList.innerHTML = '';
+            irlActivity.instructions.forEach((instruction, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${index + 1}. ${instruction}`;
+                instructionsList.appendChild(li);
+            });
+            
+            // Apply theme
+            modalContent.className = `irl-activity-modal-content ${currentPlayer}-theme`;
+            header.className = `irl-activity-header ${currentPlayer}-theme`;
+            titleElement.className = `irl-activity-title ${currentPlayer}-theme`;
+            completeBtn.className = `irl-activity-complete-btn ${currentPlayer}-theme`;
+            
+            // Set complete action
+            completeBtn.onclick = () => {
+                closeIRLActivityModal();
+                
+                // Show completion message
+                showSuccessModal(
+                    '🏗️',
+                    'Bridge Building Complete!',
+                    irlActivity.completionMessage,
+                    currentPlayer,
+                    () => {
+                        // Now continue to next math question
+                        setTimeout(() => {
+                            openMathQuestion(currentQuestion + 1);
+                        }, 300);
+                    }
+                );
+            };
+            
+            // Show screen border to prevent auto-dimming
+            showScreenBorder(currentPlayer);
+            
+            modal.style.display = 'block';
+        }
+
+        function closeIRLActivityModal() {
+            document.getElementById('irlActivityModal').style.display = 'none';
             hideScreenBorder();
         }
 
