@@ -3222,6 +3222,10 @@
                 Wells examines the ancient sun pillars carefully. Each pillar bears a different geometric symbol carved deep into the sandstone. The Triangle Pillar stands proud with three sharp edges, the Square Pillar displays four equal sides, and the Pentagon Pillar shows five perfect angles. To unlock their combined power, Wells must calculate their total mystical sides.
             </div>
             
+            <div class="math-previous-answers" id="mathPreviousAnswers" style="display: none; background: rgba(255,255,255,0.1); padding: 12px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid var(--primary-green); font-size: 0.9em; color: #e0f2fe;">
+                <!-- Previous answers will be shown here -->
+            </div>
+            
             <div class="math-problem-display" id="mathProblemText">
                 Each sun pillar is marked by a different shape: Triangle, Square, Pentagon.<br>
                 <strong>Mystery:</strong> How many total sides across all three pillars?
@@ -3969,7 +3973,8 @@
                                 story: 'Then you find 4 triangle tiles near each bridge location (3 locations).',
                                 question: 'How many triangle tiles total?',
                                 answer: 12,
-                                successMessage: 'You have 12 triangle tiles!'
+                                successMessage: 'You have 12 triangle tiles!',
+                                previousAnswers: 'Square tiles: 21'
                             },
                             {
                                 category: 'Addition',
@@ -3977,7 +3982,8 @@
                                 story: 'Now you need to count all the tiles you found.',
                                 question: 'How many tiles do you have altogether?',
                                 answer: 33,
-                                successMessage: 'Perfect! You have 33 total tiles to work with!'
+                                successMessage: 'Perfect! You have 33 total tiles to work with!',
+                                previousAnswers: 'Square tiles: 21, Triangle tiles: 12'
                             },
                             {
                                 category: 'Addition',
@@ -3985,7 +3991,8 @@
                                 story: 'The ice wizard calls out: "Each bridge needs 3 square tiles and 4 triangle tiles to be safe!"',
                                 question: 'How many tiles does each bridge need total?',
                                 answer: 7,
-                                successMessage: 'Each bridge needs 7 tiles total. Now let us build one test bridge to make sure it is safe for the wizard!'
+                                successMessage: 'Each bridge needs 7 tiles total. Now let us build one test bridge to make sure it is safe for the wizard!',
+                                previousAnswers: 'Square tiles: 21, Triangle tiles: 12, Total tiles: 33'
                             }
                         ]
                     },
@@ -4012,7 +4019,8 @@
                                 story: 'Your test bridge works perfectly! Now the ice wizard needs to cross all 3 bridges to reach the door. He will step on the square tiles that make the bridge deck.',
                                 question: 'Each bridge has 3 square tiles to walk on. If the wizard walks across all 3 bridges, how many tiles will he step on total?',
                                 answer: 9,
-                                successMessage: 'The wizard steps on 9 tiles total as he safely crosses all three bridges!'
+                                successMessage: 'The wizard steps on 9 tiles total as he safely crosses all three bridges!',
+                                previousAnswers: 'Your bridge has: 3 square tiles for the deck, 4 triangle tiles for supports'
                             }
                         ],
                         finalMessage: 'Your test bridge is perfect! The ice wizard safely crosses all three bridges. "You have saved me, brave one!" he says, and uses his magic key to unlock the Glacial Door. Behind it, your Storm Fang rune awaits! As a small thank you, the grateful wizard also gives you a small bag before disappearing into the mist.'
@@ -4746,6 +4754,15 @@
             document.getElementById('mathQuestionTitle').textContent = mission.title;
             document.getElementById('mathStoryContext').textContent = mission.story;
             document.getElementById('mathProblemText').innerHTML = mission.question;
+            
+            // Show previous answers as visual reminders if available
+            const previousAnswersElement = document.getElementById('mathPreviousAnswers');
+            if (mission.previousAnswers) {
+                previousAnswersElement.style.display = 'block';
+                previousAnswersElement.innerHTML = `<strong>What you know so far:</strong><br>${mission.previousAnswers}`;
+            } else {
+                previousAnswersElement.style.display = 'none';
+            }
             
             // Apply player-specific theme classes
             const mathQuestionContent = document.querySelector('.math-question-content');
