@@ -3319,34 +3319,39 @@
     </div>
 
     <!-- IRL Activity Modal (for integrated activities like Day 4 Magna-Tiles) -->
-    <div id="irlActivityModal" class="success-modal">
-        <div class="success-modal-content" id="irlActivityModalContent">
-            <div class="success-header" id="irlActivityHeader">
-                <span class="success-icon">🏗️</span>
-                <div class="success-title" id="irlActivityTitle">Bridge Building</div>
+    <div id="irlActivityModal" class="piano-modal">
+        <div class="piano-modal-content">
+            <button class="piano-close-btn" onclick="closeIRLActivityModal()">×</button>
+            
+            <div class="piano-modal-header" id="irlActivityTitle">
+                🏗️ Magna-Tile Bridge Building
             </div>
             
-            <div class="success-content">
-                <div class="success-message" id="irlActivityDescription">
-                    Now let's build one test bridge to make sure it's safe for the wizard!
-                </div>
-                
-                <div class="irl-instructions">
-                    <h4>Instructions:</h4>
-                    <ol id="irlInstructionsList">
-                        <!-- Instructions will be populated by JavaScript -->
-                    </ol>
-                    
-                    <div class="irl-success-criteria">
-                        <strong>Success Criteria:</strong>
-                        <p id="irlSuccessCriteria">Bridge must be stable and meet all requirements</p>
-                    </div>
-                </div>
-                
-                <button class="success-continue-btn" id="irlActivityCompleteBtn">
-                    🏗️ Bridge Complete!
-                </button>
+            <div class="piano-story-context" id="irlActivityDescription">
+                Now let's build one test bridge to make sure it's safe for the wizard!
             </div>
+            
+            <div class="piano-challenge-desc">
+                ✨ Building Objective ✨<br>
+                Construct a stable bridge to help the ice wizard cross the frozen chasm safely!
+            </div>
+            
+            <div class="piano-instructions-modal">
+                <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">🎯 INSTRUCTIONS:</h3>
+                
+                <ol id="irlInstructionsList" style="margin: 15px 0; padding-left: 20px; line-height: 1.6;">
+                    <!-- Instructions will be populated by JavaScript -->
+                </ol>
+                
+                <div style="background: rgba(78,205,196,0.1); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong style="color: #4ecdc4;">SUCCESS CRITERIA:</strong><br>
+                    <span id="irlSuccessCriteria">Bridge must be stable and meet all requirements</span>
+                </div>
+            </div>
+            
+            <button class="piano-complete-btn" id="irlActivityCompleteBtn">
+                🏗️ Bridge Complete!
+            </button>
         </div>
     </div>
 
@@ -3715,6 +3720,64 @@
                         ],
                         finalMessage: 'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!'
                     }
+                },
+                day4: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Artisan\'s Sunforge',
+                    icon: '🔥',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-4-art.jpg',
+                    story: 'You and your husky Flint step into the blazing Artisan\'s Sunforge. Molten rivers hiss through dark channels, and four gate levers are frozen fast. Each lever bears a riddle—solve them, inscribe the right value, and the Sun-steel will flow free. Complete all four before the heat rises too high!',
+                    baseRune: null, // No rune awarded on Day 4
+                    runeIcon: null,
+                    irlChallenge: {
+                        title: 'No IRL Challenge',
+                        icon: '🚫',
+                        type: 'none',
+                        content: {
+                            description: 'Math-only day'
+                        }
+                    },
+                    mathChallenge: {
+                        title: 'Forge Riddles - Unlock the Four Mold-Channels',
+                        icon: '🔥',
+                        description: 'Solve each engraved riddle to unlock the molten channels and let the Sun-steel flow free.',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: 'Channel 1: "Count what you mine, meld them as one."',
+                                story: 'Flint uncovers 29 Sun-ore nuggets; you chip 46 more from the vein.',
+                                question: 'How many nuggets altogether?',
+                                answer: 75,
+                                successMessage: 'Channel 1 hisses open! Molten gold streams through!'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: 'Channel 2: "Measure each face of fire-stone."',
+                                story: 'Three hexagonal fire-stones lie on the anvil.',
+                                question: 'How many sides in total?',
+                                answer: 18,
+                                successMessage: 'Channel 2 unlocks with a clang! Silver metal flows!'
+                            },
+                            {
+                                category: 'Division',
+                                title: 'Channel 3: "Pour fairness in fours."',
+                                story: 'The furnace spits out 200 molten droplets. They must be ladled evenly into 4 casting trays.',
+                                question: 'Droplets per tray?',
+                                answer: 50,
+                                successMessage: 'Channel 3 roars to life! Bronze liquid surges forth!'
+                            },
+                            {
+                                category: 'Fractions',
+                                title: 'Channel 4: "Cool three parts, keep one aglow."',
+                                story: 'You fill a crucible, then cool three-fourths of the metal for later work.',
+                                question: 'What fraction of hot metal remains?',
+                                answer: 0.25,
+                                acceptedAnswers: [0.25, '1/4', '¼', 'one-fourth', 'one fourth', 'one-quarter', 'one quarter', '1-4'],
+                                successMessage: 'Channel 4 blazes open! Iron torrents complete the forge!'
+                            }
+                        ],
+                        finalMessage: 'You carve 75, 18, 50, and the 1/4 glyph onto the levers. Each channel unlocks in sequence, molten metal floods the molds, and the forge\'s roar softens to a steady glow. The inner gate slides open, its path glowing amber with reflected heat. Flint barks triumphantly, and together you stride onward to meet Day 5!'
+                    }
                 }
                 },
                 rou: {
@@ -3868,12 +3931,18 @@
                 },
                 day4: {
                     realm: 'Crystal Glade',
-                    room: 'Crystal Bloom Atelier',
+                    room: 'Glacial Rune Chamber Bridge Challenge',
                     icon: '❄️',
-                    artwork: 'assets/rooms/CrystalGlade/rou-day-3-art.jpg',
-                    story: 'You and Ferrin step into the Crystal Bloom Atelier. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. Stone pillars stick up from the chasm - the bridges used to connect them! He calls out: "Young adventurer! I hold the key to unlock the Crystal Door, but I cannot reach you unless the bridges are rebuilt to connect the pillars!" Ferrin barks and you say, "We must help the ice wizard! Look, there are broken tiles everywhere. Let\'s pick them up and see what we have."',
-                    baseRune: null, // No rune awarded on Day 4 per schedule
-                    runeIcon: null,
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-4-art.png',
+                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. Stone pillars stick up from the chasm - the bridges used to connect them! He calls out: "Young adventurer! I hold the key to unlock the Glacial Door, but I cannot reach you unless the bridges are rebuilt to connect the pillars!" "Ferrin, we must help the ice wizard! Look, there are broken tiles everywhere. Let\'s pick them up and see what we have."',
+                    baseRune: 'Storm Fang',
+                    runeIcon: '❄️',
+                    baseLoot: {
+                        tier: 'tiny',
+                        item: 'Small bag',
+                        description: 'Contains Ice Crystal Strand candy necklace',
+                        icon: '🎒'
+                    },
                     irlChallenge: {
                         title: 'No Separate IRL Challenge',
                         icon: '🚫',
@@ -3891,42 +3960,58 @@
                         missions: [
                             {
                                 category: 'Addition',
-                                title: '🔨 Gathering All the Tiles',
-                                story: 'You and Ferrin search everywhere! You find 9 square tiles buried under ice, 6 square tiles behind rocks, and 6 more square tiles in a frozen pool. Then you find 4 triangle tiles near each bridge location (3 locations).',
-                                question: 'You find square tiles: 9 under ice + 6 behind rocks + 6 in a pool.<br>You find triangle tiles: 4 near each of the 3 bridge locations.<br><strong>Mystery:</strong> How many total tiles do you have altogether?<br>(First find square tiles total, then triangle tiles total, then add them together)',
-                                answer: 33,
-                                successMessage: 'Perfect! You have 21 square tiles and 12 triangle tiles = 33 total tiles to work with!'
+                                title: 'Gathering Square Tiles',
+                                story: 'You and Ferrin search everywhere! You find 9 square tiles buried under ice, 6 square tiles behind rocks, and 6 more square tiles in a frozen pool.',
+                                question: 'How many square tiles total?',
+                                answer: 21,
+                                successMessage: 'You have 21 square tiles!'
+                            },
+                            {
+                                category: 'Addition', 
+                                title: 'Gathering Triangle Tiles',
+                                story: 'Then you find 4 triangle tiles near each bridge location (3 locations).',
+                                question: 'How many triangle tiles total?',
+                                answer: 12,
+                                successMessage: 'You have 12 triangle tiles!'
                             },
                             {
                                 category: 'Addition',
-                                title: '🌉 Planning Each Bridge',
-                                story: 'The ice wizard calls out: "Each bridge needs 7 square tiles and 4 triangle tiles to be safe!" You need to know how many tiles each bridge requires.',
-                                question: 'The ice wizard says each bridge needs:<br>• 7 square tiles<br>• 4 triangle tiles<br><strong>Mystery:</strong> How many tiles does each bridge need total?',
+                                title: 'Total Tiles Count',
+                                story: 'Now you need to count all the tiles you found.',
+                                question: 'How many tiles do you have altogether?',
+                                answer: 33,
+                                successMessage: 'Perfect! You have 33 total tiles to work with!'
+                            },
+                            {
+                                category: 'Addition',
+                                title: 'Planning Each Bridge',
+                                story: 'The ice wizard calls out: "Each bridge needs 7 square tiles and 4 triangle tiles to be safe!"',
+                                question: 'How many tiles does each bridge need total?',
                                 answer: 11,
                                 successMessage: 'Each bridge needs 11 tiles total. Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
                                 irlActivity: {
-                                    title: 'Magna-Tile Bridge Building',
+                                    title: 'Tile Bridge Building',
                                     description: 'Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
                                     instructions: [
-                                        'Build 2 pillars using 3 square Magna-Tiles each (stack them up)',
-                                        'Use exactly 3 square Magna-Tiles for the bridge deck (lay across the pillars)',
-                                        'Use exactly 4 triangle Magna-Tiles as supports (attach underneath the bridge)',
+                                        'Build 2 pillars using 3 square tiles each (stack them up)',
+                                        'Use exactly 3 square tiles for the bridge deck',
+                                        'Use exactly 4 triangle tiles as supports',
                                         'Test that the bridge is stable'
                                     ],
-                                    successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles (6 squares + 4 triangles = 10 total)',
+                                    successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles',
                                     completionMessage: 'Your test bridge is perfect! Now the ice wizard can safely cross all three bridges.'
                                 }
                             },
                             {
                                 category: 'Multiplication',
-                                title: '👟 Wizard\'s Bridge Crossing',
-                                story: 'Your test bridge works perfectly! Now the ice wizard needs to cross all 3 bridges to reach the door. He will step on the square tiles that make the bridge deck. Each bridge has 3 square tiles to walk on.',
-                                question: 'The wizard must cross all 3 bridges.<br>Each bridge has 3 square tiles to walk on.<br><strong>Mystery:</strong> How many tiles will the wizard step on total as he crosses all the bridges?',
+                                title: 'Wizard\'s Bridge Crossing',
+                                story: 'Your test bridge works perfectly! Now the ice wizard needs to cross all 3 bridges to reach the door. He will step on the square tiles that make the bridge deck.',
+                                question: 'Each bridge has 3 square tiles to walk on. If the wizard walks across all 3 bridges, how many tiles will he step on total?',
                                 answer: 9,
-                                successMessage: 'The wizard steps on 9 tiles total as he safely crosses all three bridges to reach the Crystal Door!'
+                                successMessage: 'The wizard steps on 9 tiles total as he safely crosses all three bridges!'
                             }
                         ],
-                        finalMessage: '"You have saved me, brave one!" the wizard says, and uses his magic key to unlock the Crystal Door. As a small thank you, the grateful wizard gives you a special gift before disappearing into the mist. Ferrin barks happily as you both move on toward Day 5!'
+                        finalMessage: 'Your test bridge is perfect! The ice wizard safely crosses all three bridges. "You have saved me, brave one!" he says, and uses his magic key to unlock the Glacial Door. Behind it, your Storm Fang rune awaits! As a small thank you, the grateful wizard also gives you a small bag before disappearing into the mist.'
                     }
                 }
             }
@@ -4573,7 +4658,18 @@
             if (saved) {
                 gameState = JSON.parse(saved);
                 console.log('Loaded main game state from localStorage');
+            } else {
+                console.log('No saved game state found, using default state');
             }
+            
+            // Reset completion states for each room entry to prevent false "completed" status
+            // This ensures challenges always start fresh when entering a room
+            gameState.wells.irlCompleted = false;
+            gameState.wells.mathCompleted = false;
+            gameState.wells.mathProgress = 0;
+            gameState.rou.irlCompleted = false;
+            gameState.rou.mathCompleted = false;
+            gameState.rou.mathProgress = 0;
             
             // Always sync with shared progress if it exists (priority over main game state)
             if (sharedProgress.collectedRunes !== undefined) {
@@ -4971,16 +5067,14 @@
         // IRL Activity Modal Functions (for integrated activities like Day 4 Magna-Tiles)
         function showIRLActivityModal(irlActivity) {
             const modal = document.getElementById('irlActivityModal');
-            const modalContent = document.getElementById('irlActivityModalContent');
-            const header = document.getElementById('irlActivityHeader');
             const titleElement = document.getElementById('irlActivityTitle');
             const descriptionElement = document.getElementById('irlActivityDescription');
             const instructionsList = document.getElementById('irlInstructionsList');
             const successCriteria = document.getElementById('irlSuccessCriteria');
             const completeBtn = document.getElementById('irlActivityCompleteBtn');
             
-            // Set content
-            titleElement.textContent = irlActivity.title;
+            // Set content - title now includes icon
+            titleElement.textContent = `🏗️ ${irlActivity.title}`;
             descriptionElement.textContent = irlActivity.description;
             successCriteria.textContent = irlActivity.successCriteria;
             
@@ -4988,15 +5082,9 @@
             instructionsList.innerHTML = '';
             irlActivity.instructions.forEach((instruction, index) => {
                 const li = document.createElement('li');
-                li.textContent = `${index + 1}. ${instruction}`;
+                li.textContent = instruction;
                 instructionsList.appendChild(li);
             });
-            
-            // Apply theme
-            modalContent.className = `irl-activity-modal-content ${currentPlayer}-theme`;
-            header.className = `irl-activity-header ${currentPlayer}-theme`;
-            titleElement.className = `irl-activity-title ${currentPlayer}-theme`;
-            completeBtn.className = `irl-activity-complete-btn ${currentPlayer}-theme`;
             
             // Set complete action
             completeBtn.onclick = () => {

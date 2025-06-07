@@ -1145,6 +1145,80 @@
             console.log(`Deactivated Days ${startDay}-${Math.max(...affectedDays)} and removed their progress. Current day is now ${progressState.currentDay}`);
         }
 
+        // Debug function to check current progress state
+        function debugProgressState() {
+            console.log('Current Progress State:', progressState);
+            console.log('Day 4 Rou Completion:', progressState.taskCompletions['day4_rou']);
+            console.log('Day 4 Wells Completion:', progressState.taskCompletions['day4_wells']);
+            
+            // Show specific info for day 4
+            alert(`Day 4 Status:\nRou: ${progressState.taskCompletions['day4_rou'] ? 'COMPLETED' : 'NOT COMPLETED'}\nWells: ${progressState.taskCompletions['day4_wells'] ? 'COMPLETED' : 'NOT COMPLETED'}`);
+        }
+
+        // Fix function to reset both Wells and Rou Day 4
+        function fixDay4Completion() {
+            const confirmReset = confirm('This will reset BOTH Wells and Rou Day 4 back to NOT COMPLETED. Continue?');
+            if (confirmReset) {
+                progressState.taskCompletions['day4_rou'] = false;
+                progressState.taskCompletions['day4_wells'] = false;
+                
+                // Remove Day 4 from completed days entirely
+                const index = progressState.completedDays.indexOf(4);
+                if (index > -1) {
+                    progressState.completedDays.splice(index, 1);
+                }
+                
+                saveProgress();
+                generateScheduleTable();
+                updateProgressSummary();
+                alert('Both Wells and Rou Day 4 have been reset to NOT COMPLETED');
+            }
+        }
+
+        // Fix function to reset Rou Day 4 specifically  
+        function fixRouDay4() {
+            const confirmReset = confirm('This will reset Rou Day 4 back to NOT COMPLETED. Continue?');
+            if (confirmReset) {
+                progressState.taskCompletions['day4_rou'] = false;
+                
+                // Also remove from completed days if no other player completed it
+                const wellsDay4 = progressState.taskCompletions['day4_wells'] || false;
+                if (!wellsDay4) {
+                    const index = progressState.completedDays.indexOf(4);
+                    if (index > -1) {
+                        progressState.completedDays.splice(index, 1);
+                    }
+                }
+                
+                saveProgress();
+                generateScheduleTable();
+                updateProgressSummary();
+                alert('Rou Day 4 has been reset to NOT COMPLETED');
+            }
+        }
+
+        // Fix function to reset Wells Day 4 specifically
+        function fixWellsDay4() {
+            const confirmReset = confirm('This will reset Wells Day 4 back to NOT COMPLETED. Continue?');
+            if (confirmReset) {
+                progressState.taskCompletions['day4_wells'] = false;
+                
+                // Also remove from completed days if no other player completed it
+                const rouDay4 = progressState.taskCompletions['day4_rou'] || false;
+                if (!rouDay4) {
+                    const index = progressState.completedDays.indexOf(4);
+                    if (index > -1) {
+                        progressState.completedDays.splice(index, 1);
+                    }
+                }
+                
+                saveProgress();
+                generateScheduleTable();
+                updateProgressSummary();
+                alert('Wells Day 4 has been reset to NOT COMPLETED');
+            }
+        }
+
         // Handle completion checkbox changes
         function handleComplete(day, character) {
             const checkbox = event.target;
