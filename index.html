@@ -3944,29 +3944,21 @@
                         icon: '🎒'
                     },
                     irlChallenge: {
-                        title: 'Tile Bridge Building',
-                        icon: '🔨',
-                        type: 'nested',
+                        title: 'No IRL Challenge',
+                        icon: '🚫',
+                        type: 'none',
                         content: {
-                            description: 'Build a test bridge to make sure it is safe for the wizard',
-                            instructions: [
-                                'Build 2 pillars using 3 square tiles each (stack them up)',
-                                'Use exactly 3 square tiles for the bridge deck',
-                                'Use exactly 4 triangle tiles as supports',
-                                'Test that the bridge is stable'
-                            ],
-                            successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles',
-                            successMessage: 'Your test bridge works perfectly! The ice wizard can safely cross all three bridges now!'
+                            description: 'IRL challenge integrated into math sequence'
                         }
                     },
-                    mathChallenge: {
-                        title: 'Bridge Building Mysteries',
+                    mathChallenge1: {
+                        title: 'How Many Tiles Per Bridge?',
                         icon: '🧮',
                         missions: [
                             {
                                 category: 'Addition',
                                 title: 'Gathering Square Tiles',
-                                story: 'You and Ferrin search everywhere! You find 9 square tiles buried under ice, 6 square tiles behind rocks, and 6 more square tiles in a frozen pool.',
+                                story: 'Ferrin, we must help the ice wizard! Look, there are broken tiles everywhere. Let us pick them up and see what we have. You and Ferrin search everywhere! You find 9 square tiles buried under ice, 6 square tiles behind rocks, and 6 more square tiles in a frozen pool.',
                                 question: 'How many square tiles total?',
                                 answer: 21,
                                 successMessage: 'You have 21 square tiles!'
@@ -3989,27 +3981,34 @@
                             },
                             {
                                 category: 'Addition',
-                                title: 'Planning Each Bridge',
+                                title: 'Figuring Out Each Bridge',
                                 story: 'The ice wizard calls out: "Each bridge needs 3 square tiles and 4 triangle tiles to be safe!"',
                                 question: 'How many tiles does each bridge need total?',
                                 answer: 7,
-                                successMessage: 'Each bridge needs 7 tiles total. Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
-                                irlActivity: {
-                                    title: 'Tile Bridge Building',
-                                    description: 'Now let\'s build one test bridge to make sure it\'s safe for the wizard!',
-                                    instructions: [
-                                        'Build 2 pillars using 3 square tiles each (stack them up)',
-                                        'Use exactly 3 square tiles for the bridge deck',
-                                        'Use exactly 4 triangle tiles as supports',
-                                        'Test that the bridge is stable'
-                                    ],
-                                    successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles',
-                                    completionMessage: 'Your test bridge is perfect! Now the ice wizard can safely cross all three bridges.'
-                                }
-                            },
+                                successMessage: 'Each bridge needs 7 tiles total. Now let us build one test bridge to make sure it is safe for the wizard!'
+                            }
+                        ]
+                    },
+                    irlBridgeChallenge: {
+                        title: 'Physical Challenge - IRL Bridge Building',
+                        icon: '🔨',
+                        description: 'Now let us build one test bridge to make sure it is safe for the wizard!',
+                        instructions: [
+                            'Build 2 pillars using 3 square tiles each (stack them up)',
+                            'Use exactly 3 square tiles for the bridge deck',
+                            'Use exactly 4 triangle tiles as supports',
+                            'Test that the bridge is stable'
+                        ],
+                        successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles',
+                        completionMessage: 'Your test bridge works perfectly! Now the ice wizard can safely cross all three bridges.'
+                    },
+                    mathChallenge2: {
+                        title: 'Bridge Follow-Up',
+                        icon: '🧮',
+                        missions: [
                             {
                                 category: 'Multiplication',
-                                title: 'Wizard\'s Bridge Crossing',
+                                title: 'After Building Your Test Bridge',
                                 story: 'Your test bridge works perfectly! Now the ice wizard needs to cross all 3 bridges to reach the door. He will step on the square tiles that make the bridge deck.',
                                 question: 'Each bridge has 3 square tiles to walk on. If the wizard walks across all 3 bridges, how many tiles will he step on total?',
                                 answer: 9,
@@ -4101,6 +4100,21 @@
         }
 
         let currentPlayer = null;
+        let currentMathPhase = 1; // For Rou Day 4: 1 = mathChallenge1, 2 = mathChallenge2
+
+        // Helper function to get the appropriate math challenge for current context
+        function getCurrentMathChallenge(content, currentDay, player) {
+            // Special handling for Rou Day 4's 3-phase structure
+            if (currentDay === 4 && player === 'rou') {
+                if (currentMathPhase === 1) {
+                    return content.mathChallenge1;
+                } else {
+                    return content.mathChallenge2;
+                }
+            }
+            // Default behavior for all other days
+            return content.mathChallenge;
+        }
 
         // Initialize game
         function initGame() {
@@ -4114,6 +4128,11 @@
             // Get current day from shared progress (admin checklist)
             const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
             const currentDay = sharedProgress.currentDay || 1;
+            
+            // Reset math phase for Rou Day 4
+            if (currentDay === 4 && player === 'rou') {
+                currentMathPhase = 1;
+            }
             
             // Update local gameState to match current day
             gameState[player].currentDay = currentDay;
@@ -4515,14 +4534,21 @@
                 let finalMessage, completionTitle, completionIcon;
                 
                 if (currentPlayer === 'wells') {
-                    finalMessage = dayContent.mathChallenge.finalMessage || 
+                    const mathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
+                    finalMessage = mathChallenge.finalMessage || 
                         'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!';
                     completionTitle = 'Prism Sun Obelisk Complete!';
                     completionIcon = '☀️';
                 } else if (currentPlayer === 'rou') {
-                    finalMessage = dayContent.mathChallenge.finalMessage || 
-                        'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!';
-                    completionTitle = 'Glacial Rune Chamber Complete!';
+                    if (currentDay === 4) {
+                        finalMessage = dayContent.mathChallenge2.finalMessage ||
+                            'Your test bridge is perfect! The ice wizard safely crosses all three bridges. "You have saved me, brave one!" he says, and uses his magic key to unlock the Glacial Door. Behind it, your Storm Fang rune awaits! As a small thank you, the grateful wizard also gives you a small bag before disappearing into the mist.';
+                    } else {
+                        const mathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
+                        finalMessage = mathChallenge.finalMessage || 
+                            'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!';
+                    }
+                    completionTitle = currentDay === 4 ? 'Glacial Rune Chamber Bridge Challenge Complete!' : 'Glacial Rune Chamber Complete!';
                     completionIcon = '❄️';
                 }
                 
@@ -4714,7 +4740,8 @@
             const currentDay = sharedProgress.currentDay || 1;
             
             const content = gameContent[currentPlayer][`day${currentDay}`];
-            const mission = content.mathChallenge.missions[questionNum - 1];
+            const mathChallenge = getCurrentMathChallenge(content, currentDay, currentPlayer);
+            const mission = mathChallenge.missions[questionNum - 1];
             
             document.getElementById('mathQuestionTitle').textContent = mission.title;
             document.getElementById('mathStoryContext').textContent = mission.story;
@@ -4753,7 +4780,8 @@
             const currentDay = sharedProgress.currentDay || 1;
             
             const content = gameContent[currentPlayer][`day${currentDay}`];
-            const mission = content.mathChallenge.missions[currentQuestion - 1];
+            const mathChallenge = getCurrentMathChallenge(content, currentDay, currentPlayer);
+            const mission = mathChallenge.missions[currentQuestion - 1];
             // Removed numberQuestionText line since we simplified the modal
             currentInput = '0';
             document.getElementById('numberDisplay').textContent = currentInput;
@@ -4826,7 +4854,8 @@
             const currentDay = sharedProgress.currentDay || 1;
             
             const content = gameContent[currentPlayer][`day${currentDay}`];
-            const mission = content.mathChallenge.missions[currentQuestion - 1];
+            const mathChallenge = getCurrentMathChallenge(content, currentDay, currentPlayer);
+            const mission = mathChallenge.missions[currentQuestion - 1];
             const correctAnswer = mission.answer;
             
             // Check if this mission accepts multiple answer formats (like fractions)
@@ -4873,7 +4902,7 @@
                     }
                     
                     // Unlock next mission
-                    const totalMissions = content.mathChallenge.missions.length;
+                    const totalMissions = mathChallenge.missions.length;
                     if (currentQuestion < totalMissions) {
                         const nextBtn = document.getElementById(`mission${currentQuestion + 1}Btn`);
                         if (nextBtn) {
@@ -4941,6 +4970,7 @@
                         'You have 12 triangle tiles! Total tiles: 33',
                         'Perfect! You have 33 total tiles to work with!',
                         'Each bridge needs 7 tiles total. Now you know exactly what to build!',
+                        'Your test bridge works perfectly! Now the ice wizard can safely cross all three bridges!',
                         'The wizard steps on 9 tiles total as he safely crosses all three bridges to reach the Crystal Door!'
                     ];
                 } else {
@@ -4969,7 +4999,7 @@
                     } else if (currentDay === 3) {
                         successIcons = ['🌸', '💎', '🏛️'];
                     } else if (currentDay === 4) {
-                        successIcons = ['🔨', '🔺', '📊', '🌉', '👟'];
+                        successIcons = ['🔨', '🔺', '📊', '🌉', '🏗️', '👟'];
                     } else {
                         successIcons = ['💎', '🧊', '🎁'];
                     }
@@ -4981,8 +5011,24 @@
                     messages[currentQuestion - 1],
                     currentPlayer,
                     () => {
+                        // Special handling for Rou Day 4's 3-phase structure
+                        if (currentDay === 4 && currentPlayer === 'rou') {
+                            if (currentMathPhase === 1 && currentQuestion === 4) {
+                                // Completed Math Challenge 1, now show IRL Bridge Challenge
+                                showIRLActivityModal(content.irlBridgeChallenge);
+                                return;
+                            } else if (currentMathPhase === 2 && currentQuestion === 1) {
+                                // Completed Math Challenge 2, finish the day
+                                setTimeout(() => {
+                                    completeMathChallenge();
+                                }, 100);
+                                return;
+                            }
+                        }
+                        
                         // Check if current mission has an IRL activity (Day 4 integration)
-                        const currentMission = content.mathChallenge.missions[currentQuestion - 1];
+                        const mathChallenge = getCurrentMathChallenge(content, currentDay, currentPlayer);
+                        const currentMission = mathChallenge.missions[currentQuestion - 1];
                         if (currentMission.irlActivity) {
                             // Show IRL activity modal instead of proceeding to next question
                             showIRLActivityModal(currentMission.irlActivity);
@@ -4990,7 +5036,7 @@
                         }
                         
                         // UNIFIED PROGRESSION LOGIC: Check actual number of missions for current day
-                        const totalMissions = content.mathChallenge.missions.length;
+                        const totalMissions = mathChallenge.missions.length;
                         
                         if (currentQuestion < totalMissions) {
                             // Move to next question automatically for both players
@@ -5103,15 +5149,30 @@
             completeBtn.onclick = () => {
                 closeIRLActivityModal();
                 
+                // Get current day from shared progress
+                const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+                const currentDay = sharedProgress.currentDay || 1;
+                
                 // Show completion message
                 showSuccessModal(
                     '🏗️',
                     'Bridge Building Complete!',
-                    irlActivity.completionMessage,
+                    irlActivity.completionMessage || 'Physical challenge completed successfully!',
                     currentPlayer,
                     () => {
-                        // Now continue to next math question
-                        openMathQuestion(currentQuestion + 1);
+                        // Special handling for Rou Day 4 transition to Math Challenge 2
+                        if (currentDay === 4 && currentPlayer === 'rou') {
+                            currentMathPhase = 2;
+                            currentQuestion = 0; // Reset for Math Challenge 2
+                            // Regenerate buttons for Math Challenge 2
+                            const content = gameContent[currentPlayer][`day${currentDay}`];
+                            generateMissionButtons(content);
+                            // Start Math Challenge 2
+                            openMathQuestion(1);
+                        } else {
+                            // Normal progression for other days
+                            openMathQuestion(currentQuestion + 1);
+                        }
                     }
                 );
             };
@@ -5221,11 +5282,18 @@
             const container = document.getElementById('mathMissionButtons');
             container.innerHTML = ''; // Clear existing buttons
             
+            // Get current day from shared progress
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            // Get the appropriate math challenge
+            const mathChallenge = getCurrentMathChallenge(content, currentDay, currentPlayer);
+            
             // Update challenge title based on player
             const challengeTitle = document.querySelector('#mathChallengeContent .challenge-title');
-            challengeTitle.textContent = content.mathChallenge.title;
+            challengeTitle.textContent = mathChallenge.title;
             
-            content.mathChallenge.missions.forEach((mission, index) => {
+            mathChallenge.missions.forEach((mission, index) => {
                 const missionNum = index + 1;
                 const playerData = gameState[currentPlayer];
                 
