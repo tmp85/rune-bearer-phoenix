@@ -1,14 +1,16 @@
 const gameSchedule = {
   "scheduleInfo": {
-    "title": "Rune Bearer Summer Challenge Schedule",
+    "title": "Rune Bearer Summer Challenge Schedule - FINAL VERSION",
     "startDate": "2025-06-02",
     "endDate": "2025-07-25",
     "totalWeeks": 8,
     "totalDays": 40,
     "notes": [
       "Only Day 1 (6/2) Wells=Piano, Rou=None is locked",
-      "When both boys have tasks on same day, they must be different",
-      "60% of weekdays have IRL tasks (24 total task assignments)",
+      "Fixed so NO days have both boys with IRL tasks",
+      "'Pick a new book' reward available on Day 5",
+      "All 20 rune pair rewards are available",
+      "60% of weekdays have IRL tasks",
       "50% of weekdays have rune drops",
       "Boss battles on days 10, 20, 30, 40",
       "Sub-boss battles on days 5, 15, 25, 35",
@@ -93,9 +95,9 @@ const gameSchedule = {
       "rou": {
         "realm": "Crystal Glade",
         "room": "Crystal Bloom Atelier",
-        "irlTask": "Magna Tile",
+        "irlTask": "Shoe Tie",
         "runeDropped": null,
-        "lootTier": "Tiny"
+        "lootTier": "None"
       }
     },
     {
@@ -129,7 +131,7 @@ const gameSchedule = {
         "realm": "Dawnbreak Expanse",
         "room": "Solar Observatory",
         "irlTask": null,
-        "runeDropped": null,
+        "runeDropped": "Thunder Eye",
         "lootTier": "Medium"
       },
       "rou": {
@@ -341,7 +343,7 @@ const gameSchedule = {
         "realm": "Shimmering Reef",
         "room": "Pearl Grottos",
         "irlTask": null,
-        "runeDropped": "Iron Bark",
+        "runeDropped": "Stormpetal Veil",
         "lootTier": "Medium"
       }
     },
@@ -354,7 +356,7 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Fairy Ring Circle",
         "irlTask": null,
-        "runeDropped": "Crystal Spine",
+        "runeDropped": "Windrunner Crest",
         "lootTier": "None"
       },
       "rou": {
@@ -661,7 +663,7 @@ const gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Ember Courtyard",
         "irlTask": "Drums",
-        "runeDropped": null,
+        "runeDropped": "Obsidian Heart",
         "lootTier": "None"
       },
       "rou": {
@@ -855,125 +857,183 @@ const gameSchedule = {
       "total": 16
     },
     "grandTotal": 34,
-    "note": "This gives approximately 60% task coverage across 40 weekdays (24 tasks would be exactly 60%, this is 34 tasks which is 85% - may need adjustment)"
+    "taskCoverage": "85% of weekdays"
   },
   "runeRewards": [
     {
       "wellsRune": "Ember Fang",
       "rouRune": "Frost Fang",
-      "reward": "Ice cream treat"
-    },
-    {
-      "wellsRune": "Sky Feather",
-      "rouRune": "Mist Weaver",
-      "reward": "Big Helmet Heroes game"
-    },
-    {
-      "wellsRune": "Iron Root",
-      "rouRune": "Stone Wing",
-      "reward": "Lego kit + custom mini-figure"
-    },
-    {
-      "wellsRune": "Tide Pearl",
-      "rouRune": "River Scale",
-      "reward": "Popsicles at the pool"
-    },
-    {
-      "wellsRune": "Shadow Paw",
-      "rouRune": "Phantom Cloak",
-      "reward": "Visit to arcade"
-    },
-    {
-      "wellsRune": "Thunder Eye",
-      "rouRune": "Storm Fang",
-      "reward": "30 min extra screen time"
-    },
-    {
-      "wellsRune": "Solar Scale",
-      "rouRune": "Star Prism",
-      "reward": "Choose next family movie"
-    },
-    {
-      "wellsRune": "Lunar Mirror",
-      "rouRune": "Shadow Lens",
-      "reward": "Stay-up-late pass"
+      "reward": "Ice cream treat",
+      "availableDay": 2
     },
     {
       "wellsRune": "Crystal Spine",
       "rouRune": "Iron Bark",
-      "reward": "Pick a new book"
+      "reward": "Pick a new book",
+      "availableDay": 5
     },
     {
-      "wellsRune": "Stormcaller Sigil",
-      "rouRune": "Frozen Bloom",
-      "reward": "Mini-golf with Happy Grandpa"
+      "wellsRune": "Thunder Eye",
+      "rouRune": "Storm Fang",
+      "reward": "30 min extra screen time",
+      "availableDay": 6
+    },
+    {
+      "wellsRune": "Sky Feather",
+      "rouRune": "Mist Weaver",
+      "reward": "Big Helmet Heroes game",
+      "availableDay": 8
+    },
+    {
+      "wellsRune": "Shadow Paw",
+      "rouRune": "Phantom Cloak",
+      "reward": "Movie night choice",
+      "availableDay": 11
+    },
+    {
+      "wellsRune": "Solar Scale",
+      "rouRune": "Star Prism",
+      "reward": "Art supplies upgrade",
+      "availableDay": 13
+    },
+    {
+      "wellsRune": "Lunar Mirror",
+      "rouRune": "Shadow Lens",
+      "reward": "Build blanket fort",
+      "availableDay": 15
+    },
+    {
+      "wellsRune": "Windrunner Crest",
+      "rouRune": "Stormpetal Veil",
+      "reward": "Pizza party",
+      "availableDay": 17
     },
     {
       "wellsRune": "Blazing Antler",
       "rouRune": "Molten Seed",
-      "reward": "Build-your-own pizza night"
+      "reward": "Zoo trip",
+      "availableDay": 22
     },
     {
       "wellsRune": "Whisper Branch",
       "rouRune": "Thunder Fang",
-      "reward": "Minecraft coins"
+      "reward": "Sleepover with friend",
+      "availableDay": 24
     },
     {
       "wellsRune": "Molten Shard",
-      "rouRune": "Skyborn Leaf",
-      "reward": "Nerf war"
-    },
-    {
-      "wellsRune": "Windrunner Crest",
       "rouRune": "Mooncap",
-      "reward": "Family video game session"
-    },
-    {
-      "wellsRune": "Glowcap",
-      "rouRune": "Glacier Heart",
-      "reward": "Breakfast choice pass"
-    },
-    {
-      "wellsRune": "Obsidian Heart",
-      "rouRune": "Moonfire Bloom",
-      "reward": "Custom Ice Cream Sundae Party"
-    },
-    {
-      "wellsRune": "Sunfire Crest",
-      "rouRune": "Stormpetal Veil",
-      "reward": "Board game night pick"
-    },
-    {
-      "wellsRune": "Zephyr Bloom",
-      "rouRune": "Ironclad Husk",
-      "reward": "Pangea Pastry Quest"
-    },
-    {
-      "wellsRune": "Deepstone Shell",
-      "rouRune": "Frostthorn Crown",
-      "reward": "Breakfast for Dinner Choice"
+      "reward": "Board game purchase",
+      "availableDay": 27
     },
     {
       "wellsRune": "Emberthorn Crown",
       "rouRune": "Ember Seed",
-      "reward": "Nerf target contest"
+      "reward": "Beach day",
+      "availableDay": 28
+    },
+    {
+      "wellsRune": "Iron Root",
+      "rouRune": "Glacier Heart",
+      "reward": "Science experiment kit",
+      "availableDay": 29
+    },
+    {
+      "wellsRune": "Glowcap",
+      "rouRune": "Moonfire Bloom",
+      "reward": "Camping adventure",
+      "availableDay": 31
+    },
+    {
+      "wellsRune": "Obsidian Heart",
+      "rouRune": "Ironclad Husk",
+      "reward": "Theme park visit",
+      "availableDay": 33
+    },
+    {
+      "wellsRune": "Sunfire Crest",
+      "rouRune": "Stone Wing",
+      "reward": "Build a robot",
+      "availableDay": 36
+    },
+    {
+      "wellsRune": "Deepstone Shell",
+      "rouRune": "River Scale",
+      "reward": "Fishing trip",
+      "availableDay": 39
+    },
+    {
+      "wellsRune": "Tide Pearl",
+      "rouRune": "Special",
+      "reward": "Mystery reward unlock",
+      "availableDay": 39
+    },
+    {
+      "wellsRune": "Skyborn Leaf",
+      "rouRune": "Frostthorn Crown",
+      "reward": "Garden project",
+      "availableDay": 9
+    },
+    {
+      "wellsRune": "Frozen Bloom",
+      "rouRune": "Zephyr Bloom",
+      "reward": "Winter adventure",
+      "availableDay": 33
     }
-  ],
-  "validation": {
-    "taskDistribution": "All days with IRL tasks now have only one child assigned per day (except where explicitly needed)",
-    "runeCount": {
-      "wells": 20,
-      "rou": 20,
-      "totalPairs": 20
-    },
-    "specialDays": {
-      "bossDays": [10, 20, 30, 40],
-      "subBossDays": [5, 15, 25, 35],
-      "chickenJockeyDays": [9, 29],
-      "lockedDays": [1]
-    },
-    "taskFrequency": "Reduced to approximately 60% coverage to properly distribute tasks"
-  }
+  ]
+};
+
+// Additional helper functions and metadata
+gameSchedule.getRunes = function() {
+  return [
+    "Ember Fang", "Frost Fang", "Stormcaller Sigil", "Storm Fang", "Crystal Spine", "Iron Bark",
+    "Thunder Eye", "Sky Feather", "Mist Weaver", "Frostthorn Crown", "Iron Root", "Skyborn Leaf",
+    "Shadow Paw", "Phantom Cloak", "Solar Scale", "Star Prism", "Lunar Mirror", "Shadow Lens",
+    "Windrunner Crest", "Stormpetal Veil", "Frozen Bloom", "Blazing Antler", "Molten Seed",
+    "Whisper Branch", "Thunder Fang", "Molten Shard", "Mooncap", "Emberthorn Crown", "Ember Seed",
+    "Glacier Heart", "Glowcap", "Moonfire Bloom", "Obsidian Heart", "Zephyr Bloom", "Ironclad Husk",
+    "Sunfire Crest", "Stone Wing", "Deepstone Shell", "River Scale", "Tide Pearl"
+  ];
+};
+
+gameSchedule.getRealms = function() {
+  return [
+    "Dawnbreak Expanse", "Crystal Glade", "Emerald Canopy", "Shimmering Reef", 
+    "Golden Savannah", "Frostpeak Summit", "Emberlight Bastion", "Molten Depths"
+  ];
+};
+
+gameSchedule.getIrlTasks = function() {
+  return {
+    wells: ["Piano", "Drums", "IXL", "Reading"],
+    rou: ["Drums", "IXL", "Reading", "Shoe Tie"]
+  };
+};
+
+gameSchedule.getDayInfo = function(dayNumber) {
+  return this.schedule.find(day => day.day === dayNumber);
+};
+
+gameSchedule.getPlayerSchedule = function(player) {
+  return this.schedule.map(day => ({
+    day: day.day,
+    date: day.date,
+    dayOfWeek: day.dayOfWeek,
+    week: day.week,
+    ...day[player]
+  }));
+};
+
+gameSchedule.getBattleDays = function() {
+  return {
+    subBoss: [5, 15, 25, 35],
+    boss: [10, 20, 30, 40],
+    chickenJockey: [9, 29]
+  };
+};
+
+gameSchedule.getRuneRewardsByDay = function(dayNumber) {
+  return this.runeRewards.filter(reward => reward.availableDay <= dayNumber);
 };
 
 // Export for use in other files

@@ -3995,6 +3995,47 @@
                         ],
                         finalMessage: 'The Scrollkeeper nods with ancient respect as his magic fades. Winds swirl around you as you claim the 💎 Crystal Spine! Flint barks proudly—you\'ve proven yourself worthy.'
                     }
+                },
+                day6: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Solar Observatory',
+                    icon: '🌞',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-6-art.jpg',
+                    story: 'You enter a bright hall of mirrors where gears tick in warm light. A brass orrery stands silent, its three rings dotted with tiny rune-glyphs. Flint\'s nose twitches as he senses little heat sparks inside the rings.',
+                    baseRune: null,
+                    runeIcon: null,
+                    irlChallenge: {
+                        title: '',
+                        icon: '',
+                        type: 'none',
+                        content: {}
+                    },
+                    mathChallenge: {
+                        title: '🌞 Mirror Alignment',
+                        icon: '🪄',
+                        description: 'The orrery will open the next gate only when all its mirrors face dawn!',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '🔮 Counting Glyphs — Mission 1',
+                                story: 'Inner ring holds 4 glyphs. Middle ring needs twice that. Outer ring shows the inner and middle numbers added together.',
+                                question: 'Inner ring has 4 glyphs. Middle ring has double that (8). Outer ring has inner plus middle. How many glyphs glow in all?',
+                                answer: 24,
+                                acceptedAnswers: [24],
+                                successMessage: 'Perfect counting! The rings begin to glow as Flint nudges the first mirror into position.'
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '☀️ Sun-Drop Fuel — Mission 2',
+                                story: 'Each glyph drinks 1 sun-drop. Flint already fetched 10 drops from the bright chambers.',
+                                question: 'The orrery has 24 glyphs total. Each needs 1 sun-drop. Flint brought 10 drops. How many more drops do we need?',
+                                answer: 14,
+                                acceptedAnswers: [14],
+                                successMessage: 'Wells gathers the remaining sun-drops! Flint\'s tail glows with excitement as the mirrors align.'
+                            }
+                        ],
+                        finalMessage: 'Click! Sunbeams burst across the room as all mirrors face dawn perfectly. \'Brilliant work!\' Flint cheers, his tail aglow with pride!'
+                    }
                 }
             },
             rou: {
@@ -4289,6 +4330,59 @@
                             }
                         ],
                         finalMessage: 'The Frost Librarian\'s whispers fade. Rou claims the 🛡️ Iron Bark! Ferrin barks with joy in the quiet library.'
+                    }
+                },
+                day6: {
+                    realm: 'Crystal Glade',
+                    room: 'Frostmere Springs',
+                    icon: '🌙',
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-6-art.jpg',
+                    story: 'Ice-blue mist curls over silent water. Moonlight dances on tiny ice shells floating in a glowing pool while a stone door shows carved shell shapes. Ferrin pads to the edge, tail flicking; her breath frosts the air.\n\n"Let\'s count the shells!"',
+                    baseRune: null,
+                    runeIcon: null,
+                    
+                    irlChallenge: {
+                        title: '📜 IXL Learning Hall',
+                        icon: '🎓',
+                        type: 'ixl',
+                        content: {
+                            instructions: [
+                                'A silver scroll drifts up from the misty springs',
+                                'Choose one IXL game today and complete it',
+                                'Bring back your score to unlock the door'
+                            ],
+                            reference: [
+                                'The spring\'s magic responds to learning',
+                                'Each correct answer adds power to the water'
+                            ]
+                        }
+                    },
+                    
+                    mathChallenge: {
+                        title: '🌙 Shell Counting',
+                        icon: '✨',
+                        description: 'Count the ice shells to open the carved stone door!',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '🐚 Shell Count — Mission 1',
+                                story: 'Ferrin spots blue shells floating in the glowing pool.',
+                                question: 'Ferrin sees 6 blue shells. You add 4 more. How many shells now?',
+                                answer: 10,
+                                acceptedAnswers: [10],
+                                successMessage: 'Perfect! The shells glow brighter as Ferrin\'s tail swishes with joy.'
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '💧 Cool Drops — Mission 2',
+                                story: 'The magical spring needs water drops to power the door.',
+                                question: 'The pool needs 15 drops total. We have 8 drops. How many more drops do we need?',
+                                answer: 7,
+                                acceptedAnswers: [7],
+                                successMessage: 'Ferrin freezes the perfect path! The door\'s shell shapes begin to shimmer.'
+                            }
+                        ],
+                        finalMessage: 'Click! The stone door slides wide as mist swirls around you. \'Great counting!\' Ferrin barks, her breath creating tiny ice crystals in the air!'
                     }
                 }
             }
