@@ -1180,6 +1180,23 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Wells-themed number display (brown/earth) */
+        .number-display.wells-theme {
+            background: linear-gradient(135deg, #f5deb3, #deb887);
+            border: 2px solid #cd853f;
+            color: #8b4513;
+            box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+        }
+
+        /* Rou-themed number display (light blue/cool) */
+        .number-display.rou-theme {
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            border: 2px solid #4fc3f7;
+            color: #0277bd;
+            box-shadow: inset 0 2px 4px rgba(79, 195, 247, 0.1);
         }
 
         .number-pad {
@@ -1198,28 +1215,35 @@
             cursor: pointer;
             transition: all 0.2s ease;
             border: 2px solid;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        /* Wells number buttons (green theme) */
+        /* Wells number buttons (brown/earth dungeon theme) */
         .number-btn.wells-theme {
-            background: linear-gradient(135deg, var(--primary-green), #16a34a);
-            border-color: var(--primary-green);
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            border-color: #654321;
+            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
         }
 
         .number-btn.wells-theme:hover {
-            background: linear-gradient(135deg, #16a34a, #15803d);
+            background: linear-gradient(135deg, #a0522d, #cd853f);
+            border-color: #8b4513;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
         }
 
-        /* Rou number buttons (blue theme) */
+        /* Rou number buttons (light blue/cool crystal theme) */
         .number-btn.rou-theme {
-            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
-            border-color: var(--secondary-blue);
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            border-color: #0288d1;
+            box-shadow: 0 2px 6px rgba(79, 195, 247, 0.3);
         }
 
         .number-btn.rou-theme:hover {
-            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            background: linear-gradient(135deg, #29b6f6, #03a9f4);
+            border-color: #0277bd;
             transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
         }
 
         .number-zero {
@@ -1233,52 +1257,79 @@
             margin-top: 20px;
         }
 
-        .clear-btn {
-            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+        /* Control button styling with player-specific themes */
+        .clear-btn, .backspace-btn, .submit-btn {
             color: white;
-            border: 2px solid var(--primary-orange);
             padding: 15px;
             border-radius: 12px;
             font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 2px solid;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
-        .clear-btn:hover {
-            background: linear-gradient(135deg, #ea580c, #dc2626);
+        /* Wells-themed control buttons (brown/earth) */
+        .clear-btn.wells-theme {
+            background: linear-gradient(135deg, #d2691e, #cd853f);
+            border-color: #a0522d;
         }
 
-        .backspace-btn {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white;
-            border: 2px solid #dc2626;
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .clear-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #cd853f, #daa520);
+            transform: translateY(-1px);
         }
 
-        .backspace-btn:hover {
-            background: linear-gradient(135deg, #b91c1c, #991b1b);
+        .backspace-btn.wells-theme {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            border-color: #654321;
         }
 
-        .submit-btn {
-            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
-            color: white;
-            border: 2px solid var(--gray-dark);
-            padding: 15px;
-            border-radius: 12px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .backspace-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #a0522d, #cd853f);
+            transform: translateY(-1px);
         }
 
-        .submit-btn:hover {
-            background: linear-gradient(135deg, var(--gray-medium), var(--gray-light));
-            color: var(--gray-darker);
+        .submit-btn.wells-theme {
+            background: linear-gradient(135deg, #228b22, #32cd32);
+            border-color: #006400;
+        }
+
+        .submit-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #32cd32, #7cfc00);
+            transform: translateY(-1px);
+        }
+
+        /* Rou-themed control buttons (light blue/cool) */
+        .clear-btn.rou-theme {
+            background: linear-gradient(135deg, #87ceeb, #add8e6);
+            border-color: #4682b4;
+        }
+
+        .clear-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #add8e6, #b0e0e6);
+            transform: translateY(-1px);
+        }
+
+        .backspace-btn.rou-theme {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            border-color: #0288d1;
+        }
+
+        .backspace-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #29b6f6, #03a9f4);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn.rou-theme {
+            background: linear-gradient(135deg, #00bcd4, #26c6da);
+            border-color: #0097a7;
+        }
+
+        .submit-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #26c6da, #4dd0e1);
+            transform: translateY(-1px);
         }
 
         /* Logo Styles */
@@ -1737,18 +1788,81 @@
             box-shadow: 0 6px 20px rgba(34, 197, 94, 0.2);
         }
 
-        .reward-entry.completed {
-            opacity: 0.6;
-            border-color: var(--success-green);
-            background: rgba(34, 197, 94, 0.1);
+        /* Reward entry states - hierarchical highlighting */
+        .reward-entry.newly-completed {
+            /* Brightest: Newly completed reward pairs (first-time completion) */
+            border: 3px solid var(--success-green);
+            background: rgba(34, 197, 94, 0.25);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+            animation: celebrateReward 3s ease-in-out;
         }
 
-        .reward-entry.completed::after {
+        .reward-entry.completed {
+            /* Medium: Previously completed reward pairs (permanent subtle highlight) */
+            border: 2px solid rgba(34, 197, 94, 0.7);
+            background: rgba(34, 197, 94, 0.15);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+        }
+
+        .reward-entry.partially-collected {
+            /* Light: Individual runes collected but pair incomplete */
+            border: 2px solid rgba(200, 200, 200, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 8px rgba(220, 220, 220, 0.25);
+        }
+
+        .reward-entry.completed::after,
+        .reward-entry.newly-completed::after {
             content: '✅';
             position: absolute;
             top: 8px;
             right: 8px;
-            font-size: 1em;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px rgba(34, 197, 94, 0.8);
+        }
+
+        .reward-entry.newly-completed::after {
+            animation: pulseCheckmark 2s ease-in-out infinite;
+        }
+
+        /* Individual rune highlighting within reward entries */
+        .reward-rune.collected {
+            /* Light highlight for collected individual runes */
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .reward-rune.uncollected {
+            /* Dimmed for uncollected runes */
+            opacity: 0.5;
+            filter: grayscale(50%);
+        }
+
+        @keyframes celebrateReward {
+            0% { 
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 40px rgba(34, 197, 94, 0.8);
+            }
+            100% { 
+                transform: scale(1);
+                box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            }
+        }
+
+        @keyframes pulseCheckmark {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% { 
+                transform: scale(1.2);
+                opacity: 0.8;
+            }
         }
 
         .reward-day {
@@ -3211,6 +3325,55 @@
         </div>
     </div>
 
+    <!-- Reading Challenge Modal -->
+    <div id="readingModal" class="piano-modal">
+        <div class="piano-modal-content">
+            <button class="piano-close-btn" onclick="closeReadingModal()">×</button>
+            
+            <div class="piano-modal-header">
+                📚 Reading Quest!
+            </div>
+            
+            <div class="piano-story-context">
+                The Scrollkeeper's Archive holds centuries of knowledge within its ancient tomes. The hooded guardian watches as Wells approaches the wisdom collection. "Knowledge is the greatest treasure," whispers the Scrollkeeper. "Show me you seek learning, and the path forward shall be revealed."
+            </div>
+            
+            <div class="piano-challenge-desc">
+                ✨ Reading Objective ✨<br>
+                Complete your reading quest to unlock the ancient wisdom and proceed to the mathematical trials!
+            </div>
+            
+            <div class="piano-instructions-modal">
+                <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">📖 Reading Adventure</h3>
+                
+                <h4 style="color: #ffd700; margin-bottom: 10px;">Your Quest:</h4>
+                <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.6;">
+                    <li>Choose a book or story you want to read</li>
+                    <li>Read for 10-15 minutes with focus and attention</li>
+                    <li>Think about what happened in the story</li>
+                    <li>Tell someone about your favorite part or what you learned</li>
+                    <li>Reading helps unlock ancient wisdom!</li>
+                </ul>
+                
+                <div style="background: rgba(78,205,196,0.1); padding: 15px; border-radius: 8px; margin: 15px 0;">
+                    <strong style="color: #4ecdc4;">Reading Tips:</strong><br>
+                    • Pick something that interests you - adventure, mystery, or learning<br>
+                    • Take your time and imagine the scenes in your mind<br>
+                    • Ask questions about words you don't know
+                </div>
+                
+                <div style="background: rgba(255,215,0,0.1); padding: 15px; border-radius: 8px; margin-top: 20px;">
+                    <strong style="color: #ffd700;">Remember:</strong><br>
+                    • Every page you read makes you wiser<br>
+                    • Stories teach us about the world and ourselves<br>
+                    • The Scrollkeeper honors those who seek knowledge!
+                </div>
+            </div>
+            
+            <button class="piano-complete-btn" onclick="completeReadingChallenge()">🌟 I've Completed My Reading Quest!</button>
+        </div>
+    </div>
+
     <!-- Math Question Modal -->
     <div id="mathQuestionModal" class="math-question-modal">
         <div class="math-question-content">
@@ -3255,7 +3418,7 @@
                 <button class="number-btn" onclick="addNumber(9)">9</button>
                 <button class="number-btn number-zero" onclick="addNumber(0)">0</button>
                 <button class="number-btn" onclick="addDecimal()">.</button>
-                <button class="number-btn fraction-btn" onclick="addFraction('3/4')">¾</button>
+                <button class="number-btn fraction-btn" onclick="addFraction('/')">/</button>
             </div>
             
             <div class="control-buttons">
@@ -3782,9 +3945,59 @@
                         ],
                         finalMessage: 'You carve 75, 18, 50, and the 1/4 glyph onto the levers. Each channel unlocks in sequence, molten metal floods the molds, and the forge\'s roar softens to a steady glow. The inner gate slides open, its path glowing amber with reflected heat. Flint barks triumphantly, and together you stride onward to meet Day 5!'
                     }
-                }
                 },
-                rou: {
+                day5: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Scrollkeeper\'s Archive',
+                    icon: '📜',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-5-art.jpg',
+                    story: 'Ancient scrolls whisper secrets as you enter the glowing archive. The hooded Scrollkeeper blocks your path—his three Dawn-Crystals pulse with protective magic. Flint senses the guardian\'s test beginning and growls low.',
+                    baseRune: 'Crystal Spine',
+                    runeIcon: '💎',
+                    irlChallenge: {
+                        title: '',
+                        icon: '',
+                        type: 'none',
+                        content: {}
+                    },
+                    mathChallenge: {
+                        title: '📜 Sub-Boss Duel: The Scrollkeeper',
+                        icon: '⚔️',
+                        description: 'The Scrollkeeper raises his staff as each crystal glows brighter. Shatter all three Dawn-Crystals to prove your worth!',
+                        missions: [
+                            {
+                                category: 'Subtraction',
+                                title: '⚔️ Rope-Cut Slash — Crystal 1',
+                                story: 'Twenty-seven thick ropes hold a massive bridge over the first crystal. Flint\'s heat-sense finds the weak strands.',
+                                question: 'Twenty-seven ropes hold the bridge. You slice through 19 ropes. How many ropes are left?',
+                                answer: 8,
+                                acceptedAnswers: [8],
+                                successMessage: 'You quickly cut the remaining 8 ropes and the bridge crashes down with a thunderous boom! The first Dawn-Crystal cracks and dims.'
+                            },
+                            {
+                                category: 'Subtraction', 
+                                title: '⚔️ Book-Stack Chop — Crystal 2',
+                                story: 'A tower of 43 glowing books guards the second crystal. Flint nudges the loose ones with his nose.',
+                                question: 'A tower of 43 glowing books guards the crystal. 27 books tumble away. How many books remain?',
+                                answer: 16,
+                                acceptedAnswers: [16],
+                                successMessage: 'Your sword sweeps the remaining books aside! The second crystal shatters into golden sparks.'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '⚔️ Chandelier Strike — Crystal 3', 
+                                story: 'Seven bronze chains hold a massive chandelier above the final crystal. Flint\'s ember glow reveals each chain clearly.',
+                                question: 'The chandelier hangs from 7 chains. Each chain has 6 thick links. How many links total?',
+                                answer: 42,
+                                acceptedAnswers: [42],
+                                successMessage: 'All chains snap at once! The chandelier crashes down as the final crystal explodes in brilliant dawn-light.'
+                            }
+                        ],
+                        finalMessage: 'The Scrollkeeper nods with ancient respect as his magic fades. Winds swirl around you as you claim the 💎 Crystal Spine! Flint barks proudly—you\'ve proven yourself worthy.'
+                    }
+                }
+            },
+            rou: {
                 day1: {
                     realm: 'Crystal Glade',
                     room: 'Entry Cavern',
@@ -4025,6 +4238,58 @@
                         ],
                         finalMessage: 'Your test bridge is perfect! The ice wizard safely crosses all three bridges. "You have saved me, brave one!" he says, and uses his magic key to unlock the Glacial Door. The ancient chamber glows with satisfaction at your success! As a small thank you, the grateful wizard gives you a small bag before disappearing into the mist.'
                     }
+                },
+                day5: {
+                    realm: 'Crystal Glade',
+                    room: 'Whispering Ice Library',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/CrystalGlade/rou-day-5-art.jpg',
+                    story: 'Ice shelves hold glowing books in this silent library. The Frost Librarian blocks Rou\'s path with three floating crystals. Ferrin sniffs the cold air and shivers.\n\n"Let\'s break those crystals!"',
+                    baseRune: 'Iron Bark',
+                    runeIcon: '🛡️',
+                    
+                    irlChallenge: {
+                        title: '',
+                        icon: '',
+                        type: 'none',
+                        content: {}
+                    },
+                    
+                    mathChallenge: {
+                        title: '❄️ The Frost Librarian Challenge',
+                        icon: '🏔️',
+                        description: 'Three chill-blue crystals float above silent shelves. Break them all!',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '🏔️ Snowball Surge — Crystal 1',
+                                story: 'Rou packs snowballs to hurl at the crystal.',
+                                question: 'He makes 8 balls, then 7 more. How many fly?',
+                                answer: 15,
+                                acceptedAnswers: [15],
+                                successMessage: 'Fifteen snowballs thump home — first crystal explodes in a shower of ice diamonds! Ferrin\'s Frost Puff whooshes cold mist.'
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '🕯️ Lantern Light — Crystal 2',
+                                story: 'Ferrin\'s Ice-Bound Tracking reveals hidden Frost Fireflies. They power a moon-beam mirror.',
+                                question: 'Seventeen glow inside. Nine flutter out. How many stay to fuel the beam?',
+                                answer: 8,
+                                acceptedAnswers: [8],
+                                successMessage: 'Moon-beam flashes — second crystal shatters into glittering ice shards!'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '📚 Shelf Shift — Crystal 3',
+                                story: 'Four ice-shelves block a mirror\'s path to the crystal. Each shelf holds three frost tomes. Clear all the tomes to free the mirror\'s light.',
+                                question: 'How many tomes must Rou move in total?',
+                                answer: 12,
+                                acceptedAnswers: [12],
+                                successMessage: 'Shelves cleared, mirror\'s light beams free — final crystal explodes in a cascade of frozen sparkles!'
+                            }
+                        ],
+                        finalMessage: 'The Frost Librarian\'s whispers fade. Rou claims the 🛡️ Iron Bark! Ferrin barks with joy in the quiet library.'
+                    }
                 }
             }
         };
@@ -4105,6 +4370,243 @@
             });
             
             console.log(`Generated ${runes.length} rune slots for ${player}, ${collectedCount} collected`);
+            
+            // Update reward key highlighting after rune display update
+            updateRewardKeyHighlighting();
+        }
+
+        // Reward completion tracking and highlighting system
+        function updateRewardKeyHighlighting() {
+            console.log('Updating reward key highlighting...');
+            
+            const wellsRunes = gameState.wells.collectedRunes || [];
+            const rouRunes = gameState.rou.collectedRunes || [];
+            
+            // Get completed rewards from localStorage to track "newly completed" state
+            const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+            const newlyCompletedRewards = [];
+            
+            // Check each reward entry
+            const rewardEntries = document.querySelectorAll('.reward-entry');
+            
+            gameSchedule.runeRewards.forEach((rewardPair, index) => {
+                const rewardEntry = rewardEntries[index];
+                if (!rewardEntry) return;
+                
+                const wellsRuneElement = rewardEntry.querySelector('.reward-rune.wells-reward');
+                const rouRuneElement = rewardEntry.querySelector('.reward-rune.rou-reward');
+                
+                const wellsHasRune = wellsRunes.includes(rewardPair.wellsRune);
+                const rouHasRune = rouRunes.includes(rewardPair.rouRune);
+                const pairCompleted = wellsHasRune && rouHasRune;
+                const partiallyCollected = wellsHasRune || rouHasRune;
+                
+                // Update individual rune highlighting
+                if (wellsRuneElement) {
+                    wellsRuneElement.classList.toggle('collected', wellsHasRune);
+                    wellsRuneElement.classList.toggle('uncollected', !wellsHasRune);
+                }
+                
+                if (rouRuneElement) {
+                    rouRuneElement.classList.toggle('collected', rouHasRune);
+                    rouRuneElement.classList.toggle('uncollected', !rouHasRune);
+                }
+                
+                // Clear existing reward entry classes
+                rewardEntry.classList.remove('newly-completed', 'completed', 'partially-collected');
+                
+                if (pairCompleted) {
+                    const rewardId = `${rewardPair.wellsRune}-${rewardPair.rouRune}`;
+                    
+                    if (!completedRewards.includes(rewardId)) {
+                        // This is a newly completed reward!
+                        rewardEntry.classList.add('newly-completed');
+                        newlyCompletedRewards.push(rewardId);
+                        console.log(`New reward completed: ${rewardPair.reward}`);
+                        
+                        // Show celebration notification
+                        showRewardCompletionNotification(rewardPair);
+                        
+                        // After 5 seconds, convert to regular completed state
+                        setTimeout(() => {
+                            rewardEntry.classList.remove('newly-completed');
+                            rewardEntry.classList.add('completed');
+                        }, 5000);
+                    } else {
+                        // Previously completed reward
+                        rewardEntry.classList.add('completed');
+                    }
+                } else if (partiallyCollected) {
+                    // One rune collected, but not both
+                    rewardEntry.classList.add('partially-collected');
+                }
+            });
+            
+            // Update completed rewards in localStorage
+            if (newlyCompletedRewards.length > 0) {
+                const updatedCompletedRewards = [...completedRewards, ...newlyCompletedRewards];
+                localStorage.setItem('runeBearer_completedRewards', JSON.stringify(updatedCompletedRewards));
+            }
+        }
+
+        function showRewardCompletionNotification(rewardPair) {
+            // Create and show a celebration modal for the completed reward
+            const modal = document.createElement('div');
+            modal.className = 'reward-completion-modal';
+            modal.innerHTML = `
+                <div class="reward-completion-content">
+                    <div class="reward-completion-header">🎉 REWARD UNLOCKED! 🎉</div>
+                    <div class="reward-completion-runes">
+                        <span class="completion-rune">${getRuneEmoji(rewardPair.wellsRune)} ${rewardPair.wellsRune}</span>
+                        <span class="completion-plus">+</span>
+                        <span class="completion-rune">${getRuneEmoji(rewardPair.rouRune)} ${rewardPair.rouRune}</span>
+                    </div>
+                    <div class="reward-completion-arrow">↓</div>
+                    <div class="reward-completion-prize">${rewardPair.reward}</div>
+                    <button class="reward-completion-close" onclick="closeRewardCompletionModal()">Claim Reward!</button>
+                </div>
+            `;
+            
+            // Add modal styles
+            const style = document.createElement('style');
+            style.textContent = `
+                .reward-completion-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100vw;
+                    height: 100vh;
+                    background: rgba(0, 0, 0, 0.8);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 10001;
+                    animation: fadeIn 0.5s ease-in-out;
+                }
+                
+                .reward-completion-content {
+                    background: linear-gradient(135deg, #1f2937, #374151);
+                    border: 3px solid var(--success-green);
+                    border-radius: 20px;
+                    padding: 40px;
+                    text-align: center;
+                    max-width: 500px;
+                    box-shadow: 0 0 50px rgba(34, 197, 94, 0.5);
+                    animation: celebrateModal 1s ease-in-out;
+                }
+                
+                .reward-completion-header {
+                    font-size: 2em;
+                    font-weight: bold;
+                    color: var(--success-green);
+                    margin-bottom: 20px;
+                    text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+                }
+                
+                .reward-completion-runes {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 15px;
+                    margin: 20px 0;
+                }
+                
+                .completion-rune {
+                    font-size: 1.2em;
+                    font-weight: bold;
+                    color: #e5e7eb;
+                    padding: 10px 15px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 2px solid rgba(200, 200, 200, 0.3);
+                    border-radius: 10px;
+                }
+                
+                .completion-plus {
+                    font-size: 1.5em;
+                    color: var(--success-green);
+                    font-weight: bold;
+                }
+                
+                .reward-completion-arrow {
+                    font-size: 2em;
+                    color: var(--success-green);
+                    margin: 15px 0;
+                }
+                
+                .reward-completion-prize {
+                    font-size: 1.4em;
+                    font-weight: bold;
+                    color: #f3f4f6;
+                    margin: 20px 0;
+                    padding: 15px;
+                    background: rgba(255, 255, 255, 0.1);
+                    border: 2px solid rgba(200, 200, 200, 0.3);
+                    border-radius: 10px;
+                }
+                
+                .reward-completion-close {
+                    background: var(--success-green);
+                    color: white;
+                    border: none;
+                    padding: 15px 30px;
+                    font-size: 1.1em;
+                    font-weight: bold;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    margin-top: 20px;
+                    transition: all 0.3s ease;
+                }
+                
+                .reward-completion-close:hover {
+                    background: #16a34a;
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+                }
+                
+                @keyframes celebrateModal {
+                    0% { transform: scale(0.8) rotate(-5deg); opacity: 0; }
+                    50% { transform: scale(1.1) rotate(2deg); opacity: 1; }
+                    100% { transform: scale(1) rotate(0deg); opacity: 1; }
+                }
+                
+                @keyframes fadeIn {
+                    from { opacity: 0; }
+                    to { opacity: 1; }
+                }
+            `;
+            
+            document.head.appendChild(style);
+            document.body.appendChild(modal);
+            
+            // Play celebration sound
+            soundManager.playRuneDiscovered();
+        }
+
+        function closeRewardCompletionModal() {
+            const modal = document.querySelector('.reward-completion-modal');
+            if (modal) {
+                modal.remove();
+            }
+        }
+
+        function getRuneEmoji(runeName) {
+            // Find the emoji for a rune name from the collections
+            const allRunes = [...runeCollections.wells, ...runeCollections.rou];
+            const rune = allRunes.find(r => r.name === runeName);
+            return rune ? rune.emoji : '✨';
+        }
+
+        // Admin function to manually refresh reward key highlighting (for testing)
+        function refreshRewardHighlighting() {
+            console.log('Manually refreshing reward key highlighting...');
+            updateRewardKeyHighlighting();
+        }
+
+        // Admin function to reset completed rewards tracking (for testing)
+        function resetCompletedRewards() {
+            localStorage.removeItem('runeBearer_completedRewards');
+            console.log('Completed rewards tracking reset');
+            updateRewardKeyHighlighting();
         }
 
         let currentPlayer = null;
@@ -4128,6 +4630,9 @@
         function initGame() {
             // Auto-save game state periodically
             setInterval(saveGameState, 30000); // Save every 30 seconds
+            
+            // Initialize reward key highlighting
+            updateRewardKeyHighlighting();
         }
 
         function openPlayerRoom(player) {
@@ -4327,6 +4832,8 @@
                 document.getElementById('drumsModal').style.display = 'block';
             } else if (challengeType === 'ixl') {
                 document.getElementById('ixlModal').style.display = 'block';
+            } else if (challengeType === 'reading') {
+                document.getElementById('readingModal').style.display = 'block';
             }
         }
 
@@ -4342,6 +4849,11 @@
 
         function closeIXLModal() {
             document.getElementById('ixlModal').style.display = 'none';
+            // Border stays on during room challenge - don't hide
+        }
+
+        function closeReadingModal() {
+            document.getElementById('readingModal').style.display = 'none';
             // Border stays on during room challenge - don't hide
         }
 
@@ -4403,6 +4915,32 @@
             saveGameState();
         }
 
+        function completeReadingChallenge() {
+            gameState[currentPlayer].irlCompleted = true;
+            updateChallengeButtons();
+            closeReadingModal();
+            
+            // Get current day and content for success message
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            const content = gameContent[currentPlayer][`day${currentDay}`];
+            
+            // Show completion message with the custom success message from content
+            const successMessage = content.irlChallenge.content.successMessage || 
+                'Your mind grows sharper with each page! The ancient knowledge flows through you.';
+            
+            showSuccessModal(
+                '📚',
+                'Reading Quest Complete!',
+                successMessage,
+                currentPlayer,
+                () => {
+                    // Continue to next challenge
+                }
+            );
+            saveGameState();
+        }
+
         function startMathChallenge() {
             // Get current day from shared progress
             const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
@@ -4451,9 +4989,6 @@
             feedback.style.display = 'block';
 
             if (userAnswer === correctAnswer) {
-                // Play puzzle solved sound for correct answers
-                soundManager.playPuzzleSolved();
-                
                 feedback.textContent = '🎉 Correct! Well done!';
                 feedback.className = 'answer-feedback correct';
                 
@@ -4830,18 +5365,28 @@
             
             // Apply player-specific theme classes
             const numberInputContent = document.querySelector('.number-input-content');
+            const numberDisplay = document.querySelector('.number-display');
             const numberButtons = document.querySelectorAll('.number-btn');
+            const controlButtons = document.querySelectorAll('.clear-btn, .backspace-btn, .submit-btn');
             
             // Remove existing theme classes
             numberInputContent.classList.remove('wells-theme', 'rou-theme');
+            numberDisplay.classList.remove('wells-theme', 'rou-theme');
             numberButtons.forEach(btn => {
+                btn.classList.remove('wells-theme', 'rou-theme');
+            });
+            controlButtons.forEach(btn => {
                 btn.classList.remove('wells-theme', 'rou-theme');
             });
             
             // Add current player's theme
             const themeClass = `${currentPlayer}-theme`;
             numberInputContent.classList.add(themeClass);
+            numberDisplay.classList.add(themeClass);
             numberButtons.forEach(btn => {
+                btn.classList.add(themeClass);
+            });
+            controlButtons.forEach(btn => {
                 btn.classList.add(themeClass);
             });
             
@@ -4872,7 +5417,17 @@
         }
 
         function addFraction(fraction) {
-            currentInput = fraction;
+            if (fraction === '/') {
+                // Add fraction bar to current input (if not already present)
+                if (!currentInput.includes('/') && currentInput !== '0') {
+                    currentInput += '/';
+                } else if (currentInput === '0') {
+                    currentInput = '1/';
+                }
+            } else {
+                // Legacy support for specific fractions (like 3/4)
+                currentInput = fraction;
+            }
             document.getElementById('numberDisplay').textContent = currentInput;
         }
 
@@ -4905,18 +5460,59 @@
             if (mission.acceptedAnswers) {
                 // Handle fraction answers - check multiple formats
                 const userAnswer = currentInput.toLowerCase().trim();
-                const numericAnswer = parseFloat(currentInput);
+                let numericAnswer;
+                
+                // Check if input is a fraction (contains /)
+                if (userAnswer.includes('/')) {
+                    const parts = userAnswer.split('/');
+                    if (parts.length === 2) {
+                        const numerator = parseFloat(parts[0]);
+                        const denominator = parseFloat(parts[1]);
+                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                            numericAnswer = numerator / denominator;
+                        } else {
+                            numericAnswer = NaN; // Invalid fraction
+                        }
+                    } else {
+                        numericAnswer = NaN; // Invalid fraction format
+                    }
+                } else {
+                    numericAnswer = parseFloat(currentInput);
+                }
+                
                 isCorrect = mission.acceptedAnswers.some(accepted => {
                     if (typeof accepted === 'number') {
-                        return Math.abs(numericAnswer - accepted) < 0.01; // Allow small floating point differences
+                        return !isNaN(numericAnswer) && Math.abs(numericAnswer - accepted) < 0.01; // Allow small floating point differences
                     } else {
                         return userAnswer === accepted.toString().toLowerCase();
                     }
                 });
             } else {
-                // Standard integer answers
-                const answer = parseInt(currentInput);
-                isCorrect = answer === correctAnswer;
+                // Standard integer answers, but also handle fractions
+                let answer;
+                if (currentInput.includes('/')) {
+                    const parts = currentInput.split('/');
+                    if (parts.length === 2) {
+                        const numerator = parseFloat(parts[0]);
+                        const denominator = parseFloat(parts[1]);
+                        if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
+                            answer = numerator / denominator;
+                        } else {
+                            answer = NaN; // Invalid fraction
+                        }
+                    } else {
+                        answer = NaN; // Invalid fraction format
+                    }
+                } else {
+                    answer = parseFloat(currentInput);
+                }
+                
+                // Check against correct answer (allowing for decimal/fraction equivalence)
+                if (!isNaN(answer)) {
+                    isCorrect = Math.abs(answer - correctAnswer) < 0.01;
+                } else {
+                    isCorrect = false;
+                }
             }
             
             if (isCorrect) {
@@ -5095,10 +5691,11 @@
                             // Move to next question automatically for both players
                             openMathQuestion(currentQuestion + 1);
                     } else {
-                            // All questions completed - directly complete the challenge
+                            // All questions completed - add extra delay to ensure sound plays
+                            console.log('Final question completed, triggering completion sequence...');
                             setTimeout(() => {
                                 completeMathChallenge();
-                            }, 100);
+                            }, 250);
                         }
                     }
                 );
@@ -5162,6 +5759,7 @@
             
             // Play puzzle solved sound effect for correct answers
             if (title === 'Mystery Solved!') {
+                console.log('Playing puzzle solved sound for:', title);
                 soundManager.playPuzzleSolved();
             }
             
@@ -5513,7 +6111,9 @@
                     const wellsDay = wellsCard.querySelector('.day-info');
                     
                     wellsRoom.textContent = `🌅 ${dayData.wells.realm}`;
-                    wellsDay.textContent = `Day ${currentDay} • ${dayData.wells.room}`;
+                    // Remove boss/sub-boss labels from room display
+                    const wellsRoomClean = dayData.wells.room.replace(/\s*\((Sub-)?Boss\)/g, '');
+                    wellsDay.textContent = `Day ${currentDay} • ${wellsRoomClean}`;
                     
                     // Update Rou card
                     const rouCard = document.querySelector('.rou-card');
@@ -5521,7 +6121,9 @@
                     const rouDay = rouCard.querySelector('.day-info');
                     
                     rouRoom.textContent = `❄️ ${dayData.rou.realm}`;
-                    rouDay.textContent = `Day ${currentDay} • ${dayData.rou.room}`;
+                    // Remove boss/sub-boss labels from room display
+                    const rouRoomClean = dayData.rou.room.replace(/\s*\((Sub-)?Boss\)/g, '');
+                    rouDay.textContent = `Day ${currentDay} • ${rouRoomClean}`;
                 }
             }
         }
@@ -5544,6 +6146,9 @@
             console.log('Updating rune displays...');
             updateRuneDisplay('wells');
             updateRuneDisplay('rou');
+            
+            // Initialize reward key highlighting on page load
+            updateRewardKeyHighlighting();
             
             // Save the updated game state
             saveGameState();

@@ -107,7 +107,7 @@ const gameSchedule = {
         "realm": "Dawnbreak Expanse",
         "room": "Scrollkeeper's Archive (Sub-Boss)",
         "irlTask": "Reading",
-        "runeDropped": "Windrunner Crest",
+        "runeDropped": "Crystal Spine",
         "lootTier": "None",
         "isSubBoss": true
       },
@@ -115,8 +115,8 @@ const gameSchedule = {
         "realm": "Crystal Glade",
         "room": "Whispering Ice Library (Sub-Boss)",
         "irlTask": null,
-        "runeDropped": "Stormpetal Veil",
-        "lootTier": "Tiny",
+        "runeDropped": "Iron Bark",
+        "lootTier": "None",
         "isSubBoss": true
       }
     },
