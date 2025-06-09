@@ -675,7 +675,8 @@
             cursor: pointer;
             font-size: 0.9em;
             font-weight: normal;
-            margin-top: 20px;
+            margin-top: 80px;
+            margin-bottom: 40px;
             width: auto;
             max-width: 200px;
             margin-left: auto;
@@ -683,6 +684,8 @@
             display: block;
             transition: all 0.3s ease;
             opacity: 0.7;
+            position: relative;
+            z-index: 10;
         }
 
         .close-btn:hover {
@@ -857,6 +860,13 @@
                 padding: 15px;
             }
 
+            .close-btn {
+                margin-top: 60px;
+                margin-bottom: 30px;
+                font-size: 0.85em;
+                padding: 10px 18px;
+            }
+
             .room-title {
                 font-size: 1.6em;
                 flex-direction: column;
@@ -864,7 +874,7 @@
             }
         }
 
-        /* Piano Challenge Modal */
+        /* IRL Challenge Modal (Purple Theme) */
         .piano-modal {
             display: none;
             position: fixed;
@@ -881,11 +891,11 @@
             max-width: 600px;
             margin: 5% auto;
             padding: 40px;
-            background: rgba(31, 41, 55, 0.95);
-            border: 3px solid var(--primary-green);
+            background: rgba(76, 29, 149, 0.95);
+            border: 3px solid #6B46C1;
             border-radius: 20px;
             text-align: center;
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+            box-shadow: 0 0 30px rgba(107, 70, 193, 0.5);
             position: relative;
         }
 
@@ -893,7 +903,7 @@
             font-family: 'Cinzel', serif;
             font-size: 2.2em;
             margin-bottom: 20px;
-            color: var(--primary-green);
+            color: #A855F7;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -902,8 +912,8 @@
         }
 
         .piano-story-context {
-            background: rgba(34, 197, 94, 0.15);
-            border: 2px solid rgba(34, 197, 94, 0.3);
+            background: rgba(168, 85, 247, 0.15);
+            border: 2px solid rgba(168, 85, 247, 0.3);
             border-radius: 15px;
             padding: 20px;
             margin: 20px 0;
@@ -930,7 +940,7 @@
         }
 
         .piano-melody-display {
-            background: rgba(34, 197, 94, 0.2);
+            background: rgba(168, 85, 247, 0.2);
             padding: 20px;
             border-radius: 10px;
             font-family: 'Courier New', monospace;
@@ -938,28 +948,65 @@
             text-align: center;
             margin: 20px 0;
             letter-spacing: 5px;
-            color: var(--primary-green);
+            color: #A855F7;
             font-weight: bold;
-            border: 2px solid var(--primary-green);
+            border: 2px solid #A855F7;
         }
 
         .piano-complete-btn {
-            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            background: linear-gradient(135deg, #6B46C1, #5B21B6);
             color: white;
-            border: 2px solid var(--primary-green);
-            padding: 15px 40px;
-            border-radius: 12px;
-            font-size: 1.2em;
+            border: 4px solid #6B46C1;
+            padding: 40px 100px;
+            border-radius: 25px;
+            font-size: 2em;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 25px;
+            margin-top: 50px;
+            margin-bottom: 20px;
             transition: all 0.3s ease;
+            min-height: 100px;
+            min-width: 500px;
+            max-width: 90%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
         }
 
         .piano-complete-btn:hover {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+            background: linear-gradient(135deg, #5B21B6, #4C1D95);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.6);
+        }
+
+        .piano-play-btn {
+            background: linear-gradient(135deg, #6B46C1, #5B21B6);
+            color: white;
+            border: 4px solid #6B46C1;
+            padding: 40px 100px;
+            border-radius: 25px;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            min-height: 100px;
+            min-width: 500px;
+            max-width: 90%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .piano-play-btn:hover {
+            background: linear-gradient(135deg, #5B21B6, #4C1D95);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.6);
         }
 
         .piano-close-btn {
@@ -4000,7 +4047,7 @@
                     realm: 'Dawnbreak Expanse',
                     room: 'Solar Observatory',
                     icon: '🌞',
-                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-6-art.jpg',
+                    artwork: 'assets/rooms/wells-day-6-art.jpg',
                     story: 'You enter a bright hall of mirrors where gears tick in warm light. A brass orrery stands silent, its three rings dotted with tiny rune-glyphs. Flint\'s nose twitches as he senses little heat sparks inside the rings.',
                     baseRune: null,
                     runeIcon: null,
@@ -4336,24 +4383,30 @@
                     realm: 'Crystal Glade',
                     room: 'Frostmere Springs',
                     icon: '🌙',
-                    artwork: 'assets/rooms/CrystalGlade/rou-day-6-art.jpg',
-                    story: 'Ice-blue mist curls over silent water. Moonlight dances on tiny ice shells floating in a glowing pool while a stone door shows carved shell shapes. Ferrin pads to the edge, tail flicking; her breath frosts the air.\n\n"Let\'s count the shells!"',
+                    artwork: 'assets/rooms/rou-day-6-art.jpg',
+                    story: 'Moon-cool mist hangs over a quiet pool. An icy drum-stone glows beside the water, its surface pulsing with simple stick-marks that look like music. Ferrin noses the stone as a soft thump-tap-ting echoes across the cavern.\n\n"Let\'s drum the beat!"',
                     baseRune: null,
                     runeIcon: null,
                     
                     irlChallenge: {
-                        title: '📜 IXL Learning Hall',
-                        icon: '🎓',
-                        type: 'ixl',
+                        title: '🥁 Drum Beat Challenge',
+                        icon: '🥁',
+                        type: 'drums',
                         content: {
+                            pattern: 'SN, BD, HH\nSN, BD, HH\nSN, BD, HH',
                             instructions: [
-                                'A silver scroll drifts up from the misty springs',
-                                'Choose one IXL game today and complete it',
-                                'Bring back your score to unlock the door'
+                                'Copy the pattern on the drum-stone to wake the frozen door',
+                                'Beat Card (play three times in a row):',
+                                'SN, BD, HH',
+                                'SN, BD, HH', 
+                                'SN, BD, HH',
+                                'Practice: Up to five relaxed tries; count \'1-and-2-and...\' if it helps',
+                                'Three-in-a-Row: Play the beat three clean measures while family listens',
+                                'Mark Complete: Tap IRL Done when complete - the drum-stone flashes green!'
                             ],
                             reference: [
-                                'The spring\'s magic responds to learning',
-                                'Each correct answer adds power to the water'
+                                'SN = Snare, BD = Bass Drum, HH = Hi-Hat',
+                                'Ferrin cheers: \'Great groove! The springs echo your rhythm.\''
                             ]
                         }
                     },
@@ -4361,7 +4414,7 @@
                     mathChallenge: {
                         title: '🌙 Shell Counting',
                         icon: '✨',
-                        description: 'Count the ice shells to open the carved stone door!',
+                        description: 'Count the ice shells while the drum beat echoes through the springs!',
                         missions: [
                             {
                                 category: 'Addition',
@@ -4370,7 +4423,7 @@
                                 question: 'Ferrin sees 6 blue shells. You add 4 more. How many shells now?',
                                 answer: 10,
                                 acceptedAnswers: [10],
-                                successMessage: 'Perfect! The shells glow brighter as Ferrin\'s tail swishes with joy.'
+                                successMessage: 'Perfect! The shells glow brighter as your drumbeat echoes through the mist.'
                             },
                             {
                                 category: 'Subtraction',
@@ -4379,10 +4432,10 @@
                                 question: 'The pool needs 15 drops total. We have 8 drops. How many more drops do we need?',
                                 answer: 7,
                                 acceptedAnswers: [7],
-                                successMessage: 'Ferrin freezes the perfect path! The door\'s shell shapes begin to shimmer.'
+                                successMessage: 'Ferrin\'s tail swishes as the rhythm helps count the drops perfectly!'
                             }
                         ],
-                        finalMessage: 'Click! The stone door slides wide as mist swirls around you. \'Great counting!\' Ferrin barks, her breath creating tiny ice crystals in the air!'
+                        finalMessage: 'The drum-stone flashes green as gentle ripples spread across the pool! A silver swirl appears on your map—proof your rhythm stirred the springs. Ferrin barks with joy!'
                     }
                 }
             }
@@ -4476,9 +4529,15 @@
             const wellsRunes = gameState.wells.collectedRunes || [];
             const rouRunes = gameState.rou.collectedRunes || [];
             
+            // DEBUG: Log current rune collections
+            console.log('Wells collected runes:', wellsRunes);
+            console.log('Rou collected runes:', rouRunes);
+            
             // Get completed rewards from localStorage to track "newly completed" state
             const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
             const newlyCompletedRewards = [];
+            
+            console.log('Previously completed rewards:', completedRewards);
             
             // Check each reward entry
             const rewardEntries = document.querySelectorAll('.reward-entry');
@@ -4494,6 +4553,13 @@
                 const rouHasRune = rouRunes.includes(rewardPair.rouRune);
                 const pairCompleted = wellsHasRune && rouHasRune;
                 const partiallyCollected = wellsHasRune || rouHasRune;
+                
+                // DEBUG: Log each reward pair check
+                console.log(`Reward ${index + 1}: ${rewardPair.wellsRune} + ${rewardPair.rouRune}`);
+                console.log(`  Wells has ${rewardPair.wellsRune}: ${wellsHasRune}`);
+                console.log(`  Rou has ${rewardPair.rouRune}: ${rouHasRune}`);
+                console.log(`  Pair completed: ${pairCompleted}`);
+                console.log(`  Partially collected: ${partiallyCollected}`);
                 
                 // Update individual rune highlighting
                 if (wellsRuneElement) {
@@ -4917,18 +4983,143 @@
             
             const content = gameContent[currentPlayer][`day${currentDay}`];
             const challengeType = content.irlChallenge.type;
+            const irlContent = content.irlChallenge.content;
             
             // Border is already showing from room challenge - no need to show again
             
             if (challengeType === 'piano') {
+                populatePianoModal(content.irlChallenge);
                 document.getElementById('pianoModal').style.display = 'block';
             } else if (challengeType === 'drums') {
+                populateDrumsModal(content.irlChallenge);
                 document.getElementById('drumsModal').style.display = 'block';
             } else if (challengeType === 'ixl') {
+                populateIXLModal(content.irlChallenge);
                 document.getElementById('ixlModal').style.display = 'block';
             } else if (challengeType === 'reading') {
+                populateReadingModal(content.irlChallenge);
                 document.getElementById('readingModal').style.display = 'block';
             }
+        }
+
+        function populateDrumsModal(irlChallenge) {
+            const modal = document.getElementById('drumsModal');
+            const header = modal.querySelector('.piano-modal-header');
+            const storyContext = modal.querySelector('.piano-story-context');
+            const challengeDesc = modal.querySelector('.piano-challenge-desc');
+            const instructions = modal.querySelector('.piano-instructions');
+            const completeBtn = modal.querySelector('.piano-play-btn') || modal.querySelector('.piano-complete-btn');
+            
+            // Use ONLY JSON content - no modifications
+            header.innerHTML = `${irlChallenge.icon} ${irlChallenge.title}`;
+            
+            // Show story text at top (use first instruction as story)
+            let storyText = '';
+            let instructionsList = [];
+            
+            if (irlChallenge.content.instructions && irlChallenge.content.instructions.length > 0) {
+                storyText = irlChallenge.content.instructions[0]; // First instruction is story
+                instructionsList = irlChallenge.content.instructions.slice(1); // Rest are instructions
+            }
+            
+            // Display story text prominently at top
+            if (storyText) {
+                storyContext.style.display = 'block';
+                storyContext.innerHTML = `<p style="font-size: 1.2em; line-height: 1.6; margin: 0; font-style: italic;">${storyText}</p>`;
+            } else {
+                storyContext.style.display = 'none';
+            }
+            
+            // Hide challenge desc
+            challengeDesc.style.display = 'none';
+            
+            // Build content from JSON only
+            let instructionsHTML = '';
+            
+            // Show pattern if provided
+            if (irlChallenge.content.pattern) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin-bottom: 15px;">🎵 Pattern:</h4>`;
+                instructionsHTML += `<p style="text-align: center; font-size: 1.2em; margin: 20px 0; font-family: 'Courier New', monospace; background: rgba(168, 85, 247, 0.2); padding: 15px; border-radius: 10px; white-space: pre-line;"><strong>${irlChallenge.content.pattern}</strong></p>`;
+            }
+            
+            // Show instructions (skip first one since it's used as story)
+            if (instructionsList.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📋 Instructions:</h4>`;
+                instructionsHTML += `<ul style="padding-left: 20px; line-height: 1.6;">`;
+                instructionsList.forEach(instruction => {
+                    instructionsHTML += `<li>${instruction}</li>`;
+                });
+                instructionsHTML += `</ul>`;
+            }
+            
+            // Show reference
+            if (irlChallenge.content.reference && irlChallenge.content.reference.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📖 Reference:</h4>`;
+                instructionsHTML += `<ul style="padding-left: 20px; line-height: 1.6;">`;
+                irlChallenge.content.reference.forEach(ref => {
+                    instructionsHTML += `<li>${ref}</li>`;
+                });
+                instructionsHTML += `</ul>`;
+            }
+            
+            instructions.innerHTML = instructionsHTML;
+            
+            // Update button text from JSON if button exists
+            if (completeBtn) {
+                completeBtn.textContent = `Complete ${irlChallenge.title}`;
+            }
+        }
+
+        function populatePianoModal(irlChallenge) {
+            // Similar implementation for piano - use only JSON content
+            // For now, keep existing hardcoded content until piano challenges need updates
+        }
+
+        function populateIXLModal(irlChallenge) {
+            const modal = document.getElementById('ixlModal');
+            const header = modal.querySelector('.piano-modal-header');
+            const storyContext = modal.querySelector('.piano-story-context');
+            const challengeDesc = modal.querySelector('.piano-challenge-desc');
+            const instructions = modal.querySelector('.piano-instructions-modal');
+            const completeBtn = modal.querySelector('.piano-complete-btn');
+            
+            // Use ONLY JSON content
+            header.innerHTML = `${irlChallenge.icon} ${irlChallenge.title}`;
+            
+            // Hide hardcoded content
+            storyContext.style.display = 'none';
+            challengeDesc.style.display = 'none';
+            
+            // Build instructions from JSON only
+            let instructionsHTML = '';
+            
+            if (irlChallenge.content.instructions && irlChallenge.content.instructions.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📋 Instructions:</h4>`;
+                instructionsHTML += `<ul style="padding-left: 20px; line-height: 1.6;">`;
+                irlChallenge.content.instructions.forEach(instruction => {
+                    instructionsHTML += `<li>${instruction}</li>`;
+                });
+                instructionsHTML += `</ul>`;
+            }
+            
+            if (irlChallenge.content.reference && irlChallenge.content.reference.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📖 Reference:</h4>`;
+                instructionsHTML += `<ul style="padding-left: 20px; line-height: 1.6;">`;
+                irlChallenge.content.reference.forEach(ref => {
+                    instructionsHTML += `<li>${ref}</li>`;
+                });
+                instructionsHTML += `</ul>`;
+            }
+            
+            instructions.innerHTML = instructionsHTML;
+            
+            // Update button text from JSON
+            completeBtn.textContent = `Complete ${irlChallenge.title}`;
+        }
+
+        function populateReadingModal(irlChallenge) {
+            // Similar implementation for reading - use only JSON content
+            // For now, keep existing hardcoded content until reading challenges need updates
         }
 
         function closePianoModal() {
@@ -5377,6 +5568,185 @@
                 console.log('Synced runes on load - Wells:', gameState.wells.collectedRunes, 'Rou:', gameState.rou.collectedRunes);
             }
         }
+
+        // DEBUG: Function to diagnose rune reward highlighting issues
+        function debugRuneRewards() {
+            console.log('=== RUNE REWARD DEBUG ===');
+            console.log('GameState Wells runes:', gameState.wells.collectedRunes);
+            console.log('GameState Rou runes:', gameState.rou.collectedRunes);
+            
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            console.log('SharedProgress Wells runes:', sharedProgress.collectedRunes?.wells || []);
+            console.log('SharedProgress Rou runes:', sharedProgress.collectedRunes?.rou || []);
+            
+            const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+            console.log('Completed rewards in localStorage:', completedRewards);
+            
+            console.log('Expected runeRewards pairs:');
+            gameSchedule.runeRewards.forEach((pair, index) => {
+                console.log(`${index + 1}: ${pair.wellsRune} + ${pair.rouRune} = ${pair.reward}`);
+            });
+            
+            updateRewardKeyHighlighting();
+        }
+        
+        // Make debug function available globally
+        window.debugRuneRewards = debugRuneRewards;
+        
+        // DEBUG: Function to fix corrupted reward data
+        function fixRuneRewards() {
+            console.log('Clearing potentially corrupted reward data...');
+            localStorage.removeItem('runeBearer_completedRewards');
+            console.log('Completed rewards localStorage cleared');
+            
+            // Force clear all reward entry classes
+            const rewardEntries = document.querySelectorAll('.reward-entry');
+            rewardEntries.forEach(entry => {
+                entry.classList.remove('newly-completed', 'completed', 'partially-collected');
+            });
+            
+            // Re-run the highlighting to fix display
+            updateRewardKeyHighlighting();
+            console.log('Reward highlighting updated');
+        }
+        
+        // More aggressive fix function
+        function forceFixRewards() {
+            console.log('=== FORCE FIXING REWARD SYSTEM ===');
+            
+            // Clear ALL reward-related localStorage
+            localStorage.removeItem('runeBearer_completedRewards');
+            
+            // Get current actual rune collections
+            const wellsRunes = gameState.wells.collectedRunes || [];
+            const rouRunes = gameState.rou.collectedRunes || [];
+            
+            console.log('Actual Wells runes:', wellsRunes);
+            console.log('Actual Rou runes:', rouRunes);
+            
+            // Force clear all reward styling
+            const rewardEntries = document.querySelectorAll('.reward-entry');
+            rewardEntries.forEach((entry, index) => {
+                entry.classList.remove('newly-completed', 'completed', 'partially-collected');
+                
+                // Remove checkmarks
+                const existingCheckmark = entry.querySelector('::after');
+                if (existingCheckmark) {
+                    entry.style.setProperty('--after-content', 'none');
+                }
+            });
+            
+            // Manually check each reward pair with fresh logic
+            gameSchedule.runeRewards.forEach((rewardPair, index) => {
+                const rewardEntry = rewardEntries[index];
+                if (!rewardEntry) return;
+                
+                const wellsHasRune = wellsRunes.includes(rewardPair.wellsRune);
+                const rouHasRune = rouRunes.includes(rewardPair.rouRune);
+                const pairCompleted = wellsHasRune && rouHasRune;
+                const partiallyCollected = wellsHasRune || rouHasRune;
+                
+                console.log(`Manual check ${index + 1}: ${rewardPair.wellsRune} + ${rewardPair.rouRune}`);
+                console.log(`  Wells has ${rewardPair.wellsRune}: ${wellsHasRune}`);
+                console.log(`  Rou has ${rewardPair.rouRune}: ${rouHasRune}`);
+                console.log(`  Should be completed: ${pairCompleted}`);
+                
+                // Apply correct styling
+                if (pairCompleted) {
+                    rewardEntry.classList.add('completed');
+                } else if (partiallyCollected) {
+                    rewardEntry.classList.add('partially-collected');
+                }
+                
+                // Update individual rune highlighting
+                const wellsRuneElement = rewardEntry.querySelector('.reward-rune.wells-reward');
+                const rouRuneElement = rewardEntry.querySelector('.reward-rune.rou-reward');
+                
+                if (wellsRuneElement) {
+                    wellsRuneElement.classList.toggle('collected', wellsHasRune);
+                    wellsRuneElement.classList.toggle('uncollected', !wellsHasRune);
+                }
+                
+                if (rouRuneElement) {
+                    rouRuneElement.classList.toggle('collected', rouHasRune);
+                    rouRuneElement.classList.toggle('uncollected', !rouHasRune);
+                }
+            });
+            
+            console.log('Force fix complete');
+        }
+        
+        // Make fix function available globally
+        window.fixRuneRewards = fixRuneRewards;
+        window.forceFixRewards = forceFixRewards;
+        
+        // Nuclear option: completely rebuild the reward key
+        function rebuildRewardKey() {
+            console.log('=== REBUILDING REWARD KEY ===');
+            
+            // Clear all localStorage reward data
+            localStorage.removeItem('runeBearer_completedRewards');
+            
+            // Get current rune data
+            const wellsRunes = gameState.wells.collectedRunes || [];
+            const rouRunes = gameState.rou.collectedRunes || [];
+            
+            console.log('Current Wells runes:', wellsRunes);
+            console.log('Current Rou runes:', rouRunes);
+            
+            // Find the reward key container
+            const rewardKeyGrid = document.querySelector('.reward-key-grid');
+            if (!rewardKeyGrid) {
+                console.error('Reward key grid not found!');
+                return;
+            }
+            
+            // Clear and rebuild all reward entries
+            rewardKeyGrid.innerHTML = '';
+            
+            gameSchedule.runeRewards.forEach((rewardPair, index) => {
+                const wellsHasRune = wellsRunes.includes(rewardPair.wellsRune);
+                const rouHasRune = rouRunes.includes(rewardPair.rouRune);
+                const pairCompleted = wellsHasRune && rouHasRune;
+                const partiallyCollected = wellsHasRune || rouHasRune;
+                
+                console.log(`Building reward ${index + 1}: ${rewardPair.wellsRune} + ${rewardPair.rouRune}`);
+                console.log(`  Wells has: ${wellsHasRune}, Rou has: ${rouHasRune}, Complete: ${pairCompleted}`);
+                
+                // Create reward entry element
+                const rewardEntry = document.createElement('div');
+                rewardEntry.className = 'reward-entry';
+                
+                // Add completion classes based on actual rune status
+                if (pairCompleted) {
+                    rewardEntry.classList.add('completed');
+                } else if (partiallyCollected) {
+                    rewardEntry.classList.add('partially-collected');
+                }
+                
+                // Build the HTML content
+                rewardEntry.innerHTML = `
+                    <div class="reward-runes">
+                        <div class="reward-rune wells-reward ${wellsHasRune ? 'collected' : 'uncollected'}">
+                            <div class="rune-icon">${getRuneEmoji(rewardPair.wellsRune)}</div>
+                            <div class="rune-name">${rewardPair.wellsRune}</div>
+                        </div>
+                        <div class="reward-arrow">→</div>
+                        <div class="reward-rune rou-reward ${rouHasRune ? 'collected' : 'uncollected'}">
+                            <div class="rune-icon">${getRuneEmoji(rewardPair.rouRune)}</div>
+                            <div class="rune-name">${rewardPair.rouRune}</div>
+                        </div>
+                    </div>
+                    <div class="reward-description">${rewardPair.reward}</div>
+                `;
+                
+                rewardKeyGrid.appendChild(rewardEntry);
+            });
+            
+            console.log('Reward key rebuilt successfully');
+        }
+        
+        window.rebuildRewardKey = rebuildRewardKey;
 
         // Initialize game on page load
         document.addEventListener('DOMContentLoaded', function() {
