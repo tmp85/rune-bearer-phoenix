@@ -4049,8 +4049,8 @@
                     icon: '🌞',
                     artwork: 'assets/rooms/wells-day-6-art.jpg',
                     story: 'You enter a bright hall of mirrors where gears tick in warm light. A brass orrery stands silent, its three rings dotted with tiny rune-glyphs. Flint\'s nose twitches as he senses little heat sparks inside the rings.',
-                    baseRune: null,
-                    runeIcon: null,
+                    baseRune: 'Thunder Eye',
+                    runeIcon: '⚡',
                     irlChallenge: {
                         title: '',
                         icon: '',
@@ -4081,7 +4081,7 @@
                                 successMessage: 'Wells gathers the remaining sun-drops! Flint\'s tail glows with excitement as the mirrors align.'
                             }
                         ],
-                        finalMessage: 'Click! Sunbeams burst across the room as all mirrors face dawn perfectly. \'Brilliant work!\' Flint cheers, his tail aglow with pride!'
+                        finalMessage: 'Click! Sunbeams burst across the room as all mirrors face dawn perfectly. You claim the ⚡ Thunder Eye! Flint cheers, his tail aglow with pride!'
                     }
                 }
             },
@@ -4519,67 +4519,65 @@
             console.log(`Generated ${runes.length} rune slots for ${player}, ${collectedCount} collected`);
             
             // Update reward key highlighting after rune display update
-            updateRewardKeyHighlighting();
+            // updateRewardKeyHighlighting(); // DISABLED - no reward highlighting
         }
 
-        // Reward completion tracking and highlighting system
+        // DISABLED: Reward completion tracking and highlighting system
+        // This function has been disabled to prevent highlighting issues
         function updateRewardKeyHighlighting() {
-            console.log('Updating reward key highlighting...');
+            console.log('Reward highlighting system DISABLED - no completion tracking active');
+            // Function disabled - no highlighting will occur
+            return;
             
+            /* ORIGINAL FUNCTION COMMENTED OUT
             const wellsRunes = gameState.wells.collectedRunes || [];
             const rouRunes = gameState.rou.collectedRunes || [];
             
-            // DEBUG: Log current rune collections
-            console.log('Wells collected runes:', wellsRunes);
-            console.log('Rou collected runes:', rouRunes);
-            
-            // Get completed rewards from localStorage to track "newly completed" state
-            const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+            // Get completed rewards from localStorage - but validate against actual data
+            const storedCompletedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+            const actuallyCompletedRewards = [];
             const newlyCompletedRewards = [];
             
-            console.log('Previously completed rewards:', completedRewards);
-            
-            // Check each reward entry
+            // Check each reward entry using gameSchedule data
             const rewardEntries = document.querySelectorAll('.reward-entry');
             
             gameSchedule.runeRewards.forEach((rewardPair, index) => {
                 const rewardEntry = rewardEntries[index];
                 if (!rewardEntry) return;
                 
-                const wellsRuneElement = rewardEntry.querySelector('.reward-rune.wells-reward');
-                const rouRuneElement = rewardEntry.querySelector('.reward-rune.rou-reward');
-                
+                // Check actual completion status based on current rune data
                 const wellsHasRune = wellsRunes.includes(rewardPair.wellsRune);
                 const rouHasRune = rouRunes.includes(rewardPair.rouRune);
                 const pairCompleted = wellsHasRune && rouHasRune;
                 const partiallyCollected = wellsHasRune || rouHasRune;
+                const rewardId = `${rewardPair.wellsRune}-${rewardPair.rouRune}`;
                 
-                // DEBUG: Log each reward pair check
-                console.log(`Reward ${index + 1}: ${rewardPair.wellsRune} + ${rewardPair.rouRune}`);
-                console.log(`  Wells has ${rewardPair.wellsRune}: ${wellsHasRune}`);
-                console.log(`  Rou has ${rewardPair.rouRune}: ${rouHasRune}`);
-                console.log(`  Pair completed: ${pairCompleted}`);
-                console.log(`  Partially collected: ${partiallyCollected}`);
+                // Track what should actually be completed
+                if (pairCompleted) {
+                    actuallyCompletedRewards.push(rewardId);
+                }
                 
                 // Update individual rune highlighting
+                const wellsRuneElement = rewardEntry.querySelector('.reward-rune.wells-reward');
+                const rouRuneElement = rewardEntry.querySelector('.reward-rune.rou-reward');
+                
                 if (wellsRuneElement) {
-                    wellsRuneElement.classList.toggle('collected', wellsHasRune);
-                    wellsRuneElement.classList.toggle('uncollected', !wellsHasRune);
+                    wellsRuneElement.classList.remove('collected', 'uncollected');
+                    wellsRuneElement.classList.add(wellsHasRune ? 'collected' : 'uncollected');
                 }
                 
                 if (rouRuneElement) {
-                    rouRuneElement.classList.toggle('collected', rouHasRune);
-                    rouRuneElement.classList.toggle('uncollected', !rouHasRune);
+                    rouRuneElement.classList.remove('collected', 'uncollected');
+                    rouRuneElement.classList.add(rouHasRune ? 'collected' : 'uncollected');
                 }
                 
-                // Clear existing reward entry classes
+                // Clear all existing reward entry classes
                 rewardEntry.classList.remove('newly-completed', 'completed', 'partially-collected');
                 
+                // Apply correct classes based on ACTUAL data, not localStorage
                 if (pairCompleted) {
-                    const rewardId = `${rewardPair.wellsRune}-${rewardPair.rouRune}`;
-                    
-                    if (!completedRewards.includes(rewardId)) {
-                        // This is a newly completed reward!
+                    // Check if this is newly completed (wasn't in storage before)
+                    if (!storedCompletedRewards.includes(rewardId)) {
                         rewardEntry.classList.add('newly-completed');
                         newlyCompletedRewards.push(rewardId);
                         console.log(`New reward completed: ${rewardPair.reward}`);
@@ -4600,13 +4598,18 @@
                     // One rune collected, but not both
                     rewardEntry.classList.add('partially-collected');
                 }
+                // If neither condition is met, reward stays unstyled (incomplete)
             });
             
-            // Update completed rewards in localStorage
+            // Update localStorage with ONLY the actually completed rewards
+            // This prevents false completions from persisting
+            localStorage.setItem('runeBearer_completedRewards', JSON.stringify(actuallyCompletedRewards));
+            
+            // Only log when there are actual changes
             if (newlyCompletedRewards.length > 0) {
-                const updatedCompletedRewards = [...completedRewards, ...newlyCompletedRewards];
-                localStorage.setItem('runeBearer_completedRewards', JSON.stringify(updatedCompletedRewards));
+                console.log('Reward highlighting updated - new rewards detected:', newlyCompletedRewards);
             }
+            */
         }
 
         function showRewardCompletionNotification(rewardPair) {
@@ -4758,15 +4761,15 @@
 
         // Admin function to manually refresh reward key highlighting (for testing)
         function refreshRewardHighlighting() {
-            console.log('Manually refreshing reward key highlighting...');
-            updateRewardKeyHighlighting();
+            console.log('Reward highlighting DISABLED - refresh has no effect');
+            // updateRewardKeyHighlighting(); // DISABLED - no reward highlighting
         }
 
         // Admin function to reset completed rewards tracking (for testing)
         function resetCompletedRewards() {
             localStorage.removeItem('runeBearer_completedRewards');
             console.log('Completed rewards tracking reset');
-            updateRewardKeyHighlighting();
+            // updateRewardKeyHighlighting(); // DISABLED - no reward highlighting
         }
 
         let currentPlayer = null;
@@ -4792,7 +4795,7 @@
             setInterval(saveGameState, 30000); // Save every 30 seconds
             
             // Initialize reward key highlighting
-            updateRewardKeyHighlighting();
+            // updateRewardKeyHighlighting(); // DISABLED - no reward highlighting
         }
 
         function openPlayerRoom(player) {
@@ -5569,29 +5572,572 @@
             }
         }
 
-        // DEBUG: Function to diagnose rune reward highlighting issues
+        // DEBUG: Comprehensive function to diagnose rune reward highlighting issues
         function debugRuneRewards() {
-            console.log('=== RUNE REWARD DEBUG ===');
-            console.log('GameState Wells runes:', gameState.wells.collectedRunes);
-            console.log('GameState Rou runes:', gameState.rou.collectedRunes);
+            console.log('=== DEBUG FUNCTION STARTING ===');
             
-            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
-            console.log('SharedProgress Wells runes:', sharedProgress.collectedRunes?.wells || []);
-            console.log('SharedProgress Rou runes:', sharedProgress.collectedRunes?.rou || []);
+            try {
+                // Check all data sources
+                console.log('gameState.wells.collectedRunes:', gameState.wells.collectedRunes);
+                console.log('gameState.rou.collectedRunes:', gameState.rou.collectedRunes);
+                
+                const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+                console.log('localStorage Wells runes:', sharedProgress.collectedRunes?.wells || []);
+                console.log('localStorage Rou runes:', sharedProgress.collectedRunes?.rou || []);
+                
+                const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+                console.log('Completed rewards in localStorage:', completedRewards);
+                
+                // Check specific problematic pair
+                const wellsRunes = gameState.wells.collectedRunes || [];
+                const rouRunes = gameState.rou.collectedRunes || [];
+                console.log('Sky Feather check:', wellsRunes.includes('Sky Feather'));
+                console.log('Mist Weaver check:', rouRunes.includes('Mist Weaver'));
+                
+                // Check reward logic - LIMIT OUTPUT TO PREVENT CONSOLE SPAM
+                console.log('=== REWARD LOGIC TRACE (First 3 pairs only) ===');
+                
+                const pairsToCheck = Math.min(3, gameSchedule.runeRewards.length);
+                for (let i = 0; i < pairsToCheck; i++) {
+                    const pair = gameSchedule.runeRewards[i];
+                    console.log(`${i + 1}: ${pair.wellsRune} + ${pair.rouRune} = ${pair.reward}`);
+                    
+                    // Check each pair's completion status
+                    const wellsHasRune = wellsRunes.includes(pair.wellsRune);
+                    const rouHasRune = rouRunes.includes(pair.rouRune);
+                    const pairCompleted = wellsHasRune && rouHasRune;
+                    
+                    console.log(`  Wells has ${pair.wellsRune}: ${wellsHasRune}`);
+                    console.log(`  Rou has ${pair.rouRune}: ${rouHasRune}`);
+                    console.log(`  Pair completed: ${pairCompleted}`);
+                    
+                    // Check if this pair is in completed rewards
+                    const rewardId = `${pair.wellsRune}-${pair.rouRune}`;
+                    const isInCompletedRewards = completedRewards.includes(rewardId);
+                    console.log(`  In completed rewards: ${isInCompletedRewards} (ID: ${rewardId})`);
+                    
+                    // Check DOM element status
+                    const rewardEntries = document.querySelectorAll('.reward-entry');
+                    const rewardEntry = rewardEntries[i];
+                    if (rewardEntry) {
+                        const hasCompletedClass = rewardEntry.classList.contains('completed');
+                        const hasNewlyCompletedClass = rewardEntry.classList.contains('newly-completed');
+                        console.log(`  DOM element completed class: ${hasCompletedClass}`);
+                        console.log(`  DOM element newly-completed class: ${hasNewlyCompletedClass}`);
+                    }
+                    
+                    console.log('---');
+                }
+                
+                if (gameSchedule.runeRewards.length > 3) {
+                    console.log(`(${gameSchedule.runeRewards.length - 3} more pairs not shown to prevent console spam)`);
+                }
+                
+                // DO NOT call updateRewardKeyHighlighting here as it causes console spam
+                console.log('=== SKIPPING HIGHLIGHTING FUNCTION TO PREVENT INFINITE CONSOLE OUTPUT ===');
+                console.log('Use fixRuneRewards() or forceFixRewards() to update highlighting');
+                
+            } catch (error) {
+                console.error('Error in debugRuneRewards:', error);
+            }
             
-            const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
-            console.log('Completed rewards in localStorage:', completedRewards);
-            
-            console.log('Expected runeRewards pairs:');
-            gameSchedule.runeRewards.forEach((pair, index) => {
-                console.log(`${index + 1}: ${pair.wellsRune} + ${pair.rouRune} = ${pair.reward}`);
-            });
-            
-            updateRewardKeyHighlighting();
+            console.log('=== DEBUG FUNCTION COMPLETE ===');
         }
         
-        // Make debug function available globally
-        window.debugRuneRewards = debugRuneRewards;
+        // DEBUG: Data source validation function
+        function debugDataSources() {
+            console.log('=== DATA SOURCE VALIDATION ===');
+            
+            // Check gameState structure
+            console.log('gameState:', gameState);
+            console.log('gameState.wells exists:', !!gameState.wells);
+            console.log('gameState.rou exists:', !!gameState.rou);
+            console.log('gameState.wells.collectedRunes exists:', !!gameState.wells?.collectedRunes);
+            console.log('gameState.rou.collectedRunes exists:', !!gameState.rou?.collectedRunes);
+            
+            // Check localStorage structure
+            const localStorage_progress = localStorage.getItem('runeBearer_progress');
+            const localStorage_rewards = localStorage.getItem('runeBearer_completedRewards');
+            
+            console.log('localStorage runeBearer_progress raw:', localStorage_progress);
+            console.log('localStorage runeBearer_completedRewards raw:', localStorage_rewards);
+            
+            if (localStorage_progress) {
+                try {
+                    const parsed = JSON.parse(localStorage_progress);
+                    console.log('Parsed runeBearer_progress:', parsed);
+                    console.log('Has collectedRunes:', !!parsed.collectedRunes);
+                    console.log('Has wells runes:', !!parsed.collectedRunes?.wells);
+                    console.log('Has rou runes:', !!parsed.collectedRunes?.rou);
+                } catch (e) {
+                    console.error('Error parsing runeBearer_progress:', e);
+                }
+            }
+            
+            if (localStorage_rewards) {
+                try {
+                    const parsed = JSON.parse(localStorage_rewards);
+                    console.log('Parsed runeBearer_completedRewards:', parsed);
+                } catch (e) {
+                    console.error('Error parsing runeBearer_completedRewards:', e);
+                }
+            }
+        }
+        
+        // DEBUG: Specific reward pair investigation
+        function debugSpecificReward(wellsRune, rouRune) {
+            console.log(`=== SPECIFIC REWARD DEBUG: ${wellsRune} + ${rouRune} ===`);
+            
+            const wellsRunes = gameState.wells.collectedRunes || [];
+            const rouRunes = gameState.rou.collectedRunes || [];
+            
+            console.log('Wells collected runes array:', wellsRunes);
+            console.log('Rou collected runes array:', rouRunes);
+            console.log(`Wells has "${wellsRune}":`, wellsRunes.includes(wellsRune));
+            console.log(`Rou has "${rouRune}":`, rouRunes.includes(rouRune));
+            
+            // Check exact string matching
+            console.log(`Wells runes containing "${wellsRune}":`, wellsRunes.filter(rune => rune.includes(wellsRune)));
+            console.log(`Rou runes containing "${rouRune}":`, rouRunes.filter(rune => rune.includes(rouRune)));
+            
+            // Check reward pair in schedule
+            const rewardPair = gameSchedule.runeRewards.find(reward => 
+                reward.wellsRune === wellsRune && reward.rouRune === rouRune
+            );
+            console.log('Found reward pair:', rewardPair);
+            
+            if (rewardPair) {
+                const rewardId = `${wellsRune}-${rouRune}`;
+                const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+                console.log('Reward ID:', rewardId);
+                console.log('In completed rewards:', completedRewards.includes(rewardId));
+            }
+        }
+
+        // SAFE DEBUG FUNCTION - NO FUNCTION CALLS, NO LOOPS
+        function simpleDebug() {
+            console.log("=== SIMPLE DEBUG START ===");
+            
+            // Just show the raw data, no function calls
+            try {
+                const wells = gameState?.wells?.collectedRunes || [];
+                const rou = gameState?.rou?.collectedRunes || [];
+                
+                console.log("Wells runes:", wells);
+                console.log("Rou runes:", rou);
+                console.log("Sky Feather in Wells?", wells.includes('Sky Feather'));
+                console.log("Mist Weaver in Rou?", rou.includes('Mist Weaver'));
+                
+                // Check localStorage directly without parsing loops
+                const rawProgress = localStorage.getItem('runeBearer_progress');
+                const rawRewards = localStorage.getItem('runeBearer_completedRewards');
+                
+                console.log("localStorage progress (raw):", rawProgress ? "EXISTS" : "NULL");
+                console.log("localStorage rewards (raw):", rawRewards ? "EXISTS" : "NULL");
+                
+                if (rawRewards) {
+                    const completedRewards = JSON.parse(rawRewards);
+                    console.log("Completed reward IDs:", completedRewards);
+                    console.log("Sky Feather-Mist Weaver completed?", completedRewards.includes('Sky Feather-Mist Weaver'));
+                }
+                
+            } catch(e) {
+                console.log("Error:", e);
+            }
+            
+            console.log("=== SIMPLE DEBUG END ===");
+        }
+
+        // Make ONLY the safe debug function available globally
+        window.simpleDebug = simpleDebug;
+        
+        // Function to stop the admin sync interval if needed
+        function stopAdminSync() {
+            if (window.progressUpdateInterval) {
+                clearInterval(window.progressUpdateInterval);
+                window.progressUpdateInterval = null;
+                console.log('Admin sync interval stopped');
+            } else {
+                console.log('No admin sync interval running');
+            }
+        }
+        
+        // Function to restart the admin sync interval
+        function startAdminSync() {
+            stopAdminSync(); // Clear any existing interval first
+            console.log('Starting admin sync interval (every 3 seconds)');
+            window.progressUpdateInterval = setInterval(loadCurrentProgress, 3000);
+        }
+        
+        // Function to debug reward highlighting logic with detailed tracing
+        function debugRewardHighlighting() {
+            console.log("=== REWARD HIGHLIGHTING DEBUG ===");
+            
+            try {
+                const wellsRunes = gameState?.wells?.collectedRunes || [];
+                const rouRunes = gameState?.rou?.collectedRunes || [];
+                const completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+                
+                console.log("Current rune data:");
+                console.log("- Wells runes:", wellsRunes);
+                console.log("- Rou runes:", rouRunes);
+                console.log("- Completed rewards in localStorage:", completedRewards);
+                
+                // Check each reward entry in the DOM
+                const rewardEntries = document.querySelectorAll('.reward-entry');
+                console.log(`Found ${rewardEntries.length} reward entries in DOM`);
+                
+                rewardEntries.forEach((entry, index) => {
+                    const hasCompleted = entry.classList.contains('completed');
+                    const hasNewlyCompleted = entry.classList.contains('newly-completed');
+                    const hasPartial = entry.classList.contains('partially-collected');
+                    
+                    // Find the rune names in this entry
+                    const runeElements = entry.querySelectorAll('.rune-name');
+                    const wellsRune = runeElements[0]?.textContent;
+                    const rouRune = runeElements[1]?.textContent;
+                    const rewardDesc = entry.querySelector('.reward-description')?.textContent;
+                    
+                    console.log(`Entry ${index + 1}:`);
+                    console.log(`  Runes: ${wellsRune} + ${rouRune}`);
+                    console.log(`  Reward: ${rewardDesc}`);
+                    console.log(`  CSS Classes: completed=${hasCompleted}, newly-completed=${hasNewlyCompleted}, partial=${hasPartial}`);
+                    
+                    // Check if this should be completed based on actual rune data
+                    const wellsHas = wellsRunes.includes(wellsRune);
+                    const rouHas = rouRunes.includes(rouRune);
+                    const shouldBeComplete = wellsHas && rouHas;
+                    const rewardId = `${wellsRune}-${rouRune}`;
+                    const inStorage = completedRewards.includes(rewardId);
+                    
+                    console.log(`  Data check: Wells=${wellsHas}, Rou=${rouHas}, Should be complete=${shouldBeComplete}`);
+                    console.log(`  Storage check: ${rewardId} in completed rewards = ${inStorage}`);
+                    console.log(`  *** MISMATCH: DOM shows completed=${hasCompleted}, Data says complete=${shouldBeComplete} ***`);
+                    console.log("---");
+                });
+                
+            } catch (error) {
+                console.error("Error in debugRewardHighlighting:", error);
+            }
+            
+            console.log("=== DEBUG COMPLETE ===");
+        }
+        
+        // Comprehensive fix for all reward highlighting issues
+        function fixAllRewards() {
+            console.log("=== COMPREHENSIVE REWARD FIX ===");
+            
+            try {
+                // Stop admin sync temporarily to prevent interference
+                const wasRunning = !!window.progressUpdateInterval;
+                if (wasRunning) {
+                    stopAdminSync();
+                    console.log("Stopped admin sync for fix");
+                }
+                
+                // Get current actual rune data
+                const wellsRunes = gameState?.wells?.collectedRunes || [];
+                const rouRunes = gameState?.rou?.collectedRunes || [];
+                
+                console.log("Current rune data:");
+                console.log("- Wells:", wellsRunes);
+                console.log("- Rou:", rouRunes);
+                
+                // Clear ALL localStorage reward data to start fresh
+                localStorage.removeItem('runeBearer_completedRewards');
+                console.log("Cleared localStorage reward data");
+                
+                // Fix each reward entry based on actual data
+                const rewardEntries = document.querySelectorAll('.reward-entry');
+                const actuallyCompleted = [];
+                
+                rewardEntries.forEach((entry, index) => {
+                    const runeElements = entry.querySelectorAll('.rune-name');
+                    const wellsRune = runeElements[0]?.textContent || '';
+                    const rouRune = runeElements[1]?.textContent || '';
+                    const rewardDesc = entry.querySelector('.reward-description')?.textContent || '';
+                    
+                    // Check actual completion status
+                    const wellsHas = wellsRunes.includes(wellsRune);
+                    const rouHas = rouRunes.includes(rouRune);
+                    const shouldBeComplete = wellsHas && rouHas;
+                    const partiallyCollected = wellsHas || rouHas;
+                    
+                    // Remove ALL existing classes
+                    entry.classList.remove('completed', 'newly-completed', 'partially-collected');
+                    
+                    // Apply correct classes based on actual data
+                    if (shouldBeComplete) {
+                        entry.classList.add('completed');
+                        actuallyCompleted.push(`${wellsRune}-${rouRune}`);
+                        console.log(`✅ COMPLETED: ${wellsRune} + ${rouRune} = ${rewardDesc}`);
+                    } else if (partiallyCollected) {
+                        entry.classList.add('partially-collected');
+                        console.log(`🔸 PARTIAL: ${wellsRune} + ${rouRune} = ${rewardDesc} (Wells:${wellsHas}, Rou:${rouHas})`);
+                    } else {
+                        console.log(`⚪ INCOMPLETE: ${wellsRune} + ${rouRune} = ${rewardDesc}`);
+                    }
+                    
+                    // Update individual rune highlighting
+                    const wellsRuneElement = entry.querySelector('.reward-rune.wells-reward');
+                    const rouRuneElement = entry.querySelector('.reward-rune.rou-reward');
+                    
+                    if (wellsRuneElement) {
+                        wellsRuneElement.classList.remove('collected', 'uncollected');
+                        wellsRuneElement.classList.add(wellsHas ? 'collected' : 'uncollected');
+                    }
+                    
+                    if (rouRuneElement) {
+                        rouRuneElement.classList.remove('collected', 'uncollected');
+                        rouRuneElement.classList.add(rouHas ? 'collected' : 'uncollected');
+                    }
+                });
+                
+                // Update localStorage with correct completed rewards
+                if (actuallyCompleted.length > 0) {
+                    localStorage.setItem('runeBearer_completedRewards', JSON.stringify(actuallyCompleted));
+                    console.log("Updated localStorage with correct completions:", actuallyCompleted);
+                }
+                
+                // Restart admin sync if it was running
+                if (wasRunning) {
+                    setTimeout(() => {
+                        startAdminSync();
+                        console.log("Restarted admin sync");
+                    }, 1000);
+                }
+                
+            } catch (error) {
+                console.error("Error in fixAllRewards:", error);
+            }
+            
+            console.log("=== COMPREHENSIVE FIX COMPLETE ===");
+        }
+        
+        // Function to manually fix the specific Big Helmet Heroes game reward
+        function fixSpecificReward() {
+            console.log("=== FIXING SPECIFIC REWARDS ===");
+            
+            try {
+                // Find all reward entries
+                const rewardEntries = document.querySelectorAll('.reward-entry');
+                
+                rewardEntries.forEach((entry, index) => {
+                    const rewardDesc = entry.querySelector('.reward-description')?.textContent || '';
+                    const runeElements = entry.querySelectorAll('.rune-name');
+                    const wellsRune = runeElements[0]?.textContent || '';
+                    const rouRune = runeElements[1]?.textContent || '';
+                    
+                    // Check if this is the Big Helmet Heroes reward or Sky Feather/Mist Weaver pair
+                    if (rewardDesc.includes('Big Helmet Heroes') || 
+                        (wellsRune.includes('Sky Feather') && rouRune.includes('Mist Weaver'))) {
+                        
+                        console.log(`Found target reward: ${wellsRune} + ${rouRune} = ${rewardDesc}`);
+                        console.log(`Current classes: ${entry.className}`);
+                        
+                        // Remove ALL completion classes and styling
+                        entry.classList.remove('completed', 'newly-completed');
+                        
+                        // Force set to uncompleted state based on actual rune data
+                        const wellsRunes = gameState?.wells?.collectedRunes || [];
+                        const rouRunes = gameState?.rou?.collectedRunes || [];
+                        const wellsHas = wellsRunes.includes(wellsRune);
+                        const rouHas = rouRunes.includes(rouRune);
+                        
+                        if (wellsHas || rouHas) {
+                            entry.classList.add('partially-collected');
+                            console.log("Set to partially-collected (one rune found)");
+                        } else {
+                            // Remove all highlighting classes - neither rune collected
+                            entry.classList.remove('partially-collected');
+                            console.log("Set to uncompleted (no runes found)");
+                        }
+                        
+                        // Update individual rune highlighting
+                        const wellsRuneElement = entry.querySelector('.reward-rune.wells-reward');
+                        const rouRuneElement = entry.querySelector('.reward-rune.rou-reward');
+                        
+                        if (wellsRuneElement) {
+                            wellsRuneElement.classList.toggle('collected', wellsHas);
+                            wellsRuneElement.classList.toggle('uncollected', !wellsHas);
+                        }
+                        
+                        if (rouRuneElement) {
+                            rouRuneElement.classList.toggle('collected', rouHas);
+                            rouRuneElement.classList.toggle('uncollected', !rouHas);
+                        }
+                        
+                        console.log(`Fixed: Wells=${wellsHas}, Rou=${rouHas}, New classes: ${entry.className}`);
+                    }
+                });
+                
+                // Also clean up localStorage to prevent future false completions
+                let completedRewards = JSON.parse(localStorage.getItem('runeBearer_completedRewards') || '[]');
+                const beforeCount = completedRewards.length;
+                
+                // Remove any Sky Feather-Mist Weaver entries
+                completedRewards = completedRewards.filter(id => !id.includes('Sky Feather-Mist Weaver'));
+                
+                if (completedRewards.length !== beforeCount) {
+                    localStorage.setItem('runeBearer_completedRewards', JSON.stringify(completedRewards));
+                    console.log(`Removed false completion from localStorage. Before: ${beforeCount}, After: ${completedRewards.length}`);
+                }
+                
+            } catch (error) {
+                console.error("Error in fixSpecificReward:", error);
+            }
+            
+            console.log("=== SPECIFIC REWARD FIX COMPLETE ===");
+        }
+        
+        // NUCLEAR OPTION: Force correct reward highlighting and disable all other functions
+        function forceCorrectRewards() {
+            console.log("=== FORCING CORRECT REWARDS (NUCLEAR OPTION) ===");
+            
+            // Stop admin sync temporarily
+            if (window.progressUpdateInterval) {
+                clearInterval(window.progressUpdateInterval);
+                window.progressUpdateInterval = null;
+            }
+            
+            // Get actual rune data
+            const wellsRunes = gameState?.wells?.collectedRunes || [];
+            const rouRunes = gameState?.rou?.collectedRunes || [];
+            
+            console.log("Actual rune data:");
+            console.log("Wells:", wellsRunes);
+            console.log("Rou:", rouRunes);
+            
+            // Clear localStorage completely
+            localStorage.removeItem('runeBearer_completedRewards');
+            
+            // Find all reward entries and fix them
+            const rewardEntries = document.querySelectorAll('.reward-entry');
+            const correctlyCompleted = [];
+            
+            rewardEntries.forEach((entry, index) => {
+                // Get rune names from DOM
+                const runeElements = entry.querySelectorAll('.rune-name');
+                const wellsRune = runeElements[0]?.textContent?.trim() || '';
+                const rouRune = runeElements[1]?.textContent?.trim() || '';
+                
+                // Check actual status
+                const wellsHas = wellsRunes.includes(wellsRune);
+                const rouHas = rouRunes.includes(rouRune);
+                const shouldBeComplete = wellsHas && rouHas;
+                
+                console.log(`Entry ${index + 1}: ${wellsRune} + ${rouRune}`);
+                console.log(`  Wells has: ${wellsHas}, Rou has: ${rouHas}, Should complete: ${shouldBeComplete}`);
+                
+                // FORCE remove all completion classes
+                entry.classList.remove('completed', 'newly-completed', 'partially-collected');
+                
+                // Apply ONLY correct classes
+                if (shouldBeComplete) {
+                    entry.classList.add('completed');
+                    correctlyCompleted.push(`${wellsRune}-${rouRune}`);
+                    console.log(`  ✅ CORRECTLY COMPLETED`);
+                } else if (wellsHas || rouHas) {
+                    entry.classList.add('partially-collected');
+                    console.log(`  🔸 PARTIAL`);
+                } else {
+                    console.log(`  ⚪ INCOMPLETE`);
+                }
+                
+                // Fix individual rune highlighting
+                const wellsElement = entry.querySelector('.reward-rune.wells-reward');
+                const rouElement = entry.querySelector('.reward-rune.rou-reward');
+                
+                if (wellsElement) {
+                    wellsElement.classList.remove('collected', 'uncollected');
+                    wellsElement.classList.add(wellsHas ? 'collected' : 'uncollected');
+                }
+                
+                if (rouElement) {
+                    rouElement.classList.remove('collected', 'uncollected');
+                    rouElement.classList.add(rouHas ? 'collected' : 'uncollected');
+                }
+            });
+            
+            // Update localStorage with only correct completions
+            localStorage.setItem('runeBearer_completedRewards', JSON.stringify(correctlyCompleted));
+            
+            console.log("Correctly completed rewards:", correctlyCompleted);
+            console.log("=== NUCLEAR FIX COMPLETE ===");
+            
+            // Restart admin sync with correct data
+            setTimeout(() => {
+                window.progressUpdateInterval = setInterval(loadCurrentProgress, 3000);
+                console.log("Admin sync restarted");
+            }, 2000);
+        }
+        
+        // DISABLE ALL REWARD HIGHLIGHTING - Turn into static reference chart
+        function disableAllRewardHighlighting() {
+            console.log("=== DISABLING ALL REWARD HIGHLIGHTING ===");
+            
+            // Stop admin sync to prevent interference
+            if (window.progressUpdateInterval) {
+                clearInterval(window.progressUpdateInterval);
+                window.progressUpdateInterval = null;
+                console.log("Admin sync stopped");
+            }
+            
+            // Clear all localStorage reward data
+            localStorage.removeItem('runeBearer_completedRewards');
+            console.log("Cleared localStorage reward data");
+            
+            // Find all reward entries and remove ALL completion styling
+            const rewardEntries = document.querySelectorAll('.reward-entry');
+            console.log(`Found ${rewardEntries.length} reward entries to reset`);
+            
+            rewardEntries.forEach((entry, index) => {
+                // Remove ALL completion classes
+                entry.classList.remove('completed', 'newly-completed', 'partially-collected');
+                
+                // Remove ALL individual rune highlighting
+                const wellsElement = entry.querySelector('.reward-rune.wells-reward');
+                const rouElement = entry.querySelector('.reward-rune.rou-reward');
+                
+                if (wellsElement) {
+                    wellsElement.classList.remove('collected', 'uncollected');
+                }
+                
+                if (rouElement) {
+                    rouElement.classList.remove('collected', 'uncollected');
+                }
+                
+                console.log(`Entry ${index + 1}: All completion styling removed`);
+            });
+            
+            console.log("=== REWARD HIGHLIGHTING COMPLETELY DISABLED ===");
+            console.log("Reward key is now a static reference chart with no completion indicators");
+            
+            // DO NOT restart admin sync - keep it disabled
+        }
+        
+        // Immediately disable the highlighting system
+        disableAllRewardHighlighting();
+        
+        // Make sync control functions available globally
+        window.stopAdminSync = stopAdminSync;
+        window.startAdminSync = startAdminSync;
+        window.debugRewardHighlighting = debugRewardHighlighting;
+        window.fixSpecificReward = fixSpecificReward;
+        window.fixAllRewards = fixAllRewards;
+        window.forceCorrectRewards = forceCorrectRewards;
+        window.disableAllRewardHighlighting = disableAllRewardHighlighting;
+        
+        // DISABLE the problematic debug functions to prevent accidental calls
+        window.debugRuneRewards = function() { 
+            console.log("debugRuneRewards DISABLED - use simpleDebug() instead"); 
+        };
+        window.debugDataSources = function() { 
+            console.log("debugDataSources DISABLED - use simpleDebug() instead"); 
+        };
+        window.debugSpecificReward = function() { 
+            console.log("debugSpecificReward DISABLED - use simpleDebug() instead"); 
+        };
         
         // DEBUG: Function to fix corrupted reward data
         function fixRuneRewards() {
@@ -5606,8 +6152,8 @@
             });
             
             // Re-run the highlighting to fix display
-            updateRewardKeyHighlighting();
-            console.log('Reward highlighting updated');
+            // updateRewardKeyHighlighting(); // DISABLED - no reward highlighting
+            console.log('Reward highlighting DISABLED - no update performed');
         }
         
         // More aggressive fix function
@@ -6514,7 +7060,11 @@
             }
 
             // Check for progress updates every 3 seconds
-            setInterval(loadCurrentProgress, 3000);
+            // Add safety check to prevent multiple intervals
+            if (!window.progressUpdateInterval) {
+                console.log('Starting progress update interval (every 3 seconds)');
+                window.progressUpdateInterval = setInterval(loadCurrentProgress, 3000);
+            }
         });
 
         // SHARED PROGRESS SYSTEM - Connects to checklist.html
@@ -6595,28 +7145,45 @@
         function syncRuneCollections(adminCollectedRunes) {
             // Update the main game state with runes collected via admin
             // Handle both populated arrays and empty arrays (for reset)
-            console.log('Syncing rune collections from admin:', adminCollectedRunes);
             
+            let hasChanges = false;
+            
+            // Check if Wells runes actually changed
             if (adminCollectedRunes.wells !== undefined) {
-                gameState.wells.collectedRunes = [...adminCollectedRunes.wells];
-                console.log('Synced Wells runes:', gameState.wells.collectedRunes);
+                const currentWells = gameState.wells.collectedRunes || [];
+                const newWells = adminCollectedRunes.wells || [];
+                
+                // Compare arrays - only update if different
+                if (JSON.stringify(currentWells) !== JSON.stringify(newWells)) {
+                    gameState.wells.collectedRunes = [...newWells];
+                    console.log('Wells runes changed:', gameState.wells.collectedRunes);
+                    hasChanges = true;
+                }
             }
+            
+            // Check if Rou runes actually changed
             if (adminCollectedRunes.rou !== undefined) {
-                gameState.rou.collectedRunes = [...adminCollectedRunes.rou];
-                console.log('Synced Rou runes:', gameState.rou.collectedRunes);
+                const currentRou = gameState.rou.collectedRunes || [];
+                const newRou = adminCollectedRunes.rou || [];
+                
+                // Compare arrays - only update if different
+                if (JSON.stringify(currentRou) !== JSON.stringify(newRou)) {
+                    gameState.rou.collectedRunes = [...newRou];
+                    console.log('Rou runes changed:', gameState.rou.collectedRunes);
+                    hasChanges = true;
+                }
             }
             
-            // Update the rune displays immediately
-            console.log('Updating rune displays...');
-            updateRuneDisplay('wells');
-            updateRuneDisplay('rou');
-            
-            // Initialize reward key highlighting on page load
-            updateRewardKeyHighlighting();
-            
-            // Save the updated game state
-            saveGameState();
-            console.log('Rune sync complete, game state saved');
+            // ONLY update displays if there were actual changes (highlighting DISABLED)
+            if (hasChanges) {
+                console.log('Rune collections changed - updating displays...');
+                updateRuneDisplay('wells');
+                updateRuneDisplay('rou');
+                // updateRewardKeyHighlighting(); // DISABLED - no reward highlighting
+                saveGameState();
+                console.log('Rune sync complete, game state saved');
+            }
+            // If no changes, don't spam the console or update anything
         }
 
         function resetGameState() {

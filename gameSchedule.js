@@ -132,7 +132,7 @@ const gameSchedule = {
         "room": "Solar Observatory",
         "irlTask": null,
         "runeDropped": "Thunder Eye",
-        "lootTier": "Medium"
+        "lootTier": "None"
       },
       "rou": {
         "realm": "Crystal Glade",

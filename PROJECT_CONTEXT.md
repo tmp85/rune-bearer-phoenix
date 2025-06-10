@@ -1,4 +1,4 @@
-# SYSTEM CONTEXT — BROTHERS' RUNE QUEST — MASTER BUILD (June 5, 2025)
+# SYSTEM CONTEXT — BROTHERS' RUNE QUEST — ROOM GENERATION GUIDELINES
 
 ---
 
@@ -6,15 +6,17 @@
 
 The Brothers' Rune Quest is a Minecraft-inspired educational dungeon crawler designed for Wells (age 7) and Rou (age 6). The game runs fully client-side as a standalone web app, developed and managed via GitHub commits. The primary build environment is Cursor on the Mac Studio, with production versions deployed via GitHub. The live game runs directly as a web app on a Mac Mini with touchscreen. The system operates independently of DAKboard or Synology.
 
-The Challenge Modules operate as a real-world parallel system directly integrated into the Rune Quest dungeon loop. Each day may include real-world IRL challenges that help drive daily progression.
+The Challenge Modules operate as a real-world parallel system directly integrated into the Rune Quest dungeon loop. Each room may include real-world IRL challenges that help drive progression.
 
 ---
 
 ## 🗂️ Key File Structure
-- `gameSchedule.js` - Daily progression and rune drops
+- `gameSchedule.js` - Game progression data (managed separately)
 - `json/runes.json` - Rune data and pairing system
 - `rooms/` - Individual room content files
 - Main game runs as standalone web app (HTML/JS/CSS)
+
+**Note:** `gameSchedule.js` contains scheduling data but is not part of the room generation workflow. Room generation works independently using content prompts and template structure.
 
 ## 🔧 Technical Notes
 - No external dependencies beyond standard web APIs
@@ -23,21 +25,7 @@ The Challenge Modules operate as a real-world parallel system directly integrate
 
 ---
 
-## 🗺️ Game Structure & Daily Flow
-
-- Start Date: June 2, 2025  
-- End Date: July 25, 2025  
-- Total Calendar: 8 weeks  
-- Total Game Build: **40 rooms per player (80 rooms total)**
-- One room unlocks per weekday for each player.
-- Wells and Rou run fully separate room paths but stay synced on day count.
-- Players may not skip ahead.
-- Weekends are reserved for catch-up.
-- Admin override allows for manual unlocks during travel or alternate device play.
-
----
-
-## 🖥️ Save System (As of June 5, 2025)
+## 🖥️ Save System
 
 - Save state is currently device-specific.
 - The Mac Mini touchscreen holds its own unique game save state.
@@ -50,7 +38,7 @@ The Challenge Modules operate as a real-world parallel system directly integrate
 
 Each room may include one or more of the following:
 
-1. **IRL Challenges (one player per day):**
+1. **IRL Challenges:**
    - Piano Melody Sequences — Play simple melodies as room triggers.
    - Drum Beat Repeats — Repeat designed drum beat patterns.
    - Shoe Tying Trials — Untimed, narrative-based shoe-tying tasks.
@@ -60,12 +48,12 @@ Each room may include one or more of the following:
 
 2. **Math Challenges (In-Room Puzzle Layer):**
    - These are pre-written, hand-designed math questions.
-   - No procedural generation; each is designed day-by-day to match the narrative puzzle.
+   - No procedural generation; each is designed to match the narrative puzzle.
    - Math includes addition, subtraction, early multiplication, resource tracking, and problem-solving tasks.
 
 3. **Narrative Puzzle Elements:**
    - Counting, pattern recognition, sequencing, or word clues fully integrated into lore.
-   - Journaling prompts added where appropriate for later recall puzzles.
+   - Journaling prompts added where appropriate for future recall puzzles.
 
 ---
 
@@ -75,7 +63,7 @@ Each room may include one or more of the following:
 - Each player collects their own distinct rune set.
 - When both players collect matching rune pairs, real-world rewards are unlocked.
 - Rune pair tracking key is always visible on the main game page.
-- Rune drops are scheduled and controlled via `gameSchedule.js`, not random.
+- Rune drops are controlled via scheduling data (managed separately), not random.
 - Rune data stored in `json/runes.json`.
 
 ---
@@ -83,7 +71,7 @@ Each room may include one or more of the following:
 ## 🎁 Reward System
 
 - Real-world prizes are tied to paired rune collection.
-- Loot drops will appear randomized but are pre-scripted and scheduled.
+- Loot drops will appear randomized but are pre-scripted and controlled.
 - No XP system is currently active.
 - No cosmetic gear system is active.
 
@@ -128,18 +116,6 @@ Each room may include one or more of the following:
 
 ---
 
-## 🏹 Boss & Sub-Boss Scheduling
-
-- Sub-bosses occur on days: 5, 15, 25, 35
-- Bosses occur on days: 10, 20, 30, 40
-- Chicken Jockey Arenas:  
-  - Wells — Day 9  
-  - Rou — Day 29
-
-- Full daily schedule structure is stored in `gameSchedule.js`.
-
----
-
 ## 🎯 Room & Narrative Design Rules
 
 - Realm-themed environmental flavor integrated into puzzle text.
@@ -167,7 +143,7 @@ Each room may include one or more of the following:
 
 Each room should follow this flexible structure:
 
-## [Player] — Day X  
+## [Player] — [Room Context]  
 Realm: [Realm Name]  
 Room: [Room Name]  
 
@@ -175,10 +151,24 @@ Room: [Room Name]
 
 To solve this room:  
 1. [Task or puzzle step]  
-2. [Optional additional step]  
-3. [Optional additional step]  
+2. [Optional additional step]
+3. [Optional additional step]
 4. [Optional additional step]
 
 [Outcome text based on completion. If a rune is scheduled: "You find the ___ rune." If no rune drop is scheduled, use an alternate success line such as: "The path opens." or "The crystal hums and the chamber falls silent."]
+
+---
+
+## 🎯 Room Generation Process
+
+**Your Role:** Take content prompts (IRL task + math + story) and generate properly formatted room code following the established template structure and design guidelines.
+
+**Key Guidelines:**
+- Apply appropriate language complexity for target player
+- Integrate realm-themed environmental details
+- Ensure math challenges match narrative context
+- Follow companion ability integration where relevant
+- Use consistent formatting and text structure
+- Use rune rewards as specified in content prompts (scheduling managed separately)
 
 #runebearers
