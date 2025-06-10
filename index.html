@@ -8004,42 +8004,70 @@
         // Spider tap counter for admin access
         let spiderTapCount = 0;
         let spiderTapTimer = null;
-        const SPIDER_TAP_TIMEOUT = 2000; // 2 seconds timeout between taps
-        const REQUIRED_TAPS = 3;
+        let spiderFirstTapTime = 0;
+        const SPIDER_TAP_TIMEOUT = 2500; // 2.5 seconds total window for all 5 taps
+        const REQUIRED_TAPS = 5;
 
         function handleSpiderTap() {
-            spiderTapCount++;
+            const currentTime = Date.now();
             
-            // Clear existing timer
-            if (spiderTapTimer) {
-                clearTimeout(spiderTapTimer);
+            // If this is the first tap, start the timer
+            if (spiderTapCount === 0) {
+                spiderFirstTapTime = currentTime;
+                spiderTapCount = 1;
+                console.log(`Spider tap ${spiderTapCount}/${REQUIRED_TAPS} - Starting sequence`);
+                
+                // Set timer to reset count if sequence not completed within timeout
+                spiderTapTimer = setTimeout(() => {
+                    console.log('Spider tap sequence timeout - resetting count');
+                    spiderTapCount = 0;
+                    spiderTapTimer = null;
+                    spiderFirstTapTime = 0;
+                }, SPIDER_TAP_TIMEOUT);
+                
+            } else {
+                // Check if tap is within the time window
+                if (currentTime - spiderFirstTapTime <= SPIDER_TAP_TIMEOUT) {
+                    spiderTapCount++;
+                    console.log(`Spider tap ${spiderTapCount}/${REQUIRED_TAPS} - Sequence continuing`);
+                } else {
+                    // Tap was too slow, reset sequence
+                    console.log('Spider tap too slow - resetting count');
+                    spiderTapCount = 1;
+                    spiderFirstTapTime = currentTime;
+                    
+                    // Clear old timer and start new one
+                    if (spiderTapTimer) {
+                        clearTimeout(spiderTapTimer);
+                    }
+                    spiderTapTimer = setTimeout(() => {
+                        console.log('Spider tap sequence timeout - resetting count');
+                        spiderTapCount = 0;
+                        spiderTapTimer = null;
+                        spiderFirstTapTime = 0;
+                    }, SPIDER_TAP_TIMEOUT);
+                }
             }
             
             // Visual feedback - briefly scale the spider
             const spiderBtn = document.querySelector('.admin-spider-btn');
-            spiderBtn.style.transform = 'scale(1.3)';
-            setTimeout(() => {
-                spiderBtn.style.transform = 'scale(1.2)'; // Return to hover state
-            }, 150);
-            
-            console.log(`Spider tap ${spiderTapCount}/${REQUIRED_TAPS}`);
+            if (spiderBtn) {
+                spiderBtn.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    spiderBtn.style.transform = 'scale(1.2)'; // Return to hover state
+                }, 150);
+            }
             
             if (spiderTapCount >= REQUIRED_TAPS) {
-                // Successfully tapped 3 times - open admin panel
-                console.log('Admin panel access granted');
+                // Successfully tapped 5 times quickly - open admin panel
+                console.log('Admin panel access granted - 5 quick taps completed!');
                 spiderTapCount = 0;
+                spiderFirstTapTime = 0;
                 if (spiderTapTimer) {
                     clearTimeout(spiderTapTimer);
                     spiderTapTimer = null;
                 }
                 window.location.href = 'checklist.html';
-            } else {
-                // Set timer to reset count if no more taps within timeout
-                spiderTapTimer = setTimeout(() => {
-                    console.log('Spider tap timeout - resetting count');
-                    spiderTapCount = 0;
-                    spiderTapTimer = null;
-                }, SPIDER_TAP_TIMEOUT);
             }
         }
 
