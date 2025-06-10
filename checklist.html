@@ -716,6 +716,7 @@
 
     <div class="admin-controls">
         <button class="admin-btn" onclick="window.location.href='index.html'">🎮 Return to Game</button>
+        <button class="admin-btn" onclick="resetEchoPortalEvent()">🔮 Reset Echo-Portal Event</button>
         <button class="admin-btn" onclick="unlockNextDay()">🔓 Unlock Next Day</button>
         <button class="admin-btn reset" onclick="resetProgress()">🔄 Reset All Progress</button>
         <button class="admin-btn" onclick="exportProgress()">📥 Export Progress</button>
@@ -1293,6 +1294,28 @@
                 }
             } else {
                 alert('All days are already unlocked!');
+            }
+        }
+
+        // Admin function: Reset Echo-Portal Flash Event
+        function resetEchoPortalEvent() {
+            // Check if event has completion data
+            const eventData = localStorage.getItem('echoPortalFlashEvent');
+            
+            if (!eventData) {
+                alert('🔮 Echo-Portal Event has not been completed yet. Nothing to reset.');
+                return;
+            }
+            
+            // Confirm reset
+            if (confirm('Are you sure you want to reset the Echo-Portal Flash Event?\n\nThis will allow the event to be played again and earn the reward again.')) {
+                // Remove the event completion data
+                localStorage.removeItem('echoPortalFlashEvent');
+                
+                // Show success message
+                alert('🔮 Echo-Portal Flash Event has been reset!\n\nPlayers can now complete the event again and earn the enchanted gloves reward.');
+                
+                console.log('Admin: Echo-Portal Flash Event reset successfully');
             }
         }
 
