@@ -3480,10 +3480,10 @@
     <div id="lootModal" class="loot-modal">
         <div class="loot-modal-content">
             <div class="loot-header">
-                <div class="loot-title">
+                <div class="loot-title" id="lootTitle">
                     💎 Treasure Discovered!
-        </div>
-    </div>
+                </div>
+            </div>
             
             <div class="loot-artwork-container">
                 <img id="lootArtwork" class="loot-artwork" src="assets/loot/alien-robot-tiny-loot.png" alt="Loot Discovery">
@@ -3496,7 +3496,7 @@
                     Hidden within the ancient Hall of Harmonies, you've discovered valuable treasure!
                 </div>
                 
-                <div class="loot-rarity-box">
+                <div class="loot-rarity-box" id="lootRarityBox">
                     <div class="loot-rarity-title">
                         ✨ Rare Discovery! ✨
                     </div>
@@ -4064,7 +4064,7 @@
                         missions: [
                             {
                                 category: 'Addition',
-                                title: '🔮 Counting Glyphs — Mission 1',
+                                title: '🔮 Counting Glyphs — Question 1',
                                 story: 'Inner ring holds 4 glyphs. Middle ring needs twice that. Outer ring shows the inner and middle numbers added together.',
                                 question: 'Inner ring has 4 glyphs. Middle ring has double that (8). Outer ring has inner plus middle. How many glyphs glow in all?',
                                 answer: 24,
@@ -4073,7 +4073,7 @@
                             },
                             {
                                 category: 'Subtraction',
-                                title: '☀️ Sun-Drop Fuel — Mission 2',
+                                title: '☀️ Sun-Drop Fuel — Question 2',
                                 story: 'Each glyph drinks 1 sun-drop. Flint already fetched 10 drops from the bright chambers.',
                                 question: 'The orrery has 24 glyphs total. Each needs 1 sun-drop. Flint brought 10 drops. How many more drops do we need?',
                                 answer: 14,
@@ -4082,6 +4082,69 @@
                             }
                         ],
                         finalMessage: 'Click! Sunbeams burst across the room as all mirrors face dawn perfectly. You claim the ⚡ Thunder Eye! Flint cheers, his tail aglow with pride!'
+                    }
+                },
+                day7: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Dawn\'s Edge Plateau',
+                    icon: '🌄',
+                    artwork: 'assets/rooms/wells-day-7-art.jpg',
+                    story: 'Sun-gold dust drifts across rugged mesas. Half-buried in the rock stands a silent Sandsteel Guardian—its plated armor etched with drum-shaped glyphs. When Flint pads closer, amber runelines flash, pulsing a steady rhythm through the stone.',
+                    baseRune: null,
+                    runeIcon: null,
+                    baseLoot: {
+                        tier: 'medium',
+                        item: 'Fist-sized metal capsule',
+                        description: 'Its facets shift like desert plates—an intriguing mystery for your next rest stop!',
+                        icon: '🗃️'
+                    },
+                    irlChallenge: {
+                        title: '🥁 Wake the Guardian',
+                        icon: '🥁',
+                        type: 'drums',
+                        content: {
+                            pattern: 'HH, BD, HH\nSN, HH, BD\nHH, LT, FT',
+                            instructions: [
+                                'Play the guardian\'s rhythm to awaken the ancient sentinel',
+                                'Beat Pattern (play three times clean):',
+                                'HH, BD, HH',
+                                'SN, HH, BD', 
+                                'HH, LT, FT',
+                                'Practice: Take your time to learn the pattern',
+                                'Performance: Play three clean rounds while family listens',
+                                'Mark Complete: Tap IRL Done when complete - the guardian awakens!'
+                            ],
+                            reference: [
+                                'HH = Hi-Hat, BD = Bass Drum, SN = Snare, LT = Low Tom, FT = Floor Tom',
+                                'Flint watches eagerly: \'The guardian stirs to your rhythm!\''
+                            ]
+                        }
+                    },
+                    mathChallenge: {
+                        title: '⚙️ Guardian Mechanics',
+                        icon: '🔧',
+                        description: 'Calculate the guardian\'s gear teeth and power crystals to fully activate it!',
+                        missions: [
+                            {
+                                category: 'Addition',
+                                title: '⚙️ Gear Teeth Count — Question 1',
+                                story: 'The guardian\'s chest opens, revealing ancient clockwork. The main gear has 8 teeth. Connected gears add 6 more teeth, then 8 more teeth.',
+                                question: 'Main gear has 8 teeth. Connected gears add 6 teeth, then 8 more teeth. How many gear teeth total?',
+                                answer: 22,
+                                acceptedAnswers: [22],
+                                successMessage: 'Perfect calculation! The gears begin to turn as Flint\'s tail wags with excitement.'
+                            },
+                            {
+                                category: 'Subtraction',
+                                title: '💎 Power Crystal Count — Question 2',
+                                story: 'The guardian needs power crystals to fully activate. Its chamber holds 25 dim crystals, but 11 are already glowing with power.',
+                                question: 'The chamber has 25 crystals total. 11 crystals are already glowing. How many more crystals need power?',
+                                answer: 14,
+                                acceptedAnswers: [14],
+                                successMessage: 'Wells channels energy into the remaining crystals! The guardian\'s amber eyes begin to glow.'
+                            }
+                        ],
+                        finalMessage: 'A low chime echoes as the last crystal clicks home. The Sandsteel Guardian bows and drops a fist-sized metal capsule, its facets shifting like desert plates—an intriguing mystery for your next rest stop!'
                     }
                 }
             },
@@ -4418,7 +4481,7 @@
                         missions: [
                             {
                                 category: 'Addition',
-                                title: '🐚 Shell Count — Mission 1',
+                                title: '🐚 Shell Count — Question 1',
                                 story: 'Ferrin spots blue shells floating in the glowing pool.',
                                 question: 'Ferrin sees 6 blue shells. You add 4 more. How many shells now?',
                                 answer: 10,
@@ -4427,7 +4490,7 @@
                             },
                             {
                                 category: 'Subtraction',
-                                title: '💧 Cool Drops — Mission 2',
+                                title: '💧 Cool Drops — Question 2',
                                 story: 'The magical spring needs water drops to power the door.',
                                 question: 'The pool needs 15 drops total. We have 8 drops. How many more drops do we need?',
                                 answer: 7,
@@ -4436,6 +4499,47 @@
                             }
                         ],
                         finalMessage: 'The drum-stone flashes green as gentle ripples spread across the pool! A silver swirl appears on your map—proof your rhythm stirred the springs. Ferrin barks with joy!'
+                    }
+                },
+                day7: {
+                    realm: 'Crystal Glade',
+                    room: 'Shimmering Cavern Depths',
+                    icon: '🕷️',
+                    artwork: 'assets/rooms/rou-day-7-art.jpg',
+                    story: 'Moon-cool mist swirls between crystal pillars. A glassy ice spider hangs above a glowing rune, weaving slippery threads across the path like frozen ropes. Its bright eyes watch every move while Ferrin crouches low, scanning for gaps in the web.\n\n"Snip the cold webs!"',
+                    baseRune: 'Mist Weaver',
+                    runeIcon: '🌫️',
+                    irlChallenge: {
+                        title: '',
+                        icon: '',
+                        type: 'none',
+                        content: {}
+                    },
+                    mathChallenge: {
+                        title: '🕷️ Ice Spider Challenge',
+                        icon: '✨',
+                        description: 'Help Ferrin find gaps in the frozen web to reach the glowing rune!',
+                        missions: [
+                            {
+                                category: 'Subtraction',
+                                title: '🕸️ Web Strands — Question 1',
+                                story: 'The ice spider\'s web blocks the path with icy strands.',
+                                question: 'The web holds 8 icy strands. We quietly snip away 4. How many strands still stretch across?',
+                                answer: 4,
+                                acceptedAnswers: [4],
+                                successMessage: 'Perfect snipping! Ferrin\'s tail wags as the web becomes easier to navigate.'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '❄️ Frost Beads — Question 2',
+                                story: 'Each remaining strand holds frost beads that sparkle in the moonlight.',
+                                question: '4 strands are left from Question 1. Each strand holds 3 frost beads. How many beads sparkle now?',
+                                answer: 12,
+                                acceptedAnswers: [12],
+                                successMessage: 'Ferrin counts perfectly! The frost beads glimmer as you find the safe path through.'
+                            }
+                        ],
+                        finalMessage: 'The last snip snaps with a soft ting! The spider scuttles back into the mist, and the freed stone rune rises on a column of cool air. Ferrin noses it toward Rou—the shimmering 🌫️ Mist Weaver settles gently into his pouch, lighting the cavern with soft blue glow!'
                     }
                 }
             }
@@ -5364,14 +5468,12 @@
             gameState[currentPlayer].mathCompleted = true;
             gameState[currentPlayer].completedDays.push(gameState[currentPlayer].currentDay);
             
-            // Check for rune reward from official schedule
-            const daySchedule = gameSchedule.schedule.find(d => d.day === currentDay);
-            const playerSchedule = daySchedule[currentPlayer];
-            const hasRune = playerSchedule.runeDropped && playerSchedule.runeDropped !== 'None';
+            // Check for rune reward from room data
+            const hasRune = dayContent.baseRune && dayContent.baseRune !== null;
             
             // Add the rune to collection if one is awarded
             if (hasRune) {
-                addRuneToCollection(currentPlayer, playerSchedule.runeDropped);
+                addRuneToCollection(currentPlayer, dayContent.baseRune);
             }
             
             updateChallengeButtons();
@@ -5380,11 +5482,16 @@
             const hasIRLChallenge = dayContent.irlChallenge.type !== 'none';
             const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
             
-            // Check for loot reward from official schedule
-            const hasLoot = playerSchedule.lootTier && playerSchedule.lootTier !== 'None';
+            // Check for loot reward from room data ONLY
+            const hasLoot = dayContent.baseLoot && dayContent.baseLoot.tier && dayContent.baseLoot.tier !== 'none';
             
-            // Show final completion message for Day 3 and Day 4
-            if (currentDay === 3 || (currentDay === 4 && currentPlayer === 'rou')) {
+            console.log('Loot detection (room data only):', { 
+                hasLoot, 
+                dayContentBaseLoot: dayContent.baseLoot 
+            });
+            
+            // Show final completion message for specific days with final messages
+            if (currentDay === 3 || (currentDay === 4 && currentPlayer === 'rou') || (currentDay === 7 && currentPlayer === 'wells')) {
                 let finalMessage, completionTitle, completionIcon;
                 
                 if (currentPlayer === 'wells' && currentDay === 3) {
@@ -5393,6 +5500,12 @@
                         'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!';
                     completionTitle = 'Prism Sun Obelisk Complete!';
                     completionIcon = '☀️';
+                } else if (currentPlayer === 'wells' && currentDay === 7) {
+                    const mathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
+                    finalMessage = mathChallenge.finalMessage || 
+                        'A low chime echoes as the last crystal clicks home. The Sandsteel Guardian bows and drops a fist-sized metal capsule, its facets shifting like desert plates—an intriguing mystery for your next rest stop!';
+                    completionTitle = 'Dawn\'s Edge Plateau Complete!';
+                    completionIcon = '🌄';
                 } else if (currentPlayer === 'rou') {
                     if (currentDay === 4) {
                         finalMessage = dayContent.mathChallenge2.finalMessage ||
@@ -5416,17 +5529,21 @@
                     () => {
                         // Show rune discovery modal if a rune was awarded
                         if (hasRune) {
-                            showRuneDiscoveryModal(currentPlayer, playerSchedule.runeDropped, () => {
+                            showRuneDiscoveryModal(currentPlayer, dayContent.baseRune, () => {
                                 // After rune modal, show loot modal if applicable, otherwise return to main
                                 if (hasLoot) {
-                                    showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                                    const lootTier = dayContent.baseLoot.tier;
+                                    console.log('Calling showLootModal with lootTier (after rune):', lootTier);
+                                    showLootModal(currentPlayer, currentDay, lootTier);
                                 } else {
                                     closePlayerRoom();
                                 }
                             });
                         } else if (hasLoot) {
                             // Show loot modal, then return to main interface
-                            showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                            const lootTier = dayContent.baseLoot.tier;
+                            console.log('Calling showLootModal with lootTier:', lootTier);
+                            showLootModal(currentPlayer, currentDay, lootTier);
                         } else {
                             // No rune or loot - return directly to main interface
                             closePlayerRoom();
@@ -5436,17 +5553,21 @@
             } else {
                 // Show rune discovery modal first if a rune was awarded
                 if (hasRune) {
-                    showRuneDiscoveryModal(currentPlayer, playerSchedule.runeDropped, () => {
+                    showRuneDiscoveryModal(currentPlayer, dayContent.baseRune, () => {
                         // After rune modal, show loot modal if applicable, otherwise return to main
                         if (hasLoot) {
-                            showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                            const lootTier = dayContent.baseLoot.tier;
+                            console.log('Calling showLootModal with lootTier (no success modal):', lootTier);
+                            showLootModal(currentPlayer, currentDay, lootTier);
                         } else {
                             closePlayerRoom();
                         }
                     });
                 } else if (hasLoot) {
                     // Show loot modal, then return to main interface
-                    showLootModal(currentPlayer, currentDay, playerSchedule.lootTier);
+                    const lootTier = dayContent.baseLoot.tier;
+                    console.log('Calling showLootModal with lootTier (final else):', lootTier);
+                    showLootModal(currentPlayer, currentDay, lootTier);
                 } else {
                     // No rune or loot - return directly to main interface
                     closePlayerRoom();
@@ -5457,37 +5578,51 @@
         }
 
         function showCompletionMessage(content, dayType) {
-            // Check for loot reward from official schedule
-            const daySchedule = gameSchedule.schedule[`day${gameState[currentPlayer].currentDay}`];
-            const playerSchedule = daySchedule[currentPlayer];
-            const hasLoot = playerSchedule.loot && playerSchedule.loot !== 'None';
-            
-            // Show custom day completion modal instead of browser alert
-            showDayCompletionModal(
-                currentPlayer, 
-                gameState[currentPlayer].currentDay, 
-                content, 
-                hasLoot, 
-                hasLoot ? playerSchedule.loot : null
-            );
+            // This function is now handled by completeCurrentChallenge - kept for compatibility
+            console.log('showCompletionMessage called (deprecated):', content, dayType);
         }
 
         function showLootModal(player, day, lootType) {
             const modal = document.getElementById('lootModal');
+            const title = document.getElementById('lootTitle');
             const artwork = document.getElementById('lootArtwork');
             const subtitle = document.getElementById('lootSubtitle');
             const description = document.getElementById('lootDescription');
+            const rarityBox = document.getElementById('lootRarityBox');
             
-            // Play loot sound effect based on tier
-            soundManager.playLootSound(lootType);
+            // Debug logging for loot detection
+            console.log('showLootModal called with:', { player, day, lootType });
             
-            // Configure modal based on player and loot type
-            const lootData = getLootData(player, day, lootType);
+            // Check if this is a "no loot" scenario
+            const hasLoot = lootType && lootType !== 'None' && lootType !== 'none' && lootType !== null && lootType !== '';
+            console.log('hasLoot evaluation:', hasLoot);
             
-            artwork.src = lootData.artwork;
-            artwork.alt = lootData.title;
-            subtitle.textContent = lootData.title;
-            description.textContent = lootData.description;
+            if (hasLoot) {
+                // LOOT FOUND - Show celebratory messaging
+                soundManager.playLootSound(lootType);
+                
+                const lootData = getLootData(player, day, lootType);
+                
+                title.textContent = '💎 Treasure Discovered!';
+                artwork.src = lootData.artwork;
+                artwork.alt = lootData.title;
+                artwork.style.opacity = '1'; // Ensure full opacity for found treasure
+                subtitle.textContent = lootData.title;
+                description.textContent = lootData.description;
+                rarityBox.style.display = 'block';
+                
+            } else {
+                // NO LOOT FOUND - Show appropriate empty messaging
+                // No sound for empty discovery
+                
+                title.textContent = '🔍 Empty Chamber';
+                artwork.src = 'assets/loot/loot_tier_tiny.jpg'; // Use existing tiny loot image as placeholder
+                artwork.alt = 'Empty Chamber';
+                artwork.style.opacity = '0.3'; // Dim the image to show it's empty
+                subtitle.textContent = 'No Treasure Found';
+                description.textContent = 'You searched carefully through every corner, but this chamber holds no treasure today. Keep exploring - adventure awaits!';
+                rarityBox.style.display = 'none'; // Hide the "Rare Discovery" box
+            }
             
             // Show screen border to prevent auto-dimming
             showScreenBorder(player);
@@ -5504,6 +5639,13 @@
                             title: 'Tiny Loot Found!',
                             description: 'Hidden within the ancient Hall of Harmonies, you\'ve discovered valuable treasure!'
                         }
+                    },
+                    day7: {
+                        Medium: {
+                            artwork: 'assets/loot/loot_tier_medium_transformers.png',
+                            title: 'Medium Loot Found!',
+                            description: 'The Sandsteel Guardian rewards your skills with a fist-sized metal capsule, its facets shifting like desert plates—an intriguing mystery for your next rest stop!'
+                        }
                     }
                 },
                 rou: {
@@ -5517,13 +5659,29 @@
                 }
             };
             
-            const config = lootConfigs[player]?.[`day${day}`]?.[lootType];
+            // Check for no loot scenario
+            if (!lootType || lootType === 'None' || lootType === 'none' || lootType === null) {
+                return {
+                    artwork: 'assets/loot/loot_tier_tiny.jpg', // Use existing image as placeholder
+                    title: 'No Treasure Found',
+                    description: 'You searched carefully through every corner, but this chamber holds no treasure today. Keep exploring - adventure awaits!'
+                };
+            }
+            
+            // Handle case-insensitive loot type matching
+            const formattedLootType = lootType ? lootType.charAt(0).toUpperCase() + lootType.slice(1).toLowerCase() : null;
+            const config = lootConfigs[player]?.[`day${day}`]?.[formattedLootType];
             
             return config || {
                 artwork: 'assets/loot/default-loot.png',
-                title: `${lootType} Loot Found!`,
+                title: `${formattedLootType || 'Unknown'} Loot Found!`,
                 description: 'You\'ve discovered treasure during your adventure!'
             };
+        }
+
+        function showNoLootModal(player, day) {
+            // Explicitly show the no-loot version of the modal
+            showLootModal(player, day, null);
         }
 
         function closeLootModal() {
