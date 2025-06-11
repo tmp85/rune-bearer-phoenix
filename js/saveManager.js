@@ -490,7 +490,7 @@ class SaveManager {
           // Show notification
           this.showSyncNotification('📱 Game updated from another device!');
           
-          // Optional: Auto-reload after delay
+          // Optional: Ask before reload (not automatic)
           setTimeout(() => {
             if (confirm('Game progress updated from another device. Refresh to see changes?')) {
               window.location.reload();
