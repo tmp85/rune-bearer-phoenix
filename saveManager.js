@@ -6,6 +6,8 @@ class SaveManager {
     this.saveRef = null;
     this.localSaveKey = 'runeBearerSave';
     this.isInitialized = false;
+    this.isConnecting = false;
+    this.connectedFamilyCode = localStorage.getItem('familyCode');
     
     // Start Firebase auth
     this.initAuth();
@@ -25,16 +27,19 @@ class SaveManager {
       }
 
       // Show family code modal for new users after a short delay
-      setTimeout(() => {
-        this.showFamilyCodeModal();
-      }, 1500);
+      // Skip if already connected to RB25
+      if (!this.connectedFamilyCode) {
+        setTimeout(() => {
+          this.showFamilyCodeModal();
+        }, 1500);
+      }
 
       // Continue with anonymous sign-in for now
       await firebaseAuth.signInAnonymously();
       console.log('SaveManager: Anonymous sign-in successful');
       
       firebaseAuth.onAuthStateChanged((user) => {
-        if (user && !localStorage.getItem('familyCode')) {
+        if (user && !this.connectedFamilyCode) {
           // Only set up anonymous user if no family code
           this.userId = user.uid;
           this.saveRef = firebaseDB.ref(`saves/${this.userId}`);
@@ -44,7 +49,7 @@ class SaveManager {
           
           this.syncSaveData();
           this.setupRealtimeSync();
-        } else if (!localStorage.getItem('familyCode')) {
+        } else if (!this.connectedFamilyCode) {
           this.isOnline = false;
           this.isInitialized = true;
           console.log('SaveManager: Using offline mode');
@@ -190,10 +195,25 @@ class SaveManager {
 
   // Connect to family save system
   async connectToFamilyCode(familyCode) {
+    // Prevent multiple simultaneous connections
+    if (this.isConnecting) {
+      console.log('SaveManager: Already connecting, please wait...');
+      return;
+    }
+
+    // Check if already connected to this family code
+    if (this.connectedFamilyCode === familyCode) {
+      console.log(`SaveManager: Already connected to family code ${familyCode}`);
+      this.showFamilyNotification(`✅ Already connected to family "${familyCode}"`);
+      return;
+    }
+
+    this.isConnecting = true;
     console.log(`SaveManager: Connecting to family code: ${familyCode}`);
     
     // Store family code
     localStorage.setItem('familyCode', familyCode);
+    this.connectedFamilyCode = familyCode;
     
     // Create deterministic user ID from family code
     const familyUserId = `family_${familyCode.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
@@ -222,15 +242,24 @@ class SaveManager {
       await this.syncSaveData();
       this.setupRealtimeSync();
       
-      // Reload page to apply family save after a delay
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // Only reload if switching between different family codes
+      const previousCode = localStorage.getItem('previousFamilyCode');
+      if (previousCode && previousCode !== familyCode) {
+        localStorage.setItem('previousFamilyCode', familyCode);
+        // Reload after a short delay to allow notification to be seen
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        localStorage.setItem('previousFamilyCode', familyCode);
+      }
       
     } catch (error) {
       console.error('SaveManager: Family code connection failed:', error);
       this.showFamilyNotification('❌ Connection failed. Continuing in single-device mode.');
       this.continueAsAnonymous();
+    } finally {
+      this.isConnecting = false;
     }
   }
 
@@ -245,28 +274,40 @@ class SaveManager {
 
   // Show family notification
   showFamilyNotification(message) {
+    // Clear existing notifications first
+    document.querySelectorAll('[data-notification="family"]').forEach(n => {
+      n.style.opacity = '0';
+      setTimeout(() => n.remove(), 300);
+    });
+
     const notification = document.createElement('div');
+    notification.setAttribute('data-notification', 'family');
     notification.style.cssText = `
       position: fixed;
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      background: #4CAF50;
+      background: rgba(0, 0, 0, 0.8);
       color: white;
       padding: 15px 25px;
       border-radius: 10px;
-      z-index: 10001;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      font-weight: bold;
+      font-family: 'Segoe UI', Arial, sans-serif;
       font-size: 16px;
-      max-width: 400px;
+      z-index: 10000;
       text-align: center;
+      transition: opacity 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     `;
+    
     notification.textContent = message;
     document.body.appendChild(notification);
-
+    
+    // Auto-remove after 4 seconds with fade
     setTimeout(() => {
-      notification.remove();
+      if (notification.parentNode) {
+        notification.style.opacity = '0';
+        setTimeout(() => notification.remove(), 300);
+      }
     }, 4000);
   }
 
