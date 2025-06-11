@@ -2776,241 +2776,9 @@
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
         }
 
-        /* Echo-Portal Flash Event Styles */
-        .flash-event-container {
-            margin-top: 20px;
-            text-align: center;
-        }
 
-        .flash-event-btn {
-            background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 50%, #6a1b9a 100%);
-            border: 3px solid #ab47bc;
-            border-radius: 15px;
-            padding: 20px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-family: 'Cinzel', serif;
-            text-align: center;
-            box-shadow: 
-                0 8px 20px rgba(0,0,0,0.3),
-                0 0 20px rgba(171, 71, 188, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
 
-        .flash-event-btn::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            transform: rotate(45deg);
-            animation: flashEventShimmer 3s linear infinite;
-        }
 
-        @keyframes flashEventShimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .flash-event-btn:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 
-                0 12px 30px rgba(0,0,0,0.4),
-                0 0 30px rgba(171, 71, 188, 0.6);
-        }
-
-        .flash-event-icon {
-            font-size: 2em;
-            margin-bottom: 5px;
-            filter: drop-shadow(0 0 10px rgba(171, 71, 188, 0.8));
-        }
-
-        .flash-event-title {
-            font-size: 1.3em;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 2px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-        }
-
-        .flash-event-subtitle {
-            font-size: 0.9em;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            opacity: 0.9;
-            margin-bottom: 5px;
-        }
-
-        .flash-event-description {
-            font-size: 0.8em;
-            font-family: 'Crimson Text', serif;
-            font-style: italic;
-            opacity: 0.8;
-        }
-
-        /* Echo-Portal Modal Styles */
-        .echo-portal-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1500;
-            overflow-y: auto;
-        }
-
-        .echo-portal-modal-content {
-            background: linear-gradient(135deg, #6a1b9a 0%, #8e24aa 50%, #6a1b9a 100%);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 900px;
-            margin: 5% auto;
-            border: 3px solid #ab47bc;
-            box-shadow: 
-                0 20px 40px rgba(0,0,0,0.5),
-                inset 0 2px 10px rgba(255,255,255,0.1),
-                0 0 30px rgba(171, 71, 188, 0.6),
-                0 0 60px rgba(171, 71, 188, 0.3);
-            position: relative;
-            color: white;
-            font-family: 'Crimson Text', 'Times New Roman', serif;
-        }
-
-        .echo-portal-close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.5em;
-            cursor: pointer;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.3s ease;
-        }
-
-        .echo-portal-close-btn:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .echo-portal-title {
-            text-align: center;
-            color: white;
-            font-size: 2.2em;
-            margin-bottom: 20px;
-            font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            font-family: 'Cinzel', serif;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        .echo-portal-content {
-            color: white;
-        }
-
-        /* Flash event animation for modal */
-        @keyframes flashPortalModal {
-            0%, 100% { 
-                box-shadow: 
-                    0 20px 40px rgba(0,0,0,0.5),
-                    inset 0 2px 10px rgba(255,255,255,0.1),
-                    0 0 30px rgba(171, 71, 188, 0.6),
-                    0 0 60px rgba(171, 71, 188, 0.3);
-            }
-            50% { 
-                box-shadow: 
-                    0 20px 40px rgba(0,0,0,0.5),
-                    inset 0 2px 10px rgba(255,255,255,0.1),
-                    0 0 40px rgba(171, 71, 188, 0.8), 
-                    0 0 80px rgba(171, 71, 188, 0.4);
-            }
-        }
-
-        .echo-portal-modal-content {
-            animation: flashPortalModal 3s ease-in-out infinite;
-        }
-
-        .echo-portal-letter-slot {
-            width: 50px;
-            height: 50px;
-            border: 2px solid #ab47bc;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8em;
-            font-weight: bold;
-            color: white;
-            background: rgba(0,0,0,0.4);
-            transition: all 0.3s ease;
-            font-family: 'Cinzel', serif;
-        }
-
-        .echo-portal-letter-slot.filled {
-            background: linear-gradient(135deg, #ab47bc, #8e24aa);
-            border-color: #e1bee7;
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(171, 71, 188, 0.5);
-        }
-
-        .echo-portal-rune-stone {
-            background: linear-gradient(145deg, #616161, #424242);
-            border-radius: 8px;
-            padding: 8px;
-            text-align: center;
-            color: #ffd700;
-            font-weight: bold;
-            font-size: 0.9em;
-            box-shadow: 
-                0 3px 8px rgba(0,0,0,0.3),
-                inset 0 1px 3px rgba(255,255,255,0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            user-select: none;
-            border: 1px solid #757575;
-        }
-
-        .echo-portal-rune-stone:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 
-                0 6px 15px rgba(0,0,0,0.4),
-                0 0 10px rgba(255,215,0,0.3);
-        }
-
-        .echo-portal-rune-stone:active {
-            transform: translateY(0) scale(1.02);
-        }
-
-        .echo-portal-ancient-letter {
-            font-size: 1.4em;
-            display: block;
-            margin-bottom: 2px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            font-family: 'Cinzel', serif;
-            font-weight: 600;
-        }
-
-        .echo-portal-cipher-number {
-            font-size: 0.9em;
-            opacity: 0.9;
-            font-family: 'Crimson Text', serif;
-            font-weight: 400;
-        }
     </style>
 </head>
 <body>
@@ -3052,15 +2820,7 @@
                     <img src="assets/lore/rune_realm_split_sm.jpg" alt="Rune Realm" class="background-art">
                 </div>
                 
-                <!-- Echo-Portal Flash Event Button -->
-                <div class="flash-event-container">
-                    <button class="flash-event-btn" onclick="triggerEchoPortalEvent()">
-                        <div class="flash-event-icon">🔮</div>
-                        <div class="flash-event-title">ECHO-PORTAL</div>
-                        <div class="flash-event-subtitle">Flash Event</div>
-                        <div class="flash-event-description">Collaborative Challenge</div>
-                    </button>
-                </div>
+                
                 </div>
                 
             <!-- Rou Player Card -->
@@ -3901,80 +3661,7 @@
     <!-- Screen Border for Anti-Dimming -->
     <div id="screenBorder" class="screen-border"></div>
 
-    <!-- Echo-Portal Flash Event Modal -->
-    <div id="echoPortalModal" class="echo-portal-modal">
-        <div class="echo-portal-modal-content">
-            <button class="echo-portal-close-btn" onclick="closeEchoPortalEvent()">✕</button>
-            
-            <h1 class="echo-portal-title">🔮 ECHO-PORTAL FLASH EVENT</h1>
-            
-            <div class="echo-portal-content">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding: 0 50px;">
-                    <div style="width: 80px; height: 80px; border-radius: 10px; border: 2px solid rgba(255, 193, 7, 0.5); background: rgba(255, 193, 7, 0.1); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                        <img src="assets/special/sun_icon.png" alt="Sun Portal" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-                    </div>
-                    <div style="text-align: center; padding: 0 30px; flex: 1;">
-                        <div style="width: 150px; height: 150px; border-radius: 10px; border: 3px solid #ab47bc; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto; box-shadow: 0 8px 20px rgba(0,0,0,0.4), 0 0 20px rgba(171, 71, 188, 0.3); overflow: hidden;">
-                            <img src="assets/special/PRISM_SEER.jpg" alt="Prism Seer" style="width: 100%; height: 100%; object-fit: cover; border-radius: 7px;" />
-                        </div>
-                    </div>
-                    <div style="width: 80px; height: 80px; border-radius: 10px; border: 2px solid rgba(63, 81, 181, 0.5); background: rgba(63, 81, 181, 0.1); display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                        <img src="assets/special/moon_icon.png" alt="Moon Portal" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px;" />
-                    </div>
-                </div>
 
-                <div style="background: rgba(0,0,0,0.3); color: white; padding: 15px; border-radius: 10px; font-size: 1.1em; text-align: center; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.2); font-family: 'Crimson Text', serif; font-style: italic; font-weight: 400;">
-                    "The portals have aligned! Together, Wells and Rou, decode the ancient cipher. Six runes form the name of a warrior's hand-sheath. Only by combining your sacred numbers can the Echo-Portal be opened!"
-                </div>
-
-                <div id="echoPortalSuccessMessage" style="padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px; font-weight: 600; display: none; font-family: 'Crimson Text', serif; font-size: 1.1em; background: linear-gradient(135deg, #4caf50, #388e3c); color: white; border: 2px solid #66bb6a;">
-                    🎉 The cipher shatters with a crystalline CRACK! Both portals blaze with unified light! 🎉
-                </div>
-
-                <div id="echoPortalErrorMessage" style="padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px; font-weight: 600; display: none; font-family: 'Crimson Text', serif; font-size: 1.1em; background: linear-gradient(135deg, #f44336, #d32f2f); color: white; border: 2px solid #ef5350;">
-                    The cipher remains sealed. The portals flicker... try again, brave ones!
-                </div>
-
-                <div id="echoPortalHintMessage" style="padding: 15px; border-radius: 10px; text-align: center; margin-bottom: 15px; font-weight: 600; display: none; font-family: 'Crimson Text', serif; font-size: 1.1em; background: linear-gradient(135deg, #ff9800, #f57c00); color: white; border: 2px solid #ffb74d;">
-                    💡 Hint: Warriors need protection for their hands... What do they wear when wielding weapons?
-                </div>
-
-                <div style="background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; margin-bottom: 25px; border: 2px solid rgba(255,255,255,0.2);">
-                    <div style="color: #e1bee7; font-size: 1.3em; text-align: center; margin-bottom: 20px; font-weight: 600; font-family: 'Cinzel', serif; letter-spacing: 1px; text-transform: uppercase;">📜 CIPHER ASSEMBLY</div>
-                    <div id="echoPortalLetterSlots" style="display: flex; justify-content: center; gap: 12px; margin-bottom: 20px;">
-                        <div class="echo-portal-letter-slot" data-position="0"></div>
-                        <div class="echo-portal-letter-slot" data-position="1"></div>
-                        <div class="echo-portal-letter-slot" data-position="2"></div>
-                        <div class="echo-portal-letter-slot" data-position="3"></div>
-                        <div class="echo-portal-letter-slot" data-position="4"></div>
-                        <div class="echo-portal-letter-slot" data-position="5"></div>
-                    </div>
-                    <div style="display: flex; justify-content: center; gap: 15px;">
-                        <button onclick="clearEchoPortalWord()" style="padding: 12px 25px; font-size: 1em; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; color: white; font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: 0.5px; background: linear-gradient(135deg, #5d4037, #3e2723); border: 1px solid #6d4c41;">Clear All</button>
-                        <button id="echoPortalSubmitBtn" onclick="submitEchoPortalWord()" disabled style="padding: 12px 25px; font-size: 1em; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; color: white; font-family: 'Cinzel', serif; text-transform: uppercase; letter-spacing: 0.5px; background: linear-gradient(135deg, #388e3c, #2e7d32); border: 1px solid #4caf50;">Submit Cipher</button>
-                    </div>
-                </div>
-
-                <div style="background: rgba(255,255,255,0.9); border-radius: 15px; padding: 20px; margin-bottom: 25px; display: flex; gap: 20px;">
-                    <div style="flex: 1; padding: 15px; border-radius: 10px; text-align: center; border: 2px solid #ff8f00; background: linear-gradient(135deg, #fff3e0, #ffe0b2); color: #e65100;">
-                        <div style="font-size: 1.2em; font-weight: 600; margin-bottom: 10px; font-family: 'Cinzel', serif; letter-spacing: 0.5px;">WELLS' SACRED NUMBERS</div>
-                        <div style="font-size: 1.8em; font-weight: bold; letter-spacing: 3px; font-family: 'Cinzel', serif;">7, 15, 5</div>
-                    </div>
-                    <div style="flex: 1; padding: 15px; border-radius: 10px; text-align: center; border: 2px solid #1976d2; background: linear-gradient(135deg, #e3f2fd, #bbdefb); color: #0d47a1;">
-                        <div style="font-size: 1.2em; font-weight: 600; margin-bottom: 10px; font-family: 'Cinzel', serif; letter-spacing: 0.5px;">ROU'S SACRED NUMBERS</div>
-                        <div style="font-size: 1.8em; font-weight: bold; letter-spacing: 3px; font-family: 'Cinzel', serif;">12, 22, 19</div>
-                    </div>
-                </div>
-
-                <div style="background: rgba(0,0,0,0.4); border-radius: 15px; padding: 20px; border: 2px solid rgba(255,255,255,0.2);">
-                    <div style="color: #e1bee7; font-size: 1.3em; text-align: center; margin-bottom: 20px; font-weight: 600; font-family: 'Cinzel', serif; letter-spacing: 1px; text-transform: uppercase;">🗿 ANCIENT CIPHER STONES</div>
-                    <div id="echoPortalRuneGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 10px; max-height: 300px; overflow-y: auto;">
-                        <!-- Letters A-Z will be generated by JavaScript -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script>
         // Predefined Rune Collections - OFFICIAL SCHEDULE
@@ -4467,6 +4154,49 @@
                         ],
                         finalMessage: 'A low chime echoes as the last crystal clicks home. The Sandsteel Guardian bows and drops a fist-sized metal capsule, its facets shifting like desert plates—an intriguing mystery for your next rest stop!'
                     }
+                },
+                day8: {
+                    realm: 'Dawnbreak Expanse',
+                    room: 'Luminous Garden',
+                    icon: '🌻',
+                    artwork: 'assets/rooms/wells-day-8-art.jpg',
+                    story: 'Warm light filters through towering sun-lilies. Bioluminescent petals drift like fireflies, tracing golden spirals in the air. At the garden\'s heart rises a crystal nest holding a single glowing plume, hovering just out of reach. Flint\'s ember-sense tingles—heat spirals curl beneath the plume, promising lift if Wells can guide them.',
+                    baseRune: 'Sky Feather',
+                    runeIcon: '🪶',
+                    
+                    irlChallenge: {
+                        title: '',
+                        icon: '',
+                        type: 'none',
+                        content: {}
+                    },
+                    
+                    mathChallenge: {
+                        title: '🌻 Luminous Garden Challenge',
+                        icon: '🔶',
+                        description: 'Help Flint gather the heat-drops needed to reach the glowing plume!',
+                        missions: [
+                            {
+                                category: 'Multiplication',
+                                title: '🌸 Petal Arrays — Question 1',
+                                story: 'Three sun-lily clusters bloom in the warm light. Each cluster shows 4 glowing petals, but a beetle nibbled 1 petal from two clusters.',
+                                question: 'Three sun-lily clusters bloom. Each cluster shows 4 glowing petals, but a beetle nibbled 1 petal from two clusters. How many petals still shine?',
+                                answer: 10,
+                                acceptedAnswers: [10],
+                                successMessage: 'Perfect calculation! Flint\'s ember-sense detects the remaining petals glowing brighter in response.'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '🔥 Heat-Drop Mix — Question 2',
+                                story: 'Each shining petal needs 6 heat-drops to create the warm up-draft. Wells and Flint already stocked 28 heat-drops from previous adventures.',
+                                question: 'Each shining petal needs 6 heat-drops. We already stocked 28 heat-drops. Using your answer from Question 1, how many more must we gather?',
+                                answer: 32,
+                                acceptedAnswers: [32],
+                                successMessage: 'Excellent work! Flint helps gather the remaining heat-drops as warm spirals begin to form beneath the plume.'
+                            }
+                        ],
+                        finalMessage: 'The last heat-drop clicks into place. A warm up-draft swirls, and the plume drifts into Wells\'s palm, its filaments flashing prismatic rays. Light condenses into the 🪶 Sky Feather, weightless and bright. Flint barks approval as every sun-lily glows in chorus, guiding their path onward!'
+                    }
                 }
             },
             rou: {
@@ -4861,6 +4591,71 @@
                             }
                         ],
                         finalMessage: 'The last snip snaps with a soft ting! The spider scuttles back into the mist, and the freed stone rune rises on a column of cool air. Ferrin noses it toward Rou—the shimmering 🌫️ Mist Weaver settles gently into his pouch, lighting the cavern with soft blue glow!'
+                    }
+                },
+                day8: {
+                    realm: 'Crystal Glade',
+                    room: 'Frozen Waterfall',
+                    icon: '❄️',
+                    artwork: 'assets/rooms/rou-day-8-art.jpg',
+                    story: 'A towering sheet of blue-white ice blocks the passage. Beneath its glassy surface lies a weather-worn stone tablet veiled by frost. Silver mist seeps from tiny cracks while Ferrin\'s paws crunch softly in the snow.\n\n"Let\'s read the words!"',
+                    baseRune: 'Frostthorn Crown',
+                    runeIcon: '👑',
+                    
+                    irlChallenge: {
+                        title: '📖 Unlock the Ice Script',
+                        icon: '📚',
+                        type: 'reading',
+                        content: {
+                            instructions: [
+                                'Parent action: Scratch six frost-windows on the tablet, revealing these simple lines:',
+                                'FIND THE PATH',
+                                'STEP ON ICE', 
+                                'COUNT THE STARS',
+                                'BRAVE THE COLD',
+                                'FOLLOW THE LIGHT',
+                                'Rou\'s task: Read each line aloud, pausing so the frozen air hums after every phrase'
+                            ],
+                            reading_text: [
+                                'Find the path!',
+                                'Step on ice!',
+                                'Count the stars!',
+                                'Brave the cold!',
+                                'Follow the light!'
+                            ],
+                            reference: [
+                                'When the final sentence rings out, cracks zig-zag through the waterfall',
+                                'An ice bridge slides into place - tap IRL Done once Rou finishes reading'
+                            ],
+                            successMessage: 'Rou\'s voice echoes through the frozen air! The ice tablet glows bright blue as each word resonates. Cracks spread across the waterfall like lightning, and a crystalline bridge slides into place with a deep, rumbling THOOM!'
+                        }
+                    },
+                    
+                    mathChallenge: {
+                        title: '❄️ Frozen Waterfall Challenge',
+                        icon: '🔶',
+                        description: 'Help Ferrin count the icicles and frost drops to cross the ice bridge!',
+                        missions: [
+                            {
+                                category: 'Subtraction',
+                                title: '🧊 Icicle Count — Question 1',
+                                story: 'Twelve long icicles hang from the frozen waterfall above.',
+                                question: 'Twelve long icicles hang. Five snap off and fall. How many stay?',
+                                answer: 7,
+                                acceptedAnswers: [7],
+                                successMessage: 'Perfect counting! Ferrin\'s tail wags as the remaining icicles glisten in the moonlight.'
+                            },
+                            {
+                                category: 'Multiplication',
+                                title: '💧 Frost Drops — Question 2',
+                                story: 'Each icicle still hanging drips frost-drops that sparkle as they fall.',
+                                question: 'Each icicle still hanging drips 3 frost-drops. Using your last answer, how many drops fall in all?',
+                                answer: 21,
+                                acceptedAnswers: [21],
+                                successMessage: 'Excellent work! The frost-drops create a magical pattern as they fall into the snow.'
+                            }
+                        ],
+                        finalMessage: 'The waterfall parts with a shimmering hum. From the opening glides a delicate 👑 Frostthorn Crown, sapphire thorns sparkling in moon-light. Ferrin noses it toward Rou as the new path glitters ahead!'
                     }
                 }
             }
@@ -5546,8 +5341,55 @@
         }
 
         function populateReadingModal(irlChallenge) {
-            // Similar implementation for reading - use only JSON content
-            // For now, keep existing hardcoded content until reading challenges need updates
+            const modal = document.getElementById('readingModal');
+            const header = modal.querySelector('.piano-modal-header');
+            const storyContext = modal.querySelector('.piano-story-context');
+            const challengeDesc = modal.querySelector('.piano-challenge-desc');
+            const instructions = modal.querySelector('.piano-instructions-modal');
+            const completeBtn = modal.querySelector('.piano-complete-btn');
+            
+            // Use ONLY JSON content
+            header.innerHTML = `${irlChallenge.icon} ${irlChallenge.title}`;
+            
+            // Hide hardcoded content
+            storyContext.style.display = 'none';
+            challengeDesc.style.display = 'none';
+            
+            // Build instructions from JSON only
+            let instructionsHTML = '';
+            
+            if (irlChallenge.content.instructions && irlChallenge.content.instructions.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📋 Instructions:</h4>`;
+                instructionsHTML += `<ul style="padding-left: 20px; line-height: 1.6;">`;
+                irlChallenge.content.instructions.forEach(instruction => {
+                    instructionsHTML += `<li>${instruction}</li>`;
+                });
+                instructionsHTML += `</ul>`;
+            }
+            
+            // Add Rou's reading text with double font size (2em)
+            if (irlChallenge.content.reading_text && irlChallenge.content.reading_text.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📖 Rou's Reading Text:</h4>`;
+                instructionsHTML += `<div style="background: rgba(168, 85, 247, 0.2); padding: 20px; border-radius: 10px; margin: 15px 0; border: 2px solid #A855F7;">`;
+                irlChallenge.content.reading_text.forEach(text => {
+                    instructionsHTML += `<div style="font-size: 2em; font-weight: bold; margin: 10px 0; text-align: center; color: #A855F7; font-family: 'Cinzel', serif;">${text}</div>`;
+                });
+                instructionsHTML += `</div>`;
+            }
+            
+            if (irlChallenge.content.reference && irlChallenge.content.reference.length > 0) {
+                instructionsHTML += `<h4 style="color: var(--primary-orange); margin: 20px 0 10px 0;">📖 Reference:</h4>`;
+                instructionsHTML += `<ul style="padding-left: 20px; line-height: 1.6;">`;
+                irlChallenge.content.reference.forEach(ref => {
+                    instructionsHTML += `<li>${ref}</li>`;
+                });
+                instructionsHTML += `</ul>`;
+            }
+            
+            instructions.innerHTML = instructionsHTML;
+            
+            // Update button text from JSON
+            completeBtn.textContent = `Complete ${irlChallenge.title}`;
         }
 
         function closePianoModal() {
@@ -5654,304 +5496,7 @@
             saveGameState();
         }
 
-        // Echo-Portal Flash Event Functions
-        let echoPortalCurrentWord = [];
-        let echoPortalAttempts = 0;
-        const echoPortalTargetNumbers = [7, 15, 5, 12, 22, 19];
-        const echoPortalCorrectWord = "GLOVES";
 
-        // Echo-Portal Sound Functions
-        const playPortalOpenSound = () => {
-            const audio = new Audio('assets/audio/sfx/mystic_portal_open.mp3');
-            audio.volume = 0.8;
-            audio.play().catch(e => console.log('Portal audio play failed:', e));
-        };
-
-        const playGauntletsDropSound = () => {
-            const audio = new Audio('assets/audio/sfx/gauntlets_dropping.mp3');
-            audio.volume = 0.7;
-            audio.play().catch(e => console.log('Gauntlets audio play failed:', e));
-        };
-
-        function triggerEchoPortalEvent() {
-            // Check if event has already been completed
-            const eventData = JSON.parse(localStorage.getItem('echoPortalFlashEvent') || '{}');
-            
-            if (eventData.completed) {
-                // Show already completed message
-                showSuccessModal(
-                    '🔮',
-                    'Echo-Portal Event Complete!',
-                    'You have already mastered the Prism Seer\'s cipher! The enchanted gloves rest safely in your inventory. The Echo-Portal event can only be completed once.',
-                    'wells',
-                    () => {}
-                );
-                return;
-            }
-            
-            // Show the Echo-Portal modal (like other game modals)
-            document.getElementById('echoPortalModal').style.display = 'block';
-            initializeEchoPortalCipher();
-        }
-
-        function initializeEchoPortalCipher() {
-            // Play portal opening sound effect
-            playPortalOpenSound();
-            
-            const runeGrid = document.getElementById('echoPortalRuneGrid');
-            runeGrid.innerHTML = '';
-            
-            for (let i = 1; i <= 26; i++) {
-                const letter = String.fromCharCode(64 + i); // A=65, B=66, etc.
-                const runeStone = document.createElement('div');
-                runeStone.className = 'echo-portal-rune-stone';
-                runeStone.onclick = () => addEchoPortalLetter(letter, i);
-                
-                runeStone.innerHTML = `
-                    <span class="echo-portal-ancient-letter">${letter}</span>
-                    <span class="echo-portal-cipher-number">${i}</span>
-                `;
-                
-                runeGrid.appendChild(runeStone);
-            }
-            
-            // Reset state
-            echoPortalCurrentWord = [];
-            echoPortalAttempts = 0;
-            updateEchoPortalDisplay();
-            hideEchoPortalMessages();
-        }
-
-        function addEchoPortalLetter(letter, number) {
-            if (echoPortalCurrentWord.length < 6) {
-                echoPortalCurrentWord.push(letter);
-                updateEchoPortalDisplay();
-                hideEchoPortalMessages();
-                
-                // Visual feedback
-                const runeStones = document.querySelectorAll('.echo-portal-rune-stone');
-                runeStones[number - 1].style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    runeStones[number - 1].style.transform = '';
-                }, 150);
-            }
-        }
-
-        function updateEchoPortalDisplay() {
-            const slots = document.querySelectorAll('.echo-portal-letter-slot');
-            const submitBtn = document.getElementById('echoPortalSubmitBtn');
-            
-            // Update letter slots
-            slots.forEach((slot, index) => {
-                if (echoPortalCurrentWord[index]) {
-                    slot.textContent = echoPortalCurrentWord[index];
-                    slot.classList.add('filled');
-                } else {
-                    slot.textContent = '';
-                    slot.classList.remove('filled');
-                }
-            });
-            
-            // Enable/disable submit button
-            submitBtn.disabled = echoPortalCurrentWord.length !== 6;
-        }
-
-        function clearEchoPortalWord() {
-            echoPortalCurrentWord = [];
-            updateEchoPortalDisplay();
-            hideEchoPortalMessages();
-        }
-
-        function submitEchoPortalWord() {
-            const word = echoPortalCurrentWord.join('');
-            echoPortalAttempts++;
-            
-            if (word === echoPortalCorrectWord) {
-                showEchoPortalSuccess();
-            } else {
-                showEchoPortalError();
-                if (echoPortalAttempts >= 3) {
-                    showEchoPortalHint();
-                }
-            }
-        }
-
-        function showEchoPortalSuccess() {
-            const successMsg = document.getElementById('echoPortalSuccessMessage');
-            successMsg.style.display = 'block';
-            hideEchoPortalMessages(['error', 'hint']);
-            
-            // Celebration animation
-            setTimeout(() => {
-                showEchoPortalRewardModal();
-            }, 1500);
-        }
-
-        function showEchoPortalError() {
-            const errorMsg = document.getElementById('echoPortalErrorMessage');
-            errorMsg.style.display = 'block';
-            hideEchoPortalMessages(['success', 'hint']);
-            
-            setTimeout(() => {
-                errorMsg.style.display = 'none';
-            }, 3000);
-        }
-
-        function showEchoPortalHint() {
-            const hintMsg = document.getElementById('echoPortalHintMessage');
-            hintMsg.style.display = 'block';
-            hideEchoPortalMessages(['success', 'error']);
-        }
-
-        function hideEchoPortalMessages(types = ['success', 'error', 'hint']) {
-            if (types.includes('success')) {
-                document.getElementById('echoPortalSuccessMessage').style.display = 'none';
-            }
-            if (types.includes('error')) {
-                document.getElementById('echoPortalErrorMessage').style.display = 'none';
-            }
-            if (types.includes('hint')) {
-                document.getElementById('echoPortalHintMessage').style.display = 'none';
-            }
-        }
-
-        function showEchoPortalRewardModal() {
-            // Play gauntlets dropping sound effect
-            playGauntletsDropSound();
-            
-            // Create and show reward modal
-            const rewardHTML = `
-                <div style="
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0,0,0,0.9);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 2000;
-                    font-family: 'Crimson Text', serif;
-                ">
-                    <div style="
-                        background: linear-gradient(135deg, #1a237e 0%, #3f51b5 50%, #1a237e 100%);
-                        border: 3px solid #5c6bc0;
-                        border-radius: 20px;
-                        padding: 40px;
-                        text-align: center;
-                        color: white;
-                        max-width: 600px;
-                        box-shadow: 0 0 50px rgba(92, 107, 192, 0.5);
-                    ">
-                        <h2 style="font-family: 'Cinzel', serif; font-size: 2.2em; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-                            🎁 ECHO-PORTAL REWARD 🎁
-                        </h2>
-                        
-                        <div style="
-                            margin: 20px 0;
-                            display: flex;
-                            justify-content: center;
-                            align-items: center;
-                        ">
-                            <img src="assets/special/gauntlet_award.png" alt="Enchanted Gauntlets" 
-                                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-                                 style="
-                                width: 200px;
-                                height: 200px;
-                                object-fit: contain;
-                                border-radius: 15px;
-                                border: 3px solid #5c6bc0;
-                                background: rgba(0,0,0,0.3);
-                                padding: 10px;
-                                box-shadow: 
-                                    0 8px 20px rgba(0,0,0,0.4),
-                                    0 0 20px rgba(92, 107, 192, 0.3);
-                                animation: gauntletGlow 2s ease-in-out infinite;
-                            ">
-                            <div style="
-                                display: none;
-                                width: 200px;
-                                height: 200px;
-                                border-radius: 15px;
-                                border: 3px solid #5c6bc0;
-                                background: linear-gradient(135deg, #ff8f00 0%, #3f51b5 100%);
-                                align-items: center;
-                                justify-content: center;
-                                font-size: 4em;
-                                animation: gauntletGlow 2s ease-in-out infinite;
-                            ">
-                                🧤
-                            </div>
-                        </div>
-                        
-                        <style>
-                            @keyframes gauntletGlow {
-                                0%, 100% { 
-                                    box-shadow: 
-                                        0 8px 20px rgba(0,0,0,0.4),
-                                        0 0 20px rgba(92, 107, 192, 0.3);
-                                }
-                                50% { 
-                                    box-shadow: 
-                                        0 8px 20px rgba(0,0,0,0.4),
-                                        0 0 30px rgba(92, 107, 192, 0.6),
-                                        0 0 40px rgba(92, 107, 192, 0.3);
-                                }
-                            }
-                        </style>
-                        
-                        <p style="font-size: 1.3em; line-height: 1.6; margin-bottom: 20px;">
-                            A shimmering crystal vault materializes from the fading glow! Inside: <strong>Enchanted Gauntlets</strong> - one set in pristine daylight white for Wells, one set in midnight black for Rou.
-                        </p>
-                        <p style="font-size: 1.1em; font-style: italic; margin-bottom: 30px; color: #bbdefb;">
-                            The brothers equip their new gauntlets with steady grip! The Echo-Portal's magic strengthens their bond.
-                        </p>
-                        <button onclick="closeEchoPortalEventComplete()" style="
-                            background: linear-gradient(135deg, #388e3c, #2e7d32);
-                            border: none;
-                            color: white;
-                            padding: 15px 30px;
-                            font-size: 1.1em;
-                            border-radius: 8px;
-                            cursor: pointer;
-                            font-family: 'Cinzel', serif;
-                            text-transform: uppercase;
-                            letter-spacing: 1px;
-                            font-weight: 600;
-                            transition: all 0.3s ease;
-                        " onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
-                            Continue Adventure
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.insertAdjacentHTML('beforeend', rewardHTML);
-        }
-
-        function closeEchoPortalEvent() {
-            document.getElementById('echoPortalModal').style.display = 'none';
-        }
-
-        function closeEchoPortalEventComplete() {
-            // Save completion status to localStorage
-            const eventData = {
-                completed: echoPortalCurrentWord.join('') === echoPortalCorrectWord,
-                timestamp: Date.now(),
-                attempts: echoPortalAttempts
-            };
-            localStorage.setItem('echoPortalFlashEvent', JSON.stringify(eventData));
-            
-            // Remove reward modal
-            const rewardModal = document.querySelector('[style*="z-index: 2000"]');
-            if (rewardModal) {
-                rewardModal.remove();
-            }
-            
-            // Close the main modal
-            closeEchoPortalEvent();
-        }
 
         function startMathChallenge() {
             // Get current day from shared progress

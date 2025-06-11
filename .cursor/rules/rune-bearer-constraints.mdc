@@ -1,0 +1,41 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+---
+type: always
+description: "Rune Bearer project-specific rules and constraints"
+---
+
+# Rune Bearer Project Rules
+
+## Core Principle
+Carefully reflect on the quality and completeness of your work against the specific requirements given. Ensure your implementation fully addresses what was requested without adding unrequested features or changes.
+
+## Technical Constraints
+- **NO localStorage/sessionStorage** - Browser restriction for this deployment
+- Vanilla HTML/CSS/JavaScript only (no frameworks)
+- Client-side only (no backend dependencies)
+- Touchscreen-friendly for Mac Mini deployment
+
+## Game Mechanics (Do Not Modify Without Permission)
+- 8-week challenge: June 2 - July 25, 2025 (40 weekdays)
+- Wells and Rou stay within 1 room of each other (synchronized)
+- Only one child gets IRL task per day, never both
+- Week 1 structure is locked/unchangeable
+- Boss battles: Days 10, 20, 30, 40 (bold formatting)
+- Sub-bosses: Days 5, 15, 25, 35 (colored background)
+- Chicken Jockey: Wells Day 9, Rou Day 29 (bold + light green)
+
+## Content Guidelines
+- **Wells (age 7)**: 6-10 word sentences, vocabulary like "glimmer," "murmur"
+- **Rou (age 6)**: 4-6 word sentences, common sight words only
+- Each realm has distinct environmental flavor
+- Sequential problems must reference previous steps ("You now hold X shards")
+- Companions (Flint/Ferrin) provide contextual hints only
+
+## File Access Restrictions
+- Do not access or modify game schedule files unless explicitly requested
+- Room content files should follow established narrative patterns
+- Maintain existing CSS class naming conventions
