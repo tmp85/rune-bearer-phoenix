@@ -5819,50 +5819,41 @@
             closePlayerRoom();
         }
 
-        function saveGameState() {
-            localStorage.setItem('runeBearerGameState', JSON.stringify(gameState));
-        }
-
-        function loadGameState() {
-            const saved = localStorage.getItem('runeBearerGameState');
-            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
-            
-            if (saved) {
-                gameState = JSON.parse(saved);
-                console.log('Loaded main game state from localStorage');
-            } else {
-                console.log('No saved game state found, using default state');
-            }
-            
-            // Ensure claimedRewards array exists
-            if (!gameState.claimedRewards) {
-                gameState.claimedRewards = [];
-            }
-            
-            // Reset completion states for each room entry to prevent false "completed" status
-            // This ensures challenges always start fresh when entering a room
-            gameState.wells.irlCompleted = false;
-            gameState.wells.mathCompleted = false;
-            gameState.wells.mathProgress = 0;
-            gameState.rou.irlCompleted = false;
-            gameState.rou.mathCompleted = false;
-            gameState.rou.mathProgress = 0;
-            
-            // Always sync with shared progress if it exists (priority over main game state)
-            if (sharedProgress.collectedRunes !== undefined) {
-                console.log('Found shared progress runes, syncing...');
-                // Force sync the rune collections from shared progress
-                if (sharedProgress.collectedRunes.wells !== undefined) {
-                    gameState.wells.collectedRunes = [...sharedProgress.collectedRunes.wells];
-                }
-                if (sharedProgress.collectedRunes.rou !== undefined) {
-                    gameState.rou.collectedRunes = [...sharedProgress.collectedRunes.rou];
-                }
-                console.log('Synced runes on load - Wells:', gameState.wells.collectedRunes, 'Rou:', gameState.rou.collectedRunes);
+        async function saveGameState() {
+            try {
+                await saveManager.saveState(gameState);
+            } catch (error) {
+                console.error('Failed to save game state:', error);
             }
         }
 
-        // DEBUG: Reward-related debug functions REMOVED
+        async function loadGameState() {
+            try {
+                const savedState = await saveManager.loadState();
+                if (savedState) {
+                    gameState = savedState;
+                    console.log('Loaded game state from Firebase');
+                } else {
+                    console.log('No saved game state found, using default state');
+                }
+                
+                // Reset completion states for each room entry to prevent false "completed" status
+                // This ensures challenges always start fresh when entering a room
+                gameState.wells.irlCompleted = false;
+                gameState.wells.mathCompleted = false;
+                gameState.wells.mathProgress = 0;
+                gameState.rou.irlCompleted = false;
+                gameState.rou.mathCompleted = false;
+                gameState.rou.mathProgress = 0;
+                
+                // Ensure claimedRewards array exists
+                if (!gameState.claimedRewards) {
+                    gameState.claimedRewards = [];
+                }
+            } catch (error) {
+                console.error('Failed to load game state:', error);
+            }
+        }
 
         // SAFE DEBUG FUNCTION - NO FUNCTION CALLS, NO LOOPS
         function simpleDebug() {
@@ -5878,17 +5869,24 @@
                 console.log("Sky Feather in Wells?", wells.includes('Sky Feather'));
                 console.log("Mist Weaver in Rou?", rou.includes('Mist Weaver'));
                 
-                // Check localStorage directly without parsing loops
-                const rawProgress = localStorage.getItem('runeBearer_progress');
-                const rawRewards = localStorage.getItem('runeBearer_completedRewards');
-                
-                console.log("localStorage progress (raw):", rawProgress ? "EXISTS" : "NULL");
-                console.log("localStorage rewards (raw):", rawRewards ? "EXISTS" : "NULL");
-                
-                if (rawRewards) {
-                    const completedRewards = JSON.parse(rawRewards);
-                    console.log("Completed reward IDs:", completedRewards);
-                    console.log("Sky Feather-Mist Weaver completed?", completedRewards.includes('Sky Feather-Mist Weaver'));
+                // Check Firebase data
+                const userId = firebaseAuth.currentUser?.uid;
+                if (userId) {
+                    firebaseDB.ref(`users/${userId}/gameState`).once('value')
+                        .then(snapshot => {
+                            const firebaseData = snapshot.val();
+                            console.log("Firebase data:", firebaseData ? "EXISTS" : "NULL");
+                            if (firebaseData?.claimedRewards) {
+                                console.log("Completed reward IDs:", firebaseData.claimedRewards);
+                                console.log("Sky Feather-Mist Weaver completed?", 
+                                    firebaseData.claimedRewards.includes('Sky Feather-Mist Weaver'));
+                            }
+                        })
+                        .catch(error => {
+                            console.error("Error reading Firebase data:", error);
+                        });
+                } else {
+                    console.log("Firebase: No authenticated user");
                 }
                 
             } catch(e) {
@@ -5979,8 +5977,6 @@
         // The reward reference is now a simple static display
         
         // Global function references removed - no more reward fixing functions
-        
-        // Reward rebuild function removed - simple static display only
 
         // Initialize game on page load
         document.addEventListener('DOMContentLoaded', function() {
