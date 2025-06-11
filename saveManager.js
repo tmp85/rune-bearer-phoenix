@@ -1,4 +1,4 @@
-// SaveManager - Handles cloud save syncing for Rune Bearer game
+// SaveManager - Handles cloud save syncing for Rune Bearer game with RB25 Family Code System
 class SaveManager {
   constructor() {
     this.userId = null;
@@ -13,32 +13,38 @@ class SaveManager {
 
   async initAuth() {
     try {
-      // Wait for Firebase to load
       if (typeof firebase === 'undefined') {
         console.log('Firebase not loaded yet, retrying...');
         setTimeout(() => this.initAuth(), 1000);
         return;
       }
 
-      // Sign in anonymously
+      // Check for existing family code first
+      if (this.checkForFamilyCode()) {
+        return; // Family code will handle auth
+      }
+
+      // Show family code modal for new users after a short delay
+      setTimeout(() => {
+        this.showFamilyCodeModal();
+      }, 1500);
+
+      // Continue with anonymous sign-in for now
       await firebaseAuth.signInAnonymously();
       console.log('SaveManager: Anonymous sign-in successful');
       
-      // Listen for auth state changes
       firebaseAuth.onAuthStateChanged((user) => {
-        if (user) {
+        if (user && !localStorage.getItem('familyCode')) {
+          // Only set up anonymous user if no family code
           this.userId = user.uid;
           this.saveRef = firebaseDB.ref(`saves/${this.userId}`);
           this.isOnline = true;
           this.isInitialized = true;
           console.log('SaveManager: Connected to Firebase with user ID:', this.userId);
           
-          // Sync with cloud save
           this.syncSaveData();
-          
-          // Listen for real-time changes
           this.setupRealtimeSync();
-        } else {
+        } else if (!localStorage.getItem('familyCode')) {
           this.isOnline = false;
           this.isInitialized = true;
           console.log('SaveManager: Using offline mode');
@@ -49,6 +55,237 @@ class SaveManager {
       this.isOnline = false;
       this.isInitialized = true;
     }
+  }
+
+  // Show family code input modal with RB25 pre-filled
+  showFamilyCodeModal() {
+    const modal = document.createElement('div');
+    modal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    `;
+
+    modal.innerHTML = `
+      <div style="
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        text-align: center;
+        max-width: 400px;
+        color: white;
+      ">
+        <h2 style="margin: 0 0 20px 0; font-size: 24px;">🏰 Rune Bearer Family</h2>
+        <p style="margin: 0 0 20px 0; font-size: 16px;">Enter family code to sync saves across all devices:</p>
+        
+        <input 
+          type="text" 
+          id="familyCodeInput" 
+          value="RB25"
+          style="
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-weight: bold;
+            background: rgba(255,255,255,0.9);
+          "
+        />
+        
+        <div style="display: flex; gap: 10px;">
+          <button 
+            id="familyCodeConnect" 
+            style="
+              flex: 1;
+              background: #4CAF50;
+              color: white;
+              border: none;
+              padding: 15px;
+              border-radius: 10px;
+              font-size: 16px;
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            Connect to RB25
+          </button>
+          <button 
+            id="familyCodeSkip" 
+            style="
+              flex: 1;
+              background: #666;
+              color: white;
+              border: none;
+              padding: 15px;
+              border-radius: 10px;
+              font-size: 16px;
+              cursor: pointer;
+              font-weight: bold;
+            "
+          >
+            Skip (Single Device)
+          </button>
+        </div>
+        
+        <div style="margin-top: 20px; font-size: 12px; opacity: 0.8;">
+          <p>💡 Use "RB25" for Wells & Rou's shared adventure!</p>
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    const input = document.getElementById('familyCodeInput');
+    const connectBtn = document.getElementById('familyCodeConnect');
+    const skipBtn = document.getElementById('familyCodeSkip');
+
+    // Focus and select all text
+    input.focus();
+    input.select();
+
+    // Handle connect
+    connectBtn.onclick = async () => {
+      const code = input.value.trim().toUpperCase();
+      if (code.length >= 2) {
+        await this.connectToFamilyCode(code);
+        modal.remove();
+      } else {
+        input.style.borderColor = '#f44336';
+        input.placeholder = 'Code must be at least 2 characters';
+      }
+    };
+
+    // Handle skip
+    skipBtn.onclick = () => {
+      modal.remove();
+      this.continueAsAnonymous();
+    };
+
+    // Handle enter key
+    input.onkeypress = (e) => {
+      if (e.key === 'Enter') {
+        connectBtn.click();
+      }
+    };
+
+    // Update button text when code changes
+    input.oninput = () => {
+      const code = input.value.trim();
+      connectBtn.textContent = code ? `Connect to ${code.toUpperCase()}` : 'Connect';
+    };
+  }
+
+  // Connect to family save system
+  async connectToFamilyCode(familyCode) {
+    console.log(`SaveManager: Connecting to family code: ${familyCode}`);
+    
+    // Store family code
+    localStorage.setItem('familyCode', familyCode);
+    
+    // Create deterministic user ID from family code
+    const familyUserId = `family_${familyCode.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+    
+    try {
+      // Sign out current anonymous user
+      if (firebaseAuth.currentUser) {
+        await firebaseAuth.signOut();
+      }
+      
+      // Sign in with anonymous auth but use family ID
+      await firebaseAuth.signInAnonymously();
+      
+      // Override the user ID for family sharing
+      this.userId = familyUserId;
+      this.saveRef = firebaseDB.ref(`saves/${familyUserId}`);
+      this.isOnline = true;
+      this.isInitialized = true;
+      
+      console.log(`SaveManager: Connected to family save system with ID: ${familyUserId}`);
+      
+      // Show success notification
+      this.showFamilyNotification(`✅ Connected to family "${familyCode}"! All devices will now sync.`);
+      
+      // Sync with family save
+      await this.syncSaveData();
+      this.setupRealtimeSync();
+      
+      // Reload page to apply family save after a delay
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+      
+    } catch (error) {
+      console.error('SaveManager: Family code connection failed:', error);
+      this.showFamilyNotification('❌ Connection failed. Continuing in single-device mode.');
+      this.continueAsAnonymous();
+    }
+  }
+
+  // Continue with anonymous user (single device)
+  continueAsAnonymous() {
+    console.log('SaveManager: Continuing with anonymous user (single device mode)');
+    this.showFamilyNotification('📱 Playing in single-device mode');
+    
+    // Continue normal initialization
+    this.isInitialized = true;
+  }
+
+  // Show family notification
+  showFamilyNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 10px;
+      z-index: 10001;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      font-weight: bold;
+      font-size: 16px;
+      max-width: 400px;
+      text-align: center;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.remove();
+    }, 4000);
+  }
+
+  // Check for existing family code on startup
+  checkForFamilyCode() {
+    const existingCode = localStorage.getItem('familyCode');
+    if (existingCode) {
+      console.log(`SaveManager: Found existing family code: ${existingCode}`);
+      // Auto-connect to existing family code
+      this.connectToFamilyCode(existingCode);
+      return true;
+    }
+    return false;
+  }
+
+  // Admin function to reset family code
+  resetFamilyCode() {
+    localStorage.removeItem('familyCode');
+    this.showFamilyNotification('🔄 Family code reset. Refresh to set new code.');
   }
 
   // Wait for SaveManager to be ready
@@ -365,6 +602,30 @@ window.checkSaveStatus = function() {
   const status = window.saveManager.getConnectionStatus();
   console.log('Save Status:', status);
   return status;
+};
+
+// Family Code Admin Functions
+window.showFamilyCodeModal = function() {
+  window.saveManager.showFamilyCodeModal();
+};
+
+window.checkFamilyCode = function() {
+  const code = localStorage.getItem('familyCode');
+  if (code) {
+    console.log('Current family code:', code);
+    return code;
+  } else {
+    console.log('No family code set');
+    return null;
+  }
+};
+
+window.resetFamilyCode = function() {
+  window.saveManager.resetFamilyCode();
+};
+
+window.connectToRB25 = function() {
+  window.saveManager.connectToFamilyCode('RB25');
 };
 
 console.log('SaveManager: Loaded successfully!');
