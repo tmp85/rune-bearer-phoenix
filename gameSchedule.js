@@ -1,4 +1,4 @@
-const gameSchedule = {
+gameSchedule = {
   "scheduleInfo": {
     "title": "Rune Bearer Summer Challenge Schedule - FINAL VERSION",
     "startDate": "2025-06-02",

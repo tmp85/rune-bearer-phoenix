@@ -7,6 +7,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="saveManager.js"></script>
     <script src="gameSchedule.js"></script>
     <style>
         /* Updated Color Palette */
@@ -3964,39 +3969,39 @@
                         missions: [
                             {
                                 category: 'Addition',
-                                title: 'Channel 1: "Count what you mine, meld them as one."',
-                                story: 'Flint uncovers 29 Sun-ore nuggets; you chip 46 more from the vein.',
-                                question: 'How many nuggets altogether?',
-                                answer: 75,
-                                successMessage: 'Channel 1 hisses open! Molten gold streams through!'
+                                title: '🔮 Counting Glyphs — Question 1',
+                                story: 'Inner ring holds 4 glyphs. Middle ring needs twice that. Outer ring shows the inner and middle numbers added together.',
+                                question: 'Inner ring has 4 glyphs. Middle ring has double that (8). Outer ring has inner plus middle. How many glyphs glow in all?',
+                                answer: 24,
+                                successMessage: 'Perfect counting! The rings begin to glow as Flint nudges the first mirror into position.'
                             },
                             {
                                 category: 'Multiplication',
-                                title: 'Channel 2: "Measure each face of fire-stone."',
-                                story: 'Three hexagonal fire-stones lie on the anvil.',
-                                question: 'How many sides in total?',
-                                answer: 18,
-                                successMessage: 'Channel 2 unlocks with a clang! Silver metal flows!'
+                                title: '🔺 Triangle Mirror Panels — Question 2',
+                                story: 'The Prism Sun Obelisk is adorned with 7 triangular mirror-panels, each one perfectly crafted to catch and reflect the sun\'s rays. Wells studies their geometric precision.',
+                                question: 'The obelisk has 7 triangular mirror-panels. Each triangle has 3 sides. How many triangle sides in total?',
+                                answer: 21,
+                                successMessage: '21 - Second socket shimmers silver!'
                             },
                             {
                                 category: 'Division',
-                                title: 'Channel 3: "Pour fairness in fours."',
-                                story: 'The furnace spits out 200 molten droplets. They must be ladled evenly into 4 casting trays.',
-                                question: 'Droplets per tray?',
-                                answer: 50,
-                                successMessage: 'Channel 3 roars to life! Bronze liquid surges forth!'
+                                title: '💫 Light Ring Distribution — Question 3',
+                                story: 'Wells counts 120 precious light shards that must be distributed evenly among the 4 focusing lens-rings of the obelisk. Each ring must receive an equal share for the light to focus properly.',
+                                question: '120 light shards must be split evenly into 4 lens-rings. How many light shards per ring?',
+                                answer: 30,
+                                successMessage: '30 - Third socket pulses bronze!'
                             },
                             {
                                 category: 'Fractions',
-                                title: 'Channel 4: "Cool three parts, keep one aglow."',
-                                story: 'You fill a crucible, then cool three-fourths of the metal for later work.',
-                                question: 'What fraction of hot metal remains?',
-                                answer: 0.25,
-                                acceptedAnswers: [0.25, '1/4', '¼', 'one-fourth', 'one fourth', 'one-quarter', 'one quarter', '1-4'],
-                                successMessage: 'Channel 4 blazes open! Iron torrents complete the forge!'
+                                title: '🪞 Prism Plate Sharing — Question 4',
+                                story: 'Wells discovers a cracked prism plate that has split into 4 equal pieces. He gives 1 piece to Flint to carry safely in his mouth, keeping the remaining pieces for himself.',
+                                question: 'A prism plate is split into 4 equal pieces. Wells gives 1 piece to Flint to carry. What fraction stays with Wells?',
+                                answer: 0.75,
+                                acceptedAnswers: [0.75, '3/4', '¾', 'three-fourths', 'three fourths', 'three-quarters', 'three quarters'],
+                                successMessage: '3/4 - Final socket erupts in rainbow light!'
                             }
                         ],
-                        finalMessage: 'You carve 75, 18, 50, and the 1/4 glyph onto the levers. Each channel unlocks in sequence, molten metal floods the molds, and the forge\'s roar softens to a steady glow. The inner gate slides open, its path glowing amber with reflected heat. Flint barks triumphantly, and together you stride onward to meet Day 5!'
+                        finalMessage: 'Light converges into a single radiant beam; the obelisk\'s summit opens and the **Stormcaller Sigil** rune floats into Wells\'s hand. Flint barks proudly, still carrying his piece of the prism plate, and together they press on toward Day 4!'
                     }
                 },
                 day5: {
@@ -4046,7 +4051,7 @@
                                 successMessage: 'All chains snap at once! The chandelier crashes down as the final crystal explodes in brilliant dawn-light.'
                             }
                         ],
-                        finalMessage: 'The Scrollkeeper nods with ancient respect as his magic fades. Winds swirl around you as you claim the 💎 Crystal Spine! Flint barks proudly—you\'ve proven yourself worthy.'
+                        finalMessage: 'The Scrollkeeper nods with ancient respect as his magic fades. Winds swirl around you as you claim the 💎 Crystal Spine! Flint cheers, his tail aglow with pride!'
                     }
                 },
                 day6: {
