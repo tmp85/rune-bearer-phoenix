@@ -25,8 +25,23 @@ class SaveManager {
       const existingCode = localStorage.getItem('familyCode');
       if (existingCode) {
         this.connectedFamilyCode = existingCode;
-        // Auto-connect to existing family code without showing modal
-        await this.connectToFamilyCode(existingCode, true); // true = silent reconnect
+        // Set up Firebase connection for family code
+        const familyUserId = `family_${existingCode.toLowerCase().replace(/[^a-z0-9]/g, '')}`;
+        
+        // Sign in anonymously first
+        await firebaseAuth.signInAnonymously();
+        
+        // Then set up family connection
+        this.userId = familyUserId;
+        this.saveRef = firebaseDB.ref(`saves/${familyUserId}`);
+        this.isOnline = true;
+        this.isInitialized = true;
+        
+        console.log(`SaveManager: Auto-connected to family code: ${existingCode}`);
+        
+        // Start syncing
+        this.syncSaveData();
+        this.setupRealtimeSync();
         return;
       }
 
@@ -213,7 +228,7 @@ class SaveManager {
 
     // Check if already connected to this family code
     const currentCode = localStorage.getItem('familyCode');
-    if (currentCode === familyCode && this.connectedFamilyCode === familyCode) {
+    if (currentCode === familyCode && this.connectedFamilyCode === familyCode && this.isInitialized) {
       console.log(`SaveManager: Already connected to family code: ${familyCode}`);
       if (!isSilentReconnect) {
         this.showFamilyNotification(`✅ Already connected to family "${familyCode}"!`);
@@ -309,7 +324,6 @@ class SaveManager {
       transition: opacity 0.3s ease;
       opacity: 1;
     `;
-    
     notification.textContent = message;
     document.body.appendChild(notification);
 
@@ -326,7 +340,7 @@ class SaveManager {
     }, 4000);
   }
 
-  // Check for existing family code
+  // Check for existing family code on startup
   checkForFamilyCode() {
     const existingCode = localStorage.getItem('familyCode');
     if (existingCode) {
@@ -336,118 +350,186 @@ class SaveManager {
     return false;
   }
 
-  // Reset family code
+  // Admin function to reset family code
   resetFamilyCode() {
     localStorage.removeItem('familyCode');
     this.connectedFamilyCode = null;
     this.showFamilyNotification('🔄 Family code reset. Refresh to set new code.');
   }
 
-  // Wait for initialization
+  // Wait for SaveManager to be ready
   async waitForInit() {
     while (!this.isInitialized) {
       await new Promise(resolve => setTimeout(resolve, 100));
     }
   }
 
-  // Load save data
-  async loadState() {
+  // Load save data (local first, then sync with cloud)
+  async loadSave() {
     await this.waitForInit();
-    
-    try {
-      if (this.isOnline && this.saveRef) {
-        const snapshot = await this.saveRef.once('value');
-        const saveData = snapshot.val();
-        
-        if (saveData) {
-          console.log('SaveManager: Loaded save from Firebase');
-          return saveData;
-        }
-      }
-      
-      // Try local storage fallback
-      const localSave = localStorage.getItem(this.localSaveKey);
-      if (localSave) {
-        console.log('SaveManager: Loaded save from local storage');
+
+    // Always load local first for immediate UI update
+    const localSave = localStorage.getItem(this.localSaveKey);
+    if (localSave) {
+      try {
         return JSON.parse(localSave);
+      } catch (error) {
+        console.warn('SaveManager: Failed to parse local save:', error);
       }
-      
-    } catch (error) {
-      console.error('SaveManager: Failed to load save:', error);
     }
-    
-    return null;
+
+    // If online, try to load from cloud
+    if (this.isOnline && this.saveRef) {
+      try {
+        const snapshot = await this.saveRef.once('value');
+        const cloudSave = snapshot.val();
+        if (cloudSave) {
+          // Update local storage
+          localStorage.setItem(this.localSaveKey, JSON.stringify(cloudSave));
+          console.log('SaveManager: Loaded save from cloud');
+          return cloudSave;
+        }
+      } catch (error) {
+        console.warn('SaveManager: Failed to load cloud save:', error);
+      }
+    }
+
+    // Return default save structure
+    console.log('SaveManager: Creating new save file');
+    return this.getDefaultSave();
   }
 
-  // Save game state
-  async saveState(saveData) {
-    await this.waitForInit();
-    
-    try {
-      // Always save locally as backup
-      localStorage.setItem(this.localSaveKey, JSON.stringify(saveData));
-      
-      if (this.isOnline && this.saveRef) {
-        await this.saveRef.set(saveData);
-        console.log('SaveManager: Saved to Firebase');
-      } else {
-        console.log('SaveManager: Saved locally only (offline mode)');
+  // Save data (local + cloud)
+  async saveSave(saveData) {
+    // Add timestamp and device info
+    const enhancedSave = {
+      ...saveData,
+      lastUpdated: Date.now(),
+      device: navigator.userAgent.substring(0, 50),
+      gameVersion: '1.0'
+    };
+
+    // Always save locally first
+    localStorage.setItem(this.localSaveKey, JSON.stringify(enhancedSave));
+    console.log('SaveManager: Saved locally');
+
+    // Save to cloud if online
+    if (this.isOnline && this.saveRef) {
+      try {
+        await this.saveRef.set(enhancedSave);
+        console.log('SaveManager: Synced to cloud');
+        this.showSyncStatus('✅ Synced to cloud');
+      } catch (error) {
+        console.warn('SaveManager: Failed to save to cloud:', error);
+        this.showSyncStatus('⚠️ Offline mode');
       }
-      
-    } catch (error) {
-      console.error('SaveManager: Failed to save:', error);
-      throw error; // Re-throw to let game handle error
+    } else {
+      this.showSyncStatus('📱 Offline mode');
     }
   }
 
-  // Sync save data between devices
+  // Sync local and cloud saves
   async syncSaveData() {
-    if (!this.isOnline || !this.saveRef) {
-      return;
-    }
-    
+    if (!this.isOnline || !this.saveRef) return;
+
     try {
       const snapshot = await this.saveRef.once('value');
       const cloudSave = snapshot.val();
-      
-      if (cloudSave) {
-        // Load cloud save
+      const localSaveStr = localStorage.getItem(this.localSaveKey);
+      const localSave = localSaveStr ? JSON.parse(localSaveStr) : null;
+
+      if (!cloudSave && localSave) {
+        // Local save exists, cloud doesn't - upload local
+        console.log('SaveManager: Uploading local save to cloud');
+        await this.saveSave(localSave);
+      } else if (cloudSave && !localSave) {
+        // Cloud save exists, local doesn't - download cloud
+        console.log('SaveManager: Downloading cloud save');
         localStorage.setItem(this.localSaveKey, JSON.stringify(cloudSave));
-        console.log('SaveManager: Synced cloud save to local storage');
-      } else {
-        // Push local save to cloud if exists
-        const localSave = localStorage.getItem(this.localSaveKey);
-        if (localSave) {
-          await this.saveRef.set(JSON.parse(localSave));
-          console.log('SaveManager: Pushed local save to cloud');
+      } else if (cloudSave && localSave) {
+        // Both exist - use most recent
+        const cloudTime = cloudSave.lastUpdated || 0;
+        const localTime = localSave.lastUpdated || 0;
+        
+        if (cloudTime > localTime + 5000) { // 5 second buffer
+          console.log('SaveManager: Using newer cloud save');
+          localStorage.setItem(this.localSaveKey, JSON.stringify(cloudSave));
+          this.showSyncNotification('📱 Game synced from another device!');
+        } else if (localTime > cloudTime + 5000) {
+          console.log('SaveManager: Uploading newer local save');
+          await this.saveSave(localSave);
+        } else {
+          console.log('SaveManager: Saves are in sync');
         }
       }
-      
     } catch (error) {
-      console.error('SaveManager: Failed to sync save data:', error);
+      console.warn('SaveManager: Sync failed:', error);
     }
   }
 
-  // Setup real-time sync
+  // Setup real-time listening for changes from other devices
   setupRealtimeSync() {
-    if (!this.isOnline || !this.saveRef) {
-      return;
-    }
-    
+    if (!this.saveRef) return;
+
     this.saveRef.on('value', (snapshot) => {
       const cloudSave = snapshot.val();
-      if (cloudSave) {
-        localStorage.setItem(this.localSaveKey, JSON.stringify(cloudSave));
-        this.showSyncNotification('📱 Game updated from another device!');
+      if (!cloudSave) return;
+
+      const localSaveStr = localStorage.getItem(this.localSaveKey);
+      const localSave = localSaveStr ? JSON.parse(localSaveStr) : null;
+
+      // Only update if cloud is newer and from different device
+      if (localSave && cloudSave.lastUpdated > (localSave.lastUpdated || 0) + 5000) {
+        const cloudDevice = cloudSave.device || '';
+        const currentDevice = navigator.userAgent.substring(0, 50);
         
-        // Optional: Ask before reload
-        setTimeout(() => {
-          if (confirm('Game progress updated from another device. Refresh to see changes?')) {
-            window.location.reload();
-          }
-        }, 1500);
+        if (cloudDevice !== currentDevice) {
+          console.log('SaveManager: Detected save update from another device');
+          localStorage.setItem(this.localSaveKey, JSON.stringify(cloudSave));
+          
+          // Show notification
+          this.showSyncNotification('📱 Game updated from another device!');
+          
+          // Optional: Auto-reload after delay
+          setTimeout(() => {
+            if (confirm('Game progress updated from another device. Refresh to see changes?')) {
+              window.location.reload();
+            }
+          }, 3000);
+        }
       }
     });
+  }
+
+  // Show sync status
+  showSyncStatus(message) {
+    // Create or update status indicator
+    let statusEl = document.getElementById('saveStatus');
+    if (!statusEl) {
+      statusEl = document.createElement('div');
+      statusEl.id = 'saveStatus';
+      statusEl.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        padding: 8px 12px;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        border-radius: 5px;
+        font-size: 12px;
+        z-index: 9999;
+        transition: opacity 0.3s ease;
+      `;
+      document.body.appendChild(statusEl);
+    }
+    
+    statusEl.textContent = message;
+    statusEl.style.opacity = '1';
+    
+    // Fade out after 3 seconds
+    setTimeout(() => {
+      if (statusEl) statusEl.style.opacity = '0.3';
+    }, 3000);
   }
 
   // Show sync notification with proper cleanup
@@ -459,13 +541,15 @@ class SaveManager {
     notification.setAttribute('data-notification', 'sync');
     notification.style.cssText = `
       position: fixed;
-      bottom: 20px;
+      top: 60px;
       right: 20px;
-      background: #2196F3;
+      background: #4CAF50;
       color: white;
-      padding: 12px 20px;
+      padding: 15px 20px;
       border-radius: 8px;
-      font-size: 14px;
+      z-index: 10000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      font-weight: bold;
       max-width: 300px;
       animation: slideIn 0.3s ease;
       transition: opacity 0.3s ease;
@@ -477,14 +561,8 @@ class SaveManager {
       style.id = 'syncNotificationStyles';
       style.textContent = `
         @keyframes slideIn {
-          from {
-            transform: translateX(100%);
-            opacity: 0;
-          }
-          to {
-            transform: translateX(0);
-            opacity: 1;
-          }
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
         }
       `;
       document.head.appendChild(style);
@@ -506,57 +584,70 @@ class SaveManager {
     }, 5000);
   }
 
-  // Get default save state
+  // Get default save structure
   getDefaultSave() {
     return {
       wells: {
+        currentDay: 1,
+        currentRealm: 'Dawnbreak Expanse',
         irlCompleted: false,
         mathCompleted: false,
         mathProgress: 0,
-        // Add other Wells-specific state here
+        completedRooms: [],
+        collectedRunes: [],
+        completedTasks: []
       },
       rou: {
+        currentDay: 1,
+        currentRealm: 'Crystal Glade',
         irlCompleted: false,
         mathCompleted: false,
         mathProgress: 0,
-        // Add other Rou-specific state here
+        completedRooms: [],
+        collectedRunes: [],
+        completedTasks: []
       },
       claimedRewards: [],
-      // Add other shared state here
+      settings: {
+        adminMode: false,
+        soundEnabled: true
+      },
+      lastUpdated: Date.now(),
+      device: navigator.userAgent.substring(0, 50),
+      gameVersion: '1.0'
     };
   }
 
-  // Admin: Reset save data
+  // Admin functions
   async adminResetSave() {
-    if (!this.isOnline || !this.saveRef) {
-      console.error('SaveManager: Cannot reset save - not connected to Firebase');
-      return;
-    }
+    console.log('SaveManager: Admin reset triggered');
+    const defaultSave = this.getDefaultSave();
+    await this.saveSave(defaultSave);
     
-    try {
-      const defaultSave = this.getDefaultSave();
-      await this.saveRef.set(defaultSave);
-      localStorage.setItem(this.localSaveKey, JSON.stringify(defaultSave));
-      console.log('SaveManager: Reset save data to defaults');
-      this.showFamilyNotification('🔄 Save data reset to defaults');
-    } catch (error) {
-      console.error('SaveManager: Failed to reset save:', error);
-    }
+    // Clear any cached data
+    localStorage.removeItem(this.localSaveKey);
+    
+    // Show confirmation
+    this.showSyncNotification('🔄 Game reset successfully!');
+    
+    // Reload after short delay
+    setTimeout(() => {
+      window.location.reload();
+    }, 2000);
   }
 
-  // Admin: Unlock specific day
   async adminUnlockDay(player, day) {
-    try {
-      const currentSave = await this.loadState() || this.getDefaultSave();
-      currentSave[player.toLowerCase()].unlockedDays = day;
-      await this.saveState(currentSave);
-      console.log(`SaveManager: Unlocked day ${day} for ${player}`);
-    } catch (error) {
-      console.error('SaveManager: Failed to unlock day:', error);
+    console.log(`SaveManager: Admin unlock day ${day} for ${player}`);
+    const save = await this.loadSave();
+    
+    if (save[player]) {
+      save[player].currentDay = Math.max(save[player].currentDay, day);
+      await this.saveSave(save);
+      this.showSyncNotification(`🔓 Unlocked day ${day} for ${player}!`);
     }
   }
 
-  // Get connection status
+  // Check connection status
   getConnectionStatus() {
     return {
       isOnline: this.isOnline,
@@ -564,6 +655,15 @@ class SaveManager {
       initialized: this.isInitialized,
       familyCode: this.connectedFamilyCode
     };
+  }
+
+  // Compatibility aliases for game code that expects different function names
+  saveState(data) {
+    return this.saveSave(data);
+  }
+
+  loadState() {
+    return this.loadSave();
   }
 }
 
@@ -573,11 +673,11 @@ window.saveManager = new SaveManager();
 
 // Provide global helper functions for backwards compatibility
 window.loadGameData = async function() {
-  return await window.saveManager.loadState();
+  return await window.saveManager.loadSave();
 };
 
 window.saveGameData = async function(data) {
-  return await window.saveManager.saveState(data);
+  return await window.saveManager.saveSave(data);
 };
 
 // Admin console functions
