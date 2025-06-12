@@ -1,10 +1,10 @@
 const gameData = {
   "day9": {
     "realm": "Dawnbreak Expanse",
-    "room": "Desert Amphitheater",
+    "room": "Chicken-Jockey Arena",
     "icon": "🪶",
     "artwork": "wells-day-9-art.jpg",
-    "story": "Sun-bleached amphitheatre rings a dust-swirled pit. At its heart rests an aged wooden upright piano, varnish cracked, keys yellowed, faint amber light flickering between the slats. No creatures stir—only shimmering heat.",
+    "story": "Sun-bleached tiers surround a dust-swirled pit. In the centre stands an aged wooden upright piano, varnish cracked, keys yellowed, amber light flickering beneath the lid. Nothing moves—only shimmering heat.",
     "baseRune": "Iron Root",
     "runeIcon": "🌿",
     "lootTier": "big",
@@ -16,9 +16,9 @@ const gameData = {
       "icon": "🎹",
       "type": "piano",
       "content": {
-        "notes": "C C E C F F E C",
+        "notes": "C C E♭ C F F E♭ C",
         "instructions": [
-          "Play the pattern three times: C C E C F F E C",
+          "Play the pattern three times: C C E♭ C F F E♭ C",
           "Strike each note smoothly and clearly",
           "When the melody echoes a third time, mark IRL Done",
           "The piano's amber light will respond to the music"
@@ -31,30 +31,30 @@ const gameData = {
     },
     
     "mathChallenge": {
-      "title": "⚔️ Arena Battle",
+      "title": "⚔️ Boxing Match",
       "icon": "🔶",
-      "description": "A sand-whirl erupts on the final chord! From the dust charges a tiny green rider. Each furious attack lashes iron-grey roots across the gate.",
+      "description": "A gong booms. Sand coils into rope lines, snapping into a boxing ring. From the dust charges a tiny green boxer in dented iron gloves, perched on a flapping desert chicken. The pair bounce in place, feathers swirling.",
       "missions": [
         {
           "category": "Multiplication",
-          "title": "🪶 Feather Flurry — Question 1",
-          "story": "The frantic creature races around the arena, dropping feathers with every lap.",
-          "question": "The creature drops 7 feathers every lap. It's raced around 5 times—how many feathers cover the sand?",
-          "answer": 35,
-          "acceptedAnswers": [35],
-          "successMessage": "Perfect! 35 feathers now litter the arena floor, creating a carpet of battle evidence."
+          "title": "🪶 Jab Count — Question 1",
+          "story": "The chicken fires lightning jabs each round, but you dodge them all. Flint barks coaching tips from your corner.",
+          "question": "The chicken fires <strong>8</strong> lightning jabs each round, but you dodge them all. After <strong>6</strong> rounds, how many jabs were thrown?",
+          "answer": 48,
+          "acceptedAnswers": [48],
+          "successMessage": "Perfect! 48 total jabs—none landed on you!"
         },
         {
           "category": "Multiplication",
-          "title": "⚔️ Root Breaker — Question 2",
-          "story": "Every fallen feather drains root-strength from the iron-grey vines blocking the gate.",
-          "question": "Every fallen feather drains 4 points of root-strength. Using those 35 feathers, what total damage do the roots lose?",
-          "answer": 140,
-          "acceptedAnswers": [140],
-          "successMessage": "Incredible calculation! The massive damage weakens the iron roots completely."
+          "title": "⚔️ Haymaker Drain — Question 2",
+          "story": "Now the jockey tries wild haymakers every round for desperate rounds. Each haymaker drains stamina points.",
+          "question": "Now the jockey tries <strong>5</strong> wild haymakers every round for <strong>4</strong> desperate rounds. Each haymaker drains <strong>12</strong> stamina points. How much stamina drains away?",
+          "answer": 240,
+          "acceptedAnswers": [240],
+          "successMessage": "Incredible calculation! The exhausted rider is completely drained of stamina."
         }
       ],
-      "finalMessage": "Wells calls '140!' A metallic crack echoes as the iron roots snap and recoil. The rider screeches and flees in a storm of feathers. From the shattered vines coils a hefty 🌿 Iron Root, dense and gleaming—proof of victory. Flint noses the prize while the unbarred gate swings open toward the next dawn-lit trial!"
+      "finalMessage": "Wells calls '240!' A bell clangs: the exhausted rider slumps over, gasping. The chicken bolts in a dust cloud, the limp baby-zombie flopping on its back as they exit the ring. In the cleared centre glints a hefty 🌿 Iron Root twisted into a champion's belt clasp—proof of victory. Flint barks approval while the open gate beckons toward the next dawn-lit challenge."
     }
   }
 }; 

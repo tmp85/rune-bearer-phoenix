@@ -189,7 +189,7 @@ gameSchedule = {
       "week": 2,
       "wells": {
         "realm": "Dawnbreak Expanse",
-        "room": "Desert Amphitheater",
+        "room": "Chicken-Jockey Arena",
         "irlTask": "Piano",
         "runeDropped": "Iron Root",
         "lootTier": "Big",
