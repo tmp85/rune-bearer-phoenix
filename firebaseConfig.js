@@ -7,14 +7,14 @@ const firebaseConfig = {
     storageBucket: "rune-bearers.firebasestorage.app",
     messagingSenderId: "725335491501",
     appId: "1:725335491501:web:26f3bffc0d06552bcb5724"
-};
+  };
   
-// Initialize Firebase (using compat version for easier integration)
-firebase.initializeApp(firebaseConfig);
+  // Initialize Firebase (using compat version for easier integration)
+  firebase.initializeApp(firebaseConfig);
   
-// Get references to Firebase services
-const auth = firebase.auth();
-const database = firebase.database();
+  // Get references to Firebase services
+  const auth = firebase.auth();
+  const database = firebase.database();
   
 // Enable anonymous authentication
 auth.signInAnonymously()
@@ -34,8 +34,8 @@ auth.onAuthStateChanged((user) => {
     }
 });
   
-// Export for use in other files
-window.firebaseAuth = auth;
-window.firebaseDB = database;
+  // Export for use in other files
+  window.firebaseAuth = auth;
+  window.firebaseDB = database;
   
-console.log('Firebase initialized successfully for Rune Bearer game');
+  console.log('Firebase initialized successfully for Rune Bearer game');

@@ -3612,6 +3612,10 @@
                     Great work! You've solved this challenge.
                 </div>
                 
+                <div id="successArtwork" class="success-artwork" style="display: none; text-align: center; margin: 15px 0;">
+                    <!-- Artwork will be inserted here by JavaScript -->
+                </div>
+                
                 <button class="success-continue-btn" id="successContinueBtn" onclick="closeSuccessModal()">
                     Continue Quest
                 </button>
@@ -4177,474 +4181,69 @@
                         finalMessage: 'Click! Sunbeams burst across the room as all mirrors face dawn perfectly. You claim the ⚡ Thunder Eye! Flint cheers, his tail aglow with pride!'
                     }
                 },
-                day7: {
+                day9: {
                     realm: 'Dawnbreak Expanse',
-                    room: 'Dawn\'s Edge Plateau',
-                    icon: '🌄',
-                    artwork: 'assets/rooms/wells-day-7-art.jpg',
-                    story: 'Sun-gold dust drifts across rugged mesas. Half-buried in the rock stands a silent Sandsteel Guardian—its plated armor etched with drum-shaped glyphs. When Flint pads closer, amber runelines flash, pulsing a steady rhythm through the stone.',
-                    baseRune: null,
-                    runeIcon: null,
-                    baseLoot: {
-                        tier: 'medium',
-                        item: 'Fist-sized metal capsule',
-                        description: 'Its facets shift like desert plates—an intriguing mystery for your next rest stop!',
-                        icon: '🗃️'
-                    },
+                    room: 'Arena',
+                    icon: '🪶',
+                    artwork: 'assets/rooms/wells-day-9-art.jpg',
+                    story: 'Sun-bleached amphitheatre rings a dust-swirled pit. At its heart rests an aged wooden upright piano, varnish cracked, keys yellowed, faint amber light flickering between the slats. No creatures stir—only shimmering heat.',
+                    baseRune: 'Iron Root',
+                    runeIcon: '🌿',
                     irlChallenge: {
-                        title: '🥁 Wake the Guardian',
-                        icon: '🥁',
-                        type: 'drums',
+                        title: '🎹 Sound the Arena Call',
+                        icon: '🎹',
+                        type: 'piano',
                         content: {
-                            pattern: 'HH, BD, HH\nSN, HH, BD\nHH, LT, FT',
+                            notes: 'C C E C F F E C',
                             instructions: [
-                                'Play the guardian\'s rhythm to awaken the ancient sentinel',
-                                'Beat Pattern (play three times clean):',
-                                'HH, BD, HH',
-                                'SN, HH, BD', 
-                                'HH, LT, FT',
-                                'Practice: Take your time to learn the pattern',
-                                'Performance: Play three clean rounds while family listens',
-                                'Mark Complete: Tap IRL Done when complete - the guardian awakens!'
+                                'Play the pattern three times: C C E C F F E C',
+                                'Strike each note smoothly and clearly',
+                                'When the melody echoes a third time, mark IRL Done',
+                                'The piano\'s amber light will respond to the music'
                             ],
                             reference: [
-                                'HH = Hi-Hat, BD = Bass Drum, SN = Snare, LT = Low Tom, FT = Floor Tom',
-                                'Flint watches eagerly: \'The guardian stirs to your rhythm!\''
+                                'The aged piano\'s keys may feel different but still produce clear tones',
+                                'Each repetition should sound confident and strong'
                             ]
                         }
                     },
                     mathChallenge: {
-                        title: '⚙️ Guardian Mechanics',
-                        icon: '🔧',
-                        description: 'Calculate the guardian\'s gear teeth and power crystals to fully activate it!',
-                        missions: [
-                            {
-                                category: 'Addition',
-                                title: '⚙️ Gear Teeth Count — Question 1',
-                                story: 'The guardian\'s chest opens, revealing ancient clockwork. The main gear has 8 teeth. Connected gears add 6 more teeth, then 8 more teeth.',
-                                question: 'Main gear has 8 teeth. Connected gears add 6 teeth, then 8 more teeth. How many gear teeth total?',
-                                answer: 22,
-                                acceptedAnswers: [22],
-                                successMessage: 'Perfect calculation! The gears begin to turn as Flint\'s tail wags with excitement.'
-                            },
-                            {
-                                category: 'Subtraction',
-                                title: '💎 Power Crystal Count — Question 2',
-                                story: 'The guardian needs power crystals to fully activate. Its chamber holds 25 dim crystals, but 11 are already glowing with power.',
-                                question: 'The chamber has 25 crystals total. 11 crystals are already glowing. How many more crystals need power?',
-                                answer: 14,
-                                acceptedAnswers: [14],
-                                successMessage: 'Wells channels energy into the remaining crystals! The guardian\'s amber eyes begin to glow.'
-                            }
-                        ],
-                        finalMessage: 'A low chime echoes as the last crystal clicks home. The Sandsteel Guardian bows and drops a fist-sized metal capsule, its facets shifting like desert plates—an intriguing mystery for your next rest stop!'
-                    }
-                },
-                day8: {
-                    realm: 'Dawnbreak Expanse',
-                    room: 'Luminous Garden',
-                    icon: '🌻',
-                    artwork: 'assets/rooms/wells-day-8-art.jpg',
-                    story: 'Warm light filters through towering sun-lilies. Bioluminescent petals drift like fireflies, tracing golden spirals in the air. At the garden\'s heart rises a crystal nest holding a single glowing plume, hovering just out of reach. Flint\'s ember-sense tingles—heat spirals curl beneath the plume, promising lift if Wells can guide them.',
-                    baseRune: 'Sky Feather',
-                    runeIcon: '🪶',
-                    
-                    irlChallenge: {
-                        title: '',
-                        icon: '',
-                        type: 'none',
-                        content: {}
-                    },
-                    
-                    mathChallenge: {
-                        title: '🌻 Luminous Garden Challenge',
+                        title: '⚔️ Arena Battle',
                         icon: '🔶',
-                        description: 'Help Flint gather the heat-drops needed to reach the glowing plume!',
+                        description: 'A sand-whirl erupts on the final chord! From the dust charges a tiny green rider. Each furious attack lashes iron-grey roots across the gate.',
                         missions: [
                             {
                                 category: 'Multiplication',
-                                title: '🌸 Petal Arrays — Question 1',
-                                story: 'Three sun-lily clusters bloom in the warm light. Each cluster shows 4 glowing petals, but a beetle nibbled 1 petal from two clusters.',
-                                question: 'Three sun-lily clusters bloom. Each cluster shows 4 glowing petals, but a beetle nibbled 1 petal from two clusters. How many petals still shine?',
-                                answer: 10,
-                                acceptedAnswers: [10],
-                                successMessage: 'Perfect calculation! Flint\'s ember-sense detects the remaining petals glowing brighter in response.'
+                                title: '🪶 Feather Flurry — Question 1',
+                                story: 'The frantic creature races around the arena, dropping feathers with every lap.',
+                                question: 'The creature drops 7 feathers every lap. It\'s raced around 5 times—how many feathers cover the sand?',
+                                answer: 35,
+                                acceptedAnswers: [35],
+                                successMessage: 'Perfect! 35 feathers now litter the arena floor, creating a carpet of battle evidence.'
                             },
                             {
                                 category: 'Multiplication',
-                                title: '🔥 Heat-Drop Mix — Question 2',
-                                story: 'Each shining petal needs 6 heat-drops to create the warm up-draft. Wells and Flint already stocked 28 heat-drops from previous adventures.',
-                                question: 'Each shining petal needs 6 heat-drops. We already stocked 28 heat-drops. Using your answer from Question 1, how many more must we gather?',
-                                answer: 32,
-                                acceptedAnswers: [32],
-                                successMessage: 'Excellent work! Flint helps gather the remaining heat-drops as warm spirals begin to form beneath the plume.'
+                                title: '⚔️ Root Breaker — Question 2',
+                                story: 'Every fallen feather drains root-strength from the iron-grey vines blocking the gate.',
+                                question: 'Every fallen feather drains 4 points of root-strength. Using those 35 feathers, what total damage do the roots lose?',
+                                answer: 140,
+                                acceptedAnswers: [140],
+                                successMessage: 'Incredible calculation! The massive damage weakens the iron roots completely.'
                             }
                         ],
-                        finalMessage: 'The last heat-drop clicks into place. A warm up-draft swirls, and the plume drifts into Wells\'s palm, its filaments flashing prismatic rays. Light condenses into the 🪶 Sky Feather, weightless and bright. Flint barks approval as every sun-lily glows in chorus, guiding their path onward!'
+                        finalMessage: 'Wells calls \'140!\' A metallic crack echoes as the iron roots snap and recoil. The rider screeches and flees in a storm of feathers. From the shattered vines coils a hefty 🌿 Iron Root, dense and gleaming—proof of victory. Flint noses the prize while the unbarred gate swings open toward the next dawn-lit trial!'
                     }
                 }
             },
             rou: {
-                day1: {
+                day9: {
                     realm: 'Crystal Glade',
-                    room: 'Entry Cavern',
-                    icon: '❄️',
-                    artwork: 'assets/rooms/CrystalGlade/CrystalGlade_FrostHollow_Rou_Day1_768.jpg',
-                    story: 'You step into the Crystal Glade. The cave floor sparkles with blue crystals. A tall ice gate blocks your path. The gate has three small slots that need crystals to open. Ice on the walls makes the floor slippery. Three wooden crates hold magic orbs that can help you. A frozen chest sits behind the gate, waiting for you to open it once the gate is free. The room feels cold and magical.',
-                    baseRune: 'Frost Fang', // Day 1 rune per official schedule
-                    runeIcon: '❄️',
-                    irlChallenge: {
-                        title: 'No IRL Challenge',
-                        icon: '🚫',
-                        type: 'none',
-                        content: {
-                            description: 'Math-only day'
-                        }
-                    },
-                    mathChallenge: {
-                        title: 'Crystal Mysteries',
-                        icon: '🧮',
-                        missions: [
-                            {
-                                category: 'Addition',
-                                title: '💎 Crystal Collection Challenge',
-                                story: 'You step carefully across the sparkling cave floor. Beautiful blue crystals catch the light from above. You spot 14 blue crystals scattered on the ground, glinting like tiny stars. As you explore further, you reach under a large, smooth rock and discover 9 more hidden crystals nestled in the shadows.',
-                                question: 'You see 14 blue crystals on the ground. You reach under a rock and find 9 more crystals.<br><strong>Mystery:</strong> How many crystals do you have now?',
-                                answer: 23
-                            },
-                            {
-                                category: 'Subtraction',
-                                title: '🧊 Frost Gem Adventure',
-                                story: 'Your magical pouch holds 18 precious frost gems, each one shimmering with icy blue light. The cavern floor is covered in slippery ice that makes walking tricky. Suddenly, your foot slips on a patch of smooth ice! As you try to keep your balance, 7 of your beautiful frost gems tumble out and disappear into a dark, deep hole in the ground.',
-                                question: 'You carry 18 frost gems as you step on icy stones. You slip, and 7 frost gems tumble down into a dark hole.<br><strong>Mystery:</strong> How many frost gems do you still have?',
-                                answer: 11
-                            },
-                            {
-                                category: 'Multiplication',
-                                title: '🎁 Magic Orb Discovery',
-                                story: 'Against the cavern wall, you notice 3 sturdy wooden crates stacked carefully on top of each other. Each crate is bound with silver rope and glows with a soft, magical light. You peek inside the first crate and count 4 glowing magic orbs. The second crate also holds 4 magic orbs, and so does the third crate. These orbs might be the key to opening the ice gate!',
-                                question: 'You notice 3 wooden crates in the cave. Each crate holds 4 magic orbs inside.<br><strong>Mystery:</strong> How many magic orbs are there in all the crates?',
-                                answer: 12
-                            }
-                        ]
-                    }
-                },
-                day2: {
-                    realm: 'Crystal Glade',
-                    room: 'Frozen Drum Cavern',
-                    icon: '❄️',
-                    artwork: 'assets/rooms/CrystalGlade/rou-day-2-art.jpg',
-                    story: 'You and Ferrin step into the Frozen Drum Cavern. A thick ice barrier blocks the next hallway, and you realize you must figure out how to melt it. On a stone table sits a magic basin that needs exactly 17 crystal shards to work. Frost flowers grow on the icy walls—you will need some to light a torch and warm the basin. Three icy drums stand nearby, each with glowing runes that hum softly; once the basin melts the barrier, you must strike the drums to open the way forward. You look around and see a pile of crystal shards and frost flowers—now it is time to do the math to solve the room.',
-                    baseRune: null, // No rune awarded on Day 2 per schedule
-                    runeIcon: null,
-                    irlChallenge: {
-                        title: 'Rou Day Two Drum Beats',
-                        icon: '🥁',
-                        type: 'drums',
-                        content: {
-                            pattern: 'BD-SN-Rest-HT (repeat 4 times)',
-                            instructions: [
-                                'Play this simple rhythm, repeating it 4 times:',
-                                '1. BD (Bass Drum) – Foot pedal',
-                                '2. SN (Snare Drum) – Left hand',
-                                '3. Pause',
-                                '4. HT (High Tom) – Right hand'
-                            ],
-                            reference: [
-                                'Count: "Bass – Snare – Rest – Tom"',
-                                'Keep the rhythm slow, clear, and steady',
-                                'The Frozen Drum Cavern echoes your beats gently'
-                            ]
-                        }
-                    },
-                    mathChallenge: {
-                        title: 'Math Challenges',
-                        icon: '🧮',
-                        missions: [
-                            {
-                                category: 'Addition',
-                                title: '💎 Basin Crystal Collection',
-                                story: 'The basin will only work if you collect 17 crystal shards. You scoop up 11 shining shards from the pile. Then you find 6 more shards under a frosty rock.',
-                                question: 'The basin needs 17 crystal shards to work.<br>You scoop up 11 shards from the pile.<br>You find 6 more shards under a frosty rock.<br><strong>Mystery:</strong> How many crystal shards do you have now? Is that enough to fill the basin?',
-                                answer: 17
-                            },
-                            {
-                                category: 'Subtraction',
-                                title: '🌸 Frost Flower Torch',
-                                story: 'You pick 14 frost flowers from the cave walls to light the torch. As you carry them to the basin, Ferrin\'s tail brushes against your arm and knocks 5 frost flowers onto the icy floor.',
-                                question: 'You pick 14 frost flowers from the cave walls.<br>Ferrin\'s tail knocks 5 frost flowers onto the icy floor.<br><strong>Mystery:</strong> How many frost flowers do you still hold to light the torch?',
-                                answer: 9
-                            },
-                            {
-                                category: 'Multiplication',
-                                title: '🥁 Glowing Rune Strikes',
-                                story: 'After the basin melts the ice barrier, you must strike the drums to open the hidden door. There are 3 drums, and each drum has 2 glowing runes carved on it. This tells you how many times to strike the drums.',
-                                question: 'There are 3 drums in the cavern.<br>Each drum has 2 glowing runes carved on it.<br><strong>Mystery:</strong> How many runes are there in all? This tells you how many times to strike the drums.',
-                                answer: 6
-                            }
-                        ]
-                    }
-                },
-                day3: {
-                    realm: 'Crystal Glade',
-                    room: 'Glacial Rune Chamber',
-                    icon: '❄️',
-                    artwork: 'assets/rooms/CrystalGlade/rou-day-3-art.jpg',
-                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. In the center stands a rune pedestal covered in thick ice. The pedestal needs exactly 18 ice crystals to power its runes, but first you must melt the ice covering it. Frost flowers bloom near the walls—they will light a torch to melt the ice. After the pedestal is clear, three icy pillars with rune symbols must be struck in order to claim the Storm Fang rune. You look around and see piles of ice crystals and frost flowers—now it is time to do the math to solve the room.',
-                    baseRune: 'Storm Fang',
-                    runeIcon: '❄️',
-                    irlChallenge: {
-                        title: 'No IRL Challenge',
-                        icon: '🚫',
-                        type: 'none',
-                        content: {
-                            description: 'Math-only day'
-                        }
-                    },
-                    mathChallenge: {
-                        title: 'Glacial Mysteries',
-                        icon: '🧮',
-                        missions: [
-                            {
-                                category: 'Subtraction',
-                                title: '🌸 Frost Flower Torch',
-                                story: 'You gather 12 frost flowers from the cavern walls to light a torch. 3 frost flowers float away to light wall sconces around the room.',
-                                question: 'You gather 12 frost flowers from the cavern walls.<br>3 frost flowers float away to light wall sconces around the room.<br><strong>Mystery:</strong> How many frost flowers do you still hold for your torch?',
-                                answer: 9,
-                                successMessage: 'You light the torch with 9 frost flowers. The warm flames melt all the ice covering the rune pedestal!'
-                            },
-                            {
-                                category: 'Addition',
-                                title: '💎 Pedestal Crystal Power',
-                                story: 'The rune pedestal needs 18 ice crystals to power up. You pick up 11 ice crystals from a frozen pile. Then you find 7 more ice crystals under a slab of ice.',
-                                question: 'The rune pedestal needs 18 ice crystals to power up.<br>You pick up 11 ice crystals from a frozen pile.<br>You find 7 more ice crystals under a slab of ice.<br><strong>Mystery:</strong> How many ice crystals do you have now? Do you have enough?',
-                                answer: 18,
-                                successMessage: 'You place all 18 crystals on the pedestal. It glows with bright blue power and hums with magic!'
-                            },
-                            {
-                                category: 'Multiplication',
-                                title: '🏛️ Rune Symbol Strikes',
-                                story: 'The pedestal\'s power reveals three icy pillars around the room. There are 3 pillars, and each pillar has 2 glowing rune symbols. You must strike each symbol once to claim the Storm Fang rune.',
-                                question: 'The pedestal reveals 3 icy pillars around the room.<br>Each pillar has 2 glowing rune symbols.<br><strong>Mystery:</strong> How many rune symbols are there in all? This tells you how many times to strike the pillars.',
-                                answer: 6,
-                                successMessage: 'You strike each rune symbol once—6 strikes total. The pillars crack and the Storm Fang rune appears floating in the air!'
-                            }
-                        ],
-                        finalMessage: 'With the torch melted ice, 18 crystals powering the pedestal, and 6 strikes on the rune symbols, you reach out and grab the Storm Fang rune. Ferrin barks happily as you both head toward Day 4!'
-                    }
-                },
-                day4: {
-                    realm: 'Crystal Glade',
-                    room: 'Glacial Rune Chamber Bridge Challenge',
-                    icon: '❄️',
-                    artwork: 'assets/rooms/CrystalGlade/rou-day-4-art.png',
-                    story: 'You and Ferrin step into the Glacial Rune Chamber. Ice walls gleam all around you. Across a frozen chasm, you see a wise old ice wizard trapped by three broken bridges. Stone pillars stick up from the chasm - the bridges used to connect them! He calls out: "Young adventurer! I hold the key to unlock the Glacial Door, but I cannot reach you unless the bridges are rebuilt to connect the pillars!"',
-                    baseRune: 'Storm Fang',
-                    runeIcon: '❄️',
-                    baseLoot: {
-                        tier: 'tiny',
-                        item: 'Small bag',
-                        description: 'Contains Ice Crystal Strand candy necklace',
-                        icon: '🎒'
-                    },
-                    irlChallenge: {
-                        title: 'No IRL Challenge',
-                        icon: '🚫',
-                        type: 'none',
-                        content: {
-                            description: 'IRL challenge integrated into math sequence'
-                        }
-                    },
-                    mathChallenge1: {
-                        title: 'How Many Tiles Per Bridge?',
-                        icon: '🧮',
-                        missions: [
-                            {
-                                category: 'Addition',
-                                title: 'Gathering Square Tiles',
-                                story: 'Ferrin, we must help the ice wizard! Look, there are broken tiles everywhere. Let us pick them up and see what we have. You and Ferrin search everywhere! You find 9 square tiles buried under ice, 6 square tiles behind rocks, and 6 more square tiles in a frozen pool.',
-                                question: 'How many square tiles total?',
-                                answer: 21,
-                                successMessage: 'You have 21 square tiles!'
-                            },
-                            {
-                                category: 'Addition', 
-                                title: 'Gathering Triangle Tiles',
-                                story: 'Then you find 4 triangle tiles near each bridge location (3 locations).',
-                                question: 'How many triangle tiles total?',
-                                answer: 12,
-                                successMessage: 'You have 12 triangle tiles!',
-                                previousAnswers: 'Square tiles: 21'
-                            },
-                            {
-                                category: 'Addition',
-                                title: 'Total Tiles Count',
-                                story: 'Now you need to count all the tiles you found.',
-                                question: 'How many tiles do you have altogether?',
-                                answer: 33,
-                                successMessage: 'Perfect! You have 33 total tiles to work with!',
-                                previousAnswers: 'Square tiles: 21, Triangle tiles: 12'
-                            },
-                            {
-                                category: 'Addition',
-                                title: 'Figuring Out Each Bridge',
-                                story: 'The ice wizard calls out: "Each bridge needs 3 square tiles and 4 triangle tiles to be safe!"',
-                                question: 'How many tiles does each bridge need total?',
-                                answer: 7,
-                                successMessage: 'Each bridge needs 7 tiles total. Now let us build one test bridge to make sure it is safe for the wizard!',
-                                previousAnswers: 'Square tiles: 21, Triangle tiles: 12, Total tiles: 33'
-                            }
-                        ]
-                    },
-                    irlBridgeChallenge: {
-                        title: 'Physical Challenge - IRL Bridge Building',
-                        icon: '🔨',
-                        description: 'Now let us build one test bridge to make sure it is safe for the wizard!',
-                        instructions: [
-                            'Build 2 pillars using 3 square tiles each (stack them up)',
-                            'Use exactly 3 square tiles for the bridge deck',
-                            'Use exactly 4 triangle tiles as supports',
-                            'Test that the bridge is stable'
-                        ],
-                        successCriteria: 'Bridge must be physically stable, connect the 2 pillars, and use all tiles',
-                        completionMessage: 'Your test bridge works perfectly! Now the ice wizard can safely cross all three bridges.'
-                    },
-                    mathChallenge2: {
-                        title: 'Bridge Follow-Up',
-                        icon: '🧮',
-                        missions: [
-                            {
-                                category: 'Multiplication',
-                                title: 'After Building Your Test Bridge',
-                                story: 'Your test bridge works perfectly! Now the ice wizard needs to cross all 3 bridges to reach the door. He will step on the square tiles that make the bridge deck.',
-                                question: 'Each bridge has 3 square tiles to walk on. If the wizard walks across all 3 bridges, how many tiles will he step on total?',
-                                answer: 9,
-                                successMessage: 'The wizard steps on 9 tiles total as he safely crosses all three bridges!',
-                                previousAnswers: 'Your bridge has: 3 square tiles for the deck, 4 triangle tiles for supports'
-                            }
-                        ],
-                        finalMessage: 'Your test bridge is perfect! The ice wizard safely crosses all three bridges. "You have saved me, brave one!" he says, and uses his magic key to unlock the Glacial Door. The ancient chamber glows with satisfaction at your success! As a small thank you, the grateful wizard gives you a small bag before disappearing into the mist.'
-                    }
-                },
-                day5: {
-                    realm: 'Crystal Glade',
-                    room: 'Whispering Ice Library',
-                    icon: '❄️',
-                    artwork: 'assets/rooms/CrystalGlade/rou-day-5-art.jpg',
-                    story: 'Ice shelves hold glowing books in this silent library. The Frost Librarian blocks Rou\'s path with three floating crystals. Ferrin sniffs the cold air and shivers.\n\n"Let\'s break those crystals!"',
-                    baseRune: 'Iron Bark',
-                    runeIcon: '🛡️',
-                    
-                    irlChallenge: {
-                        title: '',
-                        icon: '',
-                        type: 'none',
-                        content: {}
-                    },
-                    
-                    mathChallenge: {
-                        title: '❄️ The Frost Librarian Challenge',
-                        icon: '🏔️',
-                        description: 'Three chill-blue crystals float above silent shelves. Break them all!',
-                        missions: [
-                            {
-                                category: 'Addition',
-                                title: '🏔️ Snowball Surge — Crystal 1',
-                                story: 'Rou packs snowballs to hurl at the crystal.',
-                                question: 'He makes 8 balls, then 7 more. How many fly?',
-                                answer: 15,
-                                acceptedAnswers: [15],
-                                successMessage: 'Fifteen snowballs thump home — first crystal explodes in a shower of ice diamonds! Ferrin\'s Frost Puff whooshes cold mist.'
-                            },
-                            {
-                                category: 'Subtraction',
-                                title: '🕯️ Lantern Light — Crystal 2',
-                                story: 'Ferrin\'s Ice-Bound Tracking reveals hidden Frost Fireflies. They power a moon-beam mirror.',
-                                question: 'Seventeen glow inside. Nine flutter out. How many stay to fuel the beam?',
-                                answer: 8,
-                                acceptedAnswers: [8],
-                                successMessage: 'Moon-beam flashes — second crystal shatters into glittering ice shards!'
-                            },
-                            {
-                                category: 'Multiplication',
-                                title: '📚 Shelf Shift — Crystal 3',
-                                story: 'Four ice-shelves block a mirror\'s path to the crystal. Each shelf holds three frost tomes. Clear all the tomes to free the mirror\'s light.',
-                                question: 'How many tomes must Rou move in total?',
-                                answer: 12,
-                                acceptedAnswers: [12],
-                                successMessage: 'Shelves cleared, mirror\'s light beams free — final crystal explodes in a cascade of frozen sparkles!'
-                            }
-                        ],
-                        finalMessage: 'The Frost Librarian\'s whispers fade. Rou claims the 🛡️ Iron Bark! Ferrin barks with joy in the quiet library.'
-                    }
-                },
-                day6: {
-                    realm: 'Crystal Glade',
-                    room: 'Frostmere Springs',
-                    icon: '🌙',
-                    artwork: 'assets/rooms/rou-day-6-art.jpg',
-                    story: 'Moon-cool mist hangs over a quiet pool. An icy drum-stone glows beside the water, its surface pulsing with simple stick-marks that look like music. Ferrin noses the stone as a soft thump-tap-ting echoes across the cavern.\n\n"Let\'s drum the beat!"',
-                    baseRune: null,
-                    runeIcon: null,
-                    
-                    irlChallenge: {
-                        title: '🥁 Drum Beat Challenge',
-                        icon: '🥁',
-                        type: 'drums',
-                        content: {
-                            pattern: 'SN, BD, HH\nSN, BD, HH\nSN, BD, HH',
-                            instructions: [
-                                'Copy the pattern on the drum-stone to wake the frozen door',
-                                'Beat Card (play three times in a row):',
-                                'SN, BD, HH',
-                                'SN, BD, HH', 
-                                'SN, BD, HH',
-                                'Practice: Up to five relaxed tries; count \'1-and-2-and...\' if it helps',
-                                'Three-in-a-Row: Play the beat three clean measures while family listens',
-                                'Mark Complete: Tap IRL Done when complete - the drum-stone flashes green!'
-                            ],
-                            reference: [
-                                'SN = Snare, BD = Bass Drum, HH = Hi-Hat',
-                                'Ferrin cheers: \'Great groove! The springs echo your rhythm.\''
-                            ]
-                        }
-                    },
-                    
-                    mathChallenge: {
-                        title: '🌙 Shell Counting',
-                        icon: '✨',
-                        description: 'Count the ice shells while the drum beat echoes through the springs!',
-                        missions: [
-                            {
-                                category: 'Addition',
-                                title: '🐚 Shell Count — Question 1',
-                                story: 'Ferrin spots blue shells floating in the glowing pool.',
-                                question: 'Ferrin sees 6 blue shells. You add 4 more. How many shells now?',
-                                answer: 10,
-                                acceptedAnswers: [10],
-                                successMessage: 'Perfect! The shells glow brighter as your drumbeat echoes through the mist.'
-                            },
-                            {
-                                category: 'Subtraction',
-                                title: '💧 Cool Drops — Question 2',
-                                story: 'The magical spring needs water drops to power the door.',
-                                question: 'The pool needs 15 drops total. We have 8 drops. How many more drops do we need?',
-                                answer: 7,
-                                acceptedAnswers: [7],
-                                successMessage: 'Ferrin\'s tail swishes as the rhythm helps count the drops perfectly!'
-                            }
-                        ],
-                        finalMessage: 'The drum-stone flashes green as gentle ripples spread across the pool! A silver swirl appears on your map—proof your rhythm stirred the springs. Ferrin barks with joy!'
-                    }
-                },
-                day7: {
-                    realm: 'Crystal Glade',
-                    room: 'Shimmering Cavern Depths',
-                    icon: '🕷️',
-                    artwork: 'assets/rooms/rou-day-7-art.jpg',
-                    story: 'Moon-cool mist swirls between crystal pillars. A glassy ice spider hangs above a glowing rune, weaving slippery threads across the path like frozen ropes. Its bright eyes watch every move while Ferrin crouches low, scanning for gaps in the web.\n\n"Snip the cold webs!"',
-                    baseRune: 'Mist Weaver',
-                    runeIcon: '🌫️',
+                    room: 'Crystal Heart Chamber',
+                    icon: '💎',
+                    artwork: 'assets/rooms/rou-day-9-art.jpg',
+                    story: 'Shimmer-blue light pulses from a great crystal heart set in the cavern wall. Tiny shards whirl around it, chiming with each beat. Cold mist curls across the floor as Ferrin steps beside you, ears pricked.\n\n"Look at those shards!"',
+                    baseRune: 'Skyborn Leaf',
+                    runeIcon: '🍃',
                     irlChallenge: {
                         title: '',
                         icon: '',
@@ -4652,95 +4251,30 @@
                         content: {}
                     },
                     mathChallenge: {
-                        title: '🕷️ Ice Spider Challenge',
-                        icon: '✨',
-                        description: 'Help Ferrin find gaps in the frozen web to reach the glowing rune!',
-                        missions: [
-                            {
-                                category: 'Subtraction',
-                                title: '🕸️ Web Strands — Question 1',
-                                story: 'The ice spider\'s web blocks the path with icy strands.',
-                                question: 'The web holds 8 icy strands. We quietly snip away 4. How many strands still stretch across?',
-                                answer: 4,
-                                acceptedAnswers: [4],
-                                successMessage: 'Perfect snipping! Ferrin\'s tail wags as the web becomes easier to navigate.'
-                            },
-                            {
-                                category: 'Multiplication',
-                                title: '❄️ Frost Beads — Question 2',
-                                story: 'Each remaining strand holds frost beads that sparkle in the moonlight.',
-                                question: '4 strands are left from Question 1. Each strand holds 3 frost beads. How many beads sparkle now?',
-                                answer: 12,
-                                acceptedAnswers: [12],
-                                successMessage: 'Ferrin counts perfectly! The frost beads glimmer as you find the safe path through.'
-                            }
-                        ],
-                        finalMessage: 'The last snip snaps with a soft ting! The spider scuttles back into the mist, and the freed stone rune rises on a column of cool air. Ferrin noses it toward Rou—the shimmering 🌫️ Mist Weaver settles gently into his pouch, lighting the cavern with soft blue glow!'
-                    }
-                },
-                day8: {
-                    realm: 'Crystal Glade',
-                    room: 'Frozen Waterfall',
-                    icon: '❄️',
-                    artwork: 'assets/rooms/rou-day-8-art.jpg',
-                    story: 'A towering sheet of blue-white ice blocks the passage. Beneath its glassy surface lies a weather-worn stone tablet veiled by frost. Silver mist seeps from tiny cracks while Ferrin\'s paws crunch softly in the snow.\n\n"Let\'s read the words!"',
-                    baseRune: 'Frostthorn Crown',
-                    runeIcon: '👑',
-                    
-                    irlChallenge: {
-                        title: '📖 Unlock the Ice Script',
-                        icon: '📚',
-                        type: 'reading',
-                        content: {
-                            instructions: [
-                                'Parent action: Scratch six frost-windows on the tablet, revealing these simple lines:',
-                                'FIND THE PATH',
-                                'STEP ON ICE', 
-                                'COUNT THE STARS',
-                                'BRAVE THE COLD',
-                                'FOLLOW THE LIGHT',
-                                'Rou\'s task: Read each line aloud, pausing so the frozen air hums after every phrase'
-                            ],
-                            reading_text: [
-                                'Find the path!',
-                                'Step on ice!',
-                                'Count the stars!',
-                                'Brave the cold!',
-                                'Follow the light!'
-                            ],
-                            reference: [
-                                'When the final sentence rings out, cracks zig-zag through the waterfall',
-                                'An ice bridge slides into place - tap IRL Done once Rou finishes reading'
-                            ],
-                            successMessage: 'Rou\'s voice echoes through the frozen air! The ice tablet glows bright blue as each word resonates. Cracks spread across the waterfall like lightning, and a crystalline bridge slides into place with a deep, rumbling THOOM!'
-                        }
-                    },
-                    
-                    mathChallenge: {
-                        title: '❄️ Frozen Waterfall Challenge',
+                        title: '💎 Crystal Heart Challenge',
                         icon: '🔶',
-                        description: 'Help Ferrin count the icicles and frost drops to cross the ice bridge!',
+                        description: 'Count the magical shards as they dance around the crystal heart!',
                         missions: [
                             {
-                                category: 'Subtraction',
-                                title: '🧊 Icicle Count — Question 1',
-                                story: 'Twelve long icicles hang from the frozen waterfall above.',
-                                question: 'Twelve long icicles hang. Five snap off and fall. How many stay?',
-                                answer: 7,
-                                acceptedAnswers: [7],
-                                successMessage: 'Perfect counting! Ferrin\'s tail wags as the remaining icicles glisten in the moonlight.'
+                                category: 'Addition',
+                                title: '✨ Shard Count — Question 1',
+                                story: 'Bright shards spin around the glowing crystal heart in the chamber wall.',
+                                question: 'Seven bright shards spin. Six more join them. How many drift now?',
+                                answer: 13,
+                                acceptedAnswers: [13],
+                                successMessage: 'Perfect counting! Thirteen shards now circle the heart, chiming as they spin.'
                             },
                             {
                                 category: 'Multiplication',
-                                title: '💧 Frost Drops — Question 2',
-                                story: 'Each icicle still hanging drips frost-drops that sparkle as they fall.',
-                                question: 'Each icicle still hanging drips 3 frost-drops. Using your last answer, how many drops fall in all?',
-                                answer: 21,
-                                acceptedAnswers: [21],
-                                successMessage: 'Excellent work! The frost-drops create a magical pattern as they fall into the snow.'
+                                title: '💫 Heartbeat Sparks — Question 2',
+                                story: 'The crystal heart beats once, and all the shards respond with flashing sparks.',
+                                question: 'The heart beats once. Each of the 13 shards makes 3 sparks. How many sparks flash?',
+                                answer: 39,
+                                acceptedAnswers: [39],
+                                successMessage: 'Excellent work! The chamber fills with 39 sparkling lights as Ferrin\'s tail wags with joy.'
                             }
                         ],
-                        finalMessage: 'The waterfall parts with a shimmering hum. From the opening glides a delicate 👑 Frostthorn Crown, sapphire thorns sparkling in moon-light. Ferrin noses it toward Rou as the new path glitters ahead!'
+                        finalMessage: 'The crystal heart booms once. A cool wind spirals as the shards flare, weaving into a single floating 🍃 Skyborn Leaf that drifts into Rou\'s hand. Ferrin wags her tail while the heart-door slides open, inviting you both onward!'
                     }
                 }
             }
@@ -5127,25 +4661,8 @@
             // Generate dynamic mission buttons
             generateMissionButtons(content);
 
-            // Check for special room types from schedule and play appropriate sounds
-            const daySchedule = gameSchedule.schedule.find(d => d.day === currentDay);
-            if (daySchedule && daySchedule[player]) {
-                const playerSchedule = daySchedule[player];
-                
-                if (playerSchedule.isChickenJockey) {
-                    // Play chicken jockey battle sound
-                    soundManager.playChickenJockey();
-                } else if (playerSchedule.isBoss || playerSchedule.isSubBoss) {
-                    // Play boss warning sound for bosses and sub-bosses
-                    soundManager.playBossWarning();
-                } else {
-                    // Play normal room transition sound
+            // Always play room transition sound when entering any room
                     soundManager.playRoomTransition();
-                }
-            } else {
-                // Fallback to normal transition sound
-                soundManager.playRoomTransition();
-            }
 
             // Show screen border for room challenges (anti-dimming)
             isInRoomChallenge = true;
@@ -5461,7 +4978,19 @@
             updateChallengeButtons();
             closePianoModal();
             
-            // Play music magic completion sound
+            // Get current day to check for special behavior
+            const sharedProgress = JSON.parse(localStorage.getItem('runeBearer_progress') || '{}');
+            const currentDay = sharedProgress.currentDay || 1;
+            
+            // Check if this is Wells Day 9 (Arena) - trigger chicken jockey battle
+            if (currentPlayer === 'wells' && currentDay === 9) {
+                // Play chicken jockey battle sound instead of music magic
+                soundManager.playChickenJockey();
+                
+                // Show chicken jockey battle modal with artwork
+                showChickenJockeyBattle();
+            } else {
+                // Play music magic completion sound for other days
             soundManager.playMusicMagic();
             
             // Show completion message with custom modal
@@ -5474,7 +5003,42 @@
                     // Continue to next challenge
                 }
             );
+            }
             saveGameState();
+        }
+
+        function showChickenJockeyBattle() {
+            // Show chicken jockey battle modal with artwork
+            showSuccessModal(
+                '⚔️',
+                'Arena Battle Erupts!',
+                'A sand-whirl erupts on the final chord! From the dust charges a tiny green rider. Each furious attack lashes iron-grey roots across the gate. The battle begins!',
+                currentPlayer,
+                () => {
+                    // Go directly to math questions and keep chicken jockey art visible
+                    addChickenJockeyArtToRoom();
+                    openMathQuestion(1);
+                },
+                'assets/enemies/chicken_jockey.png' // Add chicken jockey artwork
+            );
+        }
+
+        function addChickenJockeyArtToRoom() {
+            // Add chicken jockey artwork above the math challenge section
+            const mathContent = document.querySelector('.challenge-content');
+            if (mathContent && !document.getElementById('chickenJockeyArt')) {
+                const artContainer = document.createElement('div');
+                artContainer.id = 'chickenJockeyArt';
+                artContainer.style.cssText = 'text-align: center; margin: 15px 0; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px;';
+                artContainer.innerHTML = `
+                    <img src="assets/enemies/chicken_jockey.png" alt="Chicken Jockey Battle" 
+                         style="max-width: 200px; height: auto; border-radius: 8px;">
+                    <div style="color: #ff6b35; font-weight: bold; margin-top: 8px; font-size: 0.9em;">
+                        Battle in Progress!
+                    </div>
+                `;
+                mathContent.insertBefore(artContainer, mathContent.firstChild);
+            }
         }
 
         function completeDrumsChallenge() {
@@ -5919,16 +5483,16 @@
                     
                     gameState = savedState;
                     console.log('Loaded game state from Firebase');
-                    
-                    // Reset completion states for each room entry to prevent false "completed" status
-                    // This ensures challenges always start fresh when entering a room
-                    gameState.wells.irlCompleted = false;
-                    gameState.wells.mathCompleted = false;
-                    gameState.wells.mathProgress = 0;
-                    gameState.rou.irlCompleted = false;
-                    gameState.rou.mathCompleted = false;
-                    gameState.rou.mathProgress = 0;
-                    
+            
+            // Reset completion states for each room entry to prevent false "completed" status
+            // This ensures challenges always start fresh when entering a room
+            gameState.wells.irlCompleted = false;
+            gameState.wells.mathCompleted = false;
+            gameState.wells.mathProgress = 0;
+            gameState.rou.irlCompleted = false;
+            gameState.rou.mathCompleted = false;
+            gameState.rou.mathProgress = 0;
+            
                     // Restore claimed rewards
                     gameState.claimedRewards = claimedRewards;
                     console.log('Restored claimed rewards:', gameState.claimedRewards);
@@ -6409,7 +5973,7 @@
                         'You have 12 triangle tiles! Total tiles: 33',
                         'Perfect! You have 33 total tiles to work with!',
                         'Each bridge needs 7 tiles total. Now you know exactly what to build!',
-                        'Your test bridge works perfectly! Now the ice wizard can safely cross all three bridges!',
+                        'Your test bridge works perfectly! Now the ice wizard can safely cross all three bridges to reach the Crystal Door!',
                         'The wizard steps on 9 tiles total as he safely crosses all three bridges to reach the Crystal Door!'
                     ];
                 } else {
@@ -6515,7 +6079,7 @@
         }
 
         // Success Modal Functions
-        function showSuccessModal(icon, title, message, playerTheme, onContinue) {
+        function showSuccessModal(icon, title, message, playerTheme, onContinue, artworkSrc = null) {
             const modal = document.getElementById('successModal');
             const modalContent = document.getElementById('successModalContent');
             const header = document.getElementById('successHeader');
@@ -6526,6 +6090,15 @@
             document.getElementById('successIcon').textContent = icon;
             titleElement.textContent = title;
             document.getElementById('successMessage').textContent = message;
+            
+            // Handle artwork if provided
+            const artworkContainer = document.getElementById('successArtwork');
+            if (artworkSrc && artworkContainer) {
+                artworkContainer.innerHTML = `<img src="${artworkSrc}" alt="Battle Scene" style="max-width: 100%; height: auto; border-radius: 10px; margin: 15px 0;">`;
+                artworkContainer.style.display = 'block';
+            } else if (artworkContainer) {
+                artworkContainer.style.display = 'none';
+            }
             
             // Apply theme
             modalContent.className = `success-modal-content ${playerTheme}-theme`;

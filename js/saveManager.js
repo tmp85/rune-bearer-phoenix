@@ -46,12 +46,12 @@ class SaveManager {
       }
 
       // Show family code modal for new users after a short delay
-      setTimeout(() => {
+        setTimeout(() => {
         // Only show modal if not already connected
         if (!this.connectedFamilyCode && !this.isConnecting) {
           this.showFamilyCodeModal();
         }
-      }, 1500);
+        }, 1500);
 
       // Continue with anonymous sign-in for now
       await firebaseAuth.signInAnonymously();
@@ -265,7 +265,7 @@ class SaveManager {
       
       // Show success notification (unless silent reconnect)
       if (!isSilentReconnect) {
-        this.showFamilyNotification(`✅ Connected to family "${familyCode}"! All devices will now sync.`);
+      this.showFamilyNotification(`✅ Connected to family "${familyCode}"! All devices will now sync.`);
       }
       
       // Sync with family save
@@ -326,7 +326,7 @@ class SaveManager {
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
-
+    
     // Auto-remove after 4 seconds with fade effect
     setTimeout(() => {
       if (notification.parentNode) {
@@ -498,7 +498,7 @@ class SaveManager {
           // Auto-reload without confirmation
           setTimeout(() => {
             console.log('Auto-reloading to apply changes...');
-            window.location.reload();
+              window.location.reload();
           }, 2000);
         }
       }
@@ -561,15 +561,15 @@ class SaveManager {
     
     // Add slide-in animation if not already exists
     if (!document.getElementById('syncNotificationStyles')) {
-      const style = document.createElement('style');
+    const style = document.createElement('style');
       style.id = 'syncNotificationStyles';
-      style.textContent = `
-        @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-      `;
-      document.head.appendChild(style);
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
     }
     
     notification.textContent = message;
