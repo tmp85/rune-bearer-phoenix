@@ -2442,7 +2442,35 @@
             }
         }, 2000);
 
-        // Firebase Remote Control Functions with safety checks
+        // Helper function to get realm name for a given day
+        function getRealmForDay(player, day) {
+            const wellsRealms = [
+                'Dawnbreak Expanse', 'Dawnbreak Expanse', 
+                'Emerald Canopy', 'Emerald Canopy',
+                'Golden Savannah', 'Golden Savannah',
+                'Emberlight Bastion', 'Emberlight Bastion',
+                'Skyforge Spire', 'Skyforge Spire',
+                'Molten Zenith Cavern', 'Molten Zenith Cavern',
+                'Solar Cathedral Ruins', 'Solar Cathedral Ruins',
+                'Celestial Observatory', 'Celestial Observatory'
+            ];
+            
+            const rouRealms = [
+                'Crystal Glade', 'Crystal Glade',
+                'Shimmering Reef', 'Shimmering Reef',
+                'Frostpeak Summit', 'Frostpeak Summit',
+                'Molten Depths', 'Molten Depths',
+                'Abyssal Trench', 'Abyssal Trench',
+                'Stormbound Isles', 'Stormbound Isles',
+                'Glacial Frontier', 'Glacial Frontier',
+                'Arcane Vault', 'Arcane Vault'
+            ];
+            
+            const realmIndex = Math.floor((day - 1) / 5);
+            return player === 'wells' ? wellsRealms[realmIndex] || wellsRealms[0] : rouRealms[realmIndex] || rouRealms[0];
+        }
+
+        // Updated function to push GAME progress as master (not checklist progress)
         async function pushCurrentSaveAsMaster() {
             if (!checkFirebase()) {
                 alert('Firebase not loaded yet. Please wait and try again.');
@@ -2450,24 +2478,140 @@
             }
             
             try {
+                // First, check if we have game data
                 const gameData = JSON.parse(localStorage.getItem('runeBearerSave') || '{}');
                 
                 if (!gameData.wells || !gameData.rou) {
-                    alert('No local game data found! Load the game first.');
-                    return;
+                    // If no game data, create it from checklist progress
+                    const wellsProgress = parseInt(document.querySelector('[data-player="wells"] .current-day')?.textContent || '1');
+                    const rouProgress = parseInt(document.querySelector('[data-player="rou"] .current-day')?.textContent || '1');
+                    
+                    gameData.wells = {
+                        currentDay: wellsProgress,
+                        currentRealm: getRealmForDay('wells', wellsProgress),
+                        irlCompleted: false,
+                        mathCompleted: false,
+                        mathProgress: 0,
+                        completedRooms: [],
+                        collectedRunes: [],
+                        completedTasks: []
+                    };
+                    
+                    gameData.rou = {
+                        currentDay: rouProgress,
+                        currentRealm: getRealmForDay('rou', rouProgress),
+                        irlCompleted: false,
+                        mathCompleted: false,
+                        mathProgress: 0,
+                        completedRooms: [],
+                        collectedRunes: [],
+                        completedTasks: []
+                    };
+                    
+                    gameData.claimedRewards = [];
+                    gameData.settings = {
+                        adminMode: false,
+                        soundEnabled: true
+                    };
                 }
                 
-                gameData.lastUpdated = Date.now() + 1000000;
+                // Force update days from input fields
+                const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
+                const rouDay = parseInt(document.getElementById('remoteRouDay').value);
+                
+                gameData.wells.currentDay = wellsDay;
+                gameData.rou.currentDay = rouDay;
+                gameData.wells.currentRealm = getRealmForDay('wells', wellsDay);
+                gameData.rou.currentRealm = getRealmForDay('rou', rouDay);
+                
+                // Critical: Add timestamp and version info
+                gameData.lastUpdated = Date.now() + 1000000; // Future timestamp
                 gameData.device = 'ADMIN_CHECKLIST_MASTER';
+                gameData.gameVersion = '1.0';
                 gameData.isMasterSave = true;
                 
+                // Push to Firebase
                 const saveRef = firebaseDB.ref('saves/family_rb25');
                 await saveRef.set(gameData);
                 
-                document.getElementById('firebaseStatus').textContent = 
-                    `✅ Master save pushed! Wells: Day ${gameData.wells.currentDay}, Rou: Day ${gameData.rou.currentDay}`;
+                // Also update local storage with game format
+                localStorage.setItem('runeBearerSave', JSON.stringify(gameData));
                 
-                alert('Success! This save is now the master. All devices will sync to this.');
+                document.getElementById('firebaseStatus').textContent = 
+                    `✅ Master save pushed! Wells: Day ${wellsDay}, Rou: Day ${rouDay}`;
+                
+                alert('Success! Game will update to:\nWells: Day ' + wellsDay + '\nRou: Day ' + rouDay + '\n\nRefresh the game on other devices.');
+                
+                console.log('Pushed game data:', gameData);
+            } catch (error) {
+                alert('Error: ' + error.message);
+                console.error(error);
+            }
+        }
+
+        // Updated setRemoteProgress to ensure proper game data structure
+        async function setRemoteProgress() {
+            if (!checkFirebase()) {
+                alert('Firebase not loaded yet. Please wait and try again.');
+                return;
+            }
+            
+            try {
+                const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
+                const rouDay = parseInt(document.getElementById('remoteRouDay').value);
+                
+                // Get existing save or create new one
+                const saveRef = firebaseDB.ref('saves/family_rb25');
+                const snapshot = await saveRef.once('value');
+                let cloudSave = snapshot.val() || {};
+                
+                // Ensure proper game structure
+                if (!cloudSave.wells || typeof cloudSave.wells === 'number') {
+                    cloudSave.wells = {
+                        currentDay: wellsDay,
+                        currentRealm: getRealmForDay('wells', wellsDay),
+                        irlCompleted: false,
+                        mathCompleted: false,
+                        mathProgress: 0,
+                        completedRooms: [],
+                        collectedRunes: cloudSave.wells?.collectedRunes || [],
+                        completedTasks: []
+                    };
+                } else {
+                    cloudSave.wells.currentDay = wellsDay;
+                    cloudSave.wells.currentRealm = getRealmForDay('wells', wellsDay);
+                }
+                
+                if (!cloudSave.rou || typeof cloudSave.rou === 'number') {
+                    cloudSave.rou = {
+                        currentDay: rouDay,
+                        currentRealm: getRealmForDay('rou', rouDay),
+                        irlCompleted: false,
+                        mathCompleted: false,
+                        mathProgress: 0,
+                        completedRooms: [],
+                        collectedRunes: cloudSave.rou?.collectedRunes || [],
+                        completedTasks: []
+                    };
+                } else {
+                    cloudSave.rou.currentDay = rouDay;
+                    cloudSave.rou.currentRealm = getRealmForDay('rou', rouDay);
+                }
+                
+                // Ensure other required fields
+                cloudSave.claimedRewards = cloudSave.claimedRewards || [];
+                cloudSave.settings = cloudSave.settings || { adminMode: false, soundEnabled: true };
+                cloudSave.lastUpdated = Date.now() + 1000000;
+                cloudSave.device = 'ADMIN_SET_PROGRESS';
+                cloudSave.gameVersion = '1.0';
+                
+                await saveRef.set(cloudSave);
+                
+                document.getElementById('firebaseStatus').textContent = 
+                    `✅ Cloud updated: Wells Day ${wellsDay}, Rou Day ${rouDay}`;
+                
+                console.log('Updated cloud save:', cloudSave);
+                alert('Cloud progress updated! Refresh game on other devices to see changes.');
             } catch (error) {
                 alert('Error: ' + error.message);
                 console.error(error);
@@ -2553,54 +2697,6 @@
             }
         }
 
-        async function setRemoteProgress() {
-            if (!checkFirebase()) {
-                alert('Firebase not loaded yet. Please wait and try again.');
-                return;
-            }
-            
-            try {
-                const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
-                const rouDay = parseInt(document.getElementById('remoteRouDay').value);
-                
-                const saveRef = firebaseDB.ref('saves/family_rb25');
-                const snapshot = await saveRef.once('value');
-                let cloudSave = snapshot.val() || {};
-                
-                cloudSave.wells = cloudSave.wells || {};
-                cloudSave.rou = cloudSave.rou || {};
-                cloudSave.wells.currentDay = wellsDay;
-                cloudSave.rou.currentDay = rouDay;
-                cloudSave.lastUpdated = Date.now() + 1000000;
-                cloudSave.device = 'ADMIN_SET_PROGRESS';
-                
-                await saveRef.set(cloudSave);
-                
-                document.getElementById('firebaseStatus').textContent = 
-                    `✅ Cloud updated: Wells Day ${wellsDay}, Rou Day ${rouDay}`;
-                
-                // Update the checklist display if function exists
-                if (typeof updateProgressDisplay === 'function') {
-                    updateProgressDisplay();
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-                console.error(error);
-            }
-        }
-
-        // Debug function to check what's loaded
-        function debugFirebase() {
-            console.log('Checking Firebase status...');
-            console.log('firebase:', typeof firebase);
-            console.log('firebaseDB:', typeof firebaseDB);
-            console.log('firebaseAuth:', typeof firebaseAuth);
-            
-            if (typeof firebase !== 'undefined') {
-                console.log('Firebase app:', firebase.app());
-            }
-        }
-
         // Run debug on load
         window.addEventListener('load', function() {
             debugFirebase();
@@ -2614,5 +2710,4 @@
         });
     </script>
 </body>
-</html> 
 </html> 
