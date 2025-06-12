@@ -2396,8 +2396,38 @@
 
     <!-- Firebase Remote Control Functions -->
     <script>
-        // Firebase Remote Control Functions
+        // Debug script loading
+        console.log('Checklist page loading...');
+        console.log('Current scripts:', document.querySelectorAll('script'));
+
+        // Wait for Firebase to load
+        let firebaseReady = false;
+
+        // Check if Firebase is loaded
+        function checkFirebase() {
+            if (typeof firebase !== 'undefined' && typeof firebaseDB !== 'undefined') {
+                firebaseReady = true;
+                document.getElementById('firebaseStatus').textContent = '✅ Firebase connected - Ready for commands';
+                return true;
+            }
+            return false;
+        }
+
+        // Initialize Firebase check
+        setTimeout(() => {
+            if (!checkFirebase()) {
+                document.getElementById('firebaseStatus').textContent = '❌ Firebase not loaded - Check console for errors';
+                console.error('Firebase failed to load. Check that firebaseConfig.js exists and has correct config.');
+            }
+        }, 2000);
+
+        // Firebase Remote Control Functions with safety checks
         async function pushCurrentSaveAsMaster() {
+            if (!checkFirebase()) {
+                alert('Firebase not loaded yet. Please wait and try again.');
+                return;
+            }
+            
             try {
                 const gameData = JSON.parse(localStorage.getItem('runeBearerSave') || '{}');
                 
@@ -2419,10 +2449,16 @@
                 alert('Success! This save is now the master. All devices will sync to this.');
             } catch (error) {
                 alert('Error: ' + error.message);
+                console.error(error);
             }
         }
 
         async function viewFirebaseSave() {
+            if (!checkFirebase()) {
+                document.getElementById('firebaseStatus').textContent = '❌ Firebase not loaded';
+                return;
+            }
+            
             try {
                 const saveRef = firebaseDB.ref('saves/family_rb25');
                 const snapshot = await saveRef.once('value');
@@ -2441,10 +2477,16 @@
                 }
             } catch (error) {
                 document.getElementById('firebaseStatus').textContent = '❌ Error: ' + error.message;
+                console.error(error);
             }
         }
 
         async function pullFromCloud() {
+            if (!checkFirebase()) {
+                alert('Firebase not loaded yet. Please wait and try again.');
+                return;
+            }
+            
             try {
                 const saveRef = firebaseDB.ref('saves/family_rb25');
                 const snapshot = await saveRef.once('value');
@@ -2461,10 +2503,16 @@
                 }
             } catch (error) {
                 alert('Error: ' + error.message);
+                console.error(error);
             }
         }
 
         async function forceCloudSync() {
+            if (!checkFirebase()) {
+                alert('Firebase not loaded yet. Please wait and try again.');
+                return;
+            }
+            
             try {
                 const saveRef = firebaseDB.ref('saves/family_rb25');
                 const snapshot = await saveRef.once('value');
@@ -2480,10 +2528,16 @@
                 }
             } catch (error) {
                 alert('Error: ' + error.message);
+                console.error(error);
             }
         }
 
         async function setRemoteProgress() {
+            if (!checkFirebase()) {
+                alert('Firebase not loaded yet. Please wait and try again.');
+                return;
+            }
+            
             try {
                 const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
                 const rouDay = parseInt(document.getElementById('remoteRouDay').value);
@@ -2499,28 +2553,45 @@
                 cloudSave.lastUpdated = Date.now() + 1000000;
                 cloudSave.device = 'ADMIN_SET_PROGRESS';
                 
-                // Also update local if it exists
-                const localSave = JSON.parse(localStorage.getItem('runeBearerSave') || '{}');
-                if (localSave.wells) {
-                    localSave.wells.currentDay = wellsDay;
-                    localSave.rou.currentDay = rouDay;
-                    localStorage.setItem('runeBearerSave', JSON.stringify(localSave));
-                }
-                
                 await saveRef.set(cloudSave);
                 
                 document.getElementById('firebaseStatus').textContent = 
                     `✅ Cloud updated: Wells Day ${wellsDay}, Rou Day ${rouDay}`;
                 
-                // Update the checklist display
-                updateProgressDisplay();
+                // Update the checklist display if function exists
+                if (typeof updateProgressDisplay === 'function') {
+                    updateProgressDisplay();
+                }
             } catch (error) {
                 alert('Error: ' + error.message);
+                console.error(error);
             }
         }
 
-        // Auto-check cloud status on load
-        setTimeout(viewFirebaseSave, 1500);
+        // Debug function to check what's loaded
+        function debugFirebase() {
+            console.log('Checking Firebase status...');
+            console.log('firebase:', typeof firebase);
+            console.log('firebaseDB:', typeof firebaseDB);
+            console.log('firebaseAuth:', typeof firebaseAuth);
+            
+            if (typeof firebase !== 'undefined') {
+                console.log('Firebase app:', firebase.app());
+            }
+        }
+
+        // Run debug on load
+        window.addEventListener('load', function() {
+            debugFirebase();
+            
+            // Try to check status after a delay
+            setTimeout(() => {
+                if (checkFirebase()) {
+                    viewFirebaseSave();
+                }
+            }, 3000);
+        });
     </script>
 </body>
+</html> 
 </html> 
