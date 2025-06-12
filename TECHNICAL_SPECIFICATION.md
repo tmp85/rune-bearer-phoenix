@@ -383,7 +383,7 @@ To solve this room:
 ### Boss Battle Schedule
 - Sub-bosses: Days 5, 15, 25, 35
 - Bosses: Days 10, 20, 30, 40
-- Chicken Jockey Arenas: Wells Day 9, Rou Day 29
+- Desert Amphitheater (Wells Day 9), Chicken Jockey Arena (Rou Day 29)
 
 ### Special Day Types
 - `isSubBoss: true` - Enhanced loot, special mechanics

@@ -251,7 +251,7 @@ Each realm has 10 rooms:
 ### **Special Encounters**
 - **Sub-Bosses:** Days 5, 15, 25, 35
 - **Bosses:** Days 10, 20, 30, 40
-- **Chicken Jockey Arenas:** 
+- **Desert Amphitheater and Chicken Jockey Arena:** 
   - Wells: Day 9 (6/12) - Big loot
   - Rou: Day 29 (7/10) - Big loot
 

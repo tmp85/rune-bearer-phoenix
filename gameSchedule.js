@@ -605,7 +605,7 @@ gameSchedule = {
       },
       "rou": {
         "realm": "Frostpeak Summit",
-        "room": "Chicken Jockey Arena",
+        "room": "Desert Amphitheater",
         "irlTask": null,
         "runeDropped": "Glacier Heart",
         "lootTier": "Big",
