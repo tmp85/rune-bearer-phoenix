@@ -7906,7 +7906,7 @@
             });
             
             // Show final completion message for specific days with final messages
-            if (currentDay === 3 || (currentDay === 4 && currentPlayer === 'rou') || (currentDay === 7 && currentPlayer === 'wells')) {
+            if (currentDay === 3 || (currentDay === 4 && currentPlayer === 'rou') || (currentDay === 7 && currentPlayer === 'wells') || (currentDay === 9 && currentPlayer === 'wells')) {
                 let finalMessage, completionTitle, completionIcon;
                 
                 if (currentPlayer === 'wells' && currentDay === 3) {
@@ -7921,6 +7921,12 @@
                         'A low chime echoes as the last crystal clicks home. The Sandsteel Guardian bows and drops a fist-sized metal capsule, its facets shifting like desert plates—an intriguing mystery for your next rest stop!';
                     completionTitle = 'Dawn\'s Edge Plateau Complete!';
                     completionIcon = '🌄';
+                } else if (currentPlayer === 'wells' && currentDay === 9) {
+                    const mathChallenge = getCurrentMathChallenge(dayContent, currentDay, currentPlayer);
+                    finalMessage = mathChallenge.finalMessage || 
+                        'Wells calls \'240!\' A bell clangs: the exhausted rider slumps over, gasping. The chicken bolts in a dust cloud, the limp baby-zombie flopping on its back as they exit the ring. In the cleared centre glints a hefty 🌿 Iron Root twisted into a champion\'s belt clasp—proof of victory. Flint barks approval while the open gate beckons toward the next dawn-lit challenge.';
+                    completionTitle = 'Chicken-Jockey Arena Complete!';
+                    completionIcon = '🥊';
                 } else if (currentPlayer === 'rou') {
                     if (currentDay === 4) {
                         finalMessage = dayContent.mathChallenge2.finalMessage ||
