@@ -4185,10 +4185,13 @@
                     realm: 'Dawnbreak Expanse',
                     room: 'Arena',
                     icon: '🪶',
-                    artwork: 'assets/rooms/wells-day-9-art.jpg',
+                    artwork: 'assets/rooms/DawnbreakExpanse/wells-day-9-art.jpg',
                     story: 'Sun-bleached amphitheatre rings a dust-swirled pit. At its heart rests an aged wooden upright piano, varnish cracked, keys yellowed, faint amber light flickering between the slats. No creatures stir—only shimmering heat.',
                     baseRune: 'Iron Root',
                     runeIcon: '🌿',
+                    lootTier: 'big',
+                    lootArt: 'ender_creep_loot.png',
+                    lootDescription: 'Ancient Relic Discovered! The defeated creature drops a mysterious obsidian chest. Inside gleams a forgotten artifact from the deepest dungeons—a relic of power waiting to aid your quest ahead.',
                     irlChallenge: {
                         title: '🎹 Sound the Arena Call',
                         icon: '🎹',
@@ -5256,7 +5259,8 @@
             const dayType = hasIRLChallenge ? 'adventure' : 'Crystal Mysteries';
             
             // Check for loot reward from room data ONLY
-            const hasLoot = dayContent.baseLoot && dayContent.baseLoot.tier && dayContent.baseLoot.tier !== 'none';
+            const hasLoot = (dayContent.baseLoot && dayContent.baseLoot.tier && dayContent.baseLoot.tier !== 'none') || 
+                           (dayContent.lootTier && dayContent.lootTier !== 'none');
             
             console.log('Loot detection (room data only):', { 
                 hasLoot, 
@@ -5305,7 +5309,7 @@
                             showRuneDiscoveryModal(currentPlayer, dayContent.baseRune, () => {
                                 // After rune modal, show loot modal if applicable, otherwise return to main
                                 if (hasLoot) {
-                                    const lootTier = dayContent.baseLoot.tier;
+                                    const lootTier = dayContent.lootTier || dayContent.baseLoot?.tier;
                                     console.log('Calling showLootModal with lootTier (after rune):', lootTier);
                                     showLootModal(currentPlayer, currentDay, lootTier);
                                 } else {
@@ -5314,7 +5318,7 @@
                             });
                         } else if (hasLoot) {
                             // Show loot modal, then return to main interface
-                            const lootTier = dayContent.baseLoot.tier;
+                            const lootTier = dayContent.lootTier || dayContent.baseLoot?.tier;
                             console.log('Calling showLootModal with lootTier (final else):', lootTier);
                             showLootModal(currentPlayer, currentDay, lootTier);
                         } else {
@@ -5329,7 +5333,7 @@
                     showRuneDiscoveryModal(currentPlayer, dayContent.baseRune, () => {
                         // After rune modal, show loot modal if applicable, otherwise return to main
                         if (hasLoot) {
-                            const lootTier = dayContent.baseLoot.tier;
+                            const lootTier = dayContent.lootTier || dayContent.baseLoot?.tier;
                             console.log('Calling showLootModal with lootTier (no success modal):', lootTier);
                             showLootModal(currentPlayer, currentDay, lootTier);
                         } else {
@@ -5338,7 +5342,7 @@
                     });
                 } else if (hasLoot) {
                     // Show loot modal, then return to main interface
-                    const lootTier = dayContent.baseLoot.tier;
+                    const lootTier = dayContent.lootTier || dayContent.baseLoot?.tier;
                     console.log('Calling showLootModal with lootTier (final else):', lootTier);
                     showLootModal(currentPlayer, currentDay, lootTier);
                 } else {
@@ -5404,6 +5408,17 @@
         }
 
         function getLootData(player, day, lootType) {
+            // First check if the day content has specific loot properties
+            const dayContent = gameContent[player]?.[`day${day}`];
+            if (dayContent && dayContent.lootArt && dayContent.lootDescription) {
+                return {
+                    artwork: `assets/loot/${dayContent.lootArt}`,
+                    title: `${lootType} Loot Found!`,
+                    description: dayContent.lootDescription
+                };
+            }
+            
+            // Fallback to hardcoded configurations
             const lootConfigs = {
                 wells: {
                     day1: {
