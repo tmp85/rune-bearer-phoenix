@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rune Bearer Schedule Tracker</title>
+    <!-- Firebase Scripts for Remote Control -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="js/firebaseConfig.js"></script>
     <style>
         :root {
             --primary-purple: #8b5cf6;
@@ -699,6 +704,47 @@
         <p>Manage Wells and Rou's progress through their 40-day adventure</p>
     </div>
 
+    <!-- Firebase Remote Control Center -->
+    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #7c3aed; border-radius: 20px; padding: 25px; margin: 20px auto; max-width: 1200px; box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);">
+        <h2 style="color: #a78bfa; text-align: center; margin-top: 0; font-size: 24px;">
+            🔥 Firebase Cloud Sync Control 🔥
+        </h2>
+        
+        <div style="background: rgba(124, 58, 237, 0.2); border-radius: 10px; padding: 15px; margin-bottom: 20px; text-align: center; color: #e9d5ff; font-family: monospace;">
+            <span id="firebaseStatus">Loading cloud status...</span>
+        </div>
+        
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px;">
+            <button onclick="pushCurrentSaveAsMaster()" style="background: #7c3aed; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);">
+                📤 Push as Master Save
+            </button>
+            <button onclick="viewFirebaseSave()" style="background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);">
+                📥 Check Cloud Status
+            </button>
+            <button onclick="pullFromCloud()" style="background: #8b5cf6; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
+                ⬇️ Pull Cloud Save
+            </button>
+            <button onclick="forceCloudSync()" style="background: #ec4899; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
+                🔄 Force Sync All
+            </button>
+        </div>
+        
+        <div style="background: rgba(124, 58, 237, 0.2); border-radius: 10px; padding: 15px;">
+            <h3 style="color: #a78bfa; margin-top: 0; text-align: center;">Set Cloud Progress</h3>
+            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
+                <label style="color: #e9d5ff;">Wells Day: 
+                    <input type="number" id="remoteWellsDay" value="1" min="1" max="40" style="width: 60px; padding: 5px; background: #2d2d44; color: white; border: 1px solid #7c3aed; border-radius: 5px; margin-left: 5px;">
+                </label>
+                <label style="color: #e9d5ff;">Rou Day: 
+                    <input type="number" id="remoteRouDay" value="1" min="1" max="40" style="width: 60px; padding: 5px; background: #2d2d44; color: white; border: 1px solid #7c3aed; border-radius: 5px; margin-left: 5px;">
+                </label>
+                <button onclick="setRemoteProgress()" style="background: #10b981; color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    ☁️ Update Cloud
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="progress-summary">
         <div class="progress-item">
             <div class="progress-number" id="wellsProgress">0</div>
@@ -763,7 +809,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="firebaseConfig.js"></script>
     <script src="js/saveManager.js"></script>
     <script src="gameSchedule.js"></script>
     <script>
@@ -2350,6 +2395,135 @@
         document.addEventListener('DOMContentLoaded', () => {
             checkAdminCommands();
         });
+    </script>
+
+    <!-- Firebase Remote Control Functions -->
+    <script>
+        // Firebase Remote Control Functions
+        async function pushCurrentSaveAsMaster() {
+            try {
+                const gameData = JSON.parse(localStorage.getItem('runeBearerSave') || '{}');
+                
+                if (!gameData.wells || !gameData.rou) {
+                    alert('No local game data found! Load the game first.');
+                    return;
+                }
+                
+                gameData.lastUpdated = Date.now() + 1000000;
+                gameData.device = 'ADMIN_CHECKLIST_MASTER';
+                gameData.isMasterSave = true;
+                
+                const saveRef = firebaseDB.ref('saves/family_rb25');
+                await saveRef.set(gameData);
+                
+                document.getElementById('firebaseStatus').textContent = 
+                    `✅ Master save pushed! Wells: Day ${gameData.wells.currentDay}, Rou: Day ${gameData.rou.currentDay}`;
+                
+                alert('Success! This save is now the master. All devices will sync to this.');
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function viewFirebaseSave() {
+            try {
+                const saveRef = firebaseDB.ref('saves/family_rb25');
+                const snapshot = await saveRef.once('value');
+                const cloudSave = snapshot.val();
+                
+                if (cloudSave) {
+                    const status = `☁️ Cloud: Wells Day ${cloudSave.wells?.currentDay || 1}, ` +
+                                `Rou Day ${cloudSave.rou?.currentDay || 1} | ` +
+                                `Updated: ${new Date(cloudSave.lastUpdated).toLocaleString()}`;
+                    
+                    document.getElementById('firebaseStatus').textContent = status;
+                    document.getElementById('remoteWellsDay').value = cloudSave.wells?.currentDay || 1;
+                    document.getElementById('remoteRouDay').value = cloudSave.rou?.currentDay || 1;
+                } else {
+                    document.getElementById('firebaseStatus').textContent = '❌ No cloud save found!';
+                }
+            } catch (error) {
+                document.getElementById('firebaseStatus').textContent = '❌ Error: ' + error.message;
+            }
+        }
+
+        async function pullFromCloud() {
+            try {
+                const saveRef = firebaseDB.ref('saves/family_rb25');
+                const snapshot = await saveRef.once('value');
+                const cloudSave = snapshot.val();
+                
+                if (cloudSave) {
+                    localStorage.setItem('runeBearerSave', JSON.stringify(cloudSave));
+                    document.getElementById('firebaseStatus').textContent = 
+                        `✅ Pulled cloud save to this device! Refresh to see changes.`;
+                    
+                    setTimeout(() => location.reload(), 2000);
+                } else {
+                    alert('No cloud save to pull!');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function forceCloudSync() {
+            try {
+                const saveRef = firebaseDB.ref('saves/family_rb25');
+                const snapshot = await saveRef.once('value');
+                const cloudSave = snapshot.val();
+                
+                if (cloudSave) {
+                    cloudSave.lastUpdated = Date.now() + 2000000;
+                    cloudSave.forceSync = true;
+                    await saveRef.set(cloudSave);
+                    
+                    document.getElementById('firebaseStatus').textContent = '🔄 Force sync activated!';
+                    alert('All devices will update to this save on next load!');
+                }
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        async function setRemoteProgress() {
+            try {
+                const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
+                const rouDay = parseInt(document.getElementById('remoteRouDay').value);
+                
+                const saveRef = firebaseDB.ref('saves/family_rb25');
+                const snapshot = await saveRef.once('value');
+                let cloudSave = snapshot.val() || {};
+                
+                cloudSave.wells = cloudSave.wells || {};
+                cloudSave.rou = cloudSave.rou || {};
+                cloudSave.wells.currentDay = wellsDay;
+                cloudSave.rou.currentDay = rouDay;
+                cloudSave.lastUpdated = Date.now() + 1000000;
+                cloudSave.device = 'ADMIN_SET_PROGRESS';
+                
+                // Also update local if it exists
+                const localSave = JSON.parse(localStorage.getItem('runeBearerSave') || '{}');
+                if (localSave.wells) {
+                    localSave.wells.currentDay = wellsDay;
+                    localSave.rou.currentDay = rouDay;
+                    localStorage.setItem('runeBearerSave', JSON.stringify(localSave));
+                }
+                
+                await saveRef.set(cloudSave);
+                
+                document.getElementById('firebaseStatus').textContent = 
+                    `✅ Cloud updated: Wells Day ${wellsDay}, Rou Day ${rouDay}`;
+                
+                // Update the checklist display
+                updateProgressDisplay();
+            } catch (error) {
+                alert('Error: ' + error.message);
+            }
+        }
+
+        // Auto-check cloud status on load
+        setTimeout(viewFirebaseSave, 1500);
     </script>
 </body>
 </html> 
