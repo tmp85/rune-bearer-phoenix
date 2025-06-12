@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rune Bearer Schedule Tracker</title>
-    <!-- Firebase Scripts for Remote Control -->
+    <!-- Firebase Scripts - Add these BEFORE any other custom scripts -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="js/firebaseConfig.js"></script>
+    <script src="js/saveManager.js"></script>
+    <script src="gameSchedule.js"></script>
     <style>
         :root {
             --primary-purple: #8b5cf6;
@@ -806,11 +808,6 @@
         </table>
     </div>
 
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="js/saveManager.js"></script>
-    <script src="gameSchedule.js"></script>
     <script>
         // Progress tracking state - SHARED with index.html
         let progressState = {
