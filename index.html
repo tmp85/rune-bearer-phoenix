@@ -5910,23 +5910,28 @@
             try {
                 const savedState = await saveManager.loadState();
                 if (savedState) {
+                    // Store claimed rewards before any modifications
+                    const claimedRewards = savedState.claimedRewards || [];
+                    console.log('Loading saved state with claimed rewards:', claimedRewards);
+                    
                     gameState = savedState;
                     console.log('Loaded game state from Firebase');
+                    
+                    // Reset completion states for each room entry to prevent false "completed" status
+                    // This ensures challenges always start fresh when entering a room
+                    gameState.wells.irlCompleted = false;
+                    gameState.wells.mathCompleted = false;
+                    gameState.wells.mathProgress = 0;
+                    gameState.rou.irlCompleted = false;
+                    gameState.rou.mathCompleted = false;
+                    gameState.rou.mathProgress = 0;
+                    
+                    // Restore claimed rewards
+                    gameState.claimedRewards = claimedRewards;
+                    console.log('Restored claimed rewards:', gameState.claimedRewards);
                 } else {
                     console.log('No saved game state found, using default state');
-                }
-                
-                // Reset completion states for each room entry to prevent false "completed" status
-                // This ensures challenges always start fresh when entering a room
-                gameState.wells.irlCompleted = false;
-                gameState.wells.mathCompleted = false;
-                gameState.wells.mathProgress = 0;
-                gameState.rou.irlCompleted = false;
-                gameState.rou.mathCompleted = false;
-                gameState.rou.mathProgress = 0;
-                
-                // Ensure claimedRewards array exists
-                if (!gameState.claimedRewards) {
+                    // Initialize claimedRewards array in default state
                     gameState.claimedRewards = [];
                 }
             } catch (error) {
