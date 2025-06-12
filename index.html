@@ -7885,6 +7885,17 @@
             // Check for rune reward from room data
             const hasRune = dayContent.baseRune && dayContent.baseRune !== null;
             
+            // Debug logging for Day 9
+            if (currentDay === 9 && currentPlayer === 'wells') {
+                console.log('Day 9 Wells Debug:', {
+                    dayContent: dayContent,
+                    baseRune: dayContent.baseRune,
+                    hasRune: hasRune,
+                    currentPlayer: currentPlayer,
+                    currentDay: currentDay
+                });
+            }
+            
             // Add the rune to collection if one is awarded
             if (hasRune) {
                 addRuneToCollection(currentPlayer, dayContent.baseRune);
@@ -7950,6 +7961,7 @@
                     () => {
                         // Show rune discovery modal if a rune was awarded
                         if (hasRune) {
+                            console.log('Calling showRuneDiscoveryModal with:', currentPlayer, dayContent.baseRune);
                             showRuneDiscoveryModal(currentPlayer, dayContent.baseRune, () => {
                                 // After rune modal, show loot modal if applicable, otherwise return to main
                                 if (hasLoot) {
@@ -7974,6 +7986,7 @@
             } else {
                 // Show rune discovery modal first if a rune was awarded
                 if (hasRune) {
+                    console.log('Calling showRuneDiscoveryModal (else branch) with:', currentPlayer, dayContent.baseRune);
                     showRuneDiscoveryModal(currentPlayer, dayContent.baseRune, () => {
                         // After rune modal, show loot modal if applicable, otherwise return to main
                         if (hasLoot) {
