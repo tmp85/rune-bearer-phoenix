@@ -5932,7 +5932,6 @@
                 <video 
                     id="pianoVideo"
                     src="assets/videos/lava_piano.mp4" 
-                    autoplay 
                     loop 
                     controls 
                     style="width: 100%; max-height: 300px; border-radius: 8px; margin-bottom: 15px;"
@@ -7467,11 +7466,12 @@
             document.getElementById('pianoVideoContainer').style.display = 'block';
             document.getElementById('completeHarmonyBtn').style.display = 'block';
             
-            // Start video playback
+            // Start video playback only when button is clicked
             const video = document.getElementById('pianoVideo');
             if (video) {
                 video.currentTime = 0;
-                video.play().catch(e => console.log('Video autoplay prevented:', e));
+                video.muted = false; // Ensure audio is enabled
+                video.play().catch(e => console.log('Video play prevented:', e));
             }
         }
 
