@@ -485,17 +485,21 @@ class SaveManager {
         
         if (cloudDevice !== currentDevice) {
           console.log('SaveManager: Detected save update from another device');
+          
+          // Detailed diagnostic logging
+          console.log('Old progress - Wells:', localSave.wells?.currentDay, 'Rou:', localSave.rou?.currentDay);
+          console.log('New progress - Wells:', cloudSave.wells?.currentDay, 'Rou:', cloudSave.rou?.currentDay);
+          console.log('Full cloud save:', cloudSave);
+          
           localStorage.setItem(this.localSaveKey, JSON.stringify(cloudSave));
           
-          // Show notification
           this.showSyncNotification('📱 Game updated from another device!');
           
-          // Optional: Ask before reload (not automatic)
+          // Auto-reload without confirmation
           setTimeout(() => {
-            if (confirm('Game progress updated from another device. Refresh to see changes?')) {
-              window.location.reload();
-            }
-          }, 3000);
+            console.log('Auto-reloading to apply changes...');
+            window.location.reload();
+          }, 2000);
         }
       }
     });
