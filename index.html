@@ -2578,6 +2578,2586 @@
         }
 
         .completion-confirm-title {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏰 Rune Bearer Phoenix - Summer Challenge 🏰</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Almendra:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="firebaseConfig.js"></script>
+    <script src="js/saveManager.js"></script>
+    <script src="gameSchedule.js"></script>
+    
+    <script>
+    // Admin URL Commands - allows remote control via URL parameters
+    // Example: yoursite.com?admin=unlock&day=10&key=RB25Admin
+    function checkAdminCommands() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const adminCmd = urlParams.get('admin');
+        const adminKey = urlParams.get('key');
+        
+        // Change this key to something secure!
+        const ADMIN_KEY = 'RB25Admin2025';
+        
+        if (adminKey === ADMIN_KEY && adminCmd) {
+            console.log('Admin command received:', adminCmd);
+            
+            switch(adminCmd) {
+                case 'unlock':
+                    const day = parseInt(urlParams.get('day') || '1');
+                    const wells = urlParams.get('wells') || day;
+                    const rou = urlParams.get('rou') || day;
+                    
+                    // Set player progress
+                    (async () => {
+                        const gameData = await loadGameData();
+                        gameData.wells.currentDay = parseInt(wells);
+                        gameData.rou.currentDay = parseInt(rou);
+                        gameData.lastUpdated = Date.now() + 1000000; // Future timestamp
+                        gameData.device = 'ADMIN_URL_COMMAND';
+                        
+                        await saveGameData(gameData);
+                        
+                        alert(`Admin: Set Wells to Day ${wells}, Rou to Day ${rou}`);
+                        
+                        // Clear URL parameters and reload
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                        setTimeout(() => window.location.reload(), 1000);
+                    })();
+                    break;
+                    
+                case 'reset':
+                    if (confirm('Admin: Reset entire game to Day 1?')) {
+                        (async () => {
+                            await adminResetGame();
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                        })();
+                    }
+                    break;
+                    
+                case 'addrune':
+                    const player = urlParams.get('player');
+                    const rune = urlParams.get('rune');
+                    
+                    if (player && rune) {
+                        (async () => {
+                            const gameData = await loadGameData();
+                            if (!gameData[player].collectedRunes.includes(rune)) {
+                                gameData[player].collectedRunes.push(rune);
+                                gameData.lastUpdated = Date.now() + 1000000;
+                                await saveGameData(gameData);
+                                alert(`Admin: Added ${rune} to ${player}`);
+                            }
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                            setTimeout(() => window.location.reload(), 1000);
+                        })();
+                    }
+                    break;
+                    
+                case 'status':
+                    (async () => {
+                        const gameData = await loadGameData();
+                        alert(`Admin Status:\n\nWells: Day ${gameData.wells.currentDay}, Runes: ${gameData.wells.collectedRunes.length}\nRou: Day ${gameData.rou.currentDay}, Runes: ${gameData.rou.collectedRunes.length}\n\nLast Updated: ${new Date(gameData.lastUpdated).toLocaleString()}`);
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    })();
+                    break;
+            }
+        }
+    }
+    </script>
+    
+    <style>
+        /* Updated Color Palette */
+        :root {
+            --primary-green: #22c55e;
+            --secondary-blue: #3b82f6;
+            --primary-orange: #f97316;
+            --success-green: #22c55e;
+            --gray-light: #e5e7eb;
+            --gray-medium: #9ca3af;
+            --gray-dark: #374151;
+            --gray-darker: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            background-image: url('assets/backgrounds/RuWg9QG2E9Z5L3trxaTX--0--eyvrg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        .game-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 10px 10px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid #fbbf24;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+            position: relative;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706);
+            border-radius: 20px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.8em;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #fbbf24;
+            background: linear-gradient(45deg, #fbbf24, #fcd34d, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .date-info {
+            font-size: 1.2em;
+            opacity: 0.9;
+            color: var(--gray-light);
+            font-weight: 500;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 280px 400px 280px;
+            gap: 25px;
+            margin-bottom: 30px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1010px;
+        }
+
+        .player-card {
+            background: rgba(31, 41, 55, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .player-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(0,0,0,0.2));
+            z-index: -1;
+        }
+
+        .wells-card {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 25px rgba(249, 115, 22, 0.3);
+        }
+
+        .wells-card:hover {
+            border-color: var(--primary-orange);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.5);
+        }
+
+        .rou-card {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.3);
+        }
+
+        .rou-card:hover {
+            border-color: var(--secondary-blue);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Progress Summary Section */
+        .progress-summary-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.05));
+            border-bottom: 2px solid rgba(139, 92, 246, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .current-day-display {
+            text-align: center;
+        }
+
+        .current-day-title {
+            font-size: 1rem;
+            color: var(--text-gray);
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .current-day-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-purple);
+            text-shadow: 0 0 15px rgba(139, 92, 246, 0.5);
+            margin-bottom: 0.25rem;
+        }
+
+        .current-day-date {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .progress-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .progress-stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            min-width: 120px;
+        }
+
+        .progress-value {
+            display: block;
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-purple);
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        .admin-link-btn {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .admin-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .admin-spider-link {
+            position: fixed !important;
+            bottom: 30px !important;
+            left: 30px !important;
+            z-index: 9999 !important;
+            pointer-events: auto !important;
+        }
+
+        .admin-spider-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .admin-spider-btn:hover {
+            transform: scale(1.2);
+            opacity: 1;
+        }
+
+        .spider-icon {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .spider-text {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .progress-summary-section {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .progress-stats {
+                gap: 1rem;
+            }
+
+            .current-day-number {
+                font-size: 2rem;
+            }
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 52px;
+            border: 4px solid;
+            transition: all 0.3s ease;
+            overflow: hidden; /* Ensures image stays within circular bounds */
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            border-radius: 50%;
+        }
+
+        .wells-avatar {
+            background: linear-gradient(135deg, var(--primary-orange), #f59e0b);
+            border-color: #fbbf24;
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+        }
+
+        .rou-avatar {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            border-color: #60a5fa;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .player-card:hover .avatar {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+        }
+
+        .player-name {
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .current-room {
+            font-family: 'Almendra', serif;
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 12px;
+            color: var(--gray-light);
+            font-weight: 500;
+        }
+
+        .day-info {
+            font-size: 1em;
+            opacity: 0.8;
+            margin-bottom: 20px;
+            color: var(--gray-medium);
+            font-weight: 400;
+        }
+
+        /* Center Content Area */
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: rgba(55, 65, 81, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            height: 600px;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+        }
+
+        .center-content:hover {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .center-placeholder {
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        .center-placeholder .icon {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, var(--primary-green), var(--secondary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .center-placeholder .title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--gray-light);
+        }
+
+        .center-placeholder .subtitle {
+            font-size: 0.9em;
+            color: var(--gray-medium);
+            font-style: italic;
+        }
+
+        /* Screen Border for Modal Anti-Dimming */
+        .screen-border {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+            display: none;
+            border: 1px solid transparent;
+            transition: opacity 0.3s ease;
+        }
+
+        .screen-border.wells-border {
+            border-color: rgba(255, 149, 0, 0.3); /* Subtle Wells orange border */
+            box-shadow: 
+                /* Multiple layers of soft glow */
+                inset 0 0 20px rgba(255, 149, 0, 0.4),
+                inset 0 0 40px rgba(255, 149, 0, 0.3),
+                inset 0 0 80px rgba(255, 149, 0, 0.2),
+                inset 0 0 120px rgba(255, 149, 0, 0.1),
+                /* Outer glow */
+                0 0 20px rgba(255, 149, 0, 0.3),
+                0 0 40px rgba(255, 149, 0, 0.2),
+                0 0 60px rgba(255, 149, 0, 0.1);
+        }
+
+        .screen-border.rou-border {
+            border-color: rgba(96, 165, 250, 0.3); /* Subtle blue border for Rou */
+            box-shadow: 
+                /* Multiple layers of soft glow */
+                inset 0 0 20px rgba(96, 165, 250, 0.4),
+                inset 0 0 40px rgba(96, 165, 250, 0.3),
+                inset 0 0 80px rgba(96, 165, 250, 0.2),
+                inset 0 0 120px rgba(96, 165, 250, 0.1),
+                /* Outer glow */
+                0 0 20px rgba(96, 165, 250, 0.3),
+                0 0 40px rgba(96, 165, 250, 0.2),
+                0 0 60px rgba(96, 165, 250, 0.1);
+        }
+
+        .screen-border.active {
+            display: block !important;
+            opacity: 1 !important;
+        }
+
+        /* Room View Modal */
+        .room-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .room-content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .room-header {
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            margin: 0 auto 20px auto;
+            max-width: 600px;
+        }
+
+        /* Wells room header (orange theme) */
+        .room-header.wells-theme {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(249, 115, 22, 0.1));
+            border: 3px solid var(--primary-orange);
+            box-shadow: 0 0 30px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Rou room header (blue theme) */
+        .room-header.rou-theme {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.1));
+            border: 3px solid var(--secondary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+        }
+
+        .room-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        /* Wells room title (orange) */
+        .room-title.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        /* Rou room title (blue) */
+        .room-title.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        .room-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2em;
+            color: #f59e0b;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .room-artwork {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 15px;
+            margin: 0 auto 20px auto;
+            border: 3px solid;
+            box-shadow: 0 0 20px;
+            display: block;
+        }
+
+        /* Wells artwork border (orange theme) */
+        .room-artwork.wells-theme {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Rou artwork border (blue) */
+        .room-artwork.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .story-section {
+            background: rgba(0,0,0,0.5);
+            border-left: 4px solid var(--secondary-blue);
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 1.9em;
+        }
+
+        .challenges-section {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .challenge-btn {
+            padding: 18px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            border: 2px solid transparent;
+            width: 100%;
+        }
+
+        .irl-challenge-btn {
+            background: linear-gradient(135deg, var(--primary-orange), #f59e0b);
+            color: white;
+            border-color: var(--primary-orange);
+        }
+
+        .irl-challenge-btn:hover:not(.completed) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.4);
+        }
+
+        .math-challenge-btn {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            color: white;
+            border-color: var(--secondary-blue);
+        }
+
+        .math-challenge-btn:hover:not(:disabled):not(.completed) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .math-challenge-btn:disabled {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            border-color: var(--gray-medium);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .challenge-btn.completed {
+            background: linear-gradient(135deg, var(--success-green), #16a34a);
+            border-color: var(--success-green);
+            cursor: not-allowed;
+        }
+
+        .challenge-btn.completed:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Challenge Content Sections */
+        .challenge-content {
+            display: none;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto 20px auto;
+            max-width: 600px;
+            border: 2px solid;
+            font-size: 1.3em; /* 30% increase from default (1em * 1.3 = 1.3em) */
+            line-height: 1.5; /* Improved readability with larger text */
+        }
+
+        /* Wells challenge content (orange theme) */
+        .challenge-content.wells-theme {
+            background: rgba(0,0,0,0.7);
+            border-color: var(--primary-orange);
+        }
+
+        /* Rou challenge content (blue theme) */
+        .challenge-content.rou-theme {
+            background: rgba(0,0,0,0.7);
+            border-color: var(--secondary-blue);
+        }
+
+        .challenge-content.active {
+            display: block;
+        }
+
+        .challenge-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .challenge-icon {
+            font-size: 2em;
+        }
+
+        .challenge-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            font-weight: 600;
+        }
+
+        /* Wells challenge title (orange) */
+        .challenge-title.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        /* Rou challenge title (blue) */
+        .challenge-title.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        .close-btn {
+            background: rgba(55, 65, 81, 0.6);
+            color: rgba(156, 163, 175, 0.8);
+            border: 1px solid rgba(156, 163, 175, 0.4);
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: normal;
+            margin-top: 80px;
+            margin-bottom: 40px;
+            width: auto;
+            max-width: 200px;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+            position: relative;
+            z-index: 10;
+        }
+
+        .close-btn:hover {
+            background: rgba(55, 65, 81, 0.8);
+            color: rgba(156, 163, 175, 1);
+            border-color: rgba(156, 163, 175, 0.6);
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Piano Challenge Styles */
+        .piano-instructions {
+            background: rgba(255,107,53,0.1);
+            border: 1px solid rgba(255,107,53,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .notes-display {
+            background: rgba(0,0,0,0.4);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            text-align: center;
+            margin: 15px 0;
+            letter-spacing: 3px;
+        }
+
+        .treble-reference {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            margin-top: 15px;
+        }
+
+        /* Math Challenge Styles */
+        .math-mission {
+            background: rgba(69,183,209,0.1);
+            border: 1px solid rgba(69,183,209,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .mission-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .mission-number {
+            background: rgba(69,183,209,0.3);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .mission-category {
+            background: rgba(0,0,0,0.4);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mission-question {
+            font-size: 1.1em;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .answer-field {
+            padding: 10px;
+            border: 2px solid rgba(69,183,209,0.3);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            color: white;
+            font-size: 1em;
+            width: 100px;
+        }
+
+        .submit-answer {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .submit-answer:hover {
+            transform: translateY(-1px);
+        }
+
+        .answer-feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .answer-feedback.correct {
+            background: rgba(39,174,96,0.2);
+            color: #2ecc71;
+        }
+
+        .answer-feedback.incorrect {
+            background: rgba(231,76,60,0.2);
+            color: #e74c3c;
+        }
+
+        .mission-progress {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .complete-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .complete-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .challenges-section {
+                flex-direction: column;
+                max-width: 100%;
+                padding: 0 10px;
+            }
+            
+            .room-content {
+                margin: 10px;
+                padding: 15px;
+            }
+
+            .room-header {
+                max-width: 100%;
+                padding: 15px;
+            }
+
+            .close-btn {
+                margin-top: 60px;
+                margin-bottom: 30px;
+                font-size: 0.85em;
+                padding: 10px 18px;
+            }
+
+            .room-title {
+                font-size: 1.6em;
+                flex-direction: column;
+                gap: 5px;
+            }
+        }
+
+        /* IRL Challenge Modal (Purple Theme) */
+        .piano-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1500;
+            overflow-y: auto;
+        }
+
+        .piano-modal-content {
+            max-width: 600px;
+            margin: 5% auto;
+            padding: 40px;
+            background: rgba(76, 29, 149, 0.95);
+            border: 3px solid #6B46C1;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(107, 70, 193, 0.5);
+            position: relative;
+        }
+
+        .piano-modal-header {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            margin-bottom: 20px;
+            color: #A855F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+
+        .piano-story-context {
+            background: rgba(168, 85, 247, 0.15);
+            border: 2px solid rgba(168, 85, 247, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .piano-challenge-desc {
+            background: rgba(249, 115, 22, 0.15);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            border-radius: 15px;
+            padding: 15px;
+            margin: 20px 0;
+            font-weight: bold;
+            color: var(--primary-orange);
+        }
+
+        .piano-instructions-modal {
+            background: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+        }
+
+        .piano-melody-display {
+            background: rgba(168, 85, 247, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+            letter-spacing: 5px;
+            color: #A855F7;
+            font-weight: bold;
+            border: 2px solid #A855F7;
+        }
+
+        .piano-complete-btn {
+            background: linear-gradient(135deg, #6B46C1, #5B21B6);
+            color: white;
+            border: 4px solid #6B46C1;
+            padding: 40px 100px;
+            border-radius: 25px;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            min-height: 100px;
+            min-width: 500px;
+            max-width: 90%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .piano-complete-btn:hover {
+            background: linear-gradient(135deg, #5B21B6, #4C1D95);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.6);
+        }
+
+        .piano-play-btn {
+            background: linear-gradient(135deg, #6B46C1, #5B21B6);
+            color: white;
+            border: 4px solid #6B46C1;
+            padding: 40px 100px;
+            border-radius: 25px;
+            font-size: 2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 50px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            min-height: 100px;
+            min-width: 500px;
+            max-width: 90%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
+        }
+
+        .piano-play-btn:hover {
+            background: linear-gradient(135deg, #5B21B6, #4C1D95);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(107, 70, 193, 0.6);
+        }
+
+        .piano-close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .piano-close-btn:hover {
+            background: rgba(0,0,0,0.8);
+        }
+
+        /* Math Question Modal */
+        .math-question-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1500;
+            overflow-y: auto;
+        }
+
+        .math-question-content {
+            max-width: 600px;
+            margin: 5% auto;
+            padding: 40px;
+            background: rgba(31, 41, 55, 0.95);
+            border-radius: 20px;
+            text-align: center;
+            position: relative;
+            border: 3px solid;
+            box-shadow: 0 0 30px;
+        }
+
+        /* Wells math question content (green theme) */
+        .math-question-content.wells-theme {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Rou math question content (blue theme) */
+        .math-question-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+
+        .math-question-header {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            font-weight: 600;
+        }
+
+        /* Wells math question header (green) */
+        .math-question-header.wells-theme {
+            color: var(--primary-green);
+        }
+
+        /* Rou math question header (blue) */
+        .math-question-header.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        .math-story-context {
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-style: italic;
+            line-height: 1.6;
+            font-size: 1.5em;
+            background: rgba(34, 197, 94, 0.15);
+            border: 2px solid;
+        }
+
+        /* Wells math story context (green theme) */
+        .math-story-context.wells-theme {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        /* Rou math story context (blue theme) */
+        .math-story-context.rou-theme {
+            background: rgba(59, 130, 246, 0.15);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .math-problem-display {
+            background: rgba(249, 115, 22, 0.15);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.2em;
+            line-height: 1.5;
+        }
+
+        .math-answer-btn {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            color: white;
+            border: 2px solid var(--secondary-blue);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .math-answer-btn:hover:not(:disabled) {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .math-answer-btn:disabled {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            border-color: var(--gray-medium);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        .math-return-btn {
+            background: linear-gradient(135deg, var(--gray-dark), var(--gray-medium));
+            color: white;
+            border: 2px solid var(--gray-medium);
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1em;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .math-return-btn:hover {
+            background: linear-gradient(135deg, var(--gray-medium), var(--gray-light));
+            color: var(--gray-darker);
+        }
+
+        /* Number Input Modal */
+        .number-input-modal {
+            display: none;
+            position: fixed;
+            top: 55%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: auto;
+            min-width: 320px;
+            max-width: 400px;
+            background: transparent;
+            z-index: 1600;
+        }
+
+        .number-input-content {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 20px;
+            text-align: center;
+            color: #333;
+            border: 3px solid;
+            box-shadow: 0 0 30px;
+        }
+
+        /* Wells number input content (green theme) */
+        .number-input-content.wells-theme {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.5);
+        }
+
+        /* Rou number input content (blue theme) */
+        .number-input-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
+        }
+
+        .number-input-header {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: var(--gray-darker);
+            font-weight: 600;
+        }
+
+        .number-question-text {
+            font-size: 1em;
+            color: var(--gray-dark);
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .number-display {
+            background: var(--gray-light);
+            border: 2px solid var(--gray-medium);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--gray-darker);
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Wells-themed number display (brown/earth) */
+        .number-display.wells-theme {
+            background: linear-gradient(135deg, #f5deb3, #deb887);
+            border: 2px solid #cd853f;
+            color: #8b4513;
+            box-shadow: inset 0 2px 4px rgba(139, 69, 19, 0.1);
+        }
+
+        /* Rou-themed number display (light blue/cool) */
+        .number-display.rou-theme {
+            background: linear-gradient(135deg, #e0f7fa, #b2ebf2);
+            border: 2px solid #4fc3f7;
+            color: #0277bd;
+            box-shadow: inset 0 2px 4px rgba(79, 195, 247, 0.1);
+        }
+
+        .number-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .number-btn {
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.5em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Wells number buttons (brown/earth dungeon theme) */
+        .number-btn.wells-theme {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            border-color: #654321;
+            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.3);
+        }
+
+        .number-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #a0522d, #cd853f);
+            border-color: #8b4513;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.4);
+        }
+
+        /* Rou number buttons (light blue/cool crystal theme) */
+        .number-btn.rou-theme {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            border-color: #0288d1;
+            box-shadow: 0 2px 6px rgba(79, 195, 247, 0.3);
+        }
+
+        .number-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #29b6f6, #03a9f4);
+            border-color: #0277bd;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 195, 247, 0.4);
+        }
+
+        .number-zero {
+            grid-column: 2;
+        }
+
+        .control-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Control button styling with player-specific themes */
+        .clear-btn, .backspace-btn, .submit-btn {
+            color: white;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Wells-themed control buttons (brown/earth) */
+        .clear-btn.wells-theme {
+            background: linear-gradient(135deg, #d2691e, #cd853f);
+            border-color: #a0522d;
+        }
+
+        .clear-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #cd853f, #daa520);
+            transform: translateY(-1px);
+        }
+
+        .backspace-btn.wells-theme {
+            background: linear-gradient(135deg, #8b4513, #a0522d);
+            border-color: #654321;
+        }
+
+        .backspace-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #a0522d, #cd853f);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn.wells-theme {
+            background: linear-gradient(135deg, #228b22, #32cd32);
+            border-color: #006400;
+        }
+
+        .submit-btn.wells-theme:hover {
+            background: linear-gradient(135deg, #32cd32, #7cfc00);
+            transform: translateY(-1px);
+        }
+
+        /* Rou-themed control buttons (light blue/cool) */
+        .clear-btn.rou-theme {
+            background: linear-gradient(135deg, #87ceeb, #add8e6);
+            border-color: #4682b4;
+        }
+
+        .clear-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #add8e6, #b0e0e6);
+            transform: translateY(-1px);
+        }
+
+        .backspace-btn.rou-theme {
+            background: linear-gradient(135deg, #4fc3f7, #29b6f6);
+            border-color: #0288d1;
+        }
+
+        .backspace-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #29b6f6, #03a9f4);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn.rou-theme {
+            background: linear-gradient(135deg, #00bcd4, #26c6da);
+            border-color: #0097a7;
+        }
+
+        .submit-btn.rou-theme:hover {
+            background: linear-gradient(135deg, #26c6da, #4dd0e1);
+            transform: translateY(-1px);
+        }
+
+        /* Logo Styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .main-logo {
+            max-width: 350px;
+            max-height: 140px;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(251, 191, 36, 0.3);
+            border: 2px solid rgba(251, 191, 36, 0.4);
+            transition: all 0.4s ease;
+        }
+
+        .background-art-container {
+            flex: 1;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .background-art {
+            width: 100%;
+            height: 400px;
+            object-fit: contain;
+            object-position: center;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .background-art:hover {
+            transform: scale(1.02);
+        }
+
+        .center-content:hover .main-logo {
+            transform: scale(1.02);
+            box-shadow: 0 0 35px rgba(251, 191, 36, 0.5);
+            border-color: #fbbf24;
+        }
+
+        /* Loot Discovery Modal */
+        .loot-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .loot-modal-content {
+            max-width: 500px;
+            margin: 5% auto;
+            padding: 0;
+            background: rgba(20, 30, 40, 0.98);
+            border: 4px solid var(--primary-green);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(34, 197, 94, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loot-header {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            padding: 25px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .loot-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .loot-artwork-container {
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(255,215,0,0.1), rgba(255,165,0,0.05));
+        }
+
+        .loot-artwork {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            border-radius: 15px;
+            border: 3px solid rgba(255,215,0,0.4);
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            box-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .loot-content {
+            padding: 25px;
+        }
+
+        .loot-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            font-weight: 600;
+            color: #ffd700;
+            margin-bottom: 15px;
+        }
+
+        .loot-description {
+            font-size: 1.1em;
+            color: var(--gray-light);
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .loot-rarity-box {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .loot-rarity-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .loot-rarity-desc {
+            font-size: 1em;
+            color: var(--gray-light);
+            line-height: 1.5;
+        }
+
+        .loot-continue-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .loot-continue-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        /* Rune Collection Windows */
+        .rune-collection {
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .rune-collection:hover {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .rune-collection-header {
+            font-family: 'Almendra', serif;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            font-weight: 700;
+            color: var(--primary-green);
+            border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .rune-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .rune-slot {
+            width: 45px;
+            height: 60px;
+            border: 2px solid var(--gray-medium);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+            padding: 3px;
+        }
+
+        .rune-slot .rune-emoji {
+            font-size: 1.4em;
+            margin-bottom: 2px;
+        }
+
+        .rune-slot .rune-name {
+            font-size: 0.6em;
+            line-height: 1;
+            font-weight: bold;
+        }
+
+        /* Uncollected runes */
+        .rune-slot.uncollected {
+            border-color: var(--gray-dark);
+            background: rgba(0, 0, 0, 0.2);
+            opacity: 0.3;
+            color: var(--gray-medium);
+        }
+
+        .rune-slot.uncollected .rune-emoji {
+            filter: grayscale(100%) brightness(0.4);
+        }
+
+        /* Wells collected runes (orange/gold) */
+        .wells-runes .rune-slot.collected {
+            border-color: var(--primary-orange);
+            background: rgba(249, 115, 22, 0.15);
+            box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+            color: #fbbf24;
+            opacity: 1;
+        }
+
+        .wells-runes .rune-slot.collected .rune-emoji {
+            filter: none;
+        }
+
+        /* Rou collected runes (blue/cyan) */
+        .rou-runes .rune-slot.collected {
+            border-color: var(--secondary-blue);
+            background: rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+            color: #60a5fa;
+            opacity: 1;
+        }
+
+        .rou-runes .rune-slot.collected .rune-emoji {
+            filter: none;
+        }
+
+        /* Recently collected pulse animation */
+        .rune-slot.recent {
+            animation: recentPulse 2s ease-in-out infinite alternate;
+        }
+
+        .wells-runes .rune-slot.recent {
+            animation: recentPulseOrange 2s ease-in-out infinite alternate;
+        }
+
+        .rou-runes .rune-slot.recent {
+            animation: recentPulseBlue 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes recentPulseOrange {
+            from { 
+                box-shadow: 0 0 12px rgba(249, 115, 22, 0.4);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 20px rgba(249, 115, 22, 0.7);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes recentPulseBlue {
+            from { 
+                box-shadow: 0 0 12px rgba(59, 130, 246, 0.4);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+                transform: scale(1.05);
+            }
+        }
+
+        .rune-slot:hover {
+            transform: scale(1.1);
+        }
+
+        .rune-slot.collected:hover {
+            filter: brightness(1.2);
+        }
+
+        /* Tooltip for rune descriptions - DISABLED */
+        /*
+        .rune-tooltip {
+            position: absolute;
+            bottom: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            border: 1px solid var(--primary-green);
+            z-index: 1000;
+        }
+
+        .rune-slot:hover .rune-tooltip {
+            opacity: 1;
+        }
+        */
+
+        /* Subtle Admin Controls */
+        .admin-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .admin-btn {
+            position: absolute;
+            bottom: 15px;
+            width: 70px;
+            height: 28px;
+            background: rgba(55, 65, 81, 0.4);
+            border: 1px solid rgba(156, 163, 175, 0.3);
+            border-radius: 6px;
+            color: rgba(156, 163, 175, 0.6);
+            font-size: 11px;
+            cursor: pointer;
+            opacity: 0.35;
+            transition: all 0.2s ease;
+            pointer-events: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+        }
+
+        .admin-btn:hover {
+            opacity: 0.8;
+            background: rgba(55, 65, 81, 0.6);
+            border-color: rgba(156, 163, 175, 0.5);
+            color: rgba(156, 163, 175, 0.9);
+        }
+
+        .admin-reset {
+            left: 15px;
+        }
+
+        .admin-intro {
+            right: 95px; /* Move splash button left to make room for screensaver button */
+        }
+
+        .admin-screensaver {
+            right: 15px; /* Position screensaver button on the right */
+        }
+
+        /* Rune Reward Key Section */
+        .rune-reward-key {
+            margin-top: 30px;
+            padding: 25px;
+            background: rgba(31, 41, 55, 0.95);
+            border: 3px solid var(--primary-green);
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .rune-reward-key:hover {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.4);
+        }
+
+        .reward-key-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .reward-key-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 8px;
+        }
+
+        .reward-key-subtitle {
+            font-size: 1.1em;
+            opacity: 0.8;
+            color: var(--gray-light);
+            font-style: italic;
+        }
+
+        .reward-key-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1320px;
+            margin: 0 auto;
+        }
+
+        .reward-entry {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reward-entry:hover {
+            transform: translateY(-2px);
+            border-color: rgba(34, 197, 94, 0.5);
+            box-shadow: 0 6px 20px rgba(34, 197, 94, 0.2);
+        }
+
+        /* Rune Reference Guide highlighting - Three visual states */
+        .reward-entry.completed {
+            /* Complete pairs (both runes collected, ready to claim) */
+            border: 2px solid var(--success-green);
+            background: rgba(34, 197, 94, 0.15);
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .reward-entry.completed:not(.claimed):hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px rgba(34, 197, 94, 0.5);
+        }
+
+        .reward-entry.completed::after {
+            content: '✅ READY TO CLAIM';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: var(--success-green);
+            background: rgba(34, 197, 94, 0.2);
+            padding: 2px 6px;
+            border-radius: 6px;
+            text-shadow: 0 0 5px rgba(34, 197, 94, 0.8);
+        }
+
+        .reward-entry.claimed {
+            /* Claimed rewards (completed and reward has been given) */
+            border: 2px solid #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.3);
+            position: relative;
+        }
+
+        .reward-entry.claimed::after {
+            content: '🏆 CLAIMED';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #fbbf24;
+            background: rgba(251, 191, 36, 0.2);
+            padding: 2px 6px;
+            border-radius: 6px;
+            text-shadow: 0 0 5px rgba(251, 191, 36, 0.8);
+        }
+
+        .reward-entry.partial {
+            /* Partial pairs (one rune collected) */
+            border: 2px solid rgba(156, 163, 175, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 8px rgba(156, 163, 175, 0.25);
+        }
+
+        /* Individual rune highlighting within reward entries */
+        .reward-rune.collected {
+            /* Light highlight for collected individual runes */
+            background: rgba(34, 197, 94, 0.2);
+            border-color: rgba(34, 197, 94, 0.6);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.4);
+            transform: scale(1.05);
+        }
+
+        .reward-rune.uncollected {
+            /* Dimmed for uncollected runes */
+            opacity: 0.6;
+            filter: grayscale(30%);
+        }
+
+        .reward-day {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #fbbf24;
+            text-align: center;
+        }
+
+        .reward-runes {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .reward-rune {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            min-width: 92px;
+        }
+
+        .reward-rune:hover {
+            transform: scale(1.1);
+        }
+
+        /* Wells reward rune styling (orange theme) */
+        .reward-rune.wells-reward {
+            background: rgba(249, 115, 22, 0.15);
+            border: 2px solid rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 10px rgba(249, 115, 22, 0.2);
+        }
+
+        .reward-rune.wells-reward:hover {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        }
+
+        .reward-rune.wells-reward .rune-name {
+            color: var(--primary-orange);
+        }
+
+        /* Rou reward rune styling (blue theme) */
+        .reward-rune.rou-reward {
+            background: rgba(59, 130, 246, 0.15);
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+        }
+
+        .reward-rune.rou-reward:hover {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .reward-rune.rou-reward .rune-name {
+            color: var(--secondary-blue);
+        }
+
+        .rune-icon {
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .rune-name {
+            font-size: 0.9em;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .reward-arrow {
+            font-size: 1.8em;
+            color: var(--primary-green);
+            text-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+            animation: pulse 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { opacity: 0.7; transform: scale(1); }
+            to { opacity: 1; transform: scale(1.1); }
+        }
+
+        .reward-description {
+            font-size: 0.95em;
+            opacity: 0.8;
+            color: var(--gray-light);
+            text-align: center;
+            line-height: 1.4;
+            font-style: italic;
+        }
+
+        /* Responsive design for reward key */
+        @media (max-width: 768px) {
+            .reward-key-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .reward-entry {
+                padding: 15px;
+            }
+            
+            .reward-runes {
+                gap: 10px;
+            }
+            
+            .rune-icon {
+                font-size: 1.8em;
+            }
+        }
+
+        /* Audio Help Button Styles */
+        .audio-help-section {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .audio-help-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            border: 2px solid var(--primary-green);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 0 auto;
+            box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-help-btn:hover {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.5);
+            border-color: #22c55e;
+        }
+
+        .audio-help-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 15px rgba(34, 197, 94, 0.4);
+        }
+
+        .audio-help-btn.playing {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            border-color: var(--primary-orange);
+            animation: audioPlaying 2s ease-in-out infinite alternate;
+        }
+
+        .audio-help-btn.playing:hover {
+            background: linear-gradient(135deg, #ea580c, #dc2626);
+        }
+
+        @keyframes audioPlaying {
+            from { 
+                box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+                transform: scale(1);
+            }
+            to { 
+                box-shadow: 0 0 25px rgba(249, 115, 22, 0.7);
+                transform: scale(1.02);
+            }
+        }
+
+        .audio-icon {
+            font-size: 1.3em;
+            transition: all 0.3s ease;
+        }
+
+        .audio-help-btn.playing .audio-icon {
+            animation: pulse 1s ease-in-out infinite alternate;
+        }
+
+        .audio-text {
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+        }
+
+        /* Responsive design for audio button */
+        @media (max-width: 768px) {
+            .audio-help-btn {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+            
+            .audio-icon {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Success Message Modal */
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2500;
+            overflow-y: auto;
+        }
+
+        .success-modal-content {
+            max-width: 500px;
+            margin: 8% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(34, 197, 94, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid var(--primary-green);
+        }
+
+        .success-modal-content.wells-theme {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 50px rgba(249, 115, 22, 0.8);
+        }
+
+        .success-modal-content.rou-theme {
+            border-color: var(--secondary-blue);
+            box-shadow: 0 0 50px rgba(59, 130, 246, 0.8);
+        }
+
+        .success-header {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.3), rgba(34, 197, 94, 0.1));
+            padding: 25px;
+            border-bottom: 2px solid rgba(34, 197, 94, 0.4);
+        }
+
+        .success-header.wells-theme {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.3), rgba(249, 115, 22, 0.1));
+            border-bottom-color: rgba(249, 115, 22, 0.4);
+        }
+
+        .success-header.rou-theme {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.1));
+            border-bottom-color: rgba(59, 130, 246, 0.4);
+        }
+
+        .success-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            display: block;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8));
+            animation: successGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes successGlow {
+            from { transform: scale(1); filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.8)); }
+            to { transform: scale(1.05); filter: drop-shadow(0 0 30px rgba(255, 215, 0, 1)); }
+        }
+
+        .success-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2em;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(34, 197, 94, 0.8);
+        }
+
+        .success-title.wells-theme {
+            color: var(--primary-orange);
+            text-shadow: 0 0 20px rgba(249, 115, 22, 0.8);
+        }
+
+        .success-title.rou-theme {
+            color: var(--secondary-blue);
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+        }
+
+        .success-content {
+            padding: 30px;
+        }
+
+        .success-message {
+            font-size: 1.2em;
+            color: var(--gray-light);
+            line-height: 1.6;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+
+        .success-continue-btn {
+            background: linear-gradient(135deg, var(--primary-green), #16a34a);
+            color: white;
+            border: 2px solid var(--primary-green);
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .success-continue-btn.wells-theme {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            border-color: var(--primary-orange);
+        }
+
+        .success-continue-btn.rou-theme {
+            background: linear-gradient(135deg, var(--secondary-blue), #1d4ed8);
+            border-color: var(--secondary-blue);
+        }
+
+        .success-continue-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(34, 197, 94, 0.6);
+        }
+
+        .success-continue-btn.wells-theme:hover {
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.6);
+        }
+
+        .success-continue-btn.rou-theme:hover {
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.6);
+        }
+
+        /* IRL Activity Modal Styles */
+        .irl-instructions {
+            text-align: left;
+            background: rgba(0, 0, 0, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .irl-instructions h4 {
+            color: var(--primary-green);
+            font-family: 'Cinzel', serif;
+            font-size: 1.3em;
+            margin: 0 0 15px 0;
+            text-align: center;
+        }
+
+        .irl-instructions h4.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        .irl-instructions h4.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        #irlInstructionsList {
+            color: var(--gray-light);
+            font-size: 1.1em;
+            line-height: 1.6;
+            padding-left: 20px;
+            margin: 0 0 20px 0;
+        }
+
+        #irlInstructionsList li {
+            margin-bottom: 8px;
+        }
+
+        .irl-success-criteria {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            text-align: center;
+        }
+
+        .irl-success-criteria strong {
+            color: var(--primary-green);
+            font-family: 'Cinzel', serif;
+            font-size: 1.1em;
+        }
+
+        .irl-success-criteria strong.wells-theme {
+            color: var(--primary-orange);
+        }
+
+        .irl-success-criteria strong.rou-theme {
+            color: var(--secondary-blue);
+        }
+
+        .irl-success-criteria p {
+            color: var(--gray-light);
+            font-style: italic;
+            margin: 8px 0 0 0;
+        }
+
+        /* Day Completion Modal */
+        .day-completion-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2500;
+            overflow-y: auto;
+        }
+
+        .day-completion-content {
+            max-width: 450px;
+            margin: 12% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #ffd700;
+            animation: modalGlow 2s ease-in-out infinite alternate;
+        }
+
+        .day-completion-header {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.3), rgba(255, 215, 0, 0.1));
+            padding: 20px;
+            border-bottom: 3px solid rgba(255, 215, 0, 0.4);
+        }
+
+        .completion-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        .completion-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin: 0;
+        }
+
+        .day-completion-body {
+            padding: 30px 25px;
+        }
+
+        .completion-location {
+            font-size: 1.1em;
+            color: #e5e7eb;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .completion-tasks {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            font-size: 0.95em;
+            color: #e5e7eb;
+        }
+
+        .task-check {
+            font-size: 1.2em;
+            filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.8));
+        }
+
+        .completion-rune {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(34, 197, 94, 0.1));
+            border: 2px solid rgba(34, 197, 94, 0.4);
+            border-radius: 12px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 0.95em;
+        }
+
+        .rune-discovery {
+            text-align: center;
+        }
+
+        .rune-found-text {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2em;
+            color: var(--primary-green);
+            margin-bottom: 10px;
+        }
+
+        .rune-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .rune-icon {
+                font-size: 2em;
+            filter: drop-shadow(0 0 10px rgba(34, 197, 94, 1));
+        }
+
+        .rune-name {
+            font-size: 1.1em;
+            color: #e5e7eb;
+            font-weight: bold;
+        }
+
+        .day-completion-continue {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #1f2937;
+            border: 3px solid #ffd700;
+            padding: 12px 30px;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 15px;
+        }
+
+        .day-completion-continue:hover {
+            background: linear-gradient(135deg, #ffed4e, #fbbf24);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.6);
+        }
+
+        /* Completion Confirmation Modal */
+        .completion-confirm-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            overflow-y: auto;
+        }
+
+        .completion-confirm-content {
+            max-width: 450px;
+            margin: 12% auto;
+            padding: 0;
+            background: linear-gradient(135deg, rgba(31, 41, 55, 0.98), rgba(17, 24, 39, 0.95));
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(168, 85, 247, 0.8);
+            position: relative;
+            overflow: hidden;
+            border: 4px solid #a855f7;
+            animation: modalGlow 2s ease-in-out infinite alternate;
+        }
+
+        .completion-confirm-header {
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            padding: 20px;
+            border-radius: 16px 16px 0 0;
+            position: relative;
+        }
+
+        .completion-confirm-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+            animation: gentlePulse 2s ease-in-out infinite;
+        }
+
+        .completion-confirm-title {
             font-family: 'Cinzel', serif;
             font-size: 1.8em;
             font-weight: bold;
@@ -3337,7 +5917,8 @@
                 Perform the Harmony Melody to activate the first sun pillar and begin opening the sealed Rune Gate!
             </div>
             
-            <div class="piano-instructions-modal">
+            <!-- Text Instructions (shown initially) -->
+            <div id="pianoTextInstructions" class="piano-instructions-modal">
                 <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">🎵 The Harmony Melody</h3>
                 
                 <div class="piano-melody-display">
@@ -3360,7 +5941,38 @@
                 </div>
             </div>
             
-            <button class="piano-complete-btn" onclick="completePianoChallenge()">🌟 I've Performed the Harmony Ritual!</button>
+            <!-- Video Player (hidden initially) -->
+            <div id="pianoVideoContainer" class="piano-instructions-modal" style="display: none;">
+                <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">🎵 Piano Demonstration</h3>
+                
+                <video 
+                    id="pianoVideo"
+                    src="assets/video/lava_piano.m4v" 
+                    autoplay 
+                    loop 
+                    controls 
+                    style="width: 100%; max-height: 300px; border-radius: 8px; margin-bottom: 15px;"
+                >
+                    Your browser does not support the video tag.
+                </video>
+                
+                <div style="text-align: center; margin-top: 10px;">
+                    <button id="restartVideoBtn" onclick="restartPianoVideo()" 
+                            style="background: linear-gradient(135deg, #6B46C1, #8B5CF6); color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.9em;">
+                        🔄 Restart Video
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Begin Button (shown initially) -->
+            <button id="beginHarmonyBtn" class="piano-complete-btn" onclick="beginHarmonyRitual()">
+                🎹 Begin Harmony Ritual
+            </button>
+            
+            <!-- Complete Button (hidden initially) -->
+            <button id="completeHarmonyBtn" class="piano-complete-btn" onclick="completePianoChallenge()" style="display: none;">
+                🌟 I've Performed the Harmony Ritual!
+            </button>
         </div>
     </div>
 
@@ -4862,6 +7474,31 @@
             // For now, keep existing hardcoded content until piano challenges need updates
         }
 
+        function beginHarmonyRitual() {
+            // Hide text instructions and begin button
+            document.getElementById('pianoTextInstructions').style.display = 'none';
+            document.getElementById('beginHarmonyBtn').style.display = 'none';
+            
+            // Show video container and complete button
+            document.getElementById('pianoVideoContainer').style.display = 'block';
+            document.getElementById('completeHarmonyBtn').style.display = 'block';
+            
+            // Start video playback
+            const video = document.getElementById('pianoVideo');
+            if (video) {
+                video.currentTime = 0;
+                video.play().catch(e => console.log('Video autoplay prevented:', e));
+            }
+        }
+
+        function restartPianoVideo() {
+            const video = document.getElementById('pianoVideo');
+            if (video) {
+                video.currentTime = 0;
+                video.play().catch(e => console.log('Video restart failed:', e));
+            }
+        }
+
         function populateIXLModal(irlChallenge) {
             const modal = document.getElementById('ixlModal');
             const header = modal.querySelector('.piano-modal-header');
@@ -4957,6 +7594,19 @@
         }
 
         function closePianoModal() {
+            // Reset modal to initial state
+            document.getElementById('pianoTextInstructions').style.display = 'block';
+            document.getElementById('beginHarmonyBtn').style.display = 'block';
+            document.getElementById('pianoVideoContainer').style.display = 'none';
+            document.getElementById('completeHarmonyBtn').style.display = 'none';
+            
+            // Stop video if playing
+            const video = document.getElementById('pianoVideo');
+            if (video) {
+                video.pause();
+                video.currentTime = 0;
+            }
+            
             document.getElementById('pianoModal').style.display = 'none';
             // Border stays on during room challenge - don't hide
         }
@@ -4977,6 +7627,10 @@
         }
 
         function completePianoChallenge() {
+            // Hide video and show completion state
+            document.getElementById('pianoVideoContainer').style.display = 'none';
+            document.getElementById('completeHarmonyBtn').style.display = 'none';
+            
             gameState[currentPlayer].irlCompleted = true;
             updateChallengeButtons();
             closePianoModal();
