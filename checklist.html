@@ -8,7 +8,28 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="js/firebaseConfig.js"></script>
+    <script>
+    // Firebase configuration for Rune Bearer
+    const firebaseConfig = {
+        apiKey: "AIzaSyBXYourActualKey",  // You need to get these from your Firebase console
+        authDomain: "rune-bearer-saves.firebaseapp.com",
+        databaseURL: "https://rune-bearer-saves-default-rtdb.firebaseio.com",
+        projectId: "rune-bearer-saves",
+        storageBucket: "rune-bearer-saves.appspot.com",
+        messagingSenderId: "123456789",
+        appId: "1:123456789:web:abcdef123456"
+    };
+
+    // Initialize Firebase
+    try {
+        firebase.initializeApp(firebaseConfig);
+        window.firebaseAuth = firebase.auth();
+        window.firebaseDB = firebase.database();
+        console.log('[Admin] Firebase initialized successfully');
+    } catch (error) {
+        console.error('[Admin] Firebase initialization error:', error);
+    }
+    </script>
     <script src="js/saveManager.js"></script>
     <script src="gameSchedule.js"></script>
     <style>
