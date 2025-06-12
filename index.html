@@ -9321,10 +9321,13 @@
 
             // Show the modal with animation
             modal.style.display = 'block';
+            console.log('Rune discovery modal should now be visible:', modal.style.display);
+            console.log('Modal element:', modal);
             
             // Add a slight delay for better visual effect
             setTimeout(() => {
                 modal.classList.add('active');
+                console.log('Rune discovery modal activated with class:', modal.className);
             }, 50);
         }
 
