@@ -14,7 +14,7 @@ gameSchedule = {
       "50% of weekdays have rune drops",
       "Boss battles on days 10, 20, 30, 40",
       "Sub-boss battles on days 5, 15, 25, 35",
-      "Desert Amphitheater battle on day 9 (Wells), Chicken Jockey Arena on day 29 (Rou)"
+      "Desert Amphitheatre battle on day 9 (Wells), Chicken Jockey Arena on day 29 (Rou)"
     ]
   },
   "schedule": [
@@ -189,7 +189,7 @@ gameSchedule = {
       "week": 2,
       "wells": {
         "realm": "Dawnbreak Expanse",
-        "room": "Chicken-Jockey Arena",
+        "room": "Desert Amphitheatre",
         "irlTask": "Piano",
         "runeDropped": "Iron Root",
         "lootTier": "Big",

@@ -1,0 +1,106 @@
+/* Updated Color Palette */
+:root {
+    --primary-green: #22c55e;
+    --secondary-blue: #3b82f6;
+    --primary-orange: #f97316;
+    --success-green: #22c55e;
+    --gray-light: #e5e7eb;
+    --gray-medium: #9ca3af;
+    --gray-dark: #374151;
+    --gray-darker: #1f2937;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+    background-image: url('../assets/backgrounds/RuWg9QG2E9Z5L3trxaTX--0--eyvrg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: auto;
+}
+
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 10px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    padding: 30px;
+    background: rgba(31, 41, 55, 0.95);
+    border: 3px solid #fbbf24;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+    position: relative;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg, #fbbf24, #f59e0b, #d97706);
+    border-radius: 20px;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.header h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.8em;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: #fbbf24;
+    background: linear-gradient(45deg, #fbbf24, #fcd34d, #fbbf24);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.date-info {
+    font-size: 1.2em;
+    opacity: 0.9;
+    color: var(--gray-light);
+    font-weight: 500;
+}
+
+.main-layout {
+    display: grid;
+    grid-template-columns: 280px 400px 280px;
+    gap: 25px;
+    margin-bottom: 30px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1010px;
+}
+
+.player-card {
+    background: rgba(31, 41, 55, 0.95);
+    border-radius: 20px;
+    padding: 25px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: 3px solid transparent;
+    position: relative;
+} 
