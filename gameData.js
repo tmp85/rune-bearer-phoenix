@@ -1,7 +1,7 @@
 const gameData = {
   "day9": {
     "realm": "Dawnbreak Expanse",
-    "room": "Chicken-Jockey Arena",
+    "room": "Desert Amphitheatre",
     "icon": "🪶",
     "artwork": "wells-day-9-art.jpg",
     "story": "Sun-bleached tiers surround a dust-swirled pit. In the centre stands an aged wooden upright piano, varnish cracked, keys yellowed, amber light flickering beneath the lid. Nothing moves—only shimmering heat.",
