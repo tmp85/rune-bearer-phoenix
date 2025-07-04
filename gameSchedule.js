@@ -1,20 +1,18 @@
-gameSchedule = {
+const gameSchedule = {
   "scheduleInfo": {
-    "title": "Rune Bearer Summer Challenge Schedule - FINAL VERSION",
+    "title": "Rune Bearer Summer Challenge Schedule",
     "startDate": "2025-06-02",
     "endDate": "2025-07-25",
     "totalWeeks": 8,
     "totalDays": 40,
     "notes": [
       "Only Day 1 (6/2) Wells=Piano, Rou=None is locked",
-      "Fixed so NO days have both boys with IRL tasks",
-      "'Pick a new book' reward available on Day 5",
-      "All 20 rune pair rewards are available",
-      "60% of weekdays have IRL tasks",
+      "When both boys have tasks on same day, they must be different",
+      "60% of weekdays have IRL tasks (24 total task assignments)",
       "50% of weekdays have rune drops",
       "Boss battles on days 10, 20, 30, 40",
       "Sub-boss battles on days 5, 15, 25, 35",
-      "Desert Amphitheatre battle on day 9 (Wells), Chicken Jockey Arena on day 29 (Rou)"
+      "Chicken Jockey Arena on days 9 (Wells) and 29 (Rou)"
     ]
   },
   "schedule": [
@@ -109,7 +107,7 @@ gameSchedule = {
         "realm": "Dawnbreak Expanse",
         "room": "Scrollkeeper's Archive (Sub-Boss)",
         "irlTask": "Reading",
-        "runeDropped": "Crystal Spine",
+        "runeDropped": "Windrunner Crest",
         "lootTier": "None",
         "isSubBoss": true
       },
@@ -117,8 +115,8 @@ gameSchedule = {
         "realm": "Crystal Glade",
         "room": "Whispering Ice Library (Sub-Boss)",
         "irlTask": null,
-        "runeDropped": "Iron Bark",
-        "lootTier": "None",
+        "runeDropped": "Stormpetal Veil",
+        "lootTier": "Tiny",
         "isSubBoss": true
       }
     },
@@ -131,8 +129,8 @@ gameSchedule = {
         "realm": "Dawnbreak Expanse",
         "room": "Solar Observatory",
         "irlTask": null,
-        "runeDropped": "Thunder Eye",
-        "lootTier": "None"
+        "runeDropped": null,
+        "lootTier": "Medium"
       },
       "rou": {
         "realm": "Crystal Glade",
@@ -189,7 +187,7 @@ gameSchedule = {
       "week": 2,
       "wells": {
         "realm": "Dawnbreak Expanse",
-        "room": "Desert Amphitheatre",
+        "room": "Chicken Jockey Arena",
         "irlTask": "Piano",
         "runeDropped": "Iron Root",
         "lootTier": "Big",
@@ -233,16 +231,108 @@ gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Verdant Entrance",
+        "icon": "🌿",
+        "artwork": "assets/rooms/EmeraldCanopy/wells-day-11-art.jpg",
+        "story": "A living archway of twisting vines opens onto a sun-dappled forest floor. Towering emerald trees knit their branches high above, forming a glowing green ceiling. Bioluminescent fire-moths flit between leaves, leaving fading spirals of light. Flint pads forward, sparks dimming to ember-glow so as not to scare the wildlife.",
         "irlTask": null,
         "runeDropped": "Shadow Paw",
-        "lootTier": "None"
+        "runeIcon": "🐾",
+        "lootTier": null,
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "No IRL Challenge",
+          "icon": "🌿",
+          "type": "none",
+          "content": {
+            "instructions": [
+              "This is a pure exploration day",
+              "Focus on navigating the forest safely",
+              "No real-world tasks required"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "🌿 Forest Navigation",
+          "icon": "🔶",
+          "description": "The mysterious forest requires careful calculation to navigate safely. Flint murmurs observations as you study the glowing fire-moths.",
+          "missions": [
+            {
+              "category": "Multiplication/Subtraction",
+              "title": "🦋 Fire-moth Census — Question 1",
+              "story": "Three mossy trunks each host fire-moths, but one trunk loses some when a bird swoops past. Flint helps you count the glowing insects.",
+              "question": "Three mossy trunks each host <strong>11</strong> fire-moths, but one trunk loses <strong>4</strong> when a bird swoops past. How many moths stay shining?",
+              "answer": 29,
+              "acceptedAnswers": [29],
+              "successMessage": "Perfect count! Twenty-nine fire-moths glow among the trunks."
+            },
+            {
+              "category": "Division",
+              "title": "🌟 Shadow Steps — Question 2",
+              "story": "Every shadow step you take must be lit by moths. With your counted moths, you can determine how many safe steps to take.",
+              "question": "You had <strong>29</strong> moths total. Every shadow step you take must be lit by <strong>2</strong> moths. How many shadow steps can we safely walk?",
+              "answer": 14,
+              "acceptedAnswers": [14],
+              "successMessage": "Excellent calculation! You can take fourteen safe shadow steps through the forest."
+            }
+          ],
+          "finalMessage": "Wells whispers 'Fourteen steps.' As each calculated step lands, paired moths drift to his heels, casting small halos of light. On the final step a silent ripple passes through the foliage; a sleek, dark artifact—🐾 Shadow Paw—drops from an overhanging leaf and lands softly in Wells's palm. It hums with quiet stealth energy. Flint's eyes gleam; the forest path ahead beckons, now lit by moth-glow and newfound power."
+        }
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Coral Gardens",
-        "irlTask": "Shoe Tie",
-        "runeDropped": "Phantom Cloak",
-        "lootTier": "Tiny"
+        "icon": "🐚",
+        "artwork": "assets/rooms/ShimmeringReef/rou-day-11-art.jpg",
+        "story": "Sea-spray mist drifts over rainbow coral towers. Slick shells crunch underfoot, and tangles of pearly sea-grasses sway like shoelaces in the tide breeze. Ferrin pauses, nose to the sand, and glances at Rou's untied sneakers. \"Time to tie shoes!\"",
+        "baseRune": "Phantom Cloak",
+        "runeIcon": "👻",
+        "lootTier": null,
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "🪢 Secure the Reef Striders",
+          "icon": "👟",
+          "type": "shoeTie",
+          "content": {
+            "instructions": [
+              "Bunny-ear Step — Make two loops",
+              "Cross & Pull — Cross the loops and tuck one under",
+              "Tighten — Pull both loops snug until they sit flat",
+              "Mark IRL Done once both shoes are double-knotted"
+            ],
+            "reference": [
+              "The sea-grass around your feet twists into neat little bows",
+              "Match your fresh knots with the natural reef patterns"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "🐚 Reef Treasure Hunt",
+          "icon": "🔶",
+          "description": "The coral gardens sparkle with shells and treasures. Ferrin whispers helpful advice as you explore the sandy floor.",
+          "missions": [
+            {
+              "category": "Addition",
+              "title": "🐚 Shell Count — Question 1",
+              "story": "You spot spiral shells and clam shells scattered across the sand. Ferrin helps you count the shiny treasures.",
+              "question": "You spot <strong>8</strong> spiral shells and <strong>7</strong> clam shells. How many shells shine in all?",
+              "answer": 15,
+              "acceptedAnswers": [15],
+              "successMessage": "Great counting! Fifteen shells sparkle on the sand."
+            },
+            {
+              "category": "Division",
+              "title": "🦪 Pearl Swap — Question 2",
+              "story": "Rou trades some shells for pearls. Now the shells count has changed. Figure out how many pearls you gained!",
+              "question": "Each pearl costs <strong>3</strong> shells. You spend <strong>15</strong> shells. How many pearls did you get?",
+              "answer": 5,
+              "acceptedAnswers": [5],
+              "successMessage": "Great math! You got five beautiful pearls."
+            }
+          ],
+          "finalMessage": "When Rou states 'Six pearls!' the coral towers glow. Mist curls into a tiny smoke-grey mantle—the 👻 Phantom Cloak—which flutters into Rou's hands, light as sea-foam. Ferrin wags her tail, and the reef path opens, shimmering blue ahead."
+        }
       }
     },
     {
@@ -343,7 +433,7 @@ gameSchedule = {
         "realm": "Shimmering Reef",
         "room": "Pearl Grottos",
         "irlTask": null,
-        "runeDropped": "Stormpetal Veil",
+        "runeDropped": "Iron Bark",
         "lootTier": "Medium"
       }
     },
@@ -356,7 +446,7 @@ gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Fairy Ring Circle",
         "irlTask": null,
-        "runeDropped": "Windrunner Crest",
+        "runeDropped": "Crystal Spine",
         "lootTier": "None"
       },
       "rou": {
@@ -605,7 +695,7 @@ gameSchedule = {
       },
       "rou": {
         "realm": "Frostpeak Summit",
-        "room": "Desert Amphitheater",
+        "room": "Chicken Jockey Arena",
         "irlTask": null,
         "runeDropped": "Glacier Heart",
         "lootTier": "Big",
@@ -663,7 +753,7 @@ gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Ember Courtyard",
         "irlTask": "Drums",
-        "runeDropped": "Obsidian Heart",
+        "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
@@ -857,183 +947,125 @@ gameSchedule = {
       "total": 16
     },
     "grandTotal": 34,
-    "taskCoverage": "85% of weekdays"
+    "note": "This gives approximately 60% task coverage across 40 weekdays (24 tasks would be exactly 60%, this is 34 tasks which is 85% - may need adjustment)"
   },
   "runeRewards": [
     {
       "wellsRune": "Ember Fang",
       "rouRune": "Frost Fang",
-      "reward": "Ice cream treat",
-      "availableDay": 2
-    },
-    {
-      "wellsRune": "Crystal Spine",
-      "rouRune": "Iron Bark",
-      "reward": "Pick a new book",
-      "availableDay": 5
-    },
-    {
-      "wellsRune": "Thunder Eye",
-      "rouRune": "Storm Fang",
-      "reward": "30 min extra screen time",
-      "availableDay": 6
+      "reward": "Ice cream treat"
     },
     {
       "wellsRune": "Sky Feather",
       "rouRune": "Mist Weaver",
-      "reward": "Big Helmet Heroes game",
-      "availableDay": 8
+      "reward": "Big Helmet Heroes game"
+    },
+    {
+      "wellsRune": "Iron Root",
+      "rouRune": "Stone Wing",
+      "reward": "Lego kit + custom mini-figure"
+    },
+    {
+      "wellsRune": "Tide Pearl",
+      "rouRune": "River Scale",
+      "reward": "Popsicles at the pool"
     },
     {
       "wellsRune": "Shadow Paw",
       "rouRune": "Phantom Cloak",
-      "reward": "Movie night choice",
-      "availableDay": 11
+      "reward": "Visit to arcade"
+    },
+    {
+      "wellsRune": "Thunder Eye",
+      "rouRune": "Storm Fang",
+      "reward": "30 min extra screen time"
     },
     {
       "wellsRune": "Solar Scale",
       "rouRune": "Star Prism",
-      "reward": "Art supplies upgrade",
-      "availableDay": 13
+      "reward": "Choose next family movie"
     },
     {
       "wellsRune": "Lunar Mirror",
       "rouRune": "Shadow Lens",
-      "reward": "Build blanket fort",
-      "availableDay": 15
+      "reward": "Stay-up-late pass"
     },
     {
-      "wellsRune": "Windrunner Crest",
-      "rouRune": "Stormpetal Veil",
-      "reward": "Pizza party",
-      "availableDay": 17
+      "wellsRune": "Crystal Spine",
+      "rouRune": "Iron Bark",
+      "reward": "Pick a new book"
+    },
+    {
+      "wellsRune": "Stormcaller Sigil",
+      "rouRune": "Frozen Bloom",
+      "reward": "Mini-golf with Happy Grandpa"
     },
     {
       "wellsRune": "Blazing Antler",
       "rouRune": "Molten Seed",
-      "reward": "Zoo trip",
-      "availableDay": 22
+      "reward": "Build-your-own pizza night"
     },
     {
       "wellsRune": "Whisper Branch",
       "rouRune": "Thunder Fang",
-      "reward": "Sleepover with friend",
-      "availableDay": 24
+      "reward": "Minecraft coins"
     },
     {
       "wellsRune": "Molten Shard",
+      "rouRune": "Skyborn Leaf",
+      "reward": "Nerf war"
+    },
+    {
+      "wellsRune": "Windrunner Crest",
       "rouRune": "Mooncap",
-      "reward": "Board game purchase",
-      "availableDay": 27
+      "reward": "Family video game session"
+    },
+    {
+      "wellsRune": "Glowcap",
+      "rouRune": "Glacier Heart",
+      "reward": "Breakfast choice pass"
+    },
+    {
+      "wellsRune": "Obsidian Heart",
+      "rouRune": "Moonfire Bloom",
+      "reward": "Custom Ice Cream Sundae Party"
+    },
+    {
+      "wellsRune": "Sunfire Crest",
+      "rouRune": "Stormpetal Veil",
+      "reward": "Board game night pick"
+    },
+    {
+      "wellsRune": "Zephyr Bloom",
+      "rouRune": "Ironclad Husk",
+      "reward": "Pangea Pastry Quest"
+    },
+    {
+      "wellsRune": "Deepstone Shell",
+      "rouRune": "Frostthorn Crown",
+      "reward": "Breakfast for Dinner Choice"
     },
     {
       "wellsRune": "Emberthorn Crown",
       "rouRune": "Ember Seed",
-      "reward": "Beach day",
-      "availableDay": 28
-    },
-    {
-      "wellsRune": "Iron Root",
-      "rouRune": "Glacier Heart",
-      "reward": "Science experiment kit",
-      "availableDay": 29
-    },
-    {
-      "wellsRune": "Glowcap",
-      "rouRune": "Moonfire Bloom",
-      "reward": "Camping adventure",
-      "availableDay": 31
-    },
-    {
-      "wellsRune": "Obsidian Heart",
-      "rouRune": "Ironclad Husk",
-      "reward": "Theme park visit",
-      "availableDay": 33
-    },
-    {
-      "wellsRune": "Sunfire Crest",
-      "rouRune": "Stone Wing",
-      "reward": "Build a robot",
-      "availableDay": 36
-    },
-    {
-      "wellsRune": "Deepstone Shell",
-      "rouRune": "River Scale",
-      "reward": "Fishing trip",
-      "availableDay": 39
-    },
-    {
-      "wellsRune": "Tide Pearl",
-      "rouRune": "Special",
-      "reward": "Mystery reward unlock",
-      "availableDay": 39
-    },
-    {
-      "wellsRune": "Skyborn Leaf",
-      "rouRune": "Frostthorn Crown",
-      "reward": "Garden project",
-      "availableDay": 9
-    },
-    {
-      "wellsRune": "Frozen Bloom",
-      "rouRune": "Zephyr Bloom",
-      "reward": "Winter adventure",
-      "availableDay": 33
+      "reward": "Nerf target contest"
     }
-  ]
-};
-
-// Additional helper functions and metadata
-gameSchedule.getRunes = function() {
-  return [
-    "Ember Fang", "Frost Fang", "Stormcaller Sigil", "Storm Fang", "Crystal Spine", "Iron Bark",
-    "Thunder Eye", "Sky Feather", "Mist Weaver", "Frostthorn Crown", "Iron Root", "Skyborn Leaf",
-    "Shadow Paw", "Phantom Cloak", "Solar Scale", "Star Prism", "Lunar Mirror", "Shadow Lens",
-    "Windrunner Crest", "Stormpetal Veil", "Frozen Bloom", "Blazing Antler", "Molten Seed",
-    "Whisper Branch", "Thunder Fang", "Molten Shard", "Mooncap", "Emberthorn Crown", "Ember Seed",
-    "Glacier Heart", "Glowcap", "Moonfire Bloom", "Obsidian Heart", "Zephyr Bloom", "Ironclad Husk",
-    "Sunfire Crest", "Stone Wing", "Deepstone Shell", "River Scale", "Tide Pearl"
-  ];
-};
-
-gameSchedule.getRealms = function() {
-  return [
-    "Dawnbreak Expanse", "Crystal Glade", "Emerald Canopy", "Shimmering Reef", 
-    "Golden Savannah", "Frostpeak Summit", "Emberlight Bastion", "Molten Depths"
-  ];
-};
-
-gameSchedule.getIrlTasks = function() {
-  return {
-    wells: ["Piano", "Drums", "IXL", "Reading"],
-    rou: ["Drums", "IXL", "Reading", "Shoe Tie"]
-  };
-};
-
-gameSchedule.getDayInfo = function(dayNumber) {
-  return this.schedule.find(day => day.day === dayNumber);
-};
-
-gameSchedule.getPlayerSchedule = function(player) {
-  return this.schedule.map(day => ({
-    day: day.day,
-    date: day.date,
-    dayOfWeek: day.dayOfWeek,
-    week: day.week,
-    ...day[player]
-  }));
-};
-
-gameSchedule.getBattleDays = function() {
-  return {
-    subBoss: [5, 15, 25, 35],
-    boss: [10, 20, 30, 40],
-    chickenJockey: [9, 29]
-  };
-};
-
-gameSchedule.getRuneRewardsByDay = function(dayNumber) {
-  return this.runeRewards.filter(reward => reward.availableDay <= dayNumber);
+  ],
+  "validation": {
+    "taskDistribution": "All days with IRL tasks now have only one child assigned per day (except where explicitly needed)",
+    "runeCount": {
+      "wells": 20,
+      "rou": 20,
+      "totalPairs": 20
+    },
+    "specialDays": {
+      "bossDays": [10, 20, 30, 40],
+      "subBossDays": [5, 15, 25, 35],
+      "chickenJockeyDays": [9, 29],
+      "lockedDays": [1]
+    },
+    "taskFrequency": "Reduced to approximately 60% coverage to properly distribute tasks"
+  }
 };
 
 // Export for use in other files

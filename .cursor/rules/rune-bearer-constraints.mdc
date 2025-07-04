@@ -1,41 +1,274 @@
 ---
 description: 
 globs: 
-alwaysApply: false
+alwaysApply: true
 ---
+# Cursor Project Rules - Rune Bearer Game
+
+## 🎮 Project Overview
+**Rune Bearer** is a Minecraft-inspired educational dungeon crawler for Wells (age 7) and Rou (age 6) running June 2 - July 25, 2025. The game combines fantasy adventure with real-world learning tasks and rewards. Built as a standalone web app using vanilla JavaScript, HTML, and CSS.
+
+## 🏗️ Technical Architecture
+
+### Core Technology Stack
+- **Frontend**: Vanilla HTML5, CSS3, JavaScript (ES6+)
+- **Save System**: localStorage (single-device for now)
+- **Deployment**: GitHub Pages via Mac Studio development environment
+- **Target Device**: Mac Mini with touchscreen (primary)
+
+### File Structure Requirements
+```
+rune-bearer/
+├── index.html                    # Main game entry point
+├── js/
+│   ├── gameSchedule.js           # 40-day schedule data
+│   ├── gameEngine.js             # Core game logic
+│   ├── saveManager.js            # localStorage save management
+│   └── roomContent.js            # Daily room content
+├── json/
+│   └── runes.json               # Rune definitions and rewards
+├── css/
+│   └── styles.css               # Game styling
+└── assets/                      # Images, sounds, etc.
+```
+
+## 🎯 Game Design Rules
+
+### Daily Progression System
+- **8 weeks total**: June 2 - July 25, 2025 (40 weekdays)
+- **One room per weekday** for each player (80 rooms total)
+- **Weekend catch-up days** (no automatic progression)
+- **Synchronized progression**: Wells and Rou stay within 1 room of each other
+- **Admin override available** for travel/emergencies
+
+### Realm Structure
+**Wells (Warm Path) - 8 Realms:**
+1. Dawnbreak Expanse
+2. Emerald Canopy  
+3. Golden Savannah
+4. Emberlight Bastion
+5. Skyforge Spire
+6. Molten Zenith Cavern
+7. Solar Cathedral Ruins
+8. Celestial Observatory
+
+**Rou (Cool Path) - 8 Realms:**
+1. Crystal Glade
+2. Shimmering Reef
+3. Frostpeak Summit
+4. Molten Depths
+5. Abyssal Trench
+6. Stormbound Isles
+7. Glacial Frontier
+8. Arcane Vault
+
+### Room Types & Scheduling
+- **Rooms 1-4**: Exploration
+- **Room 5**: Sub-Boss (colored background, normal weight)
+- **Rooms 6-9**: Exploration  
+- **Room 10**: Boss (bold formatting)
+- **Special**: Chicken Jockey Arena (Wells Day 9, Rou Day 29) - bold + light green background
+
+## 📝 Content Creation Guidelines
+
+### **CRITICAL: Challenge Content Fidelity**
+**🚨 ABSOLUTE RULE: When challenge content is submitted, implement EXACTLY as provided with ZERO modifications.**
+
+- **No text changes**: Use exact wording, punctuation, and formatting as submitted
+- **No math modifications**: Implement numbers, equations, and problems precisely as given
+- **No "improvements"**: Do not add explanations, hints, or simplifications
+- **No language adjustments**: Do not modify for reading level - content is pre-approved
+- **No narrative changes**: Keep story elements exactly as written
+- **Formatting only**: Only modify HTML/CSS structure for display, never content
+
+**If there are concerns about submitted content, flag them separately - never modify without explicit approval.**
+
+### Language Complexity
+**Wells (age 7):**
+- 6-10 word sentences, limited compound structure
+- Slightly advanced vocabulary: "glimmer," "murmur," "echo"
+- Math: addition, subtraction, early multiplication, resource tracking
+
+**Rou (age 6):**
+- 4-6 word sentences, single-clause structure
+- Common sight words only
+- Simple math: counting, basic addition/subtraction
+
+### Room Content Structure
+```
+## [Player] — Day X  
+Realm: [Realm Name]  
+Room: [Room Name]  
+
+[2-3 sentence lore setup with realm-specific flavor]
+
+To solve this room:  
+1. [Task or puzzle step]  
+2. [Optional additional step]  
+3. [Optional additional step]  
+4. [Optional additional step - max 4 total]
+
+[Success outcome. If rune scheduled: "You find the ___ rune." Otherwise: "The path opens." or similar]
+```
+
+### Narrative Rules
+- **Realm-themed environmental flavor** in all puzzle text
+- **Continuous lore breadcrumbs** via journal notes, wall inscriptions, clues
+- **Sequential resource tracking** ("You now hold X shards" format)
+- **Journaling prompts** for future recall puzzles (note implementation needed later)
+- **Companion integration**:
+  - Flint (Wells): Heat-sense, ember tracking, fetch leap
+  - Ferrin (Rou): Frost-step, ice-bound tracking, whisper sniff, rune-amplified bark
+
+## 🎲 Task & Reward Systems
+
+### IRL Challenge Types
+- **Piano**: Melody sequences as room triggers
+- **Drums**: Beat pattern repeats
+- **IXL**: Specific module completion (exact count per room)
+- **Reading**: Narrative-integrated reading tasks
+- **Shoe Tie** (Rou only): Untimed, narrative-based
+- **Physical**: Trick shots, movement challenges
+
+### Distribution Rules
+- **60% of weekdays have IRL tasks**
+- **Never both boys on same day** (enforced in schedule)
+- **Tasks must integrate into room narrative** (not separate)
+
+### Rune System
+- **20 unique runes per player** (40 total)
+- **50% of weekdays have rune drops** (pre-scheduled, not random)
+- **Paired rewards**: Runes pair between brothers for joint real-world rewards
+- **Randomized timing**: Paired runes complete 1-34 days apart for anticipation
+
+### Loot Tiers
+- **No Loot**: ~50% of days
+- **Tiny Loot**: ~30% of days  
+- **Medium Loot**: ~15% of days
+- **Big Loot**: Only Chicken Jockey days + final boss (~5%)
+
+## 💾 Save System Requirements
+
+### localStorage-Based Save System
+- **Single-device storage** using browser localStorage
+- **Data persistence** across browser sessions
+- **Admin functions**: unlock days, reset saves
+- **Future expansion**: Cloud sync can be added later when needed
+
+### Save Data Structure
+```javascript
+{
+  wells: {
+    currentDay: 1,
+    currentRealm: 'Dawnbreak Expanse',
+    irlCompleted: false,
+    mathCompleted: false,
+    mathProgress: 0,
+    completedRooms: [],
+    collectedRunes: [],
+    completedTasks: []
+  },
+  rou: { /* same structure with Crystal Glade */ },
+  claimedRewards: [],
+  settings: {
+    adminMode: false,
+    soundEnabled: true
+  },
+  lastUpdated: timestamp,
+  gameVersion: '1.0'
+}
+```
+
+## ⚠️ Critical Constraints
+
+### Browser Compatibility
+- **localStorage for save data** (primary storage method)
+- **NO localStorage/sessionStorage in artifacts** (Claude restriction)
+- **Single HTML file artifacts** when possible
+- **CDN-only external scripts**: https://cdnjs.cloudflare.com
+
+### Week 1 Lock
+- **Day 1 structure is immutable** (already provided by user)
+- **All other days can be modified** as needed
+
+### Security & Data
+- **Client-side localStorage** for game progress
+- **No sensitive data** in client-side code
+- **Data validation** on load/save operations
+
+## 🔧 Development Workflow
+
+### Version Control
+- **GitHub repository**: Primary source control
+- **Cursor IDE**: Mac Studio development environment  
+- **GitHub Pages**: Automatic deployment
+- **Feature branches**: For major changes
+
+### Testing Requirements
+- **Local development**: Test all features locally first
+- **Browser compatibility**: Verify localStorage functionality
+- **Data persistence**: Ensure saves survive browser restart
+- **Content validation**: All rooms must follow language/difficulty guidelines
+
+### Admin Tools
+- **Console functions**: `adminResetGame()`, `adminUnlockDay(player, day)`
+- **Save management**: `loadGameData()`, `saveGameData(data)`
+- **Data debugging**: `checkSaveData()` for troubleshooting
+
+## 📅 Schedule Validation Rules
+
+### Required Checks
+- ✅ Each player gets exactly 20 unique runes
+- ✅ No duplicate runes within each collection  
+- ✅ No overlap between Wells and Rou rune sets
+- ✅ All rune pairs have corresponding rewards
+- ✅ IRL tasks never overlap on same day
+- ✅ Boss/sub-boss days properly formatted
+- ✅ Special events (Chicken Jockey) properly highlighted
+
+### Content Quality Gates
+- ✅ Age-appropriate language complexity
+- ✅ Realm-specific environmental theming
+- ✅ Narrative continuity across rooms
+- ✅ Math difficulty appropriate to player age
+- ✅ IRL tasks integrated into room story
+
+## 🎨 UI/UX Guidelines
+
+### Visual Design
+- **Minecraft-inspired aesthetics** with modern web design
+- **Responsive layout** for touchscreen primary use
+- **Clear visual hierarchy** for young readers
+- **Accessibility compliance** with proper contrast
+- **Boss battle highlighting**: Bold text + colored backgrounds
+- **Sync status indicators**: Unobtrusive but informative
+
+### User Experience
+- **Immediate feedback** for all actions
+- **Progress visualization** for both players
+- **Reward anticipation** through rune pair tracking
+- **Error handling** with child-friendly messages
+- **Data persistence** across browser sessions
+
 ---
-type: always
-description: "Rune Bearer project-specific rules and constraints"
----
 
-# Rune Bearer Project Rules
+## 🚀 Quick Start Commands
 
-## Core Principle
-Carefully reflect on the quality and completeness of your work against the specific requirements given. Ensure your implementation fully addresses what was requested without adding unrequested features or changes.
+```javascript
+// Load current save data
+loadGameData()
 
-## Technical Constraints
-- **NO localStorage/sessionStorage** - Browser restriction for this deployment
-- Vanilla HTML/CSS/JavaScript only (no frameworks)
-- Client-side only (no backend dependencies)
-- Touchscreen-friendly for Mac Mini deployment
+// Save game progress
+saveGameData(data)
 
-## Game Mechanics (Do Not Modify Without Permission)
-- 8-week challenge: June 2 - July 25, 2025 (40 weekdays)
-- Wells and Rou stay within 1 room of each other (synchronized)
-- Only one child gets IRL task per day, never both
-- Week 1 structure is locked/unchangeable
-- Boss battles: Days 10, 20, 30, 40 (bold formatting)
-- Sub-bosses: Days 5, 15, 25, 35 (colored background)
-- Chicken Jockey: Wells Day 9, Rou Day 29 (bold + light green)
+// Reset game (admin)
+adminResetGame()
 
-## Content Guidelines
-- **Wells (age 7)**: 6-10 word sentences, vocabulary like "glimmer," "murmur"
-- **Rou (age 6)**: 4-6 word sentences, common sight words only
-- Each realm has distinct environmental flavor
-- Sequential problems must reference previous steps ("You now hold X shards")
-- Companions (Flint/Ferrin) provide contextual hints only
+// Unlock specific day (admin)
+adminUnlockDay('wells', 5)
 
-## File Access Restrictions
-- Do not access or modify game schedule files unless explicitly requested
-- Room content files should follow established narrative patterns
-- Maintain existing CSS class naming conventions
+// Check save data
+checkSaveData()
+```
+
+**Remember**: This is an educational game for young children. Every decision should prioritize their learning, engagement, and positive experience while maintaining the magical adventure atmosphere.

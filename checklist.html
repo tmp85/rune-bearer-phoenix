@@ -4,34 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rune Bearer Schedule Tracker</title>
-    <!-- Firebase Scripts - Add these BEFORE any other custom scripts -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script>
-    // Firebase configuration for Rune Bearer
-    const firebaseConfig = {
-        apiKey: "AIzaSyAXi4Ww3ngqKFIcYamOXlN8Oac38z2GTRg",
-        authDomain: "rune-bearers.firebaseapp.com",
-        databaseURL: "https://rune-bearers-default-rtdb.firebaseio.com",
-        projectId: "rune-bearers",
-        storageBucket: "rune-bearers.firebasestorage.app",
-        messagingSenderId: "725335491501",
-        appId: "1:725335491501:web:26f3bffc0d06552bcb5724"
-    };
-
-    // Initialize Firebase
-    try {
-        firebase.initializeApp(firebaseConfig);
-        window.firebaseAuth = firebase.auth();
-        window.firebaseDB = firebase.database();
-        console.log('[Admin] Firebase initialized successfully');
-    } catch (error) {
-        console.error('[Admin] Firebase initialization error:', error);
-    }
-    </script>
-    <script src="js/saveManager.js"></script>
-    <script src="gameSchedule.js"></script>
     <style>
         :root {
             --primary-purple: #8b5cf6;
@@ -137,56 +109,6 @@
             background: linear-gradient(135deg, #dc2626, #ef4444);
         }
 
-        .action-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-            min-width: 200px;
-        }
-
-        .activation-section {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .bulk-complete-section {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .bulk-complete-btn {
-            padding: 0.5rem 0.75rem;
-            background: linear-gradient(135deg, var(--success-green), #059669);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: left;
-        }
-
-        .bulk-complete-btn:hover:not(:disabled) {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-            background: linear-gradient(135deg, #059669, #047857);
-        }
-
-        .bulk-complete-btn.completed {
-            background: linear-gradient(135deg, var(--text-gray), #475569);
-            color: #cbd5e1;
-            cursor: not-allowed;
-        }
-
-        .bulk-complete-btn:disabled {
-            opacity: 0.6;
-            transform: none;
-            box-shadow: none;
-        }
-
         .table-container {
             margin: 0 auto;
             max-width: 1400px;
@@ -290,6 +212,37 @@
             color: white;
         }
 
+        .complete-button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.5rem;
+        }
+
+        .complete-through-btn {
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--success-green), #059669);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+        }
+
+        .complete-through-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+            background: linear-gradient(135deg, #059669, var(--success-green));
+        }
+
+        .complete-through-btn:active {
+            transform: translateY(0);
+        }
+
         .task-info {
             display: flex;
             flex-direction: column;
@@ -337,99 +290,7 @@
             font-weight: 600;
         }
 
-        /* Day Activation Controls */
-        .activation-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            align-items: center;
-        }
 
-        .activation-toggle {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-
-        .activation-toggle input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .activation-slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #64748b;
-            transition: .4s;
-            border-radius: 34px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .activation-slider:before {
-            position: absolute;
-            content: "";
-            height: 24px;
-            width: 24px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-
-        .activation-toggle input:checked + .activation-slider {
-            background-color: var(--success-green);
-        }
-
-        .activation-toggle input:checked + .activation-slider:before {
-            transform: translateX(26px);
-        }
-
-        .activation-toggle.disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .activation-toggle.disabled .activation-slider {
-            cursor: not-allowed;
-            background-color: #374151;
-        }
-
-        .activation-label {
-            font-size: 0.8rem;
-            text-align: center;
-            margin-top: 0.25rem;
-            font-weight: 600;
-        }
-
-        .activation-label.active {
-            color: var(--success-green);
-        }
-
-        .activation-label.inactive {
-            color: var(--text-gray);
-        }
-
-        .activation-label.disabled {
-            color: #6b7280;
-        }
-
-        .prerequisite-warning {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid var(--warning-orange);
-            color: var(--warning-orange);
-            padding: 0.5rem;
-            border-radius: 6px;
-            font-size: 0.8rem;
-            text-align: center;
-            margin: 0.25rem 0;
-        }
 
         .tooltip {
             position: relative;
@@ -496,22 +357,6 @@
                 font-size: 0.9rem;
             }
 
-            .activation-toggle {
-                width: 50px;
-                height: 28px;
-            }
-
-            .activation-slider:before {
-                height: 20px;
-                width: 20px;
-                left: 2px;
-                bottom: 2px;
-            }
-
-            .activation-toggle input:checked + .activation-slider:before {
-                transform: translateX(22px);
-            }
-
                     .tooltip .tooltiptext {
             width: 150px;
             margin-left: -75px;
@@ -519,253 +364,13 @@
         }
     }
 
-    /* Reset Panel Styles */
-    .reset-panel {
-        background: rgba(0, 0, 0, 0.4);
-        margin: 1rem auto;
-        max-width: 1400px;
-        border-radius: 12px;
-        border: 2px solid #dc2626;
-        box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
-        animation: slideDown 0.3s ease;
-    }
 
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .reset-header {
-        background: linear-gradient(135deg, #dc2626, #ef4444);
-        padding: 1.5rem;
-        border-radius: 10px 10px 0 0;
-        text-align: center;
-    }
-
-    .reset-header h2 {
-        margin-bottom: 0.5rem;
-        font-size: 1.8rem;
-    }
-
-    .reset-controls {
-        display: flex;
-        justify-content: center;
-        gap: 1rem;
-        padding: 1rem;
-        background: rgba(255, 255, 255, 0.05);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        flex-wrap: wrap;
-    }
-
-    .reset-btn {
-        padding: 0.5rem 1rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
-        color: white;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .reset-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-    }
-
-    .reset-btn.warning {
-        background: linear-gradient(135deg, #f59e0b, #fbbf24);
-    }
-
-    .reset-btn.danger {
-        background: linear-gradient(135deg, #dc2626, #ef4444);
-    }
-
-    .reset-weeks-container {
-        padding: 1.5rem;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 1.5rem;
-    }
-
-    .reset-week {
-        background: rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
-        padding: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .reset-week-header {
-        text-align: center;
-        margin-bottom: 1rem;
-        padding-bottom: 0.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .reset-week-title {
-        font-size: 1.2rem;
-        font-weight: bold;
-        color: var(--primary-purple);
-        margin-bottom: 0.25rem;
-    }
-
-    .reset-week-range {
-        font-size: 0.9rem;
-        color: var(--text-gray);
-    }
-
-    .reset-days-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 0.5rem;
-    }
-
-    .reset-day-btn {
-        padding: 0.5rem;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.8rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        min-height: 60px;
-        justify-content: center;
-    }
-
-    .reset-day-btn.locked {
-        background: linear-gradient(135deg, #64748b, #94a3b8);
-        color: white;
-        opacity: 0.6;
-        cursor: not-allowed;
-    }
-
-    .reset-day-btn.unlocked {
-        background: linear-gradient(135deg, var(--dark-purple), var(--primary-purple));
-        color: white;
-    }
-
-    .reset-day-btn.completed {
-        background: linear-gradient(135deg, #059669, #10b981);
-        color: white;
-    }
-
-    .reset-day-btn:not(.locked):hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
-    }
-
-    .reset-day-btn.completed:hover {
-        box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
-    }
-
-    .day-number {
-        font-size: 1rem;
-        font-weight: bold;
-    }
-
-    .day-status {
-        font-size: 0.7rem;
-        margin-top: 0.25rem;
-        opacity: 0.9;
-    }
-
-    .reset-week-controls {
-        margin-top: 1rem;
-        text-align: center;
-        padding-top: 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .reset-week-btn {
-        padding: 0.4rem 0.8rem;
-        background: linear-gradient(135deg, #dc2626, #ef4444);
-        color: white;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 0.8rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .reset-week-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 2px 10px rgba(220, 38, 38, 0.4);
-    }
-
-    @media (max-width: 768px) {
-        .reset-weeks-container {
-            grid-template-columns: 1fr;
-            padding: 1rem;
-        }
-        
-        .reset-controls {
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .reset-days-grid {
-            grid-template-columns: repeat(3, 1fr);
-        }
-    }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🏰 Admin Progress Checklist</h1>
         <p>Manage Wells and Rou's progress through their 40-day adventure</p>
-    </div>
-
-    <!-- Firebase Remote Control Center -->
-    <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border: 2px solid #7c3aed; border-radius: 20px; padding: 25px; margin: 20px auto; max-width: 1200px; box-shadow: 0 8px 32px rgba(124, 58, 237, 0.3);">
-        <h2 style="color: #a78bfa; text-align: center; margin-top: 0; font-size: 24px;">
-            🔥 Firebase Cloud Sync Control 🔥
-        </h2>
-        
-        <div style="background: rgba(124, 58, 237, 0.2); border-radius: 10px; padding: 15px; margin-bottom: 20px; text-align: center; color: #e9d5ff; font-family: monospace;">
-            <span id="firebaseStatus">Loading cloud status...</span>
-        </div>
-        
-        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 20px;">
-            <button onclick="pushCurrentSaveAsMaster()" style="background: #7c3aed; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);">
-                📤 Push as Master Save
-            </button>
-            <button onclick="viewFirebaseSave()" style="background: #6366f1; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);">
-                📥 Check Cloud Status
-            </button>
-            <button onclick="pullFromCloud()" style="background: #8b5cf6; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);">
-                ⬇️ Pull Cloud Save
-            </button>
-            <button onclick="forceCloudSync()" style="background: #ec4899; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4);">
-                🔄 Force Sync All
-            </button>
-        </div>
-        
-        <div style="background: rgba(124, 58, 237, 0.2); border-radius: 10px; padding: 15px;">
-            <h3 style="color: #a78bfa; margin-top: 0; text-align: center;">Set Cloud Progress</h3>
-            <div style="display: flex; justify-content: center; align-items: center; gap: 15px; flex-wrap: wrap;">
-                <label style="color: #e9d5ff;">Wells Day: 
-                    <input type="number" id="remoteWellsDay" value="1" min="1" max="40" style="width: 60px; padding: 5px; background: #2d2d44; color: white; border: 1px solid #7c3aed; border-radius: 5px; margin-left: 5px;">
-                </label>
-                <label style="color: #e9d5ff;">Rou Day: 
-                    <input type="number" id="remoteRouDay" value="1" min="1" max="40" style="width: 60px; padding: 5px; background: #2d2d44; color: white; border: 1px solid #7c3aed; border-radius: 5px; margin-left: 5px;">
-                </label>
-                <button onclick="setRemoteProgress()" style="background: #10b981; color: white; border: none; padding: 8px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                    ☁️ Update Cloud
-                </button>
-            </div>
-        </div>
     </div>
 
     <div class="progress-summary">
@@ -785,31 +390,11 @@
 
     <div class="admin-controls">
         <button class="admin-btn" onclick="window.location.href='index.html'">🎮 Return to Game</button>
-        
-        <button class="admin-btn" onclick="unlockNextDay()">🔓 Unlock Next Day</button>
         <button class="admin-btn reset" onclick="resetProgress()">🔄 Reset All Progress</button>
-        <button class="admin-btn" onclick="exportProgress()">📥 Export Progress</button>
-        <button class="admin-btn" onclick="toggleResetPanel()">🎯 Reset Individual Days</button>
         <button class="admin-btn" onclick="activateAdminScreensaver()" title="Activate Screensaver">🖥️</button>
     </div>
 
-    <!-- Reset Days Panel -->
-    <div id="resetPanel" class="reset-panel" style="display: none;">
-        <div class="reset-header">
-            <h2>🎯 Reset Individual Days</h2>
-            <p>Reset specific days back to "never started" state. This will clear all progress, runes, and loot for the selected day.</p>
-        </div>
-        
-        <div class="reset-controls">
-            <button class="reset-btn danger" onclick="resetAllProgress()">🔄 Reset All Progress</button>
-            <button class="reset-btn warning" onclick="resetWeek('current')">📅 Reset Current Week</button>
-            <button class="reset-btn" onclick="toggleResetPanel()">❌ Close Panel</button>
-        </div>
 
-        <div class="reset-weeks-container">
-            <!-- Week blocks will be generated dynamically -->
-        </div>
-    </div>
 
     <div class="table-container">
         <table class="schedule-table">
@@ -820,7 +405,7 @@
                     <th>Wells Progress</th>
                     <th>Rou Progress</th>
                     <th>Status</th>
-                    <th>Actions</th>
+                    <th>Complete Through Day</th>
                 </tr>
             </thead>
             <tbody id="scheduleTableBody">
@@ -829,6 +414,7 @@
         </table>
     </div>
 
+    <script src="gameSchedule.js"></script>
     <script>
         // Progress tracking state - SHARED with index.html
         let progressState = {
@@ -902,7 +488,7 @@
                     <td>${generateCharacterCell(dayData.wells, 'wells', dayData.day, isLocked)}</td>
                     <td>${generateCharacterCell(dayData.rou, 'rou', dayData.day, isLocked)}</td>
                     <td>${generateStatusCell(wellsCompleted, rouCompleted, isLocked)}</td>
-                    <td>${generateActivationCell(dayData.day, isLocked)}</td>
+                    <td>${generateCompleteButton(dayData.day, isLocked)}</td>
                 `;
 
                 tbody.appendChild(row);
@@ -948,345 +534,32 @@
             }
         }
 
-        // Generate activation control cell content
-        function generateActivationCell(day, isLocked) {
-            const isActive = progressState.unlockedDays.includes(day);
-            const canActivate = canActivateDay(day);
-            const isDisabled = !canActivate && !isActive;
+        // Generate complete button cell content
+        function generateCompleteButton(day, isLocked) {
+            const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
+            const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
+            const bothCompleted = wellsCompleted && rouCompleted;
             
-            // Check if already completed through this day
-            const isCompletedThrough = isCompletedThroughDay(day);
-            const currentProgress = getCurrentDayProgress();
-            
-            let tooltipText = '';
-            if (day === 1) {
-                tooltipText = 'Day 1 can always be activated';
-            } else if (!canActivate && !isActive) {
-                tooltipText = `Day ${day - 1} must be activated first`;
-            } else if (isActive) {
-                tooltipText = `Click to deactivate Day ${day}`;
-            } else {
-                tooltipText = `Click to activate Day ${day}`;
-            }
-            
-            // Generate cumulative completion button
-            let bulkCompleteButton = '';
-            if (isCompletedThrough) {
-                bulkCompleteButton = `
-                    <button class="bulk-complete-btn completed" disabled>
-                        ✓ Completed
-                    </button>
-                `;
-            } else {
-                const progressText = currentProgress < day ? ` (Currently: Day ${currentProgress})` : '';
-                bulkCompleteButton = `
-                    <button class="bulk-complete-btn" onclick="handleBulkComplete(${day})">
-                        🏆 Complete Through Day ${day}${progressText}
-                    </button>
+            if (bothCompleted) {
+                return `
+                    <div class="complete-button-container">
+                        <span class="status-badge completed">✅ Already Complete</span>
+                    </div>
                 `;
             }
             
             return `
-                <div class="action-controls">
-                    <div class="activation-section">
-                        <div class="tooltip">
-                            <label class="activation-toggle ${isDisabled ? 'disabled' : ''}">
-                                <input type="checkbox" 
-                                       ${isActive ? 'checked' : ''} 
-                                       ${isDisabled ? 'disabled' : ''}
-                                       onchange="handleDayActivation(${day}, this.checked)">
-                                <span class="activation-slider"></span>
-                            </label>
-                            <span class="tooltiptext">${tooltipText}</span>
-                        </div>
-                        <div class="activation-label ${isActive ? 'active' : (isDisabled ? 'disabled' : 'inactive')}">
-                            ${isActive ? 'Active' : (isDisabled ? 'Locked' : 'Inactive')}
-                        </div>
-                    </div>
-                    <div class="bulk-complete-section">
-                        ${bulkCompleteButton}
-                    </div>
+                <div class="complete-button-container">
+                    <button class="complete-through-btn" 
+                            onclick="completeThroughDay(${day})"
+                            title="Mark Day ${day} and all previous days as completed for both Wells and Rou">
+                        Complete Through Day ${day}
+                    </button>
                 </div>
             `;
         }
 
-        // Check if a day can be activated (sequential rule)
-        function canActivateDay(day) {
-            if (day === 1) return true; // Day 1 can always be activated
-            return progressState.unlockedDays.includes(day - 1); // Previous day must be active
-        }
 
-        // Check if all days through a specific day are completed
-        function isCompletedThroughDay(targetDay) {
-            for (let day = 1; day <= targetDay; day++) {
-                const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
-                const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
-                if (!wellsCompleted || !rouCompleted) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // Get the current highest completed day
-        function getCurrentDayProgress() {
-            let currentProgress = 0;
-            for (let day = 1; day <= 40; day++) {
-                const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
-                const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
-                if (wellsCompleted && rouCompleted) {
-                    currentProgress = day;
-                } else {
-                    break;
-                }
-            }
-            return currentProgress;
-        }
-
-        // Handle bulk completion through a specific day
-        function handleBulkComplete(targetDay) {
-            const currentProgress = getCurrentDayProgress();
-            
-            // Show confirmation dialog
-            const confirmMessage = `This will complete Days 1-${targetDay} for both Wells and Rou.\n\n` +
-                                 `This includes:\n` +
-                                 `• Marking all days as completed\n` +
-                                 `• Awarding all runes and loot through Day ${targetDay}\n` +
-                                 `• Updating progress counters\n` +
-                                 `• Activating all days through Day ${targetDay}\n\n` +
-                                 `Continue?`;
-            
-            if (!confirm(confirmMessage)) {
-                return;
-            }
-            
-            // Complete all days through target day
-            for (let day = 1; day <= targetDay; day++) {
-                // Ensure day is unlocked
-                if (!progressState.unlockedDays.includes(day)) {
-                    progressState.unlockedDays.push(day);
-                }
-                
-                // Mark both players as completed for this day
-                progressState.taskCompletions[`day${day}_wells`] = true;
-                progressState.taskCompletions[`day${day}_rou`] = true;
-                
-                // Add to completed days
-                if (!progressState.completedDays.includes(day)) {
-                    progressState.completedDays.push(day);
-                }
-                
-                // Collect runes for completed day
-                collectRunesForCompletedDay(day);
-            }
-            
-            // Sort arrays
-            progressState.unlockedDays.sort((a, b) => a - b);
-            progressState.completedDays.sort((a, b) => a - b);
-            
-            // Update current day to next incomplete day
-            let nextDay = targetDay + 1;
-            progressState.currentDay = nextDay <= 40 ? nextDay : 40;
-            
-            // Auto-unlock next day if exists
-            if (nextDay <= 40 && !progressState.unlockedDays.includes(nextDay)) {
-                progressState.unlockedDays.push(nextDay);
-                progressState.unlockedDays.sort((a, b) => a - b);
-            }
-            
-            console.log(`Bulk completed Days 1-${targetDay} for both players`);
-            
-            saveProgress();
-            generateScheduleTable();
-            updateProgressSummary();
-        }
-
-        // Handle day activation/deactivation
-        function handleDayActivation(day, isActivating) {
-            if (isActivating) {
-                // Activating a day
-                if (!canActivateDay(day)) {
-                    // Show warning and revert checkbox
-                    const checkbox = event.target;
-                    checkbox.checked = false;
-                    
-                    // Show warning message
-                    const warningDiv = document.createElement('div');
-                    warningDiv.className = 'prerequisite-warning';
-                    warningDiv.textContent = `Cannot activate Day ${day}. Day ${day - 1} must be activated first.`;
-                    warningDiv.style.position = 'fixed';
-                    warningDiv.style.top = '20px';
-                    warningDiv.style.left = '50%';
-                    warningDiv.style.transform = 'translateX(-50%)';
-                    warningDiv.style.zIndex = '1000';
-                    warningDiv.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
-                    
-                    document.body.appendChild(warningDiv);
-                    
-                    // Remove warning after 3 seconds
-                    setTimeout(() => {
-                        if (warningDiv.parentNode) {
-                            warningDiv.parentNode.removeChild(warningDiv);
-                        }
-                    }, 3000);
-                    
-                    return;
-                }
-                
-                // Add day to unlocked days
-                if (!progressState.unlockedDays.includes(day)) {
-                    progressState.unlockedDays.push(day);
-                    progressState.unlockedDays.sort((a, b) => a - b);
-                    console.log(`Day ${day} manually activated`);
-                }
-            } else {
-                // Deactivating a day
-                if (hasProgressOrDependencies(day)) {
-                    // Show confirmation dialog
-                    const confirmMessage = `Deactivating Day ${day} will:\n` +
-                                         `• Remove any progress on Day ${day}\n` +
-                                         `• Deactivate all subsequent days\n` +
-                                         `• Remove collected runes for affected days\n\n` +
-                                         `Are you sure you want to continue?`;
-                    
-                    if (!confirm(confirmMessage)) {
-                        // Revert checkbox
-                        event.target.checked = true;
-                        return;
-                    }
-                }
-                
-                // Deactivate this day and all subsequent days
-                deactivateDayAndSubsequent(day);
-            }
-            
-            saveProgress();
-            generateScheduleTable();
-            updateProgressSummary();
-        }
-
-        // Check if a day has progress or dependencies
-        function hasProgressOrDependencies(day) {
-            // Check if day has any completed tasks
-            const hasProgress = progressState.taskCompletions[`day${day}_wells`] || 
-                              progressState.taskCompletions[`day${day}_rou`];
-            
-            // Check if any subsequent days are unlocked
-            const hasSubsequentDays = progressState.unlockedDays.some(d => d > day);
-            
-            return hasProgress || hasSubsequentDays;
-        }
-
-        // Deactivate a day and all subsequent days
-        function deactivateDayAndSubsequent(startDay) {
-            const affectedDays = progressState.unlockedDays.filter(d => d >= startDay);
-            
-            // Remove from unlocked days
-            progressState.unlockedDays = progressState.unlockedDays.filter(d => d < startDay);
-            
-            // Remove progress for affected days
-            affectedDays.forEach(day => {
-                delete progressState.taskCompletions[`day${day}_wells`];
-                delete progressState.taskCompletions[`day${day}_rou`];
-                
-                // Remove from completed days
-                progressState.completedDays = progressState.completedDays.filter(d => d !== day);
-                
-                // Remove runes for affected days
-                removeRunesForDay(day);
-            });
-            
-            // FIXED: Update current day and ensure proper day availability
-            if (startDay === 1) {
-                // Special case: if deactivating Day 1, keep it as current (no days unlocked)
-                progressState.currentDay = 1;
-            } else {
-                // For other days: set current day to the day being deactivated (making it available)
-                progressState.currentDay = startDay;
-                
-                // Ensure the deactivated day is still available to play
-                if (!progressState.unlockedDays.includes(startDay)) {
-                    progressState.unlockedDays.push(startDay);
-                    progressState.unlockedDays.sort((a, b) => a - b);
-                }
-            }
-            
-            console.log(`Deactivated Days ${startDay}-${Math.max(...affectedDays)} and removed their progress. Current day is now ${progressState.currentDay}`);
-        }
-
-        // Debug function to check current progress state
-        function debugProgressState() {
-            console.log('Current Progress State:', progressState);
-            console.log('Day 4 Rou Completion:', progressState.taskCompletions['day4_rou']);
-            console.log('Day 4 Wells Completion:', progressState.taskCompletions['day4_wells']);
-            
-            // Show specific info for day 4
-            alert(`Day 4 Status:\nRou: ${progressState.taskCompletions['day4_rou'] ? 'COMPLETED' : 'NOT COMPLETED'}\nWells: ${progressState.taskCompletions['day4_wells'] ? 'COMPLETED' : 'NOT COMPLETED'}`);
-        }
-
-        // Fix function to reset both Wells and Rou Day 4
-        function fixDay4Completion() {
-            const confirmReset = confirm('This will reset BOTH Wells and Rou Day 4 back to NOT COMPLETED. Continue?');
-            if (confirmReset) {
-                progressState.taskCompletions['day4_rou'] = false;
-                progressState.taskCompletions['day4_wells'] = false;
-                
-                // Remove Day 4 from completed days entirely
-                const index = progressState.completedDays.indexOf(4);
-                if (index > -1) {
-                    progressState.completedDays.splice(index, 1);
-                }
-                
-                saveProgress();
-                generateScheduleTable();
-                updateProgressSummary();
-                alert('Both Wells and Rou Day 4 have been reset to NOT COMPLETED');
-            }
-        }
-
-        // Fix function to reset Rou Day 4 specifically  
-        function fixRouDay4() {
-            const confirmReset = confirm('This will reset Rou Day 4 back to NOT COMPLETED. Continue?');
-            if (confirmReset) {
-                progressState.taskCompletions['day4_rou'] = false;
-                
-                // Also remove from completed days if no other player completed it
-                const wellsDay4 = progressState.taskCompletions['day4_wells'] || false;
-                if (!wellsDay4) {
-                    const index = progressState.completedDays.indexOf(4);
-                    if (index > -1) {
-                        progressState.completedDays.splice(index, 1);
-                    }
-                }
-                
-                saveProgress();
-                generateScheduleTable();
-                updateProgressSummary();
-                alert('Rou Day 4 has been reset to NOT COMPLETED');
-            }
-        }
-
-        // Fix function to reset Wells Day 4 specifically
-        function fixWellsDay4() {
-            const confirmReset = confirm('This will reset Wells Day 4 back to NOT COMPLETED. Continue?');
-            if (confirmReset) {
-                progressState.taskCompletions['day4_wells'] = false;
-                
-                // Also remove from completed days if no other player completed it
-                const rouDay4 = progressState.taskCompletions['day4_rou'] || false;
-                if (!rouDay4) {
-                    const index = progressState.completedDays.indexOf(4);
-                    if (index > -1) {
-                        progressState.completedDays.splice(index, 1);
-                    }
-                }
-                
-                saveProgress();
-                generateScheduleTable();
-                updateProgressSummary();
-                alert('Wells Day 4 has been reset to NOT COMPLETED');
-            }
-        }
 
         // Handle completion checkbox changes
         function handleComplete(day, character) {
@@ -1347,22 +620,62 @@
             document.getElementById('totalProgress').textContent = progressState.unlockedDays.length;
         }
 
-        // Admin function: Unlock next day
-        function unlockNextDay() {
-            const maxUnlocked = Math.max(...progressState.unlockedDays);
-            if (maxUnlocked < 40) {
-                const nextDay = maxUnlocked + 1;
-                if (!progressState.unlockedDays.includes(nextDay)) {
-                    progressState.unlockedDays.push(nextDay);
-                    progressState.unlockedDays.sort((a, b) => a - b);
-                    saveProgress();
-                    generateScheduleTable();
-                    updateProgressSummary();
-                    console.log(`Manually unlocked Day ${nextDay}`);
-                }
-            } else {
-                alert('All days are already unlocked!');
+        // Complete through day X function - marks that day and all previous days as completed
+        function completeThroughDay(targetDay) {
+            const confirmMessage = `This will reset ALL progress and then mark Days 1-${targetDay} as completed for both Wells and Rou.\n\nThis will:\n• Clear all existing progress\n• Mark ${targetDay * 2} tasks as completed\n• Set Days ${targetDay + 1}-40 as NOT completed\n• Collect runes for Days 1-${targetDay}\n\nAre you sure you want to continue?`;
+            
+            if (!confirm(confirmMessage)) {
+                return;
             }
+            
+            console.log(`Completing through Day ${targetDay}...`);
+            
+            // STEP 1: Clear ALL existing progress first
+            progressState.taskCompletions = {};
+            progressState.completedDays = [];
+            progressState.unlockedDays = [];
+            progressState.collectedRunes = { wells: [], rou: [] };
+            
+            // STEP 2: Process all days 1-40 with clear logic
+            for (let day = 1; day <= 40; day++) {
+                if (day <= targetDay) {
+                    // Mark days 1 through targetDay as COMPLETED
+                    progressState.taskCompletions[`day${day}_wells`] = true;
+                    progressState.taskCompletions[`day${day}_rou`] = true;
+                    progressState.completedDays.push(day);
+                    progressState.unlockedDays.push(day);
+                    
+                    // Collect runes for completed days
+                    collectRunesForCompletedDay(day);
+                } else {
+                    // Explicitly ensure days after targetDay are NOT completed
+                    progressState.taskCompletions[`day${day}_wells`] = false;
+                    progressState.taskCompletions[`day${day}_rou`] = false;
+                    // Note: Don't add to completedDays or unlockedDays
+                }
+            }
+            
+            // STEP 3: Set current day to the next day after target (or 40 if at end)
+            progressState.currentDay = targetDay < 40 ? targetDay + 1 : 40;
+            
+            // STEP 4: Auto-unlock the next day if not at the end
+            if (targetDay < 40) {
+                progressState.unlockedDays.push(targetDay + 1);
+            }
+            
+            // Sort arrays to maintain order
+            progressState.completedDays.sort((a, b) => a - b);
+            progressState.unlockedDays.sort((a, b) => a - b);
+            
+            // Save and update UI
+            saveProgress();
+            generateScheduleTable();
+            updateProgressSummary();
+            
+            console.log(`Completed through Day ${targetDay}. Current day is now ${progressState.currentDay}`);
+            console.log(`Completed days: [${progressState.completedDays.join(', ')}]`);
+            console.log(`Unlocked days: [${progressState.unlockedDays.join(', ')}]`);
+            alert(`Successfully completed Days 1-${targetDay} for both Wells and Rou!\nDays ${targetDay + 1}-40 are now reset to incomplete.`);
         }
 
 
@@ -1372,14 +685,26 @@
             const dayData = gameSchedule.schedule.find(d => d.day === day);
             if (!dayData) return;
             
-            // Add Wells rune if it exists
-            if (dayData.wells.runeDropped) {
-                addRuneToCollection('wells', dayData.wells.runeDropped);
+            // Handle Wells rune - check both baseRune (Day 11 structure) and runeDropped (other days)
+            let wellsRune = null;
+            if (dayData.wells.baseRune && dayData.wells.baseRune !== 'None') {
+                wellsRune = dayData.wells.baseRune;
+            } else if (dayData.wells.runeDropped && dayData.wells.runeDropped !== 'None') {
+                wellsRune = dayData.wells.runeDropped;
+            }
+            if (wellsRune) {
+                addRuneToCollection('wells', wellsRune);
             }
             
-            // Add Rou rune if it exists
-            if (dayData.rou.runeDropped) {
-                addRuneToCollection('rou', dayData.rou.runeDropped);
+            // Handle Rou rune - check both baseRune (Day 11 structure) and runeDropped (other days)
+            let rouRune = null;
+            if (dayData.rou.baseRune && dayData.rou.baseRune !== 'None') {
+                rouRune = dayData.rou.baseRune;
+            } else if (dayData.rou.runeDropped && dayData.rou.runeDropped !== 'None') {
+                rouRune = dayData.rou.runeDropped;
+            }
+            if (rouRune) {
+                addRuneToCollection('rou', rouRune);
             }
         }
         
@@ -1398,14 +723,26 @@
             const dayData = gameSchedule.schedule.find(d => d.day === day);
             if (!dayData) return;
             
-            // Remove Wells rune if it exists
-            if (dayData.wells.runeDropped) {
-                progressState.collectedRunes.wells = progressState.collectedRunes.wells.filter(r => r !== dayData.wells.runeDropped);
+            // Handle Wells rune removal - check both baseRune and runeDropped
+            let wellsRune = null;
+            if (dayData.wells.baseRune && dayData.wells.baseRune !== 'None') {
+                wellsRune = dayData.wells.baseRune;
+            } else if (dayData.wells.runeDropped && dayData.wells.runeDropped !== 'None') {
+                wellsRune = dayData.wells.runeDropped;
+            }
+            if (wellsRune) {
+                progressState.collectedRunes.wells = progressState.collectedRunes.wells.filter(r => r !== wellsRune);
             }
             
-            // Remove Rou rune if it exists
-            if (dayData.rou.runeDropped) {
-                progressState.collectedRunes.rou = progressState.collectedRunes.rou.filter(r => r !== dayData.rou.runeDropped);
+            // Handle Rou rune removal - check both baseRune and runeDropped
+            let rouRune = null;
+            if (dayData.rou.baseRune && dayData.rou.baseRune !== 'None') {
+                rouRune = dayData.rou.baseRune;
+            } else if (dayData.rou.runeDropped && dayData.rou.runeDropped !== 'None') {
+                rouRune = dayData.rou.runeDropped;
+            }
+            if (rouRune) {
+                progressState.collectedRunes.rou = progressState.collectedRunes.rou.filter(r => r !== rouRune);
             }
         }
 
@@ -1443,224 +780,9 @@
             }
         }
 
-        // Export progress as JSON
-        function exportProgress() {
-            const dataStr = JSON.stringify(progressState, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = 'rune-bearer-progress.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-        }
 
-        // Reset Panel Functions
-        function toggleResetPanel() {
-            const panel = document.getElementById('resetPanel');
-            if (panel.style.display === 'none') {
-                panel.style.display = 'block';
-                generateResetPanel();
-            } else {
-                panel.style.display = 'none';
-            }
-        }
 
-        function generateResetPanel() {
-            const container = document.querySelector('.reset-weeks-container');
-            container.innerHTML = '';
 
-            // Group days into weeks (8 weeks total for 40 days)
-            const weeks = [];
-            for (let week = 1; week <= 8; week++) {
-                const startDay = (week - 1) * 5 + 1;
-                const endDay = Math.min(week * 5, 40);
-                weeks.push({
-                    week,
-                    startDay,
-                    endDay,
-                    days: Array.from({length: endDay - startDay + 1}, (_, i) => startDay + i)
-                });
-            }
-
-            weeks.forEach(weekData => {
-                const weekElement = document.createElement('div');
-                weekElement.className = 'reset-week';
-                
-                const weekHeader = `
-                    <div class="reset-week-header">
-                        <div class="reset-week-title">Week ${weekData.week}</div>
-                        <div class="reset-week-range">Days ${weekData.startDay}-${weekData.endDay}</div>
-                    </div>
-                `;
-
-                const daysGrid = weekData.days.map(day => {
-                    const dayStatus = getDayResetStatus(day);
-                    return `
-                        <button class="reset-day-btn ${dayStatus.class}" 
-                                onclick="resetIndividualDay(${day})"
-                                ${dayStatus.disabled ? 'disabled' : ''}>
-                            <div class="day-number">${day}</div>
-                            <div class="day-status">${dayStatus.status}</div>
-                        </button>
-                    `;
-                }).join('');
-
-                const weekControls = `
-                    <div class="reset-week-controls">
-                        <button class="reset-week-btn" onclick="resetWeek(${weekData.week})">
-                            Reset Week ${weekData.week}
-                        </button>
-                    </div>
-                `;
-
-                weekElement.innerHTML = `
-                    ${weekHeader}
-                    <div class="reset-days-grid">
-                        ${daysGrid}
-                    </div>
-                    ${weekControls}
-                `;
-
-                container.appendChild(weekElement);
-            });
-        }
-
-        function getDayResetStatus(day) {
-            const isUnlocked = progressState.unlockedDays.includes(day);
-            const wellsCompleted = progressState.taskCompletions[`day${day}_wells`] || false;
-            const rouCompleted = progressState.taskCompletions[`day${day}_rou`] || false;
-            const isCompleted = wellsCompleted || rouCompleted;
-            const isFullyCompleted = wellsCompleted && rouCompleted;
-
-            if (!isUnlocked) {
-                return {
-                    class: 'locked',
-                    status: 'Locked',
-                    disabled: true
-                };
-            } else if (isFullyCompleted) {
-                return {
-                    class: 'completed',
-                    status: 'Complete',
-                    disabled: false
-                };
-            } else if (isCompleted) {
-                return {
-                    class: 'completed',
-                    status: 'Partial',
-                    disabled: false
-                };
-            } else {
-                return {
-                    class: 'unlocked',
-                    status: 'Unlocked',
-                    disabled: false
-                };
-            }
-        }
-
-        function resetIndividualDay(day) {
-            const dayStatus = getDayResetStatus(day);
-            
-            if (dayStatus.disabled) {
-                alert(`Day ${day} is locked and cannot be reset.`);
-                return;
-            }
-
-            // Check if resetting this day would break progression
-            const hasSubsequentUnlocked = progressState.unlockedDays.some(d => d > day);
-            const hasSubsequentCompleted = progressState.completedDays.some(d => d > day);
-            
-            let warningMessage = `Are you sure you want to reset Day ${day}?\n\nThis will:\n- Clear all progress for Day ${day}\n- Remove any runes collected on Day ${day}\n- Reset the day to "never started" state`;
-            
-            if (hasSubsequentUnlocked || hasSubsequentCompleted) {
-                warningMessage += `\n\n⚠️ WARNING: This will also reset all days after Day ${day} to maintain progression logic.`;
-            }
-
-            if (confirm(warningMessage)) {
-                performDayReset(day);
-            }
-        }
-
-        function performDayReset(day) {
-            console.log(`Resetting Day ${day}...`);
-            
-            // Remove from unlocked days (and all subsequent days)
-            progressState.unlockedDays = progressState.unlockedDays.filter(d => d < day);
-            
-            // Remove from completed days (current day and all subsequent)
-            progressState.completedDays = progressState.completedDays.filter(d => d < day);
-            
-            // Clear task completions for this day and all subsequent days
-            Object.keys(progressState.taskCompletions).forEach(key => {
-                const dayMatch = key.match(/day(\d+)_/);
-                if (dayMatch && parseInt(dayMatch[1]) >= day) {
-                    delete progressState.taskCompletions[key];
-                }
-            });
-            
-            // Remove runes for affected days
-            for (let d = day; d <= 40; d++) {
-                removeRunesForDay(d);
-            }
-            
-            // FIXED: Update current day and unlock the reset day for play
-            if (day === 1) {
-                // Special case: if resetting Day 1, ensure it's unlocked and current
-                if (!progressState.unlockedDays.includes(1)) {
-                    progressState.unlockedDays.push(1);
-                }
-                progressState.currentDay = 1;
-            } else {
-                // For other days: set current day to the reset day and unlock it
-                progressState.currentDay = day;
-                
-                // Ensure the reset day is available to play
-                if (!progressState.unlockedDays.includes(day)) {
-                    progressState.unlockedDays.push(day);
-                    progressState.unlockedDays.sort((a, b) => a - b);
-                }
-            }
-            
-            // Save and update UI
-            saveProgress();
-            generateScheduleTable();
-            updateProgressSummary();
-            generateResetPanel();
-            
-            console.log(`Day ${day} reset successfully. Current day is now ${progressState.currentDay}`);
-            alert(`Day ${day} has been reset and is now available to play!`);
-        }
-
-        function resetWeek(weekNumber) {
-            let startDay, endDay;
-            
-            if (weekNumber === 'current') {
-                // Find current week based on current day
-                const currentDay = progressState.currentDay;
-                const weekNum = Math.ceil(currentDay / 5);
-                startDay = (weekNum - 1) * 5 + 1;
-                endDay = Math.min(weekNum * 5, 40);
-            } else {
-                startDay = (weekNumber - 1) * 5 + 1;
-                endDay = Math.min(weekNumber * 5, 40);
-            }
-            
-            const weekText = weekNumber === 'current' ? 'current week' : `Week ${weekNumber}`;
-            
-            if (confirm(`Are you sure you want to reset ${weekText} (Days ${startDay}-${endDay})?\n\nThis will reset all progress for these days and may affect subsequent days to maintain progression logic.`)) {
-                performDayReset(startDay);
-            }
-        }
-
-        function resetAllProgress() {
-            if (confirm('Are you sure you want to reset ALL progress? This will clear everything and cannot be undone.')) {
-                resetProgress();
-                generateResetPanel();
-            }
-        }
 
         // Sound Effects System (same as main game)
         class SoundManager {
@@ -2306,19 +1428,11 @@
         document.addEventListener('keydown', function(e) {
             if (e.ctrlKey || e.metaKey) {
                 switch(e.key) {
-                    case 'u':
-                        e.preventDefault();
-                        unlockNextDay();
-                        break;
                     case 'r':
                         e.preventDefault();
                         if (e.shiftKey) {
                             resetProgress();
                         }
-                        break;
-                    case 't':
-                        e.preventDefault();
-                        toggleResetPanel();
                         break;
                     case 's':
                         e.preventDefault();
@@ -2332,382 +1446,6 @@
         });
 
         console.log('[Admin] Rune Bearer Phoenix admin interface initialized with sound effects and screensaver');
-
-        // Admin URL Commands - allows remote control via URL parameters
-        // Example: yoursite.com?admin=unlock&day=10&key=RB25Admin
-        function checkAdminCommands() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const adminCmd = urlParams.get('admin');
-            const adminKey = urlParams.get('key');
-            
-            // Change this key to something secure!
-            const ADMIN_KEY = 'RB25Admin2025';
-            
-            if (adminKey === ADMIN_KEY && adminCmd) {
-                console.log('Admin command received:', adminCmd);
-                
-                switch(adminCmd) {
-                    case 'unlock':
-                        const day = parseInt(urlParams.get('day') || '1');
-                        const wells = urlParams.get('wells') || day;
-                        const rou = urlParams.get('rou') || day;
-                        
-                        // Set player progress
-                        (async () => {
-                            const gameData = await loadGameData();
-                            gameData.wells.currentDay = parseInt(wells);
-                            gameData.rou.currentDay = parseInt(rou);
-                            gameData.lastUpdated = Date.now() + 1000000; // Future timestamp
-                            gameData.device = 'ADMIN_URL_COMMAND';
-                            
-                            await saveGameData(gameData);
-                            
-                            alert(`Admin: Set Wells to Day ${wells}, Rou to Day ${rou}`);
-                            
-                            // Clear URL parameters and reload
-                            window.history.replaceState({}, document.title, window.location.pathname);
-                            setTimeout(() => window.location.reload(), 1000);
-                        })();
-                        break;
-                        
-                    case 'reset':
-                        if (confirm('Admin: Reset entire game to Day 1?')) {
-                            (async () => {
-                                await adminResetGame();
-                                window.history.replaceState({}, document.title, window.location.pathname);
-                            })();
-                        }
-                        break;
-                        
-                    case 'addrune':
-                        const player = urlParams.get('player');
-                        const rune = urlParams.get('rune');
-                        
-                        if (player && rune) {
-                            (async () => {
-                                const gameData = await loadGameData();
-                                if (!gameData[player].collectedRunes.includes(rune)) {
-                                    gameData[player].collectedRunes.push(rune);
-                                    gameData.lastUpdated = Date.now() + 1000000;
-                                    await saveGameData(gameData);
-                                    alert(`Admin: Added ${rune} to ${player}`);
-                                }
-                                window.history.replaceState({}, document.title, window.location.pathname);
-                                setTimeout(() => window.location.reload(), 1000);
-                            })();
-                        }
-                        break;
-                        
-                    case 'status':
-                        (async () => {
-                            const gameData = await loadGameData();
-                            alert(`Admin Status:\n\nWells: Day ${gameData.wells.currentDay}, Runes: ${gameData.wells.collectedRunes.length}\nRou: Day ${gameData.rou.currentDay}, Runes: ${gameData.rou.collectedRunes.length}\n\nLast Updated: ${new Date(gameData.lastUpdated).toLocaleString()}`);
-                            window.history.replaceState({}, document.title, window.location.pathname);
-                        })();
-                        break;
-                }
-            }
-        }
-
-        // Call this function early in your initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            checkAdminCommands();
-        });
-    </script>
-
-    <!-- Firebase Remote Control Functions -->
-    <script>
-        // Debug script loading
-        console.log('Checklist page loading...');
-        console.log('Current scripts:', document.querySelectorAll('script'));
-
-        // Wait for Firebase to load
-        let firebaseReady = false;
-
-        // Check if Firebase is loaded
-        function checkFirebase() {
-            if (typeof firebase !== 'undefined' && typeof firebaseDB !== 'undefined') {
-                firebaseReady = true;
-                document.getElementById('firebaseStatus').textContent = '✅ Firebase connected - Ready for commands';
-                return true;
-            }
-            return false;
-        }
-
-        // Initialize Firebase check
-        setTimeout(() => {
-            if (!checkFirebase()) {
-                document.getElementById('firebaseStatus').textContent = '❌ Firebase not loaded - Check console for errors';
-                console.error('Firebase failed to load. Check that firebaseConfig.js exists and has correct config.');
-            }
-        }, 2000);
-
-        // Helper function to get realm name for a given day
-        function getRealmForDay(player, day) {
-            const wellsRealms = [
-                'Dawnbreak Expanse', 'Dawnbreak Expanse', 
-                'Emerald Canopy', 'Emerald Canopy',
-                'Golden Savannah', 'Golden Savannah',
-                'Emberlight Bastion', 'Emberlight Bastion',
-                'Skyforge Spire', 'Skyforge Spire',
-                'Molten Zenith Cavern', 'Molten Zenith Cavern',
-                'Solar Cathedral Ruins', 'Solar Cathedral Ruins',
-                'Celestial Observatory', 'Celestial Observatory'
-            ];
-            
-            const rouRealms = [
-                'Crystal Glade', 'Crystal Glade',
-                'Shimmering Reef', 'Shimmering Reef',
-                'Frostpeak Summit', 'Frostpeak Summit',
-                'Molten Depths', 'Molten Depths',
-                'Abyssal Trench', 'Abyssal Trench',
-                'Stormbound Isles', 'Stormbound Isles',
-                'Glacial Frontier', 'Glacial Frontier',
-                'Arcane Vault', 'Arcane Vault'
-            ];
-            
-            const realmIndex = Math.floor((day - 1) / 5);
-            return player === 'wells' ? wellsRealms[realmIndex] || wellsRealms[0] : rouRealms[realmIndex] || rouRealms[0];
-        }
-
-        // Updated function to push GAME progress as master (not checklist progress)
-        async function pushCurrentSaveAsMaster() {
-            if (!checkFirebase()) {
-                alert('Firebase not loaded yet. Please wait and try again.');
-                return;
-            }
-            
-            try {
-                // First, check if we have game data
-                const gameData = JSON.parse(localStorage.getItem('runeBearerSave') || '{}');
-                
-                if (!gameData.wells || !gameData.rou) {
-                    // If no game data, create it from checklist progress
-                    const wellsProgress = parseInt(document.querySelector('[data-player="wells"] .current-day')?.textContent || '1');
-                    const rouProgress = parseInt(document.querySelector('[data-player="rou"] .current-day')?.textContent || '1');
-                    
-                    gameData.wells = {
-                        currentDay: wellsProgress,
-                        currentRealm: getRealmForDay('wells', wellsProgress),
-                        irlCompleted: false,
-                        mathCompleted: false,
-                        mathProgress: 0,
-                        completedRooms: [],
-                        collectedRunes: [],
-                        completedTasks: []
-                    };
-                    
-                    gameData.rou = {
-                        currentDay: rouProgress,
-                        currentRealm: getRealmForDay('rou', rouProgress),
-                        irlCompleted: false,
-                        mathCompleted: false,
-                        mathProgress: 0,
-                        completedRooms: [],
-                        collectedRunes: [],
-                        completedTasks: []
-                    };
-                    
-                    gameData.claimedRewards = [];
-                    gameData.settings = {
-                        adminMode: false,
-                        soundEnabled: true
-                    };
-                }
-                
-                // Force update days from input fields
-                const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
-                const rouDay = parseInt(document.getElementById('remoteRouDay').value);
-                
-                gameData.wells.currentDay = wellsDay;
-                gameData.rou.currentDay = rouDay;
-                gameData.wells.currentRealm = getRealmForDay('wells', wellsDay);
-                gameData.rou.currentRealm = getRealmForDay('rou', rouDay);
-                
-                // Critical: Add timestamp and version info
-                gameData.lastUpdated = Date.now() + 1000000; // Future timestamp
-                gameData.device = 'ADMIN_CHECKLIST_MASTER';
-                gameData.gameVersion = '1.0';
-                gameData.isMasterSave = true;
-                
-                // Push to Firebase
-                const saveRef = firebaseDB.ref('saves/family_rb25');
-                await saveRef.set(gameData);
-                
-                // Also update local storage with game format
-                localStorage.setItem('runeBearerSave', JSON.stringify(gameData));
-                
-                document.getElementById('firebaseStatus').textContent = 
-                    `✅ Master save pushed! Wells: Day ${wellsDay}, Rou: Day ${rouDay}`;
-                
-                alert('Success! Game will update to:\nWells: Day ' + wellsDay + '\nRou: Day ' + rouDay + '\n\nRefresh the game on other devices.');
-                
-                console.log('Pushed game data:', gameData);
-            } catch (error) {
-                alert('Error: ' + error.message);
-                console.error(error);
-            }
-        }
-
-        // Updated setRemoteProgress to ensure proper game data structure
-        async function setRemoteProgress() {
-            if (!checkFirebase()) {
-                alert('Firebase not loaded yet. Please wait and try again.');
-                return;
-            }
-            
-            try {
-                const wellsDay = parseInt(document.getElementById('remoteWellsDay').value);
-                const rouDay = parseInt(document.getElementById('remoteRouDay').value);
-                
-                // Get existing save or create new one
-                const saveRef = firebaseDB.ref('saves/family_rb25');
-                const snapshot = await saveRef.once('value');
-                let cloudSave = snapshot.val() || {};
-                
-                // Ensure proper game structure
-                if (!cloudSave.wells || typeof cloudSave.wells === 'number') {
-                    cloudSave.wells = {
-                        currentDay: wellsDay,
-                        currentRealm: getRealmForDay('wells', wellsDay),
-                        irlCompleted: false,
-                        mathCompleted: false,
-                        mathProgress: 0,
-                        completedRooms: [],
-                        collectedRunes: cloudSave.wells?.collectedRunes || [],
-                        completedTasks: []
-                    };
-                } else {
-                    cloudSave.wells.currentDay = wellsDay;
-                    cloudSave.wells.currentRealm = getRealmForDay('wells', wellsDay);
-                }
-                
-                if (!cloudSave.rou || typeof cloudSave.rou === 'number') {
-                    cloudSave.rou = {
-                        currentDay: rouDay,
-                        currentRealm: getRealmForDay('rou', rouDay),
-                        irlCompleted: false,
-                        mathCompleted: false,
-                        mathProgress: 0,
-                        completedRooms: [],
-                        collectedRunes: cloudSave.rou?.collectedRunes || [],
-                        completedTasks: []
-                    };
-                } else {
-                    cloudSave.rou.currentDay = rouDay;
-                    cloudSave.rou.currentRealm = getRealmForDay('rou', rouDay);
-                }
-                
-                // Ensure other required fields
-                cloudSave.claimedRewards = cloudSave.claimedRewards || [];
-                cloudSave.settings = cloudSave.settings || { adminMode: false, soundEnabled: true };
-                cloudSave.lastUpdated = Date.now() + 1000000;
-                cloudSave.device = 'ADMIN_SET_PROGRESS';
-                cloudSave.gameVersion = '1.0';
-                
-                await saveRef.set(cloudSave);
-                
-                document.getElementById('firebaseStatus').textContent = 
-                    `✅ Cloud updated: Wells Day ${wellsDay}, Rou Day ${rouDay}`;
-                
-                console.log('Updated cloud save:', cloudSave);
-                alert('Cloud progress updated! Refresh game on other devices to see changes.');
-            } catch (error) {
-                alert('Error: ' + error.message);
-                console.error(error);
-            }
-        }
-
-        async function viewFirebaseSave() {
-            if (!checkFirebase()) {
-                document.getElementById('firebaseStatus').textContent = '❌ Firebase not loaded';
-                return;
-            }
-            
-            try {
-                const saveRef = firebaseDB.ref('saves/family_rb25');
-                const snapshot = await saveRef.once('value');
-                const cloudSave = snapshot.val();
-                
-                if (cloudSave) {
-                    const status = `☁️ Cloud: Wells Day ${cloudSave.wells?.currentDay || 1}, ` +
-                                `Rou Day ${cloudSave.rou?.currentDay || 1} | ` +
-                                `Updated: ${new Date(cloudSave.lastUpdated).toLocaleString()}`;
-                    
-                    document.getElementById('firebaseStatus').textContent = status;
-                    document.getElementById('remoteWellsDay').value = cloudSave.wells?.currentDay || 1;
-                    document.getElementById('remoteRouDay').value = cloudSave.rou?.currentDay || 1;
-                } else {
-                    document.getElementById('firebaseStatus').textContent = '❌ No cloud save found!';
-                }
-            } catch (error) {
-                document.getElementById('firebaseStatus').textContent = '❌ Error: ' + error.message;
-                console.error(error);
-            }
-        }
-
-        async function pullFromCloud() {
-            if (!checkFirebase()) {
-                alert('Firebase not loaded yet. Please wait and try again.');
-                return;
-            }
-            
-            try {
-                const saveRef = firebaseDB.ref('saves/family_rb25');
-                const snapshot = await saveRef.once('value');
-                const cloudSave = snapshot.val();
-                
-                if (cloudSave) {
-                    localStorage.setItem('runeBearerSave', JSON.stringify(cloudSave));
-                    document.getElementById('firebaseStatus').textContent = 
-                        `✅ Pulled cloud save to this device! Refresh to see changes.`;
-                    
-                    setTimeout(() => location.reload(), 2000);
-                } else {
-                    alert('No cloud save to pull!');
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-                console.error(error);
-            }
-        }
-
-        async function forceCloudSync() {
-            if (!checkFirebase()) {
-                alert('Firebase not loaded yet. Please wait and try again.');
-                return;
-            }
-            
-            try {
-                const saveRef = firebaseDB.ref('saves/family_rb25');
-                const snapshot = await saveRef.once('value');
-                const cloudSave = snapshot.val();
-                
-                if (cloudSave) {
-                    cloudSave.lastUpdated = Date.now() + 2000000;
-                    cloudSave.forceSync = true;
-                    await saveRef.set(cloudSave);
-                    
-                    document.getElementById('firebaseStatus').textContent = '🔄 Force sync activated!';
-                    alert('All devices will update to this save on next load!');
-                }
-            } catch (error) {
-                alert('Error: ' + error.message);
-                console.error(error);
-            }
-        }
-
-        // Run debug on load
-        window.addEventListener('load', function() {
-            debugFirebase();
-            
-            // Try to check status after a delay
-            setTimeout(() => {
-                if (checkFirebase()) {
-                    viewFirebaseSave();
-                }
-            }, 3000);
-        });
     </script>
 </body>
 </html> 
