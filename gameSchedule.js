@@ -287,9 +287,9 @@ const gameSchedule = {
         "story": "Sea-spray mist drifts over rainbow coral towers. Slick shells crunch underfoot, and tangles of pearly sea-grasses sway like shoelaces in the tide breeze. Ferrin pauses, nose to the sand, and glances at Rou's untied sneakers. \"Time to tie shoes!\"",
         "baseRune": "Phantom Cloak",
         "runeIcon": "👻",
-        "lootTier": null,
-        "lootArt": null,
-        "lootDescription": null,
+        "lootTier": "tiny",
+        "lootArt": "loot/scarab-tiny-loot.png",
+        "lootDescription": "Tiny Scarab Gift! The grateful scarab beetle leaves behind a small collection of reef treasures—miniature shell spirals, tiny coral fragments, and a few iridescent beetle scales that shimmer with underwater magic.",
         "irlChallenge": {
           "title": "🪢 Secure the Reef Striders",
           "icon": "👟",
@@ -315,7 +315,7 @@ const gameSchedule = {
             {
               "category": "Addition",
               "title": "🐚 Shell Count — Question 1",
-              "story": "You spot spiral shells and clam shells scattered across the sand. Ferrin helps you count the shiny treasures.",
+              "story": "A tiny sapphire-shell scarab scuttles up and points to shells scattered across the sand. Ferrin helps you count the shiny treasures.",
               "question": "You spot <strong>8</strong> spiral shells and <strong>7</strong> clam shells. How many shells shine in all?",
               "answer": 15,
               "acceptedAnswers": [15],
@@ -323,15 +323,15 @@ const gameSchedule = {
             },
             {
               "category": "Division",
-              "title": "🦪 Pearl Swap — Question 2",
-              "story": "Rou trades some shells for pearls. Now the shells count has changed. Figure out how many pearls you gained!",
+              "title": "🦪 Pearl Trade — Question 2",
+              "story": "A tiny sapphire-shell scarab scuttles up with pearls to trade. Each pearl costs shells. You can use your shells to buy pearls!",
               "question": "Each pearl costs <strong>3</strong> shells. You spend <strong>15</strong> shells. How many pearls did you get?",
               "answer": 5,
               "acceptedAnswers": [5],
               "successMessage": "Great math! You got five beautiful pearls."
             }
           ],
-          "finalMessage": "When Rou states 'Six pearls!' the coral towers glow. Mist curls into a tiny smoke-grey mantle—the 👻 Phantom Cloak—which flutters into Rou's hands, light as sea-foam. Ferrin wags her tail, and the reef path opens, shimmering blue ahead."
+          "finalMessage": "Rou calls 'Five pearls!' The coral towers glow. From a crevice scuttles a sapphire-shell scarab, tiny legs tapping the sand. It pauses at Rou's sneakers, lifts its wing-covers, and unfurls a smoke-grey mantle—the 👻 Phantom Cloak—folded neatly on its back like a special delivery. Ferrin noses the shimmering beetle in thanks as the cloak drifts into Rou's hands, light as sea-foam. The scarab gives a faint iridescent flash, then burrows into the coral, leaving pearly tracks that point the way forward through the reef."
         }
       }
     },
@@ -454,9 +454,52 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Ancient Grove",
-        "irlTask": null,
-        "runeDropped": "Solar Scale",
-        "lootTier": "None"
+        "icon": "🌞",
+        "artwork": "assets/rooms/EmeraldCanopy/wells-day-13-art.jpg",
+        "story": "Shafts of golden light pierce a ring of colossal trees. At the grove's center lies a moss-covered stone altar inlaid with empty hexagon slots. Flint's ember-sense tingles; warm sunlight converges on the stone, hinting that something bright once nested here.",
+        "baseRune": "Solar Scale",
+        "runeIcon": "☀️",
+        "lootTier": null,
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "No IRL Challenge",
+          "icon": "🌞",
+          "type": "none",
+          "content": {
+            "instructions": [
+              "This is a pure exploration day",
+              "Focus on solving the ancient altar puzzle",
+              "No real-world tasks required"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "🌞 Ancient Altar Puzzle",
+          "icon": "🔶",
+          "description": "The mysterious altar holds secrets of the ancient grove. Flint murmurs observations as you study the glowing sun-shards in the canopy above.",
+          "missions": [
+            {
+              "category": "Multiplication/Subtraction",
+              "title": "✨ Sun-Shard Count — Question 1",
+              "story": "Four treetops each hold shimmering sun-shards. A fifth treetop holds fewer. Flint helps you count all the magical shards.",
+              "question": "Four treetops each hold <strong>7</strong> shimmering sun-shards. A fifth treetop holds <strong>3</strong> fewer. How many shards gleam above us?",
+              "answer": 32,
+              "acceptedAnswers": [32],
+              "successMessage": "Perfect calculation! Thirty-two sun-shards sparkle in the canopy."
+            },
+            {
+              "category": "Division",
+              "title": "🔶 Altar Fill — Question 2",
+              "story": "Each slot in the altar needs shards to glow. Using your counted shards, you can determine how many slots will light up.",
+              "question": "Each slot in the altar needs <strong>4</strong> shards to glow. Using those <strong>32</strong> shards, how many slots can we fill?",
+              "answer": 8,
+              "acceptedAnswers": [8],
+              "successMessage": "Excellent work! You can fill eight slots with the magical shards."
+            }
+          ],
+          "finalMessage": "Wells calls 'Eight slots!' The altar flares; sun-shards cascade from the canopy, settling perfectly into the eight hexagons. Light fuses into a single iridescent scale—the ☀️ Solar Scale—that rises, weightless and warm, into Wells's hand. Flint barks in approval. The grove's trees bend aside, revealing a sunlit path toward deeper reaches of the Emerald Canopy."
+        }
       },
       "rou": {
         "realm": "Shimmering Reef",
