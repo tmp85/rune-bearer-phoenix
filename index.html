@@ -3900,6 +3900,58 @@
                         ],
                         finalMessage: "Wells whispers 'Fourteen steps.' As each calculated step lands, paired moths drift to his heels, casting small halos of light. On the final step a silent ripple passes through the foliage; a sleek, dark artifact—🐾 Shadow Paw—drops from an overhanging leaf and lands softly in Wells's palm. It hums with quiet stealth energy. Flint's eyes gleam; the forest path ahead beckons, now lit by moth-glow and newfound power."
                     }
+                },
+                day12: {
+                    realm: "Emerald Canopy",
+                    room: "Canopy Walkways",
+                    icon: "🌳",
+                    artwork: "assets/art/wells-day-12-art.jpg",
+                    story: "Suspended rope-and-plank bridges lace between massive treetops. Sunbeams flicker through leaves, painting shifting mosaics on the wooden planks. Hanging lantern-pods sway in the breeze while Flint trots ahead, sparks dim so as not to scorch the ropes.",
+                    baseRune: null,
+                    runeIcon: null,
+                    irlChallenge: {
+                        title: "📜 Learning Hall Check-in",
+                        icon: "🎓",
+                        type: "ixl",
+                        content: {
+                            instructions: [
+                                "A tiny vine scroll flutters down:",
+                                "Choose one IXL skill to practice today, then return with your score",
+                                "Complete any IXL module of your choice",
+                                "Mark IRL Done once Wells finishes an IXL module"
+                            ],
+                            reference: [
+                                "Focus on a skill you want to improve",
+                                "Take your time and do your best work"
+                            ]
+                        }
+                    },
+                    mathChallenge: {
+                        title: "🌳 Bridge Navigation",
+                        icon: "🔶",
+                        description: "The canopy bridges stretch between ancient trees, requiring careful calculation to navigate safely. Flint muses thoughtfully as you study the walkways.",
+                        missions: [
+                            {
+                                category: "Addition/Subtraction",
+                                title: "🪵 Plank Count — Question 1",
+                                story: "The bridges connect the treetops with wooden planks. Each bridge uses a different number of planks, and Flint helps you count them all.",
+                                question: "The first bridge uses <strong>14</strong> planks, the second uses <strong>17</strong>, and the third needs <strong>5</strong> fewer than the second. How many planks span all three bridges?",
+                                answer: 43,
+                                acceptedAnswers: [43],
+                                successMessage: "Perfect calculation! Forty-three planks support the walkways."
+                            },
+                            {
+                                category: "Multiplication/Subtraction",
+                                title: "🏮 Lantern Weight — Question 2",
+                                story: "Each plank must hold lantern-pods for safe passage, but Flint removes some pods to keep the path from being too heavy.",
+                                question: "Each plank must hold <strong>3</strong> lantern-pods, but Flint removes <strong>4</strong> pods to keep the path light. With <strong>43</strong> planks, how many lantern-pods still hang?",
+                                answer: 125,
+                                acceptedAnswers: [125],
+                                successMessage: "Excellent work! You calculated the lantern-pod count perfectly."
+                            }
+                        ],
+                        finalMessage: "Wells calls '125!' Lantern-pods pulse softly in acknowledgment, their glow guiding safe passage. The bridges remain steady, and a higher walkway unfurls ahead among emerald leaves. From a swaying branch above, a small woven pouch tumbles down—a tiny forest gift containing smooth pebbles and shiny acorns. Wells and Flint stride onward, bolstered by knowledge from both numbers and IXL practice, plus a pocket full of nature's treasures."
+                    }
                 }
             },
             rou: {
@@ -4102,6 +4154,53 @@
                         ],
                         finalMessage: "When Rou states 'Six pearls!' the coral towers glow. Mist curls into a tiny smoke-grey mantle—the 👻 Phantom Cloak—which flutters into Rou's hands, light as sea-foam. Ferrin wags her tail, and the reef path opens, shimmering blue ahead."
                     }
+                },
+                day12: {
+                    realm: "Shimmering Reef",
+                    room: "Anemone Forest",
+                    icon: "🪸",
+                    artwork: "assets/art/rou-day-12-art.jpg",
+                    story: "Pink and purple anemones sway like tiny trees in a quiet under-sea breeze. Shoals of bright fish dart between the waving tentacles, and cool bubbles tickle your toes. Ferrin's icy whiskers sparkle in the waterlight. \"Let's count the fish!\"",
+                    baseRune: null,
+                    runeIcon: null,
+                    irlChallenge: {
+                        title: "No IRL Challenge",
+                        icon: "🪸",
+                        type: "none",
+                        content: {
+                            instructions: [
+                                "This is a pure exploration day",
+                                "Focus on counting the colorful fish",
+                                "No real-world tasks required"
+                            ]
+                        }
+                    },
+                    mathChallenge: {
+                        title: "🪸 Fish Counting",
+                        icon: "🔶",
+                        description: "The anemone forest is full of colorful fish swimming in and out of the coral. Ferrin whispers helpful tips as you count them.",
+                        missions: [
+                            {
+                                category: "Addition",
+                                title: "🐠 Fish School — Question 1",
+                                story: "One anemone hides yellow fish. Two more anemones hide fish each. Ferrin helps you count all the bright fish.",
+                                question: "One anemone hides <strong>6</strong> yellow fish. Two more anemones hide <strong>5</strong> fish each. How many yellow fish swim in all?",
+                                answer: 16,
+                                acceptedAnswers: [16],
+                                successMessage: "Great counting! Sixteen yellow fish flash through the coral."
+                            },
+                            {
+                                category: "Subtraction",
+                                title: "🐟 Bubble Chase — Question 2",
+                                story: "A playful eel scares some fish away. Now you need to count how many yellow fish stay in the anemones.",
+                                question: "You had <strong>16</strong> yellow fish total. A playful eel scares <strong>7</strong> fish away. How many yellow fish stay?",
+                                answer: 9,
+                                acceptedAnswers: [9],
+                                successMessage: "Perfect! Nine yellow fish stay safe in the anemones."
+                            }
+                        ],
+                        finalMessage: "Cool bubbles drift upward as Rou calls 'Nine!' The anemones glow softly, their tentacles waving a gentle farewell. Ferrin wags her tail; with numbers solved and no treasure to collect today, you both glide onward through shimmering water toward the next adventure."
+                    }
                 }
             }
         };
@@ -4249,6 +4348,17 @@
             
             // Update local gameState to match current day
             gameState[player].currentDay = currentDay;
+            
+            // CRITICAL BUG FIX: Reset challenge completion flags for new days
+            // Check if this specific day has been completed via admin system
+            const dayCompleted = sharedProgress.taskCompletions && sharedProgress.taskCompletions[`day${currentDay}_${player}`];
+            
+            if (!dayCompleted) {
+                // Day not completed yet - reset challenge flags for fresh start
+                gameState[player].irlCompleted = false;
+                gameState[player].mathCompleted = false;
+                gameState[player].mathProgress = 0;
+            }
             
             const content = gameContent[player][`day${currentDay}`];
             
