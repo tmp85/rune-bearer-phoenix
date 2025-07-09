@@ -567,7 +567,7 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Treetop Village",
         "icon": "📜",
-        "artwork": "art/wells-day-14-art.jpg",
+        "artwork": "assets/art/wells-day-14-art.jpg",
         "story": "Wooden walkways link leaf-roof huts high in the boughs. On the main platform a carved signpost waits, runes shimmering faintly. Flint noses the plank.",
         "baseRune": "Lunar Mirror",
         "runeIcon": "🌙",
