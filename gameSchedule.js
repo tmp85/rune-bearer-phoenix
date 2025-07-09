@@ -619,8 +619,8 @@ const gameSchedule = {
         "icon": "🐴",
         "artwork": "assets/art/rou-day-14-art.jpg",
         "story": "Cool blue water weaves through coral posts. Tiny reins of sea-grass sway as striped seahorses peek from bubble stalls. Ferrin watches, whiskers frosting the flow. \"Let's help the seahorses!\"",
-        "baseRune": "Shadow Lens",
-        "runeIcon": "👁️",
+        "baseRune": null,
+        "runeIcon": null,
         "lootTier": null,
         "lootArt": null,
         "lootDescription": null,
@@ -660,7 +660,7 @@ const gameSchedule = {
               "successMessage": "Perfect math! Eight berries are left in the spare barrel."
             }
           ],
-          "finalMessage": "Rou calls 'Eight berries left!' Seahorses flick their tails in delight; bubble-berries drift to the spare barrel. From the coral posts, a mysterious 👁️ Shadow Lens surfaces, drifting into Rou's hands with a soft shimmer. Ferrin wags her tail as the stables ripple away behind you, guiding the pair deeper into the shimmering reef maze."
+          "finalMessage": "Rou calls 'Eight berries left!' Seahorses flick their tails in delight; bubble-berries drift to the spare barrel. Ferrin wags her tail as the stables ripple away behind you, guiding the pair deeper into the shimmering reef maze."
         }
       }
     },
