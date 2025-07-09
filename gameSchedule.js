@@ -567,7 +567,7 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Treetop Village",
         "icon": "📜",
-        "artwork": "assets/art/wells-day-14-art.jpg",
+        "artwork": "art/wells-day-14-art.jpg",
         "story": "Wooden walkways link leaf-roof huts high in the boughs. On the main platform a carved signpost waits, runes shimmering faintly. Flint noses the plank.",
         "baseRune": "Lunar Mirror",
         "runeIcon": "🌙",
@@ -610,7 +610,7 @@ const gameSchedule = {
               "successMessage": "Excellent work! Twenty huts can be fully lit with the available lanterns."
             }
           ],
-          "finalMessage": "Wells declares 'Twenty huts!' Lanterns flare brighter. Twenty shutters swing open, revealing stacks of sky-library scrolls ready for curious minds. From the central signpost, a gleaming 🌙 Lunar Mirror emerges, floating gently into Wells's hands. Flint flicks his tail, embers tracing lazy spirals as moon-lit walkways beckon deeper into the canopy."
+          "finalMessage": "Wells declares 'Twenty huts!' Lanterns flare brighter. Twenty shutters swing open, revealing stacks of sky-library scrolls ready for curious minds. From the highest hut, a silvery 🌙 Lunar Mirror drifts down, reflecting the moonlight filtering through the canopy. Flint flicks his tail, embers tracing lazy spirals as moon-lit walkways beckon deeper into the canopy."
         }
       },
       "rou": {
