@@ -681,7 +681,7 @@ const gameSchedule = {
         "realm": "Shimmering Reef",
         "room": "Coral Warden Sanctum (Sub-Boss)",
         "irlTask": "Drums",
-        "runeDropped": null,
+        "runeDropped": "Shadow Lens",
         "lootTier": "Big",
         "isSubBoss": true
       }
