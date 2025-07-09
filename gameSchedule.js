@@ -504,9 +504,58 @@ const gameSchedule = {
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Kelp Labyrinth",
-        "irlTask": "Piano",
-        "runeDropped": "Star Prism",
-        "lootTier": "None"
+        "icon": "🥁",
+        "artwork": "assets/art/rou-day-13-art.png",
+        "story": "Sea-green kelp walls twist into a maze beneath shimmering water. At the entrance rests a circle of coral drum-shells—one low bass pad, one snare stone, and a tiny pearl hi-hat. Bubble-beats pop in the current. Ferrin tilts her head. \"Let's drum the beat!\"",
+        "baseRune": "Star Prism",
+        "runeIcon": "⭐",
+        "lootTier": null,
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "🥁 Open the Kelp Gates",
+          "icon": "🥁",
+          "type": "drums",
+          "content": {
+            "pattern": "BD SN HH BD SN HH BD SN HH",
+            "instructions": [
+              "Beat card – play three clean times",
+              "BD SN HH BD SN HH BD SN HH",
+              "BD = bass pad, SN = snare stone, HH = pearl hi-hat",
+              "When the third run rings true, mark IRL Done"
+            ],
+            "reference": [
+              "Kelp fronds spiral aside, revealing the winding passage",
+              "Keep the beat steady and clear"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "🥁 Kelp Maze Navigation",
+          "icon": "🔶",
+          "description": "The kelp labyrinth is full of starfish and floating bubbles. Ferrin whispers helpful guidance as you count the sea creatures.",
+          "missions": [
+            {
+              "category": "Addition",
+              "title": "⭐ Starfish Count — Question 1",
+              "story": "We spy pink starfish clinging to the kelp walls. Then more starfish glide from a kelp loop to join them.",
+              "question": "We spy <strong>9</strong> pink starfish. Then <strong>8</strong> more glide from a kelp loop. How many starfish now?",
+              "answer": 17,
+              "acceptedAnswers": [17],
+              "successMessage": "Great counting! Seventeen starfish cling to the kelp walls."
+            },
+            {
+              "category": "Multiplication",
+              "title": "🫧 Bubble Lift — Question 2",
+              "story": "Each starfish sends up lift-bubbles to guide us through the maze. Count all the bubbles rising up!",
+              "question": "Each starfish sends up <strong>2</strong> lift-bubbles to guide us. Using those <strong>17</strong> starfish, how many bubbles rise?",
+              "answer": 34,
+              "acceptedAnswers": [34],
+              "successMessage": "Perfect math! Thirty-four bubbles rise to guide your way."
+            }
+          ],
+          "finalMessage": "Rou calls 'Thirty-four!' Bubbles swirl together, spinning into a glowing ⭐ Star Prism that settles in Rou's hands, cool and bright. Ferrin wags her tail as the kelp paths straighten, leading you both deeper into the glittering labyrinth."
+        }
       }
     },
     {
