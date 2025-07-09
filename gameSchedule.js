@@ -455,7 +455,7 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Ancient Grove",
         "icon": "🌞",
-        "artwork": "assets/rooms/EmeraldCanopy/wells-day-13-art.jpg",
+        "artwork": "assets/art/wells-day-13-art.jpg",
         "story": "Shafts of golden light pierce a ring of colossal trees. At the grove's center lies a moss-covered stone altar inlaid with empty hexagon slots. Flint's ember-sense tingles; warm sunlight converges on the stone, hinting that something bright once nested here.",
         "baseRune": "Solar Scale",
         "runeIcon": "☀️",
@@ -482,20 +482,20 @@ const gameSchedule = {
             {
               "category": "Multiplication/Subtraction",
               "title": "✨ Sun-Shard Count — Question 1",
-              "story": "Four treetops each hold shimmering sun-shards. A fifth treetop holds fewer. Flint helps you count all the magical shards.",
-              "question": "Four treetops each hold <strong>7</strong> shimmering sun-shards. A fifth treetop holds <strong>3</strong> fewer. How many shards gleam above us?",
+              "story": "Four treetops each hold 7 sun-shards. A fifth treetop holds 3 fewer shards than the others.",
+              "question": "Four treetops each hold <strong>7</strong> sun-shards. A fifth treetop holds <strong>3 fewer</strong> shards than the others. How many sun-shards gleam overhead in total?",
               "answer": 32,
               "acceptedAnswers": [32],
-              "successMessage": "Perfect calculation! Thirty-two sun-shards sparkle in the canopy."
+              "successMessage": "Perfect calculation! Thirty-two sun-shards sparkle among the branches."
             },
             {
               "category": "Division",
-              "title": "🔶 Altar Fill — Question 2",
-              "story": "Each slot in the altar needs shards to glow. Using your counted shards, you can determine how many slots will light up.",
-              "question": "Each slot in the altar needs <strong>4</strong> shards to glow. Using those <strong>32</strong> shards, how many slots can we fill?",
+              "title": "🔶 Altar Ignition — Question 2",
+              "story": "Every altar slot needs shards to ignite. Using your counted shards, you can determine how many slots Wells can fill.",
+              "question": "Every altar slot needs <strong>4</strong> shards to ignite. With <strong>32</strong> shards, how many slots can Wells fill?",
               "answer": 8,
               "acceptedAnswers": [8],
-              "successMessage": "Excellent work! You can fill eight slots with the magical shards."
+              "successMessage": "Excellent work! Wells can fill eight slots with the magical shards."
             }
           ],
           "finalMessage": "Wells calls 'Eight slots!' The altar flares; sun-shards cascade from the canopy, settling perfectly into the eight hexagons. Light fuses into a single iridescent scale—the ☀️ Solar Scale—that rises, weightless and warm, into Wells's hand. Flint barks in approval. The grove's trees bend aside, revealing a sunlit path toward deeper reaches of the Emerald Canopy."
@@ -566,16 +566,108 @@ const gameSchedule = {
       "wells": {
         "realm": "Emerald Canopy",
         "room": "Treetop Village",
-        "irlTask": "Reading",
-        "runeDropped": null,
-        "lootTier": "None"
+        "icon": "📜",
+        "artwork": "assets/art/wells-day-14-art.jpg",
+        "story": "Wooden walkways link leaf-roof huts high in the boughs. On the main platform a carved signpost waits, runes shimmering faintly. Flint noses the plank.",
+        "baseRune": null,
+        "runeIcon": null,
+        "lootTier": null,
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "📖 Find the Sky-Library",
+          "icon": "📖",
+          "type": "reading",
+          "content": {
+            "instructions": [
+              "Wells reads the signpost lines:",
+              "\"Seek the sky-library.\"",
+              "\"Cross nine lantern bridges.\"",
+              "\"Share bright numbers.\"",
+              "Mark IRL Done once all three lines are read smoothly"
+            ],
+            "reference": [
+              "Lanterns along the first bridge flicker alive",
+              "Read each line clearly and confidently"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "📜 Village Navigation",
+          "icon": "🔶",
+          "description": "The treetop village needs careful counting to navigate safely. Flint murmurs observations as you study the lantern-lit pathways.",
+          "missions": [
+            {
+              "category": "Multi-step Operations",
+              "title": "🏮 Lantern Ledger — Question 1",
+              "story": "Each of the bridges holds hanging lanterns. A storm shattered some of them, but villagers just replaced some others.",
+              "question": "Each of the <strong>9</strong> bridges holds <strong>7</strong> hanging lanterns. A storm shattered <strong>6</strong> of them, but villagers just replaced <strong>5</strong>. How many lanterns glow now?",
+              "answer": 62,
+              "acceptedAnswers": [62],
+              "successMessage": "Perfect calculation! Sixty-two lanterns now light the village paths."
+            },
+            {
+              "category": "Division with Remainder",
+              "title": "🏠 Scroll-Hut Count — Question 2",
+              "story": "Every hut doorway needs glowing lanterns to be fully lit for reading. Using your counted lanterns, determine how many huts can be completely illuminated.",
+              "question": "Every hut doorway needs <strong>3</strong> glowing lanterns. Using the <strong>62</strong> lanterns you just tallied, how many huts can be fully lit for reading?",
+              "answer": 20,
+              "acceptedAnswers": [20],
+              "successMessage": "Excellent work! Twenty huts can be fully lit with the available lanterns."
+            }
+          ],
+          "finalMessage": "Wells declares 'Twenty huts!' Lanterns flare brighter. Twenty shutters swing open, revealing stacks of sky-library scrolls ready for curious minds. Flint flicks his tail, embers tracing lazy spirals as moon-lit walkways beckon deeper into the canopy."
+        }
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Seahorse Stables",
-        "irlTask": null,
-        "runeDropped": null,
-        "lootTier": "None"
+        "icon": "🐴",
+        "artwork": "assets/art/rou-day-14-art.jpg",
+        "story": "Cool blue water weaves through coral posts. Tiny reins of sea-grass sway as striped seahorses peek from bubble stalls. Ferrin watches, whiskers frosting the flow. \"Let's help the seahorses!\"",
+        "baseRune": null,
+        "runeIcon": null,
+        "lootTier": null,
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "No IRL Challenge",
+          "icon": "🐴",
+          "type": "none",
+          "content": {
+            "instructions": [
+              "This is a pure exploration day",
+              "Focus on helping the seahorses",
+              "No real-world tasks required"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "🐴 Seahorse Care",
+          "icon": "🔶",
+          "description": "The seahorse stables need careful counting to take proper care of all the sea creatures. Ferrin whispers helpful guidance as you count.",
+          "missions": [
+            {
+              "category": "Multi-step Operations",
+              "title": "🌊 Round-up Count — Question 1",
+              "story": "Four stalls shelter seahorses each. Two more stalls shelter seahorses each. But some seahorses wriggle free to play.",
+              "question": "Four stalls shelter <strong>3</strong> seahorses each. Two more stalls shelter <strong>2</strong> seahorses each. But <strong>5</strong> seahorses wriggle free to play. How many seahorses stay in the stalls?",
+              "answer": 11,
+              "acceptedAnswers": [11],
+              "successMessage": "Great counting! Eleven seahorses remain inside the stalls."
+            },
+            {
+              "category": "Multiplication/Subtraction",
+              "title": "🫧 Feeding Puzzle — Question 2",
+              "story": "Each seahorse eats bubble-berries at dinner. The stable-keeper has berries ready. After feeding the seahorses, count what's left!",
+              "question": "Each seahorse eats <strong>2</strong> bubble-berries at dinner. The stable-keeper has <strong>30</strong> berries. After feeding the <strong>11</strong> seahorses, how many berries are left?",
+              "answer": 8,
+              "acceptedAnswers": [8],
+              "successMessage": "Perfect math! Eight berries are left in the spare barrel."
+            }
+          ],
+          "finalMessage": "Rou calls 'Eight berries left!' Seahorses flick their tails in delight; bubble-berries drift to the spare barrel. Ferrin wags her tail as the stables ripple away behind you, guiding the pair deeper into the shimmering reef maze."
+        }
       }
     },
     {
