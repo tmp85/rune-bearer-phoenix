@@ -575,20 +575,14 @@ const gameSchedule = {
         "lootArt": null,
         "lootDescription": null,
         "irlChallenge": {
-          "title": "📖 Find the Sky-Library",
-          "icon": "📖",
-          "type": "reading",
+          "title": "No IRL Challenge",
+          "icon": "📜",
+          "type": "none",
           "content": {
             "instructions": [
-              "Wells reads the signpost lines:",
-              "\"Seek the sky-library.\"",
-              "\"Cross nine lantern bridges.\"",
-              "\"Share bright numbers.\"",
-              "Mark IRL Done once all three lines are read smoothly"
-            ],
-            "reference": [
-              "Lanterns along the first bridge flicker alive",
-              "Read each line clearly and confidently"
+              "This is a pure exploration day",
+              "Focus on solving the village lantern puzzle",
+              "No real-world tasks required"
             ]
           }
         },
