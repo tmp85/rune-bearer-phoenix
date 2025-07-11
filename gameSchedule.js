@@ -674,14 +674,14 @@ const gameSchedule = {
         "room": "Solarvine Guardian Nest (Sub-Boss)",
         "irlTask": null,
         "runeDropped": null,
-        "lootTier": "None",
+        "lootTier": "Medium",
         "isSubBoss": true
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Coral Warden Sanctum (Sub-Boss)",
-        "irlTask": "Drums",
-        "runeDropped": "Shadow Lens",
+        "irlTask": null,
+        "runeDropped": null,
         "lootTier": "Big",
         "isSubBoss": true
       }
