@@ -702,7 +702,7 @@ const gameSchedule = {
         "realm": "Shimmering Reef",
         "room": "Pearl Grottos",
         "irlTask": null,
-        "runeDropped": "Iron Bark",
+        "runeDropped": "Stormpetal Veil",
         "lootTier": "Medium"
       }
     },

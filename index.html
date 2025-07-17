@@ -3304,36 +3304,35 @@
             <button class="piano-close-btn" onclick="closeIXLModal()">×</button>
             
             <div class="piano-modal-header">
-                🧠 IXL Wisdom Hunt!
+                🧠 <span id="ixlModalTitle">IXL Learning Challenge</span>
             </div>
             
-            <div class="piano-story-context">
-                The Prism Sun Obelisk hums with hidden knowledge, its faceted surface catching and splitting sunlight into rainbow patterns. Ancient whispers seem to emanate from within the stone: "Light grows brighter when a mind grows wiser." Before the prism sockets can be activated, the obelisk demands proof of learning and wisdom.
+            <div class="piano-story-context" id="ixlStoryContext">
+                Ancient runes shimmer with knowledge, waiting for wisdom to unlock their secrets.
             </div>
             
-            <div class="piano-challenge-desc">
-                ✨ Wisdom Objective ✨<br>
-                Complete IXL learning modules to unlock the obelisk's prism socket challenges!
+            <div class="piano-challenge-desc" id="ixlChallengePrompt">
+                ✨ Complete one IXL skill. When finished, tap IRL Done to continue your adventure. ✨
             </div>
             
             <div class="piano-instructions-modal">
                 <h3>Instructions:</h3>
-                <ul>
+                <ul id="ixlInstructionsList">
                     <li>Log into IXL on your device</li>
-                    <li>Pick any two skill modules you want to practice:</li>
+                    <li>Pick one skill module you want to practice:</li>
                     <li>• Math (shapes, numbers, patterns)</li>
                     <li>• Reading (comprehension, vocabulary)</li>
                     <li>• Science (light, nature, experiments)</li>
-                    <li>Work on each module for 5-10 minutes</li>
-                    <li>Complete at least 5 questions correctly in each</li>
+                    <li>Work on the module for 5-10 minutes</li>
+                    <li>Complete at least 5 questions correctly</li>
                     <li>Focus on learning - effort matters more than perfection!</li>
                 </ul>
                 
                 <h3>Reference:</h3>
                 <ul>
-                    <li>Suggested topics: math shapes, reading stories, science about light</li>
                     <li>Take your time and think carefully about each answer</li>
                     <li>Ask for help if you get stuck on something tricky</li>
+                    <li>Focus on learning - effort matters more than perfection!</li>
                 </ul>
             </div>
             
@@ -4108,6 +4107,56 @@
                         ],
                         finalMessage: "Wells shouts 'Two-hundred thirteen!' Numbers echo like hammers. Sun-beams rebound, scorching vine-arms until the Guardian wilts. The nest splits—and from the glowing husk emerges a mysterious creature with a mask carved from bleached emberbone and horns like seared stone. Its black fur carries the faint scent of smoke and moss, while a red forehead mark glows like smoldering coal. Flint eyes it curiously; the creature nuzzles Wells and settles into his arms, radiating ancient warmth. Its name flashes in light: Hollowhorn—a sunfire grove ally (and, back home, a guardian of flame-bound secrets). The vines retract, leaving a sun-lit rope bridge ahead. Wells holds Hollowhorn while Flint wags his tail—sub-boss conquered, ember ally gained, onward into the emerald heights."
                     }
+                },
+                day16: {
+                    realm: "Emerald Canopy",
+                    room: "Fireleaf Sanctum Armory",
+                    icon: "🌿⚔️",
+                    artwork: "assets/art/wells-day-16-art.jpg",
+                    story: "An ivy gate parts. Warm sun pours into a tree-room filled with stacks of red-gold **fireleaf plates**. Benches hold half-built shields and sword hilts.\n\nAt the back stands a tall root-grown **dimension cabinet** split in two. Left lock glows **ember-red**. Right lock shimmers **sea-green** behind watery light. A thick bar links both doors shut.",
+                    baseRune: null,
+                    runeIcon: null,
+                    lootTier: "None",
+                    lootArt: null,
+                    lootDescription: null,
+
+                    irlChallenge: {
+                        title: "Squire's Study Drill",
+                        icon: "🎓",
+                        type: "ixl",
+                        content: {
+                            instructions: [
+                                "Choose one IXL skill. When finished, tap IRL Done to wake the Armory numbers."
+                            ]
+                        }
+                    },
+
+                    mathChallenge: {
+                        title: "⚔️ Armory Calculations",
+                        icon: "🔶",
+                        description: "The dimension cabinet demands precise counts to unlock its ember-red seal. Calculate carefully to power the forge.",
+                        missions: [
+                            {
+                                category: "Multi-step Operations",
+                                title: "🍃 Fireleaf Plate Inventory",
+                                story: "Three tall racks hold fireleaf plates. Two small chests add more plates to your count. But forge-rust has ruined some plates that cannot be used.",
+                                question: "Three tall racks hold <strong>10</strong> fireleaf plates each. Two small chests hold <strong>7</strong> plates each. Forge-rust ruined <strong>6</strong> plates. How many good plates remain?",
+                                answer: 38,
+                                acceptedAnswers: [38],
+                                successMessage: "Perfect! Thirty-eight good fireleaf plates shine in the armory light."
+                            },
+                            {
+                                category: "Division/Multi-step",
+                                title: "⚔️ Knight Kit Production",
+                                story: "*We counted 38 good fireleaf plates.* Each Knight Kit needs plates for the shield face and sword guard. Calculate how many complete kits can be built.",
+                                question: "Each Knight Kit needs <strong>9</strong> plates for the shield and <strong>4</strong> plates for the sword guard—<strong>13 plates</strong> total. From <strong>38</strong> plates, how many full kits can we build?",
+                                answer: 2,
+                                acceptedAnswers: [2],
+                                successMessage: "Excellent work! Two complete Knight Kits can be built from the fireleaf plates."
+                            }
+                        ],
+                        finalMessage: "Wells speaks the tally. Forge runes blaze. The **ember-red** seal on the cabinet unlocks and slides partway open, revealing a finished **red Fireleaf Sword & Shield** hanging inside. Chains still run through the hilts and into the **sea-green** half, which remains locked behind rippling light. The 12 spare plates flow into the center bar and glow, waiting for a distant second seal to answer. The armory hums softly; Wells watches the cabinet, knowing the other door must awaken before the gear can be claimed."
+                    }
                 }
             },
             rou: {
@@ -4522,6 +4571,58 @@
                         ],
                         finalMessage: "Rou shouts 'Forty-five!' Numbers echo; chill-waves crash into the Warden's shell. It topples with a crackling roar. From the icy shards, two magical rewards emerge: first, a glowing ❄️ Frozen Bloom rune floats into Rou's hand, pulsing with frost magic. Then, a mysterious deep-sea creature with gentle fins and a silken black mane appears, a glowing crescent moon symbol bright on its forehead. It moves gracefully, leaving soft bubble trails as it hums with soothing whale-song. Ferrin smiles. 'New moonlight friend!' The creature—called Lumibark—settles into Rou's arms, resonating with gentle lunar energy. With the Warden defeated, a powerful rune claimed, and a loyal companion gained, the reef path glimmers open, inviting the pair toward the next shimmering adventure."
                     }
+                },
+                day16: {
+                    realm: "Shimmering Reef",
+                    room: "Seaglass Armory Gate",
+                    icon: "🌊⚔️",
+                    artwork: "assets/art/rou-day-16-art.jpg",
+                    story: "Bubble-light leads to a coral cave. Inside sits a smooth shell wall with a tall **dimension cabinet** grown from reef stone.\n\nTwo doors: the **ember-red** side (already unlatched, glowing through the water) and a **sea-green** side still sealed tight. A bar of light links the doors together.\n\nFerrin noses the green lock. Cool mist curls from her whiskers.\n\n\"Green lock is mine!\"",
+                    baseRune: "Stormpetal Veil",
+                    runeIcon: "🌊🌸",
+                    lootTier: "medium",
+                    lootArt: "loot/sword and shield_loot day 16.png",
+                    lootDescription: "Twin Armory Set! The dimension cabinet yields both the red Fireleaf Sword & Shield (ready for Wells) and the green Seaglass Sword & Shield (for Rou). Linked by a twin-crest that glows when the brothers are together, these matched weapons channel the combined power of forest fire and ocean depths.",
+
+                    irlChallenge: {
+                        title: "No IRL Challenge",
+                        icon: "🌊",
+                        type: "none",
+                        content: {
+                            instructions: [
+                                "This is a pure exploration day",
+                                "Focus on the armory puzzle",
+                                "No real-world tasks required"
+                            ]
+                        }
+                    },
+
+                    mathChallenge: {
+                        title: "🌊 Armory Numbers",
+                        icon: "🔶",
+                        description: "The dimension cabinet needs careful counting to unlock the sea-green seal. Count the seaglass plates to complete the armory.",
+                        missions: [
+                            {
+                                category: "Multi-step Operations",
+                                title: "🌊 Seaglass Plate Count",
+                                story: "Two reef racks hold seaglass plates. Three tide crates add more plates. But a rust crab cracked some plates.",
+                                question: "Two reef racks hold <strong>8</strong> seaglass plates each. Three tide crates hold <strong>4</strong> plates each. A rust crab cracked <strong>5</strong> plates. How many good plates remain?",
+                                answer: 23,
+                                acceptedAnswers: [23],
+                                successMessage: "Good counting! Twenty-three good seaglass plates shine in the water."
+                            },
+                            {
+                                category: "Multi-step Operations",
+                                title: "⚔️ Kit Making",
+                                story: "*We counted 23 good seaglass plates.* Send some plates to the red door. Then make one kit with what's left.",
+                                question: "Send <strong>6</strong> plates to the red door. From <strong>23</strong> plates, how many are left? We need <strong>13</strong> plates for one kit. After making the kit, how many plates remain?",
+                                answer: 4,
+                                acceptedAnswers: [4],
+                                successMessage: "Perfect math! Four plates remain after making the kit."
+                            }
+                        ],
+                        finalMessage: "Rou speaks the numbers. The green seal flares; the light bar unlocks. Both cabinet doors swing wide. The **red Fireleaf Sword & Shield** glow behind the opened red door (ready for Wells). The **green Seaglass Sword & Shield** drift out on bubbles and land in Rou's arms. As the weapons settle, a **Stormpetal Veil** rune spirals up from the reef depths, glowing with sea-green light. Four spare plates fuse into a tiny twin-crest that links both sets whenever the brothers meet. Ferrin wags as the reef path brightens—armory complete across two realms."
+                    }
                 }
             }
         };
@@ -4693,7 +4794,9 @@
             document.getElementById('roomName').textContent = content.realm;
             document.getElementById('roomSubtitle').textContent = content.room;
             document.getElementById('roomArtwork').src = content.artwork;
-            document.getElementById('storyText').textContent = content.story;
+            // Handle line breaks in story text for proper paragraph display
+            const storyText = content.story.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+            document.getElementById('storyText').innerHTML = storyText;
 
             // Apply player-specific theme classes
             const roomHeader = document.querySelector('.room-header');
@@ -4866,10 +4969,56 @@
             } else if (challengeType === 'drums') {
                 document.getElementById('drumsModal').style.display = 'block';
             } else if (challengeType === 'ixl') {
+                // Update IXL modal with day-specific content
+                updateIXLModalContent(content);
                 document.getElementById('ixlModal').style.display = 'block';
             } else if (challengeType === 'shoeTie') {
                 document.getElementById('shoeTieModal').style.display = 'block';
             }
+        }
+        
+        function updateIXLModalContent(dayContent) {
+            const irlChallenge = dayContent.irlChallenge;
+            const realm = dayContent.realm;
+            
+            // Update modal title
+            document.getElementById('ixlModalTitle').textContent = irlChallenge.title || 'IXL Learning Challenge';
+            
+            // Update story context with realm-specific flavor
+            let storyContext = '';
+            if (realm === 'Emerald Canopy') {
+                storyContext = 'A weathered vine scroll unfurls from an ancient oak. Crossed blades carved into the bark shimmer with knowledge-light. The armory anvil hums: "Forge wisdom before forging steel."';
+            } else if (realm === 'Dawnbreak Expanse') {
+                storyContext = 'The Prism Sun Obelisk hums with hidden knowledge, its faceted surface catching and splitting sunlight into rainbow patterns. Ancient whispers seem to emanate from within the stone: "Light grows brighter when a mind grows wiser."';
+            } else {
+                storyContext = 'Ancient runes shimmer with knowledge, waiting for wisdom to unlock their secrets.';
+            }
+            document.getElementById('ixlStoryContext').textContent = storyContext;
+            
+            // Update challenge prompt
+            let challengePrompt = irlChallenge.content?.instructions?.[0] || 'Complete one IXL skill. When finished, tap IRL Done to continue your adventure.';
+            document.getElementById('ixlChallengePrompt').innerHTML = challengePrompt;
+            
+            // Update instructions based on day content
+            const instructionsList = document.getElementById('ixlInstructionsList');
+            instructionsList.innerHTML = '';
+            
+            const instructions = [
+                'Log into IXL on your device',
+                'Pick one skill module you want to practice:',
+                '• Math (shapes, numbers, patterns)',
+                '• Reading (comprehension, vocabulary)', 
+                '• Science (light, nature, experiments)',
+                'Work on the module for 5-10 minutes',
+                'Complete at least 5 questions correctly',
+                'Focus on learning - effort matters more than perfection!'
+            ];
+            
+            instructions.forEach(instruction => {
+                const li = document.createElement('li');
+                li.textContent = instruction;
+                instructionsList.appendChild(li);
+            });
         }
 
         function closePianoModal() {
