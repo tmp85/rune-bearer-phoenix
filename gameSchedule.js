@@ -1,15 +1,20 @@
 const gameSchedule = {
   "scheduleInfo": {
-    "title": "Rune Bearer Summer Challenge Schedule",
+    "title": "Rune Bearer Summer Challenge Schedule - ACCELERATED VERSION",
     "startDate": "2025-06-02",
     "endDate": "2025-07-25",
     "totalWeeks": 8,
     "totalDays": 40,
+    "accelerationStart": 17,
+    "allRewardsCompleteBy": 27,
     "notes": [
+      "ACCELERATED: Both boys get runes every day from Day 17-27",
+      "All 20 rune pair rewards available by Day 27 (July 8th)",
+      "Days 1-16 completed normally",
+      "Days 17-27 in TURBO MODE - double rune drops",
+      "Days 28-40 pure adventure with loot only",
       "Only Day 1 (6/2) Wells=Piano, Rou=None is locked",
       "When both boys have tasks on same day, they must be different",
-      "60% of weekdays have IRL tasks (24 total task assignments)",
-      "50% of weekdays have rune drops",
       "Boss battles on days 10, 20, 30, 40",
       "Sub-boss battles on days 5, 15, 25, 35",
       "Chicken Jockey Arena on days 9 (Wells) and 29 (Rou)"
@@ -107,7 +112,7 @@ const gameSchedule = {
         "realm": "Dawnbreak Expanse",
         "room": "Scrollkeeper's Archive (Sub-Boss)",
         "irlTask": "Reading",
-        "runeDropped": "Windrunner Crest",
+        "runeDropped": "Crystal Spine",
         "lootTier": "None",
         "isSubBoss": true
       },
@@ -115,7 +120,7 @@ const gameSchedule = {
         "realm": "Crystal Glade",
         "room": "Whispering Ice Library (Sub-Boss)",
         "irlTask": null,
-        "runeDropped": "Stormpetal Veil",
+        "runeDropped": "Iron Bark",
         "lootTier": "Tiny",
         "isSubBoss": true
       }
@@ -129,7 +134,7 @@ const gameSchedule = {
         "realm": "Dawnbreak Expanse",
         "room": "Solar Observatory",
         "irlTask": null,
-        "runeDropped": null,
+        "runeDropped": "Thunder Eye",
         "lootTier": "Medium"
       },
       "rou": {
@@ -715,15 +720,62 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Fairy Ring Circle",
         "irlTask": null,
-        "runeDropped": "Crystal Spine",
-        "lootTier": "None"
+        "runeDropped": "Windrunner Crest",
+        "lootTier": "None",
+        "isAccelerated": true,
+        "icon": "🍄",
+        "artwork": "assets/art/wells-day-17-art.jpg",
+        "story": "A mossy clearing opens among towering trunks. Pale-green fairy mushrooms form a wide circle; tiny spore sparks swirl on a gentle breeze. In the center a low stump hums with a soft wind sound. Thin fern pennants lift, then settle—like the air is trying to speak in puffs and counts. Flint pads to the ring's edge, ears high. \"These caps ride the breeze—numbers will wake whatever's hiding.\"",
+        "baseRune": "Windrunner Crest",
+        "runeIcon": "🌪️",
+        "lootArt": null,
+        "lootDescription": null,
+        "irlChallenge": {
+          "title": "No IRL Challenge",
+          "icon": "🍄",
+          "type": "none",
+          "content": {
+            "instructions": [
+              "This is a pure exploration day",
+              "Focus on solving the fairy ring puzzle",
+              "No real-world tasks required"
+            ]
+          }
+        },
+        "mathChallenge": {
+          "title": "🍄 Fairy Ring Mystery",
+          "icon": "🔶",
+          "description": "The fairy ring waits for precise counting to awaken its wind magic. Flint murmurs observations as you study the glowing mushroom caps.",
+          "missions": [
+            {
+              "category": "Multiplication/Subtraction",
+              "title": "🍄 Mushroom Count — Question 1",
+              "story": "Around the circle are clusters of mushrooms. Each cluster has bright caps, but beetles nibbled some caps in two clusters.",
+              "question": "Around the circle are <strong>5 clusters</strong> of mushrooms. Each cluster has <strong>6 bright caps</strong>, but beetles nibbled <strong>2 caps</strong> in one cluster and <strong>1 cap</strong> in another. How many bright caps still glow?",
+              "answer": 27,
+              "acceptedAnswers": [27],
+              "successMessage": "Perfect counting! Twenty-seven bright caps still glow in the fairy ring."
+            },
+            {
+              "category": "Division",
+              "title": "🌪️ Wind-Spin Power — Question 2",
+              "story": "A breeze needs caps of power for a full wind-spin. Using your counted caps, you can determine how many wind-spins the circle can make.",
+              "question": "A breeze needs <strong>3 caps</strong> of power for a full wind-spin. Using your <strong>27 bright caps</strong>, how many full wind-spins can the circle make?",
+              "answer": 9,
+              "acceptedAnswers": [9],
+              "successMessage": "Excellent calculation! The fairy ring can make nine full wind-spins."
+            }
+          ],
+          "finalMessage": "Wells calls, 'Nine!' The fairy ring whirls—nine steady turns of green light. On the final spin a gust funnels inward and settles into his palm, shaping a slender silver-green emblem: the 🌪️ Windrunner Crest. It shivers like a tiny feather, then rests, warm and light. Flint's tail flickers as fern pennants lift in a smooth, welcoming current leading deeper into the Emerald Canopy."
+        }
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Mermaid Cove",
         "irlTask": "Reading",
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Shadow Lens",
+        "lootTier": "None",
+        "isAccelerated": true
       }
     },
     {
@@ -735,15 +787,17 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Moonbeam Clearing",
         "irlTask": "Piano",
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Blazing Antler",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Tidal Pools",
         "irlTask": null,
-        "runeDropped": "Frozen Bloom",
-        "lootTier": "None"
+        "runeDropped": "Molten Seed",
+        "lootTier": "None",
+        "isAccelerated": true
       }
     },
     {
@@ -755,15 +809,17 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Starlight Meadow",
         "irlTask": null,
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Whisper Branch",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Abyssal Edge",
         "irlTask": "Shoe Tie",
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Thunder Fang",
+        "lootTier": "None",
+        "isAccelerated": true
       }
     },
     {
@@ -775,17 +831,19 @@ const gameSchedule = {
         "realm": "Emerald Canopy",
         "room": "Dawnmane Thunderbeast Lair (Boss)",
         "irlTask": null,
-        "runeDropped": null,
+        "runeDropped": "Molten Shard",
         "lootTier": "Medium",
-        "isBoss": true
+        "isBoss": true,
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Shimmering Reef",
         "room": "Pearl Leviathan Deep (Boss)",
         "irlTask": null,
-        "runeDropped": null,
+        "runeDropped": "Mooncap",
         "lootTier": "None",
-        "isBoss": true
+        "isBoss": true,
+        "isAccelerated": true
       }
     },
     {
@@ -797,15 +855,17 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Grassland Gate",
         "irlTask": "Drums",
-        "runeDropped": "Blazing Antler",
-        "lootTier": "None"
+        "runeDropped": "Emberthorn Crown",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Frozen Ascent",
         "irlTask": null,
-        "runeDropped": null,
-        "lootTier": "Medium"
+        "runeDropped": "Ember Seed",
+        "lootTier": "Medium",
+        "isAccelerated": true
       }
     },
     {
@@ -817,15 +877,17 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Acacia Plains",
         "irlTask": null,
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Glowcap",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Wind-carved Steps",
         "irlTask": "IXL",
-        "runeDropped": "Molten Seed",
-        "lootTier": "Tiny"
+        "runeDropped": "Glacier Heart",
+        "lootTier": "Tiny",
+        "isAccelerated": true
       }
     },
     {
@@ -837,15 +899,17 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Lionheart Grove",
         "irlTask": "Reading",
-        "runeDropped": "Whisper Branch",
-        "lootTier": "None"
+        "runeDropped": "Obsidian Heart",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Avalanche Ridge",
         "irlTask": null,
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Moonfire Bloom",
+        "lootTier": "None",
+        "isAccelerated": true
       }
     },
     {
@@ -857,15 +921,17 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Mirage Oasis",
         "irlTask": null,
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Zephyr Bloom",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Icicle Chambers",
         "irlTask": "Shoe Tie",
-        "runeDropped": "Thunder Fang",
-        "lootTier": "None"
+        "runeDropped": "Ironclad Husk",
+        "lootTier": "None",
+        "isAccelerated": true
       }
     },
     {
@@ -877,17 +943,19 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Dune Stalker Den (Sub-Boss)",
         "irlTask": "IXL",
-        "runeDropped": null,
+        "runeDropped": "Sunfire Crest",
         "lootTier": "Medium",
-        "isSubBoss": true
+        "isSubBoss": true,
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Frostfang Sentinel Perch (Sub-Boss)",
         "irlTask": null,
-        "runeDropped": null,
+        "runeDropped": "Stone Wing",
         "lootTier": "None",
-        "isSubBoss": true
+        "isSubBoss": true,
+        "isAccelerated": true
       }
     },
     {
@@ -899,15 +967,17 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Amber Meadows",
         "irlTask": null,
-        "runeDropped": "Molten Shard",
-        "lootTier": "None"
+        "runeDropped": "Deepstone Shell",
+        "lootTier": "None",
+        "isAccelerated": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Glacier Falls",
         "irlTask": "Piano",
-        "runeDropped": null,
-        "lootTier": "Tiny"
+        "runeDropped": "River Scale",
+        "lootTier": "Tiny",
+        "isAccelerated": true
       }
     },
     {
@@ -919,15 +989,19 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Pride's Overlook",
         "irlTask": "Reading",
-        "runeDropped": null,
-        "lootTier": "None"
+        "runeDropped": "Tide Pearl",
+        "lootTier": "None",
+        "isAccelerated": true,
+        "isLastAcceleratedDay": true
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Crystal Bridge",
         "irlTask": null,
-        "runeDropped": "Mooncap",
-        "lootTier": "None"
+        "runeDropped": null,
+        "lootTier": "None",
+        "isAccelerated": true,
+        "isLastAcceleratedDay": true
       }
     },
     {
@@ -939,14 +1013,14 @@ const gameSchedule = {
         "realm": "Golden Savannah",
         "room": "Golden Sunset Vista",
         "irlTask": null,
-        "runeDropped": "Emberthorn Crown",
+        "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Frostpeak Summit",
         "room": "Storm's Edge",
         "irlTask": "Drums",
-        "runeDropped": "Ember Seed",
+        "runeDropped": null,
         "lootTier": "None"
       }
     },
@@ -966,7 +1040,7 @@ const gameSchedule = {
         "realm": "Frostpeak Summit",
         "room": "Chicken Jockey Arena",
         "irlTask": null,
-        "runeDropped": "Glacier Heart",
+        "runeDropped": null,
         "lootTier": "Big",
         "isChickenJockey": true
       }
@@ -1002,14 +1076,14 @@ const gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Fortress Gates",
         "irlTask": null,
-        "runeDropped": "Glowcap",
+        "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Molten Depths",
         "room": "Lava Tunnels",
         "irlTask": "IXL",
-        "runeDropped": "Moonfire Bloom",
+        "runeDropped": null,
         "lootTier": "Tiny"
       }
     },
@@ -1042,14 +1116,14 @@ const gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Solar Forge",
         "irlTask": null,
-        "runeDropped": "Zephyr Bloom",
+        "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Molten Depths",
         "room": "Furnace Core",
         "irlTask": "Reading",
-        "runeDropped": "Ironclad Husk",
+        "runeDropped": null,
         "lootTier": "None"
       }
     },
@@ -1082,7 +1156,7 @@ const gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Emberforge Guardian Sanctum (Sub-Boss)",
         "irlTask": null,
-        "runeDropped": "Sunfire Crest",
+        "runeDropped": null,
         "lootTier": "None",
         "isSubBoss": true
       },
@@ -1111,7 +1185,7 @@ const gameSchedule = {
         "realm": "Molten Depths",
         "room": "Obsidian Caverns",
         "irlTask": null,
-        "runeDropped": "Stone Wing",
+        "runeDropped": null,
         "lootTier": "Medium"
       }
     },
@@ -1124,7 +1198,7 @@ const gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Radiant Armory",
         "irlTask": null,
-        "runeDropped": "Deepstone Shell",
+        "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
@@ -1164,14 +1238,14 @@ const gameSchedule = {
         "realm": "Emberlight Bastion",
         "room": "Sunlight Sanctuary",
         "irlTask": null,
-        "runeDropped": "Tide Pearl",
+        "runeDropped": null,
         "lootTier": "None"
       },
       "rou": {
         "realm": "Molten Depths",
         "room": "Lava Lake",
         "irlTask": "Shoe Tie",
-        "runeDropped": "River Scale",
+        "runeDropped": null,
         "lootTier": "None"
       }
     },
@@ -1218,109 +1292,333 @@ const gameSchedule = {
     "grandTotal": 34,
     "note": "This gives approximately 60% task coverage across 40 weekdays (24 tasks would be exactly 60%, this is 34 tasks which is 85% - may need adjustment)"
   },
-  "runeRewards": [
+  "acceleratedRewardSchedule": [
     {
+      "day": 2,
+      "date": "6/3",
+      "week": 1,
+      "reward": "Ice cream treat",
       "wellsRune": "Ember Fang",
-      "rouRune": "Frost Fang",
-      "reward": "Ice cream treat"
+      "rouRune": "Frost Fang"
     },
     {
-      "wellsRune": "Sky Feather",
-      "rouRune": "Mist Weaver",
-      "reward": "Big Helmet Heroes game"
-    },
-    {
-      "wellsRune": "Iron Root",
-      "rouRune": "Stone Wing",
-      "reward": "Lego kit + custom mini-figure"
-    },
-    {
-      "wellsRune": "Tide Pearl",
-      "rouRune": "River Scale",
-      "reward": "Popsicles at the pool"
-    },
-    {
-      "wellsRune": "Shadow Paw",
-      "rouRune": "Phantom Cloak",
-      "reward": "Visit to arcade"
-    },
-    {
-      "wellsRune": "Thunder Eye",
-      "rouRune": "Storm Fang",
-      "reward": "30 min extra screen time"
-    },
-    {
-      "wellsRune": "Solar Scale",
-      "rouRune": "Star Prism",
-      "reward": "Choose next family movie"
-    },
-    {
-      "wellsRune": "Lunar Mirror",
-      "rouRune": "Shadow Lens",
-      "reward": "Stay-up-late pass"
-    },
-    {
+      "day": 5,
+      "date": "6/6",
+      "week": 1,
+      "reward": "Pick a new book",
       "wellsRune": "Crystal Spine",
-      "rouRune": "Iron Bark",
-      "reward": "Pick a new book"
+      "rouRune": "Iron Bark"
     },
     {
+      "day": 6,
+      "date": "6/9",
+      "week": 2,
+      "reward": "30 min extra screen time",
+      "wellsRune": "Thunder Eye",
+      "rouRune": "Storm Fang"
+    },
+    {
+      "day": 8,
+      "date": "6/11",
+      "week": 2,
+      "reward": "Big Helmet Heroes game",
+      "wellsRune": "Sky Feather",
+      "rouRune": "Mist Weaver"
+    },
+    {
+      "day": 11,
+      "date": "6/16",
+      "week": 3,
+      "reward": "Visit to arcade",
+      "wellsRune": "Shadow Paw",
+      "rouRune": "Phantom Cloak"
+    },
+    {
+      "day": 13,
+      "date": "6/18",
+      "week": 3,
+      "reward": "Choose next family movie",
+      "wellsRune": "Solar Scale",
+      "rouRune": "Star Prism"
+    },
+    {
+      "day": 15,
+      "date": "6/20",
+      "week": 3,
+      "reward": "Mini-golf with Happy Grandpa",
       "wellsRune": "Stormcaller Sigil",
-      "rouRune": "Frozen Bloom",
-      "reward": "Mini-golf with Happy Grandpa"
+      "rouRune": "Frozen Bloom"
     },
     {
+      "day": 17,
+      "date": "6/24",
+      "week": 4,
+      "reward": "Stay-up-late pass",
+      "wellsRune": "Windrunner Crest",
+      "rouRune": "Shadow Lens",
+      "accelerated": true
+    },
+    {
+      "day": 18,
+      "date": "6/25",
+      "week": 4,
+      "reward": "Build-your-own pizza night",
       "wellsRune": "Blazing Antler",
       "rouRune": "Molten Seed",
-      "reward": "Build-your-own pizza night"
+      "accelerated": true
     },
     {
+      "day": 19,
+      "date": "6/26",
+      "week": 4,
+      "reward": "Minecraft coins",
       "wellsRune": "Whisper Branch",
       "rouRune": "Thunder Fang",
-      "reward": "Minecraft coins"
+      "accelerated": true
     },
     {
+      "day": 20,
+      "date": "6/27",
+      "week": 4,
+      "reward": "Family video game session",
+      "wellsRune": "Molten Shard",
+      "rouRune": "Mooncap",
+      "accelerated": true
+    },
+    {
+      "day": 20,
+      "date": "6/27",
+      "week": 4,
+      "reward": "Nerf war",
       "wellsRune": "Molten Shard",
       "rouRune": "Skyborn Leaf",
-      "reward": "Nerf war"
+      "accelerated": true
     },
     {
-      "wellsRune": "Windrunner Crest",
-      "rouRune": "Mooncap",
-      "reward": "Family video game session"
-    },
-    {
-      "wellsRune": "Glowcap",
-      "rouRune": "Glacier Heart",
-      "reward": "Breakfast choice pass"
-    },
-    {
-      "wellsRune": "Obsidian Heart",
-      "rouRune": "Moonfire Bloom",
-      "reward": "Custom Ice Cream Sundae Party"
-    },
-    {
-      "wellsRune": "Sunfire Crest",
-      "rouRune": "Stormpetal Veil",
-      "reward": "Board game night pick"
-    },
-    {
-      "wellsRune": "Zephyr Bloom",
-      "rouRune": "Ironclad Husk",
-      "reward": "Pangea Pastry Quest"
-    },
-    {
-      "wellsRune": "Deepstone Shell",
-      "rouRune": "Frostthorn Crown",
-      "reward": "Breakfast for Dinner Choice"
-    },
-    {
+      "day": 21,
+      "date": "6/30",
+      "week": 5,
+      "reward": "Nerf target contest",
       "wellsRune": "Emberthorn Crown",
       "rouRune": "Ember Seed",
-      "reward": "Nerf target contest"
+      "accelerated": true
+    },
+    {
+      "day": 22,
+      "date": "7/1",
+      "week": 5,
+      "reward": "Breakfast choice pass",
+      "wellsRune": "Glowcap",
+      "rouRune": "Glacier Heart",
+      "accelerated": true
+    },
+    {
+      "day": 23,
+      "date": "7/2",
+      "week": 5,
+      "reward": "Custom Ice Cream Sundae Party",
+      "wellsRune": "Obsidian Heart",
+      "rouRune": "Moonfire Bloom",
+      "accelerated": true
+    },
+    {
+      "day": 24,
+      "date": "7/3",
+      "week": 5,
+      "reward": "Pangea Pastry Quest",
+      "wellsRune": "Zephyr Bloom",
+      "rouRune": "Ironclad Husk",
+      "accelerated": true
+    },
+    {
+      "day": 25,
+      "date": "7/4",
+      "week": 5,
+      "reward": "Board game night pick",
+      "wellsRune": "Sunfire Crest",
+      "rouRune": "Stormpetal Veil",
+      "accelerated": true
+    },
+    {
+      "day": 25,
+      "date": "7/4",
+      "week": 5,
+      "reward": "Lego kit + custom mini-figure",
+      "wellsRune": "Iron Root",
+      "rouRune": "Stone Wing",
+      "accelerated": true
+    },
+    {
+      "day": 26,
+      "date": "7/7",
+      "week": 6,
+      "reward": "Breakfast for Dinner Choice",
+      "wellsRune": "Deepstone Shell",
+      "rouRune": "Frostthorn Crown",
+      "accelerated": true
+    },
+    {
+      "day": 27,
+      "date": "7/8",
+      "week": 6,
+      "reward": "Popsicles at the pool",
+      "wellsRune": "Tide Pearl",
+      "rouRune": "River Scale",
+      "accelerated": true
     }
   ],
+  "runeCollectionSchedule": {
+    "wells": {
+      "day1": null,
+      "day2": "Ember Fang",
+      "day3": "Stormcaller Sigil", 
+      "day4": null,
+      "day5": "Crystal Spine",
+      "day6": "Thunder Eye",
+      "day7": null,
+      "day8": "Sky Feather",
+      "day9": "Iron Root",
+      "day10": null,
+      "day11": "Shadow Paw",
+      "day12": null,
+      "day13": "Solar Scale",
+      "day14": "Lunar Mirror",
+      "day15": null,
+      "day16": null,
+      "day17": "Windrunner Crest",
+      "day18": "Blazing Antler",
+      "day19": "Whisper Branch",
+      "day20": "Molten Shard",
+      "day21": "Emberthorn Crown",
+      "day22": "Glowcap",
+      "day23": "Obsidian Heart",
+      "day24": "Zephyr Bloom",
+      "day25": "Sunfire Crest",
+      "day26": "Deepstone Shell",
+      "day27": "Tide Pearl",
+      "day28": null,
+      "day29": null,
+      "day30": null,
+      "day31": null,
+      "day32": null,
+      "day33": null,
+      "day34": null,
+      "day35": null,
+      "day36": null,
+      "day37": null,
+      "day38": null,
+      "day39": null,
+      "day40": null
+    },
+    "rou": {
+      "day1": "Frost Fang",
+      "day2": null,
+      "day3": "Storm Fang",
+      "day4": null,
+      "day5": "Iron Bark",
+      "day6": null,
+      "day7": "Mist Weaver",
+      "day8": "Frostthorn Crown",
+      "day9": "Skyborn Leaf",
+      "day10": null,
+      "day11": "Phantom Cloak",
+      "day12": null,
+      "day13": "Star Prism",
+      "day14": null,
+      "day15": "Frozen Bloom",
+      "day16": "Stormpetal Veil",
+      "day17": "Shadow Lens",
+      "day18": "Molten Seed",
+      "day19": "Thunder Fang",
+      "day20": "Mooncap",
+      "day21": "Ember Seed",
+      "day22": "Glacier Heart",
+      "day23": "Moonfire Bloom",
+      "day24": "Ironclad Husk",
+      "day25": "Stone Wing",
+      "day26": "River Scale",
+      "day27": null,
+      "day28": null,
+      "day29": null,
+      "day30": null,
+      "day31": null,
+      "day32": null,
+      "day33": null,
+      "day34": null,
+      "day35": null,
+      "day36": null,
+      "day37": null,
+      "day38": null,
+      "day39": null,
+      "day40": null
+    }
+  },
+  "accelerationChanges": {
+    "description": "Starting Day 17, both boys get runes every day to complete all rewards by Day 27",
+    "changesFromDay17": {
+      "day17": {
+        "wells": "Added Windrunner Crest",
+        "rou": "Changed from no rune to Shadow Lens"
+      },
+      "day18": {
+        "wells": "Changed from no rune to Blazing Antler",
+        "rou": "Changed from Shadow Lens to Molten Seed"
+      },
+      "day19": {
+        "wells": "Changed from no rune to Whisper Branch",
+        "rou": "Changed from no rune to Thunder Fang"
+      },
+      "day20": {
+        "wells": "Changed from no rune to Molten Shard",
+        "rou": "Changed from no rune to Mooncap"
+      },
+      "day21": {
+        "wells": "Changed from Blazing Antler to Emberthorn Crown",
+        "rou": "Changed from no rune to Ember Seed"
+      },
+      "day22": {
+        "wells": "Changed from no rune to Glowcap",
+        "rou": "Changed from Molten Seed to Glacier Heart"
+      },
+      "day23": {
+        "wells": "Changed from Whisper Branch to Obsidian Heart",
+        "rou": "Changed from no rune to Moonfire Bloom"
+      },
+      "day24": {
+        "wells": "Changed from no rune to Zephyr Bloom",
+        "rou": "Changed from Thunder Fang to Ironclad Husk"
+      },
+      "day25": {
+        "wells": "Changed from no rune to Sunfire Crest",
+        "rou": "Changed from no rune to Stone Wing"
+      },
+      "day26": {
+        "wells": "Changed from Molten Shard to Deepstone Shell",
+        "rou": "Changed from no rune to River Scale"
+      },
+      "day27": {
+        "wells": "Changed from no rune to Tide Pearl",
+        "rou": "Changed from Mooncap to no rune (all collected)"
+      }
+    }
+  },
+  "remainingDays28to40": {
+    "description": "Days 28-40 continue with normal room progression, boss battles, and loot drops but no rune collection needed",
+    "specialDays": {
+      "day29": "Chicken Jockey Arena (Rou)",
+      "day30": "Boss Battle Day",
+      "day35": "Sub-Boss Battle Day", 
+      "day40": "Final Boss Battle Day - Catalyst rewards"
+    }
+  },
   "validation": {
+    "totalRewards": 20,
+    "allRewardsAvailableBy": 27,
+    "accelerationStart": 17,
+    "accelerationEnd": 27,
+    "daysAccelerated": 11,
+    "normalProgressionDays": "1-16, 28-40",
+    "turboModeDays": "17-27",
     "taskDistribution": "All days with IRL tasks now have only one child assigned per day (except where explicitly needed)",
     "runeCount": {
       "wells": 20,
