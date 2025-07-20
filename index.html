@@ -3212,43 +3212,26 @@
         <div class="piano-modal-content">
             <button class="piano-close-btn" onclick="closePianoModal()">×</button>
             
-            <div class="piano-modal-header">
-                🎵 Harmony Ritual!
+            <div class="piano-modal-header" id="pianoModalTitle">
+                🎵 Piano Challenge
             </div>
             
-            <div class="piano-story-context">
-                The ancient Hall of Harmonies pulses with mystical energy. Wells approaches the enchanted harmonic altar at the chamber's heart. The magical keys glow softly, waiting for the correct melody to unlock the first sun pillar. Legend speaks of a simple tune that resonates with the hall's magical frequencies.
+            <div class="piano-story-context" id="pianoStoryContext">
+                Ancient keys shimmer with harmony, waiting for the right melody to unlock their secrets.
             </div>
             
             <div class="piano-challenge-desc">
-                ✨ Ritual Objective ✨<br>
-                Perform the Harmony Melody to activate the first sun pillar and begin opening the sealed Rune Gate!
+                ✨ Musical Challenge ✨<br>
+                Perform the melody to unlock the chamber's magical resonance!
             </div>
             
-            <div class="piano-instructions-modal">
-                <h3 style="color: #4ecdc4; margin-bottom: 15px; text-align: center;">🎵 The Harmony Melody</h3>
-                
-                <div class="piano-melody-display">
-                    C – E – G – E – C
-                </div>
-                
-                <h4 style="color: #ffd700; margin-bottom: 10px;">Ritual Instructions:</h4>
-                <ul style="margin: 15px 0; padding-left: 20px; line-height: 1.6;">
-                    <li>Play this melody clearly and evenly on the harmonic altar</li>
-                    <li>Repeat the melody 3 times in total</li>
-                    <li>Start slowly, then increase your speed as you become more comfortable</li>
-                    <li>Focus on the magical energy flowing through each note</li>
-                </ul>
-                
-                <div style="background: rgba(78,205,196,0.1); padding: 15px; border-radius: 8px; margin-top: 20px;">
-                    <strong style="color: #4ecdc4;">Harmonic Key Reference:</strong><br>
-                    • C4: Middle Harmony (one ledger line below staff)<br>
-                    • E4: Foundation Tone (bottom line of treble staff)<br>
-                    • G4: Rising Harmony (second line from bottom of treble staff)
+            <div class="piano-instructions-modal" id="pianoInstructionsContent">
+                <div style="text-align: center; padding: 20px;">
+                    Loading challenge instructions...
                 </div>
             </div>
             
-            <button class="piano-complete-btn" onclick="completePianoChallenge()">🌟 I've Performed the Harmony Ritual!</button>
+            <button class="piano-complete-btn" id="pianoCompleteBtn" onclick="completePianoChallenge()">🌟 I've Completed the Piano Challenge!</button>
         </div>
     </div>
 
@@ -4209,6 +4192,56 @@
                         ],
                         finalMessage: "Wells calls, 'Nine!' The fairy ring whirls—nine steady turns of green light. On the final spin a gust funnels inward and settles into his palm, shaping a slender silver-green emblem: the 🌪️ **Windrunner Crest**. It shivers like a tiny feather, then rests, warm and light. Flint's tail flickers as fern pennants lift in a smooth, welcoming current leading deeper into the Emerald Canopy."
                     }
+                },
+                day18: {
+                    realm: "Emerald Canopy",
+                    room: "Moonbeam Clearing",
+                    icon: "🎶",
+                    artwork: "assets/art/wells-day-18-art.jpg",
+                    story: "A hush settles under tall emerald boughs as dusk filters into silver beams. Moonlight threads through hanging moss, pooling on a natural stone dais shaped like a crescent. At the center rests a mossy **moon-piano**: pale wood, luminous keys, faint mist drifting over them. Fireflies orbit in slow rings, pausing as if waiting for a melody. Flint's eyes reflect the silver glow. \"Play the beam-song—numbers ride its echoes.\"",
+                    baseRune: "Blazing Antler",
+                    runeIcon: "🔥",
+                    lootTier: "tiny",
+                    lootArt: null,
+                    lootDescription: "Mossy acorn chest with one fireleaf charm.",
+
+                    irlChallenge: {
+                        title: "🎶 Piano – Beam Song",
+                        icon: "🎶",
+                        type: "piano",
+                        content: {
+                            instructions: [
+                                '<img src="assets/art/beam_song_sheet_music.svg" alt="Beam Song Sheet Music" style="max-width: 100%; height: auto; margin: 20px 0;">'
+                            ]
+                        }
+                    },
+
+                    mathChallenge: {
+                        title: "🎶 Moonbeam Clearing",
+                        icon: "🔶",
+                        description: "The moon-piano waits for precise counting to release its melody. Flint murmurs observations as you study the glowing motes.",
+                        missions: [
+                            {
+                                category: "Multiplication/Subtraction",
+                                title: "🌙 Glow-Mote Count — Question 1",
+                                story: "Four moonbeams each light glow-motes. A drifting moth dims some motes on one beam.",
+                                question: "Four moonbeams each light <strong>7</strong> glow-motes. A drifting moth dims <strong>3</strong> motes on one beam. How many glow-motes still shine?",
+                                answer: 25,
+                                acceptedAnswers: [25],
+                                successMessage: "Perfect counting! Twenty-five glow-motes still shine in the moonbeams."
+                            },
+                            {
+                                category: "Division",
+                                title: "✨ Light Spiral — Question 2",
+                                story: "Every glow-motes twist together to form one light spiral. Using your counted glow-motes, you can determine how many spirals form.",
+                                question: "Every <strong>5</strong> glow-motes twist together to form one light spiral. Using your <strong>25</strong> glow-motes, how many full light spirals form?",
+                                answer: 5,
+                                acceptedAnswers: [5],
+                                successMessage: "Excellent calculation! Five full light spirals form from the glow-motes."
+                            }
+                        ],
+                        finalMessage: "Wells calls, \"Five!\" Five pale spirals rise, weaving into an antler-shaped arc of flame-tipped light—the **Blazing Antler** rune. It cools to a warm ember in his palm. A tiny loot pod (mossy acorn chest) pops from the dais—*Tiny Tier*—holding a single fireleaf charm. Flint wags as moonbeams align, pointing deeper into the canopy."
+                    }
                 }
             },
             rou: {
@@ -4733,6 +4766,58 @@
                         ],
                         finalMessage: "Rou calls, 'Seven!' The bowl releases seven soft pulses; the water darkens into a tiny focusing disk that lifts into his palm—the 🔮 **Shadow Lens**, cool and clear at the center. Ferrin wags her tail. Far away, a faint glow answers (Wells's Lunar Mirror), hinting a shared secret reward. A small reef current curls forward, guiding Rou into TURBO MODE—another rune awaits tomorrow."
                     }
+                },
+                day18: {
+                    realm: "Shimmering Reef",
+                    room: "Tidal Pools",
+                    icon: "❄️",
+                    artwork: "assets/art/rou-day-18-art.jpg",
+                    story: "High on a frosty ridge, warm meltwater gathers in shallow glowing tidal pools. Steam wisps curl where hot spring veins meet cold reef rock. Tiny lava pebbles pop in one pool while thin ice petals drift in another. Ferrin's whiskers sparkle with frost. \"Look at hot rocks!\"",
+                    baseRune: "Molten Seed",
+                    runeIcon: "🌋",
+                    lootTier: null,
+                    lootArt: null,
+                    lootDescription: null,
+
+                    irlChallenge: {
+                        title: "No IRL Challenge",
+                        icon: "❄️",
+                        type: "none",
+                        content: {
+                            instructions: [
+                                "This is a pure exploration day",
+                                "Focus on solving the tidal pool puzzle",
+                                "No real-world tasks required"
+                            ]
+                        }
+                    },
+
+                    mathChallenge: {
+                        title: "❄️ Tidal Pool Mystery",
+                        icon: "🔶",
+                        description: "The tidal pools shimmer with lava pebbles and ice petals. Ferrin whispers helpful guidance as you count the glowing rocks.",
+                        missions: [
+                            {
+                                category: "Multiplication/Subtraction",
+                                title: "🌋 Lava Pebble Count — Question 1",
+                                story: "Three warm pools hold lava pebbles each. An icy gust chills some pebbles so they stop glowing.",
+                                question: "Three warm pools hold <strong>6</strong> lava pebbles each. An icy gust chills <strong>4</strong> pebbles so they stop glowing. How many pebbles still glow?",
+                                answer: 14,
+                                acceptedAnswers: [14],
+                                successMessage: "Great counting! Fourteen pebbles still glow in the warm pools."
+                            },
+                            {
+                                category: "Multiplication",
+                                title: "❄️ Ice Petal Melt — Question 2",
+                                story: "Each glowing pebble melts ice petals. Using your counted pebbles, you can find how many petals melt.",
+                                question: "Each glowing pebble melts <strong>2</strong> ice petals. Using <strong>14</strong> glowing pebbles, how many ice petals melt?",
+                                answer: 28,
+                                acceptedAnswers: [28],
+                                successMessage: "Perfect math! Twenty-eight ice petals melt from the glowing pebbles."
+                            }
+                        ],
+                        finalMessage: "Rou says, \"Twenty-eight!\" Steam coils. Melted petals fuse into a warm seed with a fiery core—the **Molten Seed** rune—cool outside, glowing within. Ferrin nudges it into Rou's pouch. Far away, Wells's Blazing Antler answers with a faint ember pulse; together they unlock a future **build-your-own pizza night** reward."
+                    }
                 }
             }
         };
@@ -5006,7 +5091,7 @@
                 if (playerData.irlCompleted) {
                     irlBtn.classList.add('completed');
                     if (content.irlChallenge.type === 'piano') {
-                        irlBtn.innerHTML = '✅ Harmony Ritual Complete';
+                        irlBtn.innerHTML = `✅ ${content.irlChallenge.title || 'Piano Challenge'} Complete`;
                     } else if (content.irlChallenge.type === 'drums') {
                         irlBtn.innerHTML = '✅ Echo Rhythm Complete';
                     } else if (content.irlChallenge.type === 'ixl') {
@@ -5020,7 +5105,7 @@
                 } else {
                     irlBtn.classList.remove('completed');
                     if (content.irlChallenge.type === 'piano') {
-                        irlBtn.innerHTML = '🎵 Begin Harmony Ritual';
+                        irlBtn.innerHTML = `🎵 ${content.irlChallenge.title || 'Begin Piano Challenge'}`;
                     } else if (content.irlChallenge.type === 'drums') {
                         irlBtn.innerHTML = '🥁 Begin Echo Rhythm';
                     } else if (content.irlChallenge.type === 'ixl') {
@@ -5075,6 +5160,8 @@
             // Border is already showing from room challenge - no need to show again
             
             if (challengeType === 'piano') {
+                // Update Piano modal with day-specific content
+                updatePianoModalContent(content);
                 document.getElementById('pianoModal').style.display = 'block';
             } else if (challengeType === 'drums') {
                 document.getElementById('drumsModal').style.display = 'block';
@@ -5085,6 +5172,35 @@
             } else if (challengeType === 'shoeTie') {
                 document.getElementById('shoeTieModal').style.display = 'block';
             }
+        }
+        
+        function updatePianoModalContent(dayContent) {
+            const irlChallenge = dayContent.irlChallenge;
+            const realm = dayContent.realm;
+            const room = dayContent.room;
+            
+            // Update modal title
+            document.getElementById('pianoModalTitle').textContent = irlChallenge.title || '🎵 Piano Challenge';
+            
+            // Update story context with realm-specific flavor
+            let storyContext = '';
+            if (realm === 'Emerald Canopy' && room === 'Moonbeam Clearing') {
+                storyContext = 'A hush settles under tall emerald boughs as dusk filters into silver beams. At the center rests a mossy moon-piano: pale wood, luminous keys, faint mist drifting over them. Fireflies orbit in slow rings, pausing as if waiting for a melody.';
+            } else if (realm === 'Dawnbreak Expanse') {
+                storyContext = 'The ancient Hall of Harmonies pulses with mystical energy. Wells approaches the enchanted harmonic altar at the chamber\'s heart. The magical keys glow softly, waiting for the correct melody to unlock the first sun pillar.';
+            } else {
+                storyContext = 'Ancient keys shimmer with harmony, waiting for the right melody to unlock their secrets.';
+            }
+            document.getElementById('pianoStoryContext').textContent = storyContext;
+            
+            // Update challenge instructions
+            const instructionsContainer = document.getElementById('pianoInstructionsContent');
+            if (irlChallenge.content && irlChallenge.content.instructions) {
+                instructionsContainer.innerHTML = irlChallenge.content.instructions.join('<br>');
+            }
+            
+            // Update completion button
+            document.getElementById('pianoCompleteBtn').textContent = `🌟 I've completed the ${irlChallenge.title}!`;
         }
         
         function updateIXLModalContent(dayContent) {
@@ -5250,7 +5366,7 @@
                     lockedMessage = 'Please complete the IXL Wisdom Hunt first! The obelisk demands proof of learning before the prism sockets will activate.';
                 } else {
                     lockedTitle = 'Ancient Pillars Sealed';
-                    lockedMessage = 'Please complete the Harmony Ritual first! The sun pillars must be activated in sequence.';
+                    lockedMessage = 'Please complete the piano challenge first! The musical sequence must be activated.';
                 }
                 
                 showSuccessModal(
